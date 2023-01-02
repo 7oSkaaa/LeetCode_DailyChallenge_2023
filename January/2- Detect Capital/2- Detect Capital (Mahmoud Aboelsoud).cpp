@@ -1,3 +1,5 @@
+// Author: Mahmoud Aboelsoud
+
 class Solution {
 public:
     bool detectCapitalUse(string word) {
