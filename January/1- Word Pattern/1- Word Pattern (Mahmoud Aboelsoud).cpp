@@ -1,3 +1,5 @@
+// Author: Mahmoud Aboelsoud
+
 class Solution {
 public:
     bool wordPattern(string chars, string s) {
