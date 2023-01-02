@@ -15,7 +15,7 @@
             - for example `1. Word Pattern (Ahmed Hossam).cpp`
         1. put this line as a comment on the top of your file: ``// Author: <your name>``
         1. try to write comments to explain your solution
-        1. redundancy solutions will be rejected
+        1. redundant solutions will be rejected
     1. make pull request here after that
     1. the best solution i will put it in the README.md file to be viewed be all users.
 
