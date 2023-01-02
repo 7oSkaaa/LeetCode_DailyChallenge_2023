@@ -11,6 +11,7 @@
     1. follow the following guidelines:
         1. Open the folder of the month of the problem
         1. Open the folder of the day of the problem
+        1. **if there is no folder for one of the previous steps... please create it.**
         1. Make a file of your solution and follow this pattern `<day>- <name of problem> (<your name>).<file extension>`
             - for example `1. Word Pattern (Ahmed Hossam).cpp`
         1. put this line as a comment on the top of your file: ``// Author: <your name>``
