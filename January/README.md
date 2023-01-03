@@ -7,18 +7,18 @@
 ***These steps to how to make a contribution to this Repo***
 
 - Follow the same style in the repo
-    1. fork the repo first
-    1. follow the following guidelines:
+    1. Fork the repo first
+    1. Follow the following guidelines:
         1. Open the folder of the month of the problem
         1. Open the folder of the day of the problem
         1. **if there is no folder for one of the previous steps... please create it.**
         1. Make a file of your solution and follow this pattern `<day>- <name of problem> (<your name>).<file extension>`
-            - for example `1. Word Pattern (Ahmed Hossam).cpp`
-        1. put this line as a comment on the top of your file: ``// Author: <your name>``
-        1. try to write comments to explain your solution
-        1. redundancy solutions will be rejected
-    1. make pull request here after that
-    1. the best solution i will put it in the README.md file to be viewed be all users.
+            - For example `1. Word Pattern (Ahmed Hossam).cpp`
+        1. Put this line as a comment on the top of your file: ``// Author: <your name>``
+        1. Try to write comments to explain your solution
+        1. Redundant solutions will be rejected
+    1. Create pull request here after that
+    1. I will pin the best solution in the README.md file to be viewed by all users.
 
 
 <br><br>
@@ -94,6 +94,40 @@ public:
         
         // return the answer
         return isCapital;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 3)  Delete Column to Make Sorted
+
+```cpp
+class Solution {
+public:
+    int minDeletionSize(vector<string>& strs) {
+        // number of columns that aren't sorted
+        int deleted_columns = 0;
+        
+        // dimension of the grid
+        int n = strs.size(), m = strs[0].size();
+        
+        for(int col = 0; col < m; col++){
+            
+            bool is_current_column_sorted = true;
+            // check if the current column is sorted or not
+            
+            for(int row = 1; row < n; row++)
+                is_current_column_sorted &= (strs[row][col] >= strs[row - 1][col]);
+            
+            // add one to the answer if the current columns isn't sorted
+            deleted_columns += !is_current_column_sorted;
+        }
+        
+        // the answer of the problem
+        return deleted_columns;
     }
 };
 ```
