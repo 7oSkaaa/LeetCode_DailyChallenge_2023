@@ -3,24 +3,23 @@
 class Solution {
 public:
     int minDeletionSize(vector<string>& strs) {
-        // we can handle grid columns as strings (characters in the first position of each string form a new string)
-        // we want to keep the sorted strings formed of columns characters, and delete the others
-        vector<string> v(strs.front().size());
+        // actually, we don't need to store the whole string (if we decided to check the column as a string)
+        // we just need to remember the last character and check if the order of the current and previous characters violates what we want
+        
+        vector<char> last(strs.front().size(), char(int('a') - 1)); // to store the last character
+        vector<bool> ok(strs.front().size(), true); // to check if this column is good or not
 
-        // construct the new strings character by character
+        int cnt = 0;
         for(auto& s : strs){
             for(int i = 0; i < s.size(); i++){
-                v[i].push_back(s[i]);
+                if(s[i] < last[i] and ok[i]){ // if the current and previous characters are not in non-decreasing order
+                    ok[i] = false;
+                    cnt++;
+                }
+                last[i] = s[i]; // we set the last character in the column until now
             }
         }
 
-        // count the sorted ones
-        int cnt = 0;
-        for(auto& s : v){
-            cnt += is_sorted(s.begin(), s.end());
-        }
-
-        // delete all of the strings (columns) except for sorted ones 
-        return v.size() - cnt;
+        return cnt;
     }
 };
