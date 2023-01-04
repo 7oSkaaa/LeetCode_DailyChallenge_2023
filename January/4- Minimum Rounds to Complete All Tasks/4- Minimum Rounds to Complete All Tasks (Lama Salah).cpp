@@ -14,7 +14,8 @@ public:
             // If the frequency of i is equal to one, then the answer will be -1 :
             if (f == 1) return -1;
             
-            // Calculate the number of rounds with the maximum tasks first, and in this problem, the maximum number of tasks in a round is three.
+            // Calculate the number of rounds with the maximum tasks first, and in this problem, 
+            // the maximum number of tasks in a round is three.
             int rounds = f / 3;
 
             // If the frequency of any number is an odd number, and the rounds with three tasks are even:
