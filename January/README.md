@@ -136,7 +136,7 @@ public:
 
 <br><br>
 
-## 3)  Delete Column to Make Sorted
+## 4)  Minimum Rounds to Complete All Tasks
 
 ```cpp
 class Solution {
