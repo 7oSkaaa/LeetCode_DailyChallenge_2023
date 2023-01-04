@@ -1,5 +1,6 @@
 // Author : Omar Ashour
 
+<?php 
 
 class Solution {
 
