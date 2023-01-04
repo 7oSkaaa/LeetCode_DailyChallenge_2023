@@ -6,12 +6,10 @@
  */
 
 var minimumRounds = function(tasks) {
-    
     // an object to store frequencies
     freq = {}
     
     for(let i of tasks){
-
         // if there's no key created for this element, then create it and initialize its value to 0
         if(!freq[i])
             freq[i] = 0;
@@ -20,7 +18,6 @@ var minimumRounds = function(tasks) {
 
     let ans = 0;
     for(let i of tasks){
-        
         // the only number that can't be represented as a summation of twos and threes is 1
         // once we found a number with a frequency equals to 1, we should know that it's impossible to complete the tasks
         if(freq[i] === 1)
@@ -41,6 +38,6 @@ var minimumRounds = function(tasks) {
         // after calculating the answer for this value for the first time, set the value to 0 to avoid using it again in the future
         freq[i] = 0;
     }
-    
+
     return ans;
 };
