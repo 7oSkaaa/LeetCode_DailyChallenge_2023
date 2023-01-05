@@ -51,5 +51,5 @@ var findMinArrowShots = function(points) {
     return ++cnt;
 };
 
-// notice that we only used the end point of our intervals to determine if we need another arrow
+// notice that we only used the end point of our intervals to determine if we need another arrow or not
 // so we can optimize more and dicard keeping track of start points of our intervals (minimize the end only)
