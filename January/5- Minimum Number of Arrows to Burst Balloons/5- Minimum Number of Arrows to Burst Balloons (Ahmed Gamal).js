@@ -4,10 +4,10 @@
  */
 var findMinArrowShots = function(points) {
     // to solve this problem and find the minimum number of arrows required to burst all balloons,
-    // we need to to throw an arrow at each point that are covered by maximum number of balloons possible
-    // to find these points, we need to keep track of the area covered by all balloons that I met until now (while moving from left to right on X-axis)
+    // we need to throw an arrow at each point that are covered by maximum number of balloons possible
+    // to find these points, we need to keep track of the area covered by all balloons that we met until now (while moving from left to right on X-axis)
 
-    // if look at the first example,
+    // if we look at the first example,
     // we can see that the balloons cover intersecting areas like this:
     // .......
     //   .........
@@ -18,7 +18,7 @@ var findMinArrowShots = function(points) {
     //   |.....|....
     //          .....|...|
     //               |...|.....
-    // these areas can form a new set of intervals which we need to keep track of, and throw an extra arrow once we find a new interval that doesn't interset with the current one we have
+    // these areas can form a new set of intervals which we need to keep track of, and throw an extra arrow once we find a new interval that doesn't intersect with the current one we have
     
     // to do this, we need to maximize the starting point of these intervals, and minimizing the ending point
     // if the beginning of an interval does not belong to the current (max, min), we have to start a new interval and increase the number of arrows by one
@@ -50,3 +50,6 @@ var findMinArrowShots = function(points) {
     // increase the count by one because that the last interval is not counted yet
     return ++cnt;
 };
+
+// notice that we only used the end point of our intervals to determine if we need another arrow
+// so we can optimize more and dicard keeping track of start points of our intervals (minimize the end only)
