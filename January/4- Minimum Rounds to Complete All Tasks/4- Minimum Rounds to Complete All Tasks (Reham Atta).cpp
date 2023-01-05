@@ -7,7 +7,7 @@ public:
     int n = tasks.size(),cnt=0;
     map<int,int>freq;
     for(int i=0;i<n;i++) {
-        freq[tasks[i]]++;
+        freq[tasks[i]]++;git
     }
     //if freq < 2 return -1
     //if freq == 2 increase cnt by 1
