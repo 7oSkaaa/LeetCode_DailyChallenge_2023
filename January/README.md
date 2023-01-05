@@ -23,7 +23,35 @@
 
 <br><br>
 
-## 1)  Word Pattern
+<hr>
+
+<br><br>
+
+## Problems:
+
+1. **[Word Pattern](#1--word-pattern)**
+1. **[Detect Capital](#2--detect-capital)**
+1. **[Delete Column to Make Sorted](#3--delete-column-to-make-sorted)**
+1. **[Minimum Rounds to Complete All Tasks](#4--minimum-rounds-to-complete-all-tasks)**
+1. **[Minimum Number of Arrows to Burst Balloons](#5--minimum-number-of-arrows-to-burst-balloons)**
+
+<hr>
+
+<br><br>
+
+## 1)  [Word Pattern](https://leetcode.com/problems/word-pattern/)
+
+### Difficulty
+
+***Easy***
+
+### Related Topic
+
+- String
+- Hash Table
+
+### Code
+
 
 ```cpp
 class Solution {
@@ -75,7 +103,17 @@ public:
 
 <br><br>
 
-## 2)  Detect Capital
+## 2)  [Detect Capital](https://leetcode.com/problems/detect-capital/)
+
+### Difficulty
+
+***Easy***
+
+### Related Topic
+
+- String
+
+### Code
 
 ```cpp
 class Solution {
@@ -102,7 +140,18 @@ public:
 
 <br><br>
 
-## 3)  Delete Column to Make Sorted
+## 3)  [Delete Column to Make Sorted](https://leetcode.com/problems/delete-columns-to-make-sorted/)
+
+### Difficulty
+
+***Easy***
+
+### Related Topic
+
+- Array
+- String
+
+### Code
 
 ```cpp
 class Solution {
@@ -131,3 +180,99 @@ public:
     }
 };
 ```
+
+<hr>
+
+<br><br>
+
+## 4)  [Minimum Rounds to Complete All Tasks](https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/)
+
+### Difficulty
+
+***Medium***
+
+### Related Topic
+
+- Array
+- Hash Table
+- Greedy
+- Counting
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int minimumRounds(vector<int>& tasks) {
+        
+        // the frequency of each level
+        unordered_map < int, int > freq;
+
+        // make frequency array of tasks -> using map because number in range 10^9
+        for(auto& task : tasks)
+            freq[task]++;
+
+        // the rounds it takes to complete the tasks
+        int rounds = 0;
+
+        // iterate over the map l -> level, f -> frequency of the level
+        for(auto& [l, f] : freq){
+            // if f = 1 so we can do the missions so will return -1
+            if(f == 1)
+                return -1;
+
+            // rounds += ceil(f / 3)
+            rounds += ((f + 2) / 3);
+        }
+
+        // the minimum rounds;
+        return rounds;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 5)  [Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+
+### Difficulty
+
+***Medium***
+
+### Related Topic
+
+- Array
+- Greedy
+- Sorting
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        // sort the points priority to x_start after that shortest x_end
+        sort(points.begin(), points.end(), [&](vector < int >& a, vector < int >& b){
+            return a[0] < b[0] || (a[0] == b[0] && a[1] < b[1]);
+        });
+
+        int arrows = 1, n = points.size(), farthest_point = points[0][1];
+        
+        for(int i = 1; i < n; i++){
+            
+            // start new coverage area with new arrow
+            if(points[i][0] > farthest_point)
+                farthest_point = points[i][1], arrows++;
+            
+            // make the farthest points minimum to be the point the cover all previous points with same arrow
+            farthest_point = min(farthest_point, points[i][1]);
+        }
+
+        // number of arrows;
+        return arrows;
+    }
+};
+```
+
