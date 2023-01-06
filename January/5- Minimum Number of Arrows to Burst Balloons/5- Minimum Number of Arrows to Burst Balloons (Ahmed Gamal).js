@@ -1,3 +1,5 @@
+// Author: Ahmed Gamal
+
 /**
  * @param {number[][]} points
  * @return {number}
