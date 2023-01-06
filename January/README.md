@@ -34,6 +34,7 @@
 1. **[Delete Column to Make Sorted](#3--delete-column-to-make-sorted)**
 1. **[Minimum Rounds to Complete All Tasks](#4--minimum-rounds-to-complete-all-tasks)**
 1. **[Minimum Number of Arrows to Burst Balloons](#5--minimum-number-of-arrows-to-burst-balloons)**
+1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
 
 <hr>
 
@@ -43,12 +44,11 @@
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
-- Hash Table
+`String` `Hash Table`
 
 ### Code
 
@@ -107,11 +107,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
+`String`
 
 ### Code
 
@@ -144,12 +144,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- Array
-- String
+`Array` `String`
 
 ### Code
 
@@ -189,14 +188,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Hash Table
-- Greedy
-- Counting
+`Array` `Hash Table` `Greedy` `Counting`
 
 ### Code
 
@@ -239,13 +235,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Greedy
-- Sorting
+`Array` `Greedy` `Sorting`
 
 ### Code
 
@@ -272,6 +266,44 @@ public:
 
         // number of arrows;
         return arrows;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 6)  [Maximum Ice Cream Bars](https://leetcode.com/problems/maximum-ice-cream-bars/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int maxIceCream(vector<int>& costs, int coins) {
+        // sorting the costs to iterate on them in ascending order
+        sort(costs.begin(), costs.end());
+
+        // number of ice_creams that will be bought
+        int ice_creams = 0;
+
+        for(auto& cost : costs){
+            // if my coins can buy this ice_cream so let's by it.
+            if(coins >= cost)
+                coins -= cost, ice_creams++;
+        }
+
+        // the maximum number of ice cream bars
+        return ice_creams;
     }
 };
 ```
