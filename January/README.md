@@ -2,31 +2,6 @@
 
 <br><br>
 
-## Contribution
-
-***These steps to how to make a contribution to this Repo***
-
-- Follow the same style in the repo
-    1. Fork the repo first
-    1. Follow the following guidelines:
-        1. Open the folder of the month of the problem
-        1. Open the folder of the day of the problem
-        1. **if there is no folder for one of the previous steps... please create it.**
-        1. Make a file of your solution and follow this pattern `<day>- <name of problem> (<your name>).<file extension>`
-            - For example `1. Word Pattern (Ahmed Hossam).cpp`
-        1. Put this line as a comment on the top of your file: ``// Author: <your name>``
-        1. Try to write comments to explain your solution
-        1. Redundant solutions will be rejected
-    1. Create pull request here after that
-    1. I will pin the best solution in the README.md file to be viewed by all users.
-
-
-<br><br>
-
-<hr>
-
-<br><br>
-
 ## Problems:
 
 1. **[Word Pattern](#1--word-pattern)**
