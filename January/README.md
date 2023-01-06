@@ -34,6 +34,7 @@
 1. **[Delete Column to Make Sorted](#3--delete-column-to-make-sorted)**
 1. **[Minimum Rounds to Complete All Tasks](#4--minimum-rounds-to-complete-all-tasks)**
 1. **[Minimum Number of Arrows to Burst Balloons](#5--minimum-number-of-arrows-to-burst-balloons)**
+1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
 
 <hr>
 
@@ -277,7 +278,7 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
