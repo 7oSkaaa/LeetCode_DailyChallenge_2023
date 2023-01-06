@@ -22,6 +22,6 @@ class Solution {
             //increment the ans with rounds of each level
             ans += rounds;
         }
-        return ans;
+        return ans; // return the answer 
     }
 }
