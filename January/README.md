@@ -43,12 +43,11 @@
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
-- Hash Table
+`String` `Hash Table`
 
 ### Code
 
@@ -107,11 +106,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
+`String`
 
 ### Code
 
@@ -144,12 +143,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- Array
-- String
+`Array` `String`
 
 ### Code
 
@@ -189,14 +187,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Hash Table
-- Greedy
-- Counting
+`Array` `Hash Table` `Greedy` `Counting`
 
 ### Code
 
@@ -239,13 +234,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Greedy
-- Sorting
+`Array` `Greedy` `Sorting`
 
 ### Code
 
@@ -288,9 +281,7 @@ public:
 
 ### Related Topic
 
-- Array
-- Greedy
-- Sorting
+`Array` `Greedy` `Sorting`
 
 ### Code
 
