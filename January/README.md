@@ -2,28 +2,31 @@
 
 <br><br>
 
-## Contribution
+## Problems:
 
-***These steps to how to make a contribution to this Repo***
+1. **[Word Pattern](#1--word-pattern)**
+1. **[Detect Capital](#2--detect-capital)**
+1. **[Delete Column to Make Sorted](#3--delete-column-to-make-sorted)**
+1. **[Minimum Rounds to Complete All Tasks](#4--minimum-rounds-to-complete-all-tasks)**
+1. **[Minimum Number of Arrows to Burst Balloons](#5--minimum-number-of-arrows-to-burst-balloons)**
+1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
 
-- Follow the same style in the repo
-    1. Fork the repo first
-    1. Follow the following guidelines:
-        1. Open the folder of the month of the problem
-        1. Open the folder of the day of the problem
-        1. **if there is no folder for one of the previous steps... please create it.**
-        1. Make a file of your solution and follow this pattern `<day>- <name of problem> (<your name>).<file extension>`
-            - For example `1. Word Pattern (Ahmed Hossam).cpp`
-        1. Put this line as a comment on the top of your file: ``// Author: <your name>``
-        1. Try to write comments to explain your solution
-        1. Redundant solutions will be rejected
-    1. Create pull request here after that
-    1. I will pin the best solution in the README.md file to be viewed by all users.
-
+<hr>
 
 <br><br>
 
-## 1)  Word Pattern
+## 1)  [Word Pattern](https://leetcode.com/problems/word-pattern/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`String` `Hash Table`
+
+### Code
+
 
 ```cpp
 class Solution {
@@ -75,7 +78,17 @@ public:
 
 <br><br>
 
-## 2)  Detect Capital
+## 2)  [Detect Capital](https://leetcode.com/problems/detect-capital/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`String`
+
+### Code
 
 ```cpp
 class Solution {
@@ -102,7 +115,17 @@ public:
 
 <br><br>
 
-## 3)  Delete Column to Make Sorted
+## 3)  [Delete Column to Make Sorted](https://leetcode.com/problems/delete-columns-to-make-sorted/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `String`
+
+### Code
 
 ```cpp
 class Solution {
@@ -136,7 +159,17 @@ public:
 
 <br><br>
 
-## 4)  Minimum Rounds to Complete All Tasks
+## 4)  [Minimum Rounds to Complete All Tasks](https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Greedy` `Counting`
+
+### Code
 
 ```cpp
 class Solution {
@@ -168,3 +201,85 @@ public:
     }
 };
 ```
+
+<hr>
+
+<br><br>
+
+## 5)  [Minimum Number of Arrows to Burst Balloons](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int findMinArrowShots(vector<vector<int>>& points) {
+        // sort the points priority to x_start after that shortest x_end
+        sort(points.begin(), points.end(), [&](vector < int >& a, vector < int >& b){
+            return a[0] < b[0] || (a[0] == b[0] && a[1] < b[1]);
+        });
+
+        int arrows = 1, n = points.size(), farthest_point = points[0][1];
+        
+        for(int i = 1; i < n; i++){
+            
+            // start new coverage area with new arrow
+            if(points[i][0] > farthest_point)
+                farthest_point = points[i][1], arrows++;
+            
+            // make the farthest points minimum to be the point the cover all previous points with same arrow
+            farthest_point = min(farthest_point, points[i][1]);
+        }
+
+        // number of arrows;
+        return arrows;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 6)  [Maximum Ice Cream Bars](https://leetcode.com/problems/maximum-ice-cream-bars/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int maxIceCream(vector<int>& costs, int coins) {
+        // sorting the costs to iterate on them in ascending order
+        sort(costs.begin(), costs.end());
+
+        // number of ice_creams that will be bought
+        int ice_creams = 0;
+
+        for(auto& cost : costs){
+            // if my coins can buy this ice_cream so let's by it.
+            if(coins >= cost)
+                coins -= cost, ice_creams++;
+        }
+
+        // the maximum number of ice cream bars
+        return ice_creams;
+    }
+};
+```
+
