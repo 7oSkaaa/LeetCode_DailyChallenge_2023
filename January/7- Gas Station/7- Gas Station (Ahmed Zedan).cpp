@@ -1,4 +1,5 @@
 //author : Ahmed Zedan 
+
 class Solution {
 public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost){
@@ -16,5 +17,4 @@ public:
         // if total gas less than total cost impossible to travel around the circuit once in the clockwise direction
         return ans ;  
     }
-    
 };
