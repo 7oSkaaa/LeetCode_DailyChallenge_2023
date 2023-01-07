@@ -2,31 +2,6 @@
 
 <br><br>
 
-## Contribution
-
-***These steps to how to make a contribution to this Repo***
-
-- Follow the same style in the repo
-    1. Fork the repo first
-    1. Follow the following guidelines:
-        1. Open the folder of the month of the problem
-        1. Open the folder of the day of the problem
-        1. **if there is no folder for one of the previous steps... please create it.**
-        1. Make a file of your solution and follow this pattern `<day>- <name of problem> (<your name>).<file extension>`
-            - For example `1. Word Pattern (Ahmed Hossam).cpp`
-        1. Put this line as a comment on the top of your file: ``// Author: <your name>``
-        1. Try to write comments to explain your solution
-        1. Redundant solutions will be rejected
-    1. Create pull request here after that
-    1. I will pin the best solution in the README.md file to be viewed by all users.
-
-
-<br><br>
-
-<hr>
-
-<br><br>
-
 ## Problems:
 
 1. **[Word Pattern](#1--word-pattern)**
@@ -34,6 +9,8 @@
 1. **[Delete Column to Make Sorted](#3--delete-column-to-make-sorted)**
 1. **[Minimum Rounds to Complete All Tasks](#4--minimum-rounds-to-complete-all-tasks)**
 1. **[Minimum Number of Arrows to Burst Balloons](#5--minimum-number-of-arrows-to-burst-balloons)**
+1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
+1. **[Gas Station](#7--gas-station)**
 
 <hr>
 
@@ -43,12 +20,11 @@
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
-- Hash Table
+`String` `Hash Table`
 
 ### Code
 
@@ -107,11 +83,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- String
+`String`
 
 ### Code
 
@@ -144,12 +120,11 @@ public:
 
 ### Difficulty
 
-***Easy***
+**${\bf{\color\{green}\{Easy}}}$**
 
 ### Related Topic
 
-- Array
-- String
+`Array` `String`
 
 ### Code
 
@@ -189,14 +164,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Hash Table
-- Greedy
-- Counting
+`Array` `Hash Table` `Greedy` `Counting`
 
 ### Code
 
@@ -239,13 +211,11 @@ public:
 
 ### Difficulty
 
-***Medium***
+**${\bf{\color\{orange}\{Medium}}}$**
 
 ### Related Topic
 
-- Array
-- Greedy
-- Sorting
+`Array` `Greedy` `Sorting`
 
 ### Code
 
@@ -276,3 +246,84 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
+## 6)  [Maximum Ice Cream Bars](https://leetcode.com/problems/maximum-ice-cream-bars/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int maxIceCream(vector<int>& costs, int coins) {
+        // sorting the costs to iterate on them in ascending order
+        sort(costs.begin(), costs.end());
+
+        // number of ice_creams that will be bought
+        int ice_creams = 0;
+
+        for(auto& cost : costs){
+            // if my coins can buy this ice_cream so let's by it.
+            if(coins >= cost)
+                coins -= cost, ice_creams++;
+        }
+
+        // the maximum number of ice cream bars
+        return ice_creams;
+    }
+};
+```
+
+hr>
+
+<br><br>
+
+## 7)  [Gas Station](https://leetcode.com/problems/gas-station/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Greedy`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+
+        // check if impossible to get solution
+        int total_gas = accumulate(gas.begin(), gas.end(), 0);
+        int total_cost = accumulate(cost.begin(), cost.end(), 0);
+        if(total_gas < total_cost)
+            return -1;
+        
+        int curr_gas = 0, starting_point = 0;
+        for(int i = 0; i < n; i++){
+            
+            // update current amount of gas with the status of the station[i]
+            curr_gas += gas[i] - cost[i];
+
+            // update the start point if the last one is invalid
+            if(curr_gas < 0)
+                curr_gas = 0, starting_point = i + 1;
+        }
+
+        return starting_point;
+    }
+};
+```
