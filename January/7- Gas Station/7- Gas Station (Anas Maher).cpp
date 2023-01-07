@@ -5,7 +5,6 @@ public:
     int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
         
         int totG=0; for(int i=0 ; i<gas.size(); i++) totG+=gas[i];
-
         int totC=0; for(int i=0 ; i<cost.size(); i++) totC+=cost[i];
 
         if(totG<totC)return -1; // if total gas is less than total cost then its not possible to complete the route.
