@@ -12,7 +12,7 @@ public:
         for(int i = 0; i < n; i++)
             diff[i] = gas[i] - cost[i]; 
 
-        // but the same values again in the back to make the array circular
+        // put the same values again in the back to make the array circular
         for(int i = n; i < n * 2; i++)
             diff[i] = diff[i % n];
 
