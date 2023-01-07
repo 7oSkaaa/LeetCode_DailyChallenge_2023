@@ -288,7 +288,7 @@ hr>
 
 <br><br>
 
-## 6)  [Gas Station](https://leetcode.com/problems/gas-station/)
+## 7)  [Gas Station](https://leetcode.com/problems/gas-station/)
 
 ### Difficulty
 
