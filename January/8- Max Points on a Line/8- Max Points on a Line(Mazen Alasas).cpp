@@ -27,6 +27,6 @@ public:
                 c = max(c, v + 1);
         }
         return c;
-    }
+    } 
 };
 
