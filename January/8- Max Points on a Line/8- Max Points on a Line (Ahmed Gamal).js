@@ -5,9 +5,9 @@
  */
 let maxPoints = function(points) {
     // to count the number of points on lines, we need to categorize the points by something unique
-    // that's right, we will categorize the points by the lines that pass through them
+    // that's right! we will categorize the points by the lines that pass through them
     // one way to define a line is by a point and the slope
-    // so, we will do brute force and try to treat each point as our unique point, and find all slopes of the lines created by it and each of the other points
+    // so, we will use brute force and try to treat each point as our unique point, and find all slopes of the lines created by it and each of the other points
     // that's impossible to have two different lines that have the same slope and pass by the same point in the same time
 
     // to find the slope of two given points
@@ -20,11 +20,11 @@ let maxPoints = function(points) {
     };
 
     // if we have just one point, we will not check any pairs and will return the answer immediately
-    // this is why we are initializing it with 1 instead of any other value
+    // that is why we are initializing it with 1 instead of any other smaller value
     let ans = 1;
     // the outer loop represents the current point we are considering to find all the lines pass through it
     for(let i = 0; i < points.length; i++){
-        // a hash map to store how many points lies on the same line (define by the point points[i] and the slope)
+        // a hash map to store how many points lie on the same line (defined by the point points[i] and the slope)
         const map = new Map();
 
         // the inner loop represents all of the other points we are considering as a second point on some line that passes through points[i]
