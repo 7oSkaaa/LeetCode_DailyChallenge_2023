@@ -1,2 +1,0 @@
-- name: Lint Filenames
-  uses: batista/lint-filenames@v1.0.1
