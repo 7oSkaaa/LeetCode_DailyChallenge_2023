@@ -54,7 +54,7 @@ def check_daily_folders():
     for folder in folders:
         if (
             not re.match(
-                r"[1[\d*]|2[\d*]|3[0-1]]- [A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+", folder
+                r"[1[\d*]|2[\d*]|3[0-1]]-\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+", folder
             )
             and folder not in folders_tempelate
         ):
@@ -66,16 +66,17 @@ def check_daily_folders():
 
 
 def check_files():
+
     # name of the folders in the directory
-    folders = [f for f in os.listdir() if os.path.isdir(f)]
+    files = [f for f in os.listdir() if os.path.isfile(f)]
 
     # check if the folders are in the directory
-    for folder in folders:
+    for file in files:
         if not re.match(
-            r"[1[\d*]|2[\d*]|3[0-1]]- [A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+([A-Za-z]+).[cpp|rb|py|js|ts|c|java|php|dart]",
-            folder,
+            r"[1-9-|12[0-9]-|3[0-1]-]\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+([A-Za-z]+).[cpp|rb|py|js|ts|c|java|php|dart]",
+            file,
         ):
-            print(f"Folder {folder} name is not valid")
+            print(f"file {file} name is not valid")
             exit(1)
 
 
@@ -111,6 +112,8 @@ def main():
 
         # change directory to the main folder again
         change_directory(dir=dir)
+
+    print("All files are valid")
 
 
 if __name__ == "__main__":
