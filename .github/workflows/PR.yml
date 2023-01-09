@@ -1,0 +1,13 @@
+name: Run Script
+
+on:
+  push:
+  pull_request:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Naming of files
+        run: python .github/scripts/check.py
