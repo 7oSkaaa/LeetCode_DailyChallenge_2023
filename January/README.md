@@ -12,6 +12,7 @@
 1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
 1. **[Gas Station](#7--gas-station)**
 1. **[Max Points on Line](#8--max-points-on-a-line)**
+1. **[Binary Tree Preorder Traversal](#9--binary-tree-preorder-traversal)**
 
 <hr>
 
@@ -373,6 +374,48 @@ public:
 
         // maximum points laying in the same line
         return max_points;
+    }
+};
+```
+
+## 9)  [Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Stack` `Tree` `Depth-First Search` `Binary Tree`
+
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    void preorder(TreeNode* Node, vector < int >& nodes){
+        
+        // if the current node is nul
+        if(Node == nullptr) return;
+
+        // Preorder is RLR -> (Root - Left - Right)
+        nodes.push_back(Node -> val);
+        preorder(Node -> left, nodes);
+        preorder(Node -> right, nodes);
+    }
+
+    vector < int > preorderTraversal(TreeNode* root) {
+        
+        // vector to store the values of the nodes
+        vector < int > nodes;
+        
+        // taverse the tree in pre-order
+        preorder(root, nodes);
+
+        return nodes;
     }
 };
 ```
