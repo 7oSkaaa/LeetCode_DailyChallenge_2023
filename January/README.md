@@ -407,7 +407,7 @@ public:
         preorder(Node -> right, nodes);
     }
 
-    vector<int> preorderTraversal(TreeNode* root) {
+    vector < int > preorderTraversal(TreeNode* root) {
         
         // vector to store the values of the nodes
         vector < int > nodes;
