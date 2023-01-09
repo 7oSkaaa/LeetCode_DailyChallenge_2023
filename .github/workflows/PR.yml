@@ -1,4 +1,4 @@
-name: Run Script
+name: Checkers
 
 on:
   push:
@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check Naming of files
-        run: python .github/scripts/check.py
+        run: python .github/scripts/Naming_Checker.py
