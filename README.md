@@ -1,4 +1,4 @@
-# LeetCode DailyChallenge in 2023
+# LeetCode Daily Challenge in 2023
 
 <br><br>
 
