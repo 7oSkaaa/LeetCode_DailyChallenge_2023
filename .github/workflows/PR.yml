@@ -5,13 +5,13 @@ on:
   pull_request:
     
 jobs:
-  File Names:
+  File_Names:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Check Naming of files
         run: python .github/scripts/Naming_Checker.py
-  Author Lines:
+  Author_Lines:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
