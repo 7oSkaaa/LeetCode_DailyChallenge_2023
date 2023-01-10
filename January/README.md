@@ -13,6 +13,7 @@
 1. **[Gas Station](#7--gas-station)**
 1. **[Max Points on Line](#8--max-points-on-a-line)**
 1. **[Binary Tree Preorder Traversal](#9--binary-tree-preorder-traversal)**
+1. **[Same Tree](#10--same-tree)**
 
 <hr>
 
@@ -416,6 +417,38 @@ public:
         preorder(root, nodes);
 
         return nodes;
+    }
+};
+```
+
+
+## 10)  [Same Tree](https://leetcode.com/problems/same-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Depth-First Search` `Binary Tree`
+
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        
+        // valid case if the two trees has no nodes in this branch any more
+        if(!p && !q) return true;
+
+        // if there is a node difference between the two trees or one branch end before the another one
+        if(!p || !q || p -> val != q -> val) return false;
+
+        // check both left and right branches
+        return isSameTree(p -> left, q -> left) & isSameTree(p -> right, q -> right);
     }
 };
 ```
