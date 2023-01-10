@@ -1,3 +1,6 @@
+// Author: Salah Ashraf
+
+
 class Solution {
     public int findMinArrowShots(int[][] points) {
         //sort the 2 D Array ascendingly

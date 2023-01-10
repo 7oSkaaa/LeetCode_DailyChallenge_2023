@@ -13,6 +13,8 @@
  *     }
  * }
  */
+// Author: Salah Ashraf
+
 class Solution {
     private boolean checkTwoTrees(TreeNode tree1,TreeNode tree2){
         //If a node of the two trees is null return false

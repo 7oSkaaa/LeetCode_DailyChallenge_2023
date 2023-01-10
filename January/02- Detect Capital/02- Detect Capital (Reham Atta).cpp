@@ -1,3 +1,5 @@
+// Author: Reham Atta
+
 class Solution {
 public:
     // comparing with first two characher in word
