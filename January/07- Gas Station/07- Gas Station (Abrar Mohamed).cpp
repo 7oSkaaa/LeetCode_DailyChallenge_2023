@@ -1,4 +1,4 @@
-// Aithor : Abrar Mohamed
+// Author : Abrar Mohamed
 class Solution {
 public:
     int canCompleteCircuit(const vector<int>& gas, const vector<int>& cost) {

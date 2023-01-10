@@ -1,3 +1,5 @@
+// Author: Omar_Salem
+
 class Solution {
 public:
     // Check the slope of the points

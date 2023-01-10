@@ -1,3 +1,5 @@
+// Author: Salah Ashraf
+
 class Solution {
     private int getRounds(int occurrence) {
        if (occurrence == 1) return -1; //it is not possible to complete all tasks
