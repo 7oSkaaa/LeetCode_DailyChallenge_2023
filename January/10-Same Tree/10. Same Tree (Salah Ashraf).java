@@ -26,8 +26,9 @@ class Solution {
         else if(tree1.val==tree2.val){
             return checkTwoTrees(tree1.left,tree2.left)  && checkTwoTrees(tree1.right,tree2.right);
         }
-        else if(tree1.val != tree2.val )
+        else if(tree1.val != tree2.val ){
             return false;
+        }
       
         return true;
     }
