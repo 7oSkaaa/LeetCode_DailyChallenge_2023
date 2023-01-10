@@ -1,3 +1,5 @@
+// Author: Salah Ashraf
+
 class Solution {
     public int maxIceCream(int[] costs, int coins) {
       //sort the array ascendingly

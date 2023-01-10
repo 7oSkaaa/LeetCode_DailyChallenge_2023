@@ -5,9 +5,11 @@ on:
   pull_request:
     
 jobs:
-  build:
+  Checking:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Check Naming of files
         run: python .github/scripts/Naming_Checker.py
+      - name: Check Author line of files
+        run: python .githun/scripts/Author_Checker.py

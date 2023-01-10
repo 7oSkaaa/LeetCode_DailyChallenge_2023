@@ -1,3 +1,5 @@
+# Author: Lobna Mazhar
+
 class Solution:
     def minDeletionSize(self, strs: List[str]) -> int:
         # Initialize a counter for the final result
