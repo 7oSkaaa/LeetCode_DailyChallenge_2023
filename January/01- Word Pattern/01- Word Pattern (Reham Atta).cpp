@@ -1,5 +1,5 @@
 
-// Auther: Reham Atta
+// Author: Reham Atta
 
 class Solution {
 public:

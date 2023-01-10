@@ -54,7 +54,7 @@ def check_daily_folders():
     for folder in folders:
         if (
             not re.match(
-                r"[1-9]-|[1-2][0-9]-|[3[0-1]]-\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+", folder
+                r"[0-2][0-9]-|[3[0-1]]-\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+", folder
             )
             and folder not in folders_tempelate
         ):
@@ -73,7 +73,7 @@ def check_files():
     # check if the folders are in the directory
     for file in files:
         if not re.match(
-            r"[1-9]-|[1-2][0-9]-|[3[0-1]]-\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+([A-Za-z]+).[cpp|rb|py|js|ts|c|java|php|dart]",
+            r"[0-2][0-9]-|[3[0-1]]-\s[A-Z[a-z]+\s|to\s|on\s|in\s|of\s]+([A-Za-z]+).[cpp|rb|py|js|ts|c|java|php|dart]",
             file,
         ):
             print(f"file {file} name is not valid")
