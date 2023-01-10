@@ -12,6 +12,8 @@
 1. **[Maximum Ice Cream Bars](#6--maximum-ice-cream-bars)**
 1. **[Gas Station](#7--gas-station)**
 1. **[Max Points on Line](#8--max-points-on-a-line)**
+1. **[Binary Tree Preorder Traversal](#9--binary-tree-preorder-traversal)**
+1. **[Same Tree](#10--same-tree)**
 
 <hr>
 
@@ -373,6 +375,80 @@ public:
 
         // maximum points laying in the same line
         return max_points;
+    }
+};
+```
+
+## 9)  [Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Stack` `Tree` `Depth-First Search` `Binary Tree`
+
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    void preorder(TreeNode* Node, vector < int >& nodes){
+        
+        // if the current node is nul
+        if(Node == nullptr) return;
+
+        // Preorder is RLR -> (Root - Left - Right)
+        nodes.push_back(Node -> val);
+        preorder(Node -> left, nodes);
+        preorder(Node -> right, nodes);
+    }
+
+    vector < int > preorderTraversal(TreeNode* root) {
+        
+        // vector to store the values of the nodes
+        vector < int > nodes;
+        
+        // taverse the tree in pre-order
+        preorder(root, nodes);
+
+        return nodes;
+    }
+};
+```
+
+
+## 10)  [Same Tree](https://leetcode.com/problems/same-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Depth-First Search` `Binary Tree`
+
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        
+        // valid case if the two trees has no nodes in this branch any more
+        if(!p && !q) return true;
+
+        // if there is a node difference between the two trees or one branch end before the another one
+        if(!p || !q || p -> val != q -> val) return false;
+
+        // check both left and right branches
+        return isSameTree(p -> left, q -> left) & isSameTree(p -> right, q -> right);
     }
 };
 ```
