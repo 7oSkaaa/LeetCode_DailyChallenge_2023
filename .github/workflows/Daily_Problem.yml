@@ -1,0 +1,14 @@
+name: Fetcher
+
+on:
+  schedule:
+    - cron: '00 2 * * *'  # At 02:00 am every day.
+
+    
+jobs:
+  Get_Daily_Problem:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch Daily Problem from LeetCode
+        run: python .github/scripts/Fetch_Daily_Problem.py
