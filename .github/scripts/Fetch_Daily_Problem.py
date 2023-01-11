@@ -62,8 +62,14 @@ def write_data(data):
 
 
 def append_folder(problem_name, day, month):
-    # change the directory to the month
-    os.chdir(month)
+
+    try:
+        os.mkdir(month)
+        # change the directory to the month
+        os.chdir(month)
+    except FileExistsError:
+        # change the directory to the month
+        os.chdir(month)
 
     # append to folder
     try:
