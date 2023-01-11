@@ -1,3 +1,4 @@
+# Author : Hazem Elakbawy
 class Solution:
     def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
         adj={i:[] for i in range (n)} # create adjaceny list
