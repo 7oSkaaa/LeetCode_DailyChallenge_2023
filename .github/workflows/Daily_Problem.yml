@@ -2,7 +2,7 @@ name: Fetcher
 
 on:
   schedule:
-    - cron: '00 2 * * *'  # At 02:00 am every day.
+    - cron: '01 2 * * *'  # At 02:00 am every day.
 
     
 jobs:
