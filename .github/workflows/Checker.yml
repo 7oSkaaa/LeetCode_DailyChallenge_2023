@@ -3,7 +3,10 @@ name: Checkers
 on:
   push:
   pull_request:
-    
+
+# This command allows us to run the Action automatically from the Actions tab.
+  workflow_dispatch:
+
 jobs:
   File_Names:
     runs-on: ubuntu-latest
