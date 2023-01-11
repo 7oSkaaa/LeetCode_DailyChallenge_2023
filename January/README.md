@@ -14,7 +14,7 @@
 1. **[Max Points on Line](#8--max-points-on-a-line)**
 1. **[Binary Tree Preorder Traversal](#9--binary-tree-preorder-traversal)**
 1. **[Same Tree](#10--same-tree)**
-1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree) 
+1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree)**
 
 <hr>
 
