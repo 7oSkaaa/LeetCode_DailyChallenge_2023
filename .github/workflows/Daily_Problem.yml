@@ -1,0 +1,25 @@
+name: Fetcher
+
+on:
+  schedule:
+    - cron: '45 23 * * *' 
+    - cron: '50 23 * * *' 
+    - cron: '55 23 * * *' 
+    - cron: '00 0 * * *'  
+    - cron: '05 0 * * *'  
+    - cron: '10 0 * * *' 
+    - cron: '15 0 * * *' 
+
+
+
+# This command allows us to run the Action automatically from the Actions tab.
+  workflow_dispatch:
+
+
+jobs:
+  Get_Daily_Problem:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch Daily Problem from LeetCode
+        run: python .github/scripts/Fetch_Daily_Problem.py
