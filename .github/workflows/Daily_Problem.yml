@@ -2,7 +2,15 @@ name: Fetcher
 
 on:
   schedule:
-    - cron: '35 18 * * *'  # At 02:00 am every day.
+    - cron: '45 23 * * *' 
+    - cron: '50 23 * * *' 
+    - cron: '55 23 * * *' 
+    - cron: '00 0 * * *'  
+    - cron: '05 0 * * *'  
+    - cron: '10 0 * * *' 
+    - cron: '15 0 * * *' 
+
+
 
 # This command allows us to run the Action automatically from the Actions tab.
   workflow_dispatch:
