@@ -74,6 +74,7 @@ def append_folder(problem_name, day, month):
     # append to folder
     try:
         os.mkdir(f'{day}- {problem_name}')
+        print(f'{day}- {problem_name} folder created')
     except FileExistsError:
         pass
 
