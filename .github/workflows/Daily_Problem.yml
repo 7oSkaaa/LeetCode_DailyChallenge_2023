@@ -32,7 +32,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -am "add new daily problem"
+          git commit -am "add new daily problem" --allow-empty
           
       - name: push changes
         uses: ad-m/github-push-action@master
