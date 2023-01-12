@@ -28,13 +28,15 @@ jobs:
         uses: actions/checkout@v3 # checkout the repository content to github runner
       
       - name: Fetch Daily Problem from LeetCode
-        run:
-          folder_name=$(sudo python .github/scripts/Fetch_Daily_Problem.py)
-          echo "'$folder_name'"
-          mkdir -p '$folder_name'
+        run: sudo python .github/scripts/Fetch_Daily_Problem.py
+          
+      - name: commit files
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add '$folder_name'
+          git add -A
+          git add .
+          git add *
           git commit -am "add new daily problem" --allow-empty
           
       - name: push changes
