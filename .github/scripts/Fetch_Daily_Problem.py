@@ -70,6 +70,9 @@ def append_folder(problem_name, day, month):
     # append to folder
     os.makedirs(f'{path}/{month}/{day}- {problem_name}', exist_ok=True)
 
+    # append file to folder so i can commit it
+    os.makedirs(f'{path}/{month}/{day}- {problem_name} (Ahmed Hossam).cpp', exist_ok=True)
+
     return f'{path}/{month}/{day}- {problem_name}'
 
 
