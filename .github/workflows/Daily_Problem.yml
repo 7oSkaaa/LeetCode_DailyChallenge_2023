@@ -29,19 +29,12 @@ jobs:
 
       - name: Fetch Daily Problem from LeetCode
         run: sudo python .github/scripts/Fetch_Daily_Problem.py
-            
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
-        with:
-          add: '*'
-          author_name: 7oSkaa
-          author_email: ahmed.7oskaa@gmail.com
-          cwd: ${{ secrets.GITHUB_REPOSITORY }}
-          default_author: github_actor
-          fetch: true
-          message: 'Add daily Challenge Problem'
-          pull: '--rebase --autostash ...'
-          tag: 'v1.0.0 --force'
-          tag_push: '--force'
+      
+      - name: Commit and Add Changes
+        run: |
+          git add .
+          git commit -am 'Add new daily problem at {date}={$(date +'%Y-%m-%d')}'
+          git push -f
           
       - name: push changes
         uses: ad-m/github-push-action@master
