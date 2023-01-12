@@ -30,7 +30,8 @@ jobs:
       - name: Fetch Daily Problem from LeetCode
         run: |
           folder_name=$(python .github/scripts/Fetch_Daily_Problem.py)
-          mkdir -p folder_name
+          echo "::set-folder_name name=changelog::$folder_name"
+          mkdir -p $folder_name
           
       - name: commit files
         run: |
