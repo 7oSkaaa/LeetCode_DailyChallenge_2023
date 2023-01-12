@@ -36,7 +36,7 @@ jobs:
           add: '*'
           author_name: 7oSkaa
           author_email: ahmed.7oskaa@gmail.com
-          cwd: ${{GITHUB_REPOSITORY}}
+          cwd: ${{ secrets.GITHUB_REPOSITORY }}
           default_author: github_actor
           fetch: true
           message: 'Add daily Challenge Problem'
