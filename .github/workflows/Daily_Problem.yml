@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   Get_Daily_Problem:
-    runs-on: [self-hosted, linux, ARM64]
+    runs-on: [self-hosted, linux, X64]
     steps:
          
       - name: checkout repo content
