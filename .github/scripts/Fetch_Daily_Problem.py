@@ -65,18 +65,15 @@ def append_folder(problem_name, day, month):
 
     try:
         os.mkdir(month)
-        # change the directory to the month
-        os.chdir(month)
     except FileExistsError:
-        # change the directory to the month
-        os.chdir(month)
+        print(f'{month} folder already exists')
 
     # append to folder
     try:
-        os.mkdir(f'{day}- {problem_name}')
+        os.mkdir(f'{month}/{day}- {problem_name}')
         print(f'{day}- {problem_name} folder created')
     except FileExistsError:
-        pass
+        print(f'{day}- {problem_name} folder already exists')
 
 
 def main():
@@ -115,7 +112,7 @@ def main():
 
     # append the folder to the directory
     append_folder(problem_name, day, month)
-    
+
     return f'{month}/{day}- {problem_name}'
 
 
