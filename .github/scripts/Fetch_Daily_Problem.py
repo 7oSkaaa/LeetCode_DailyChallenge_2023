@@ -63,20 +63,19 @@ def write_data(data):
 
 def append_folder(problem_name, day, month):
 
-    try:
-        os.mkdir(month)
-        # change the directory to the month
-        os.chdir(month)
-    except FileExistsError:
-        # change the directory to the month
-        os.chdir(month)
+    print(f'{month}/{day}- {problem_name}')
 
     # append to folder
-    try:
-        os.mkdir(f'{day}- {problem_name}')
-        print(f'{day}- {problem_name} folder created')
-    except FileExistsError:
-        pass
+    os.makedirs(f'{month}/{day}- {problem_name}', exist_ok=True)
+
+    # change the path to the folder
+    os.chdir(f'{month}/{day}- {problem_name}')
+
+    # add cpp file with author line
+    with open(f'{day}- {problem_name} (Ahmed Hossam).cpp', 'w') as file:
+        file.write('// Author: Ahmed Hossam\n\n')
+
+    return f'{month}/{day}- {problem_name}'
 
 
 def main():
@@ -114,9 +113,7 @@ def main():
     write_data(data)
 
     # append the folder to the directory
-    append_folder(problem_name, day, month)
-    
-    return f'{month}/{day}- {problem_name}'
+    return append_folder(problem_name, day, month)
 
 
 if __name__ == "__main__":
