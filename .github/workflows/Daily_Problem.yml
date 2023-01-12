@@ -20,6 +20,6 @@ jobs:
   Get_Daily_Problem:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Fetch Daily Problem from LeetCode
         run: python .github/scripts/Fetch_Daily_Problem.py
