@@ -36,7 +36,7 @@ jobs:
           git config --global user.name "Your Name"
           
           git add .
-          git commit --allow-empty -am 'Add new daily problem at $(date)'
+          git commit --allow-empty -am 'Add new daily problem'
           
           git push -f
           
