@@ -32,13 +32,13 @@ jobs:
       
       - name: Commit and Add Changes
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "ahmed.7oSkaa@gmail.com"
+          git config --global user.name "7oSkaaa"
           
           git add .
           git commit --allow-empty -am 'Add new daily problem'
           
-          git push -f
+          git push --force-with-lease 
 
       - name: push changes
         uses: ad-m/github-push-action@master
