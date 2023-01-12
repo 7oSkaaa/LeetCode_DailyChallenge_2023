@@ -62,18 +62,13 @@ def write_data(data):
 
 
 def append_folder(problem_name, day, month):
+    # get the current path  of the file
+    path = os.getcwd()
 
-    try:
-        os.mkdir(month)
-    except FileExistsError:
-        print(f'{month} folder already exists')
+    print(f'{path}/{month}/{day}- {problem_name}')
 
     # append to folder
-    try:
-        os.mkdir(f'{month}/{day}- {problem_name}')
-        print(f'{day}- {problem_name} folder created')
-    except FileExistsError:
-        print(f'{day}- {problem_name} folder already exists')
+    os.makedirs(f'{path}/{month}/{day}- {problem_name}', exist_ok=True)
 
 
 def main():
