@@ -29,31 +29,22 @@ jobs:
       
       - name: Fetch Daily Problem from LeetCode
         run: python .github/scripts/Fetch_Daily_Problem.py
-      
-      - id: Commit Files
-        name: commit_files
-      
-      - name: checkout repo content  
-        uses: actions/checkout@v3
-      
+            
+      - id: commit_files
+        name: Commit files  
+      - uses: actions/checkout@v3
       - name: Run a one-line script
         run: python ./.github/workflows/todo_List.py
-      
       - name: switching from HTTPS to SSH
         run: git remote set-url origin ${{ secrets.ssh }}
-      
       - name: check for changes
         run: git status
-      
       - name: stage changed files
         run: git add .
-      
       - name: commit changed files
         run: git commit -am "GH Action Files added $(date)"
-      
       - name: fetch from main
         run: git fetch origin main
-      
       - name: push code to main
         run: git push origin HEAD:main
 
