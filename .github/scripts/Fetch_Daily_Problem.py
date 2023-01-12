@@ -63,7 +63,7 @@ def write_data(data):
 
 def append_folder(problem_name, day, month):
 
-    print(f'{month}/{day}- {problem_name}')
+    print(f'{month}/{day}- {problem_name} folder created successfully!')
 
     # append to folder
     os.makedirs(f'{month}/{day}- {problem_name}', exist_ok=True)
@@ -71,9 +71,8 @@ def append_folder(problem_name, day, month):
     # change the path to the folder
     os.chdir(f'{month}/{day}- {problem_name}')
 
-    # add cpp file with author line
-    with open(f'{day}- {problem_name} (Ahmed Hossam).cpp', 'w') as file:
-        file.write('// Author: Ahmed Hossam\n\n')
+    # create .gitkeep file
+    open('.gitkeep', 'a').close()
 
     return f'{month}/{day}- {problem_name}'
 
