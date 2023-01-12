@@ -116,7 +116,7 @@ def main():
     # append the folder to the directory
     append_folder(problem_name, day, month)
     
-    return f'{day}- {problem_name}'
+    return f'{month}/{day}- {problem_name}'
 
 
 if __name__ == "__main__":
