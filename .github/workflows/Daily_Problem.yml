@@ -36,7 +36,7 @@ jobs:
           git config --global user.name "Your Name"
           
           git add .
-          git commit -am 'Add new daily problem at {date}={$(date +'%Y-%m-%d')}'
+          git commit -am 'Add new daily problem at $(date)'
           
           git push -f
           
