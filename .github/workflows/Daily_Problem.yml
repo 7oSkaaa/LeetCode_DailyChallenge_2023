@@ -23,34 +23,39 @@ jobs:
   Get_Daily_Problem:
     runs-on: ubuntu-latest
     steps:
-      
+         
       - name: checkout repo content
-        uses: actions/checkout@v3 # checkout the repository content to github runner
-      
-      - name: Fetch Daily Problem from LeetCode
-          run: python .github/scripts/Fetch_Daily_Problem.py
-            
-        - id: commit_files
-          name: Commit files  
-        - uses: actions/checkout@v3
-        - name: Run a one-line script
-          run: python ./.github/workflows/todo_List.py
-        - name: switching from HTTPS to SSH
-          run: git remote set-url origin ${{ secrets.ssh }}
-        - name: check for changes
-          run: git status
-        - name: stage changed files
-          run: git add .
-        - name: commit changed files
-          run: git commit -am "GH Action Files added $(date)"
-        - name: fetch from main
-          run: git fetch origin main
-        - name: push code to main
-          run: git push origin HEAD:main
+        uses: actions/checkout@main # checkout the repository content to github runner
 
+      - name: Fetch Daily Problem from LeetCode
+        run: sudo python .github/scripts/Fetch_Daily_Problem.py
+          
+          
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          add: '*'
+          author_name: 7oSkaa
+          author_email: ahmed.7oskaa@gmail.com
+          cwd: ${{ secrets.GITHUB_REPOSITORY }}
+          default_author: github_actor
+          fetch: true
+          message: 'Add daily Challenge Problem'
+          pull: '--rebase --autostash ...'
+          tag: 'v1.0.0 --force'
+          tag_push: '--force'
+          
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git add .
+          git add *
+          git commit -am "add new daily problem" --allow-empty
+          ls January
+          
       - name: push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main  
-
