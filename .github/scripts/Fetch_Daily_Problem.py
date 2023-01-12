@@ -62,15 +62,20 @@ def write_data(data):
 
 
 def append_folder(problem_name, day, month):
-    # get the current path  of the file
-    path = os.getcwd()
 
-    print(f'{path}/{month}/{day}- {problem_name}')
+    print(f'{month}/{day}- {problem_name}')
 
     # append to folder
-    os.makedirs(f'{path}/{month}/{day}- {problem_name}', exist_ok=True)
+    os.makedirs(f'{month}/{day}- {problem_name}', exist_ok=True)
 
-    return f'{path}/{month}/{day}- {problem_name}'
+    # change the path to the folder
+    os.chdir(f'{month}/{day}- {problem_name}')
+
+    # add cpp file with author line
+    with open(f'{day}- {problem_name} (Ahmed Hossam).cpp', 'w') as file:
+        file.write('// Author: Ahmed Hossam\n\n')
+
+    return f'{month}/{day}- {problem_name}'
 
 
 def main():
