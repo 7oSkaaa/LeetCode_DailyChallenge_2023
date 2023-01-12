@@ -32,17 +32,22 @@ jobs:
           
       - id: commit_files
         name: Commit files  
-        run:
-          git config --local user.name actions-user
-          git config --local user.email "actions@github.com"
-          if ! git diff --exit-code; then
-              git add -A
-              git add .
-              git add *
-              git commit -am "GH Action Files added $(date)"
-              git push -f origin main
-          fi
-          
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: python ./.github/workflows/todo_List.py
+      - name: switching from HTTPS to SSH
+        run: git remote set-url origin ${{ secrets.ssh }}
+      - name: check for changes
+        run: git status
+      - name: stage changed files
+        run: git add .
+      - name: commit changed files
+        run: git commit -am "GH Action Files added $(date)"
+      - name: fetch from main
+        run: git fetch origin main
+      - name: push code to main
+        run: git push origin HEAD:main
+
       - name: push changes
         uses: ad-m/github-push-action@master
         with:
