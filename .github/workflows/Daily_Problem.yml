@@ -38,6 +38,7 @@ jobs:
           git add .
           git add *
           git commit -am "add new daily problem" --allow-empty
+          ls January
           
       - name: push changes
         uses: ad-m/github-push-action@master
