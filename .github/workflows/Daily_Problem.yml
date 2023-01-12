@@ -29,7 +29,7 @@ jobs:
       
       - name: Fetch Daily Problem from LeetCode
         run:
-          folder_name=$(python .github/scripts/Fetch_Daily_Problem.py)
+          folder_name=$(sudo python .github/scripts/Fetch_Daily_Problem.py)
           echo "'$folder_name'"
           mkdir -p '$folder_name'
           git config --local user.email "action@github.com"
