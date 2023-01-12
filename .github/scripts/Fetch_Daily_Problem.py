@@ -114,6 +114,9 @@ def main():
 
     # append the folder to the directory
     append_folder(problem_name, day, month)
+    
+    # print the problem information
+    print(problem_to_add)
 
 
 if __name__ == "__main__":
