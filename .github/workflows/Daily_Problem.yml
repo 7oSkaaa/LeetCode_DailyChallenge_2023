@@ -32,8 +32,12 @@ jobs:
       
       - name: Commit and Add Changes
         run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          
           git add .
           git commit -am 'Add new daily problem at {date}={$(date +'%Y-%m-%d')}'
+          
           git push -f
           
       - name: push changes
