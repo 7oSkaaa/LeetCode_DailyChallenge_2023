@@ -1,5 +1,17 @@
 # LeetCode Daily Challenge in 2023
 
+## Workflow Checking
+
+<div align="center">
+<img src="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Checker.yml/badge.svg" alt="Checkers" width="150">
+<a href="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Checker.yml" taget="_blank"/>
+</img>
+&nbsp;
+<img src="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Daily_Problem.yml/badge.svg" alt="Checkers" width="150">
+<a href="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Daily_Problem.yml" taget="_blank"/>
+</img>
+
+</div>
 <br><br>
 
 ## Contribution
