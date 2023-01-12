@@ -39,9 +39,15 @@ jobs:
           git commit --allow-empty -am 'Add new daily problem'
           
           git push -f
-          
+
+      - name: Delete the solution again
+        run: |
+          git commit --allow-empty -am 'Add new daily problem'
+
+          git push -f
+
       - name: push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main  
+          branch: main
