@@ -70,6 +70,8 @@ def append_folder(problem_name, day, month):
     # append to folder
     os.makedirs(f'{path}/{month}/{day}- {problem_name}', exist_ok=True)
 
+    return f'{path}/{month}/{day}- {problem_name}'
+
 
 def main():
     # get the daily problem name
@@ -106,9 +108,7 @@ def main():
     write_data(data)
 
     # append the folder to the directory
-    append_folder(problem_name, day, month)
-
-    return f'{month}/{day}- {problem_name}'
+    return append_folder(problem_name, day, month)
 
 
 if __name__ == "__main__":
