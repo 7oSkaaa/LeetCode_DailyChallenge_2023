@@ -118,7 +118,9 @@ def main():
 
     # print the problem information
     print(problem_to_add)
+    
+    return f'{day}- {problem_name}'
 
 
 if __name__ == "__main__":
-    main()
+    return main()
