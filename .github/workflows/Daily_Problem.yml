@@ -29,8 +29,10 @@ jobs:
       
       - name: Fetch Daily Problem from LeetCode
         run: python .github/scripts/Fetch_Daily_Problem.py
+        working-directory: ./app
           
       - name: commit files
+        working-directory: ./app
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
