@@ -34,6 +34,8 @@
 1. **[Same Tree](#10--same-tree)**
 1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree)**
 1. **[Number of Nodes in the Sub-Tree With the Same Label](#12--number-of-nodes-in-the-sub-tree-with-the-same-label)**
+1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters/)**
+
 
 <hr>
 
@@ -556,7 +558,7 @@ hr>
 
 <br><br>
 
-## 12)  [number-of-nodes-in-the-sub-tree-with-the-same-label](https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label/)
+## 12)  [Number of Nodes in the Sub-Tree With the Same Label](https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label/)
 
 ### Difficulty
 
@@ -620,6 +622,82 @@ public:
 
         // the required answer
         return ans;
+    }
+};
+```
+
+
+
+hr>
+
+<br><br>
+
+## 13)  [Longest Path With Different Adjacent Characters](https://leetcode.com/problems/longest-path-with-different-adjacent-characters/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `String` `Tree` `Depth-First Search` `Graph` `Topological Sort`
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    int longestPath(vector<int>& parent, string s) {
+        // decalration variables to use
+        int n = parent.size();
+        vector < int > top_1(n, 1), top_2(n, 1), deg(n);
+        
+        // add edges between i and parent of i
+        for(int i = 1; i < n; i++)
+            deg[parent[i]]++;
+        
+        // queue for topology sort
+        queue < int > topo;
+
+        // let's calc the max_path
+        int max_path = 1;
+
+        // add the endpoints in queue
+        for(int i = 1; i < n; i++)
+            if(deg[i] == 0)
+                topo.push(i), deg[i]--;
+        
+        auto update_max = [&](int u, int x){
+            // update the maximum to paths for each node
+            if(x >= top_1[u])
+                top_2[u] = top_1[u], top_1[u] = x;
+            else if(x >= top_2[u])
+                top_2[u] = x;
+        };
+
+        while(!topo.empty() && topo.front()){
+            // the current node
+            int u = topo.front(), p = parent[u];
+            topo.pop();
+
+            // path_length
+            int len = 1 + (s[u] != s[p] ? top_1[u] : 0);
+            
+            // update max paths for current node
+            update_max(p, len);
+
+            // if the parent degree becomes 0 so, let's add it
+            if(!--deg[p])
+                topo.push(p);
+
+            // update the answer wit max between it and the best two paths in it's children
+            max_path = max(max_path, top_1[p] + top_2[p] - 1);
+        }
+
+        // the length of the longest path with the required conditions.
+        return max_path;
     }
 };
 ```
