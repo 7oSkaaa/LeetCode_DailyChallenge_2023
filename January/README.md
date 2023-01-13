@@ -2,6 +2,24 @@
 
 <br><br>
 
+## Workflow Checking
+
+<div align="center">
+<img src="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Author_Line.yml/badge.svg" alt="Checkers" width="150">
+<a href="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Author_Line.yml" taget="_blank"/>
+</img>
+&nbsp;
+<img src="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/File_Names.yml/badge.svg" alt="Checkers" width="150">
+<a href="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/File_Names.yml" taget="_blank"/>
+</img>
+&nbsp;
+<img src="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Daily_Problem.yml/badge.svg" alt="Checkers" width="150">
+<a href="https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/actions/workflows/Daily_Problem.yml" taget="_blank"/>
+</img>
+</div>
+
+<br><br>
+
 ## Problems:
 
 1. **[Word Pattern](#1--word-pattern)**
@@ -15,6 +33,9 @@
 1. **[Binary Tree Preorder Traversal](#9--binary-tree-preorder-traversal)**
 1. **[Same Tree](#10--same-tree)**
 1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree)**
+1. **[Number of Nodes in the Sub-Tree With the Same Label](#12--number-of-nodes-in-the-sub-tree-with-the-same-label)**
+1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters)**
+
 
 <hr>
 
@@ -528,6 +549,155 @@ public:
 
         // the minimum time required
         return 2 * dfs(0, -1);
+    }
+};
+```
+
+
+hr>
+
+<br><br>
+
+## 12)  [Number of Nodes in the Sub-Tree With the Same Label](https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Depth-First Search` `Hash Table` `Counting`
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    vector < vector < int > > adj, freq;
+    vector < int > ans;
+    string labels;
+
+    // merge two nodes together
+    void merge(vector < int >&  a, vector < int >& b){
+        for(int i = 0; i < 26; i++)
+            a[i] += b[i];
+    }
+
+    // make undirected edge between u and v
+    void add_edge(int u, int v){
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    void dfs(int u, int p){
+        // add the  current char to the current frequency vector
+        freq[u][labels[u] - 'a']++;
+
+        for(auto& v : adj[u]){
+            if(v == p) continue;
+            dfs(v, u);
+            
+            // merge the frequencies vectors together
+            merge(freq[u], freq[v]);
+        }
+
+        // ans[u] is the number of nodes in the subtree with label[u]
+        ans[u] = freq[u][labels[u] - 'a'];
+    }
+
+    vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
+        this -> labels = labels;
+        adj = vector < vector < int > > (n);
+        freq = vector < vector < int > > (n, vector < int > (26)); 
+        ans = vector < int > (n);
+
+        // make adjacency list using edges
+        for(auto& edge : edges)
+            add_edge(edge[0], edge[1]);
+        
+        // get the answer;
+        dfs(0, -1);
+
+        // the required answer
+        return ans;
+    }
+};
+```
+
+
+
+hr>
+
+<br><br>
+
+## 13)  [Longest Path With Different Adjacent Characters](https://leetcode.com/problems/longest-path-with-different-adjacent-characters/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `String` `Tree` `Depth-First Search` `Graph` `Topological Sort`
+
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    int longestPath(vector<int>& parent, string s) {
+        // decalration variables to use
+        int n = parent.size();
+        vector < int > top_1(n, 1), top_2(n, 1), deg(n);
+        
+        // add edges between i and parent of i
+        for(int i = 1; i < n; i++)
+            deg[parent[i]]++;
+        
+        // queue for topology sort
+        queue < int > topo;
+
+        // let's calc the max_path
+        int max_path = 1;
+
+        // add the endpoints in queue
+        for(int i = 1; i < n; i++)
+            if(deg[i] == 0)
+                topo.push(i), deg[i]--;
+        
+        auto update_max = [&](int u, int x){
+            // update the maximum to paths for each node
+            if(x >= top_1[u])
+                top_2[u] = top_1[u], top_1[u] = x;
+            else if(x >= top_2[u])
+                top_2[u] = x;
+        };
+
+        while(!topo.empty() && topo.front()){
+            // the current node
+            int u = topo.front(), p = parent[u];
+            topo.pop();
+
+            // path_length
+            int len = 1 + (s[u] != s[p] ? top_1[u] : 0);
+            
+            // update max paths for current node
+            update_max(p, len);
+
+            // if the parent degree becomes 0 so, let's add it
+            if(!--deg[p])
+                topo.push(p);
+
+            // update the answer wit max between it and the best two paths in it's children
+            max_path = max(max_path, top_1[p] + top_2[p] - 1);
+        }
+
+        // the length of the longest path with the required conditions.
+        return max_path;
     }
 };
 ```

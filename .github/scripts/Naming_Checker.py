@@ -79,6 +79,11 @@ def check_files(folder_name):
 
     # check if the folders are in the directory
     for file in files:
+
+        # ignore .gitkeep file
+        if file == ".gitkeep":
+            continue
+
         user_with_ext = file.replace(folder_name, '')
         if not re.match(
             r"([A-Za-z -_]+).[cpp|rb|py|js|ts|c|java|php|dart]",

@@ -24,6 +24,11 @@ def change_directory(dir=None, monthly=None, daily=None):
 # check the author line in the given file
 def check_author_line(file=None):
     if file is not None:
+
+        # ignore .gitkeep file
+        if file == ".gitkeep":
+            return
+
         with open(file, "r") as f:
             lines = f.readlines()
             for line in lines:
