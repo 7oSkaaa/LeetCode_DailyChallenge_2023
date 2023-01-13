@@ -1,4 +1,4 @@
-name: Fetcher
+name: Daily Problem
 
 on:
   schedule:
@@ -23,23 +23,25 @@ jobs:
   Get_Daily_Problem:
     runs-on: ubuntu-latest
     steps:
-      
+         
       - name: checkout repo content
         uses: actions/checkout@v3 # checkout the repository content to github runner
-      
+
       - name: Fetch Daily Problem from LeetCode
+        run: sudo python .github/scripts/Fetch_Daily_Problem.py
+      
+      - name: Commit and Add Changes
         run: |
-          folder_name=$(python .github/scripts/Fetch_Daily_Problem.py)
-          echo "'$folder_name'"
-          mkdir -p '$folder_name'
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -am "add new daily problem" --allow-empty
+          git config --global user.email "ahmed.7oSkaa@gmail.com"
+          git config --global user.name "7oSkaaa"
           
+          git add .
+          git commit --allow-empty -am 'Add new daily problem'
+          
+          git push --force-with-lease 
+
       - name: push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main  
-
+          branch: main
