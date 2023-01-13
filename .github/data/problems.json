@@ -47,6 +47,10 @@
         {
             "day": "12",
             "title": "Number of Nodes in the Sub-Tree With the Same Label"
+        },
+        {
+            "day": "13",
+            "title": "Longest Path With Different Adjacent Characters"
         }
     ]
 }
