@@ -18,12 +18,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
          
-    - name: Commit and Push
-      uses: devops-infra/action-commit-push@master
-      with:
-        github_token: "${{ secrets.GITHUB_TOKEN }}"
-        add_timestamp: true
-        commit_prefix: "[AUTO]"
-        commit_message: "Automatic commit"
-        force: false
-        target_branch: update/version
+      - name: checkout repo content
+        uses: actions/checkout@v3 # checkout the repository content to github runner
+
+      - name: Fetch Daily Problem from LeetCode
+        run: sudo python .github/scripts/Fetch_Daily_Problem.py
+      
+      - name: Check if there are any changes
+        id: verify_diff
+        run: |
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and Add Changes
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: |
+          git config --global user.email "ahmed.7oSkaa@gmail.com"
+          git config --global user.name "7oSkaaa"
+          
+          git add .
+          git commit -am 'Add new daily problem'
+          
+      - name: Push
+        if: steps.verify_diff.outputs.changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          force_with_lease: true
