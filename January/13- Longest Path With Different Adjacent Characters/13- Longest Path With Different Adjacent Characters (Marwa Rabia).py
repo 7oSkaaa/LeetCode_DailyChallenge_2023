@@ -1,4 +1,4 @@
-# Auhtor : Marwa Rabia 
+# Author : Marwa Rabia 
 
 
 from ast import List
