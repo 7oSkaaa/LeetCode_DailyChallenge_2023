@@ -18,14 +18,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
          
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: checkout repo content
+        uses: actions/checkout@v3 # checkout the repository content to github runner
+
+      - name: Fetch Daily Problem from LeetCode
+        run: sudo python .github/scripts/Fetch_Daily_Problem.py
+      
+      - name: Commit and Add Changes
+        if: ! git diff --exit-code
+        run: |
+          git config --global user.email "ahmed.7oSkaa@gmail.com"
+          git config --global user.name "7oSkaaa"
+          
+          git add .
+          git commit -am 'Add new daily problem'
+          
+      - name: push changes
+        uses: ad-m/github-push-action@master
         with:
-          commit_message: Add New Daily Challenge
-          commit_user_name: 7oSkaaa # defaults to "github-actions[bot]"
-          commit_user_email: ahmed.7oskaa@gmail.com # defaults to "41898282+github-actions[bot]@users.noreply.github.com"
-          commit_author: Author <actions@github.com> # defaults to author of the commit that triggered the run
-          add_options: '.'
-          push_options: '--force-with-lease'
-          skip_dirty_check: true    
-          skip_fetch: false    
-          skip_checkout: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force_with_lease: true
