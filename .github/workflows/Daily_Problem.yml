@@ -27,7 +27,7 @@ jobs:
       - name: Check if there are any changes
         id: verify_diff
         run: |
-          if [ `git diff --cached --exit-code HEAD^ > /dev/null && (git ls-files --other --exclude-standard --directory | grep -c -v '/$')` ]; 
+          if [ `git diff --cached --exit-code` ]; 
           then echo "IS_VALID=true" >> $GITHUB_ENV;
           else echo "IS_VALID=false" >> $GITHUB_ENV;
           fi
