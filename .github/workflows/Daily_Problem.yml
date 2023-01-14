@@ -24,8 +24,13 @@ jobs:
       - name: Fetch Daily Problem from LeetCode
         run: sudo python .github/scripts/Fetch_Daily_Problem.py
       
+      - name: Check if there are any changes
+        id: verify_diff
+        run: |
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+      
       - name: Commit and Add Changes
-        if: ! git diff --exit-code
+        if: steps.verify_diff.outputs.changed == 'true'
         run: |
           git config --global user.email "ahmed.7oSkaa@gmail.com"
           git config --global user.name "7oSkaaa"
@@ -33,9 +38,10 @@ jobs:
           git add .
           git commit -am 'Add new daily problem'
           
-      - name: push changes
+      - name: Push
+        if: steps.verify_diff.outputs.changed == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: ${{ github.ref }}
           force_with_lease: true
