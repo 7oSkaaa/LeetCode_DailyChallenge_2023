@@ -27,7 +27,7 @@ jobs:
       - name: Check if there are any changes
         id: verify_diff
         run: |
-          if [ `git diff --cached --exit-code` ]; 
+          if [ -n "$(git status --porcelain)" ]; 
           then echo "IS_VALID=true" >> $GITHUB_ENV;
           else echo "IS_VALID=false" >> $GITHUB_ENV;
           fi
