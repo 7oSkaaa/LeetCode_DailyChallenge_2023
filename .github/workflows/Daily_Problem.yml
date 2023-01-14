@@ -27,10 +27,14 @@ jobs:
       - name: Check if there are any changes
         id: verify_diff
         run: |
-          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+          if [ -n "$(git status --porcelain)" ]; 
+          then echo "IS_VALID=true" >> $GITHUB_ENV;
+          else echo "IS_VALID=false" >> $GITHUB_ENV;
+          fi
+
       
       - name: Commit and Add Changes
-        if: steps.verify_diff.outputs.changed == 'true'
+        if: ${{ env.IS_VALID == 'true' }}
         run: |
           git config --global user.email "ahmed.7oSkaa@gmail.com"
           git config --global user.name "7oSkaaa"
@@ -39,7 +43,7 @@ jobs:
           git commit -am 'Add new daily problem'
           
       - name: Push
-        if: steps.verify_diff.outputs.changed == 'true'
+        if: ${{ env.IS_VALID == 'true' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
