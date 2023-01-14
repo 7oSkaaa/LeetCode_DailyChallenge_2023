@@ -32,8 +32,6 @@ jobs:
           git add .
           git commit --allow-empty -am 'Add new daily problem'
           
-          git push --force-with-lease 
-
       - name: push changes
         uses: ad-m/github-push-action@master
         with:
