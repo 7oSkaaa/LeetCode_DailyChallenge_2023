@@ -35,6 +35,7 @@
 1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree)**
 1. **[Number of Nodes in the Sub-Tree With the Same Label](#12--number-of-nodes-in-the-sub-tree-with-the-same-label)**
 1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters)**
+1. **[Lexicographically Smallest Equivalent String](#14--lexicographically-smallest-equivalent-string)**
 
 
 <hr>
