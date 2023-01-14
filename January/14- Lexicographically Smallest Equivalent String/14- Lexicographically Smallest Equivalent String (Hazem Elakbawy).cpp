@@ -17,7 +17,7 @@ public:
   {
     // get root of c1 & c2
     c1=find_(c1);
-    c2=find_(c2);ss
+    c2=find_(c2);
     if (c1!=c2)
       // make sure that root is the smallest character
       (c1<c2)?arr[c2]=(c1):arr[c1]=(c2);
