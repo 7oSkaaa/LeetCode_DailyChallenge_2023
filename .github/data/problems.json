@@ -51,6 +51,10 @@
         {
             "day": "13",
             "title": "Longest Path With Different Adjacent Characters"
+        },
+        {
+            "day": "14",
+            "title": "Lexicographically Smallest Equivalent String"
         }
     ]
 }
