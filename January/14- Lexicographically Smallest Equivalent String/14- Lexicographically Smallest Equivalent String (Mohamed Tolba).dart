@@ -1,3 +1,5 @@
+// Author: Mohamed Tolba
+
 class UnionFind {
   List<int> parent = List.filled(26, 0);
 
