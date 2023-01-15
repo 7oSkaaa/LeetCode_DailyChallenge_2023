@@ -1,14 +1,12 @@
 // Author: Mohamed Tolba
 
-/**
- * Definition for a binary tree node.
- * class TreeNode {
- *   int val;
- *   TreeNode? left;
- *   TreeNode? right;
- *   TreeNode([this.val = 0, this.left, this.right]);
- * }
- */
+class TreeNode {
+  int val;
+  TreeNode? left;
+  TreeNode? right;
+
+  TreeNode([this.val = 0, this.left, this.right]);
+}
 
 class Solution {
   bool isSameTree(TreeNode? p, TreeNode? q) {
