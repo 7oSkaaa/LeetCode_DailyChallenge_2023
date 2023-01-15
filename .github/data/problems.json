@@ -55,6 +55,10 @@
         {
             "day": "14",
             "title": "Lexicographically Smallest Equivalent String"
+        },
+        {
+            "day": "15",
+            "title": "Number of Good Paths"
         }
     ]
 }
