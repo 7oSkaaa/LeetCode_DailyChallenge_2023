@@ -784,7 +784,7 @@ public:
 
 <br><br>
 
-## 14)  [Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/)
+## 15)  [Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/)
 
 ### Difficulty
 
