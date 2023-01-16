@@ -1,0 +1,68 @@
+{
+    "January": [
+        {
+            "day": "01",
+            "title": "Word Pattern"
+        },
+        {
+            "day": "02",
+            "title": "Detect Capital"
+        },
+        {
+            "day": "03",
+            "title": "Delete Columns to Make Sorted"
+        },
+        {
+            "day": "04",
+            "title": "Minimum Rounds to Complete All Tasks"
+        },
+        {
+            "day": "05",
+            "title": "Minimum Number of Arrows to Burst Balloons"
+        },
+        {
+            "day": "06",
+            "title": "Maximum Ice Cream Bars"
+        },
+        {
+            "day": "07",
+            "title": "Gas Station"
+        },
+        {
+            "day": "08",
+            "title": "Max Points on a Line"
+        },
+        {
+            "day": "09",
+            "title": "Binary Tree Preorder Traversal"
+        },
+        {
+            "day": "10",
+            "title": "Same Tree"
+        },
+        {
+            "day": "11",
+            "title": "Minimum Time to Collect All Apples in a Tree"
+        },
+        {
+            "day": "12",
+            "title": "Number of Nodes in the Sub-Tree With the Same Label"
+        },
+        {
+            "day": "13",
+            "title": "Longest Path With Different Adjacent Characters"
+        },
+        {
+            "day": "14",
+            "title": "Lexicographically Smallest Equivalent String"
+        },
+        {
+            "day": "15",
+            "title": "Number of Good Paths"
+        },
+        {
+            "day": "16",
+            "title": "Insert Interval"
+        }
+    ]
+}
