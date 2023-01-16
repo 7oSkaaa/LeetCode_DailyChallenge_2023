@@ -36,7 +36,8 @@
 1. **[Number of Nodes in the Sub-Tree With the Same Label](#12--number-of-nodes-in-the-sub-tree-with-the-same-label)**
 1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters)**
 1. **[Lexicographically Smallest Equivalent String](#14--lexicographically-smallest-equivalent-string)**
-
+1. **[Number of Good Paths](#15--number-of-good-paths)**
+1. **[Insert Interval](#16--insert-interval)**
 
 <hr>
 
@@ -780,3 +781,160 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
+## 15)  [Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Union Find` `Tree` `Graph`
+
+### Code
+
+```cpp
+template < typename T = int, int Base = 0 > struct DSU {
+    
+    vector < T > parent, Gsize;
+
+    // every element will be equal it's parent and the group size equal 1
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // get the leader of each group
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // check if the two nodes in the same group
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // merge two groups together
+    void union_sets(int u, int v){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        if(leader_u == leader_v) return;
+        if(leader_u < leader_v) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // get group size
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+    int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
+        
+        // number of nodes
+        int n = vals.size();
+
+        // adjacent list for each node
+        vector < vector < int > > adj(n);
+
+        // dsu structure
+        DSU < int > dsu(n);
+
+        // the nodes that equal each value
+        map < int, vector < int > >  V_nodes;
+
+        // make edge between the nodes with nodes have value greater than or equal it
+        for(auto& edge : edges){
+            if(vals[edge[0]] <= vals[edge[1]])
+                adj[edge[1]].push_back(edge[0]);
+            if(vals[edge[1]] <= vals[edge[0]])
+                adj[edge[0]].push_back(edge[1]);
+        }
+
+        // add nodes of each value
+        for(int i = 0; i < n; i++)
+            V_nodes[vals[i]].push_back(i);
+        
+        // number of good paths equal to n because each node is good path
+        int good_paths = n;
+
+        // iterate for each value in ascending order
+        for(auto& [val, nodes] : V_nodes){
+
+            // iterate over the nodes with the value val and add the nodes with it's neighbours to merge the groups
+            for(auto& u : nodes)
+                for(auto& v : adj[u])
+                    dsu.union_sets(u, v);
+
+            // make frequency array for the leaders
+            unordered_map < int, int >  same_component;
+            for(auto& u : nodes)
+                same_component[dsu.find_leader(u)]++;
+
+            // add the good paths for each group leader
+            for(auto& [leader, cnt] : same_component)
+                good_paths += cnt * (cnt - 1) / 2;
+        }
+
+        // number of good paths
+        return good_paths;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 16)  [Insert Interval](https://leetcode.com/problems/insert-interval/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        // add the new interval in the vector of intervals
+        intervals.push_back(newInterval);
+
+        // sort the interval to make the new one in the right place
+        sort(intervals.begin(), intervals.end());
+
+        // make new vector to insert the marged_intervals in it
+        vector < vector < int > > merged;
+
+        // add the first interval to the vector
+        merged.push_back(intervals.front());
+
+        for(int i = 1; i < intervals.size(); i++){
+            /*
+                if the current interval less than or equal the last last time that convered with the merged interval 
+                so i will take the max end of the two intervals
+                otherwise i will start new interval by pushing it to the merged intervals vector
+            */
+            if(intervals[i].front() <= merged.back().back()) 
+                merged.back().back() = max(merged.back().back(), intervals[i].back());
+            else 
+                merged.push_back(intervals[i]);
+        }
+
+        // the merged vectors
+        return merged;
+    }
+};
+```
