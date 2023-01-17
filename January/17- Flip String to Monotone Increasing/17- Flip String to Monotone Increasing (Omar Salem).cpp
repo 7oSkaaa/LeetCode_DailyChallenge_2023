@@ -2,15 +2,18 @@
 class Solution {
 public:
     int minFlipsMonoIncr(string s) {
-        int count_one = 0 , ans = 0;
-        for(auto &i : s){
-            if(i == '1')  
-                count_one++;
-            else{
-                ans++; //count flip 
-                ans = min(ans, count_one);
-            }
+        int numOfFlips = 0 ;
+        for(auto &c : s)
+            numOfFlips += (c == '0') ;// 11111
+        
+        int MinOfFlips = numOfFlips ;
+        for(auto &c :s)
+        {
+            if(c == '0')
+                MinOfFlips = min(MinOfFlips , --numOfFlips) ;// return flips
+            else
+                ++numOfFlips;
         }
-        return ans;
+        return MinOfFlips;
     }
 };
