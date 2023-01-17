@@ -38,6 +38,7 @@
 1. **[Lexicographically Smallest Equivalent String](#14--lexicographically-smallest-equivalent-string)**
 1. **[Number of Good Paths](#15--number-of-good-paths)**
 1. **[Insert Interval](#16--insert-interval)**
+1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
 
 <hr>
 
@@ -935,6 +936,49 @@ public:
 
         // the merged vectors
         return merged;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 17)  [Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int minFlipsMonoIncr(string& s) {
+        
+        // number of zeros and ones so far
+        int ones = 0, zeros = count(s.begin(), s.end(), '0');
+
+        // store the best answer while traversing
+        int min_flips = s.size();
+
+        for(auto& c : s){
+            // update number of zeros
+            zeros -= (c == '0');
+
+            // update the minimum flips
+            min_flips = min(min_flips, ones + zeros);
+
+            // update number of ones while traverse
+            ones += (c == '1');
+        }
+
+        return min_flips;
     }
 };
 ```
