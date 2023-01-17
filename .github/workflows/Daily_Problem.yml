@@ -2,13 +2,7 @@ name: Daily Problem
 
 on:
   schedule:
-    - cron: '45 23 * * *' 
-    - cron: '50 23 * * *' 
-    - cron: '55 23 * * *' 
-    - cron: '00 0 * * *'  
-    - cron: '05 0 * * *'  
-    - cron: '10 0 * * *' 
-    - cron: '15 0 * * *' 
+    - cron: '*/5 23,00 * * *' 
 
 
 
@@ -30,18 +24,28 @@ jobs:
       - name: Fetch Daily Problem from LeetCode
         run: sudo python .github/scripts/Fetch_Daily_Problem.py
       
+      - name: Check if there are any changes
+        id: verify_diff
+        run: |
+          if [ -n "$(git status --porcelain)" ]; 
+          then echo "IS_VALID=true" >> $GITHUB_ENV;
+          else echo "IS_VALID=false" >> $GITHUB_ENV;
+          fi
+
+      
       - name: Commit and Add Changes
+        if: ${{ env.IS_VALID == 'true' }}
         run: |
           git config --global user.email "ahmed.7oSkaa@gmail.com"
           git config --global user.name "7oSkaaa"
           
           git add .
-          git commit --allow-empty -am 'Add new daily problem'
+          git commit -am 'Add new daily problem'
           
-          git push --force-with-lease 
-
-      - name: push changes
+      - name: Push
+        if: ${{ env.IS_VALID == 'true' }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: ${{ github.ref }}
+          force_with_lease: true
