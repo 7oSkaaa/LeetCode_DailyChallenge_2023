@@ -95,7 +95,7 @@ def check_files(folder_name):
 
         user_with_ext = file.replace(folder_name, '')
         if not re.match(
-            r"([A-Za-z -_]+).[cpp|rb|py|js|ts|c|java|php|dart]",
+            r"([A-Za-z -_]+)\.[cpp|rb|py|js|ts|c|java|php|dart]",
             user_with_ext,
         ) or not user_with_ext[0].isspace():
             print(f"file {file} name is not valid")
