@@ -40,6 +40,7 @@
 1. **[Insert Interval](#16--insert-interval)**
 1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
 1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
+1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 
 <hr>
 
@@ -1051,6 +1052,54 @@ public:
     
         // the answer will be the max of the maximum or total sum - minimum
         return sum - min_subarray_sum == 0 ? max_subarray_sum : max(max_subarray_sum, sum - min_subarray_sum);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 19)  [Subarray Sums Divisible by K](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Prefix Sum`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+
+        // store the frequency of sum of the segments
+        vector < int > freq(k);
+        
+        // the current sum of the segment and the number of non-empty subarrays that have a sum divisible by k.
+        int current_sum = 0, ans = 0;
+
+        // the base case if the all segment is divisible by k
+        freq[0] = 1;
+        
+        for(auto& x : nums){
+            
+            // update the current sum and make it in the range of [0, k - 1]
+            current_sum  = ((current_sum + x) % k + k) % k;
+
+            // add the number of segment that i can remove the current sum to be equal to zero
+            ans += freq[current_sum];
+
+            // add one to the frequency the current sum to 
+            freq[current_sum]++;
+        }
+
+        // the number of non-empty subarrays that have a sum divisible by k
+        return ans;
     }
 };
 ```
