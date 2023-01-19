@@ -39,6 +39,8 @@
 1. **[Number of Good Paths](#15--number-of-good-paths)**
 1. **[Insert Interval](#16--insert-interval)**
 1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
+1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
+1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 
 <hr>
 
@@ -979,6 +981,125 @@ public:
         }
 
         return min_flips;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 18)  [Maximum Sum Circular Subarray](https://leetcode.com/problems/maximum-sum-circular-subarray/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    // get the maximum subarray sum
+    int Max_Subarray_Sum(vector < int >& nums){
+        int max_so_far = -1e9, max_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            max_curr += i;
+
+            // update max sum with the maximum between it and current sum 
+            max_so_far = max(max_so_far, max_curr);
+
+            // if the current sum < 0 make it 0
+            max_curr = max(max_curr, DEFAULT);
+        }
+        // maximum sum
+        return max_so_far;
+    }
+
+    // get the minimum subarray sum
+    int Min_Subarray_Sum(vector < int >& nums){
+        int min_so_far = 1e9, min_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            min_curr += i;
+
+            // update min sum with the minimum between it and current sum 
+            min_so_far = min(min_so_far, min_curr);
+
+            // if the current sum < 0 make it 0
+            min_curr = min(min_curr, DEFAULT);
+        }
+        // minimum sum
+        return min_so_far;
+    }
+
+
+    int maxSubarraySumCircular(vector<int>& nums) {
+        // get the summation of the vector
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        
+        // get maximum continous subarray sum
+        int max_subarray_sum = Max_Subarray_Sum(nums);
+    
+        // get minimum continous subarray sum
+        int min_subarray_sum = Min_Subarray_Sum(nums);
+    
+        // the answer will be the max of the maximum or total sum - minimum
+        return sum - min_subarray_sum == 0 ? max_subarray_sum : max(max_subarray_sum, sum - min_subarray_sum);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 19)  [Subarray Sums Divisible by K](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Prefix Sum`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+
+        // store the frequency of sum of the segments
+        vector < int > freq(k);
+        
+        // the current sum of the segment and the number of non-empty subarrays that have a sum divisible by k.
+        int current_sum = 0, ans = 0;
+
+        // the base case if the all segment is divisible by k
+        freq[0] = 1;
+        
+        for(auto& x : nums){
+            
+            // update the current sum and make it in the range of [0, k - 1]
+            current_sum  = ((current_sum + x) % k + k) % k;
+
+            // add the number of segment that i can remove the current sum to be equal to zero
+            ans += freq[current_sum];
+
+            // add one to the frequency the current sum to 
+            freq[current_sum]++;
+        }
+
+        // the number of non-empty subarrays that have a sum divisible by k
+        return ans;
     }
 };
 ```
