@@ -35,7 +35,12 @@
 1. **[Minimum Time to Collect All Apples in a Tree](#11--minimum-time-to-collect-all-apples-in-a-tree)**
 1. **[Number of Nodes in the Sub-Tree With the Same Label](#12--number-of-nodes-in-the-sub-tree-with-the-same-label)**
 1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters)**
-
+1. **[Lexicographically Smallest Equivalent String](#14--lexicographically-smallest-equivalent-string)**
+1. **[Number of Good Paths](#15--number-of-good-paths)**
+1. **[Insert Interval](#16--insert-interval)**
+1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
+1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
+1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 
 <hr>
 
@@ -309,7 +314,7 @@ public:
 };
 ```
 
-hr>
+<hr>
 
 <br><br>
 
@@ -353,7 +358,7 @@ public:
 };
 ```
 
-hr>
+<hr>
 
 <br><br>
 
@@ -401,6 +406,10 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
 ## 9)  [Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)
 
 ### Difficulty
@@ -443,7 +452,7 @@ public:
 };
 ```
 
-hr>
+<hr>
 
 <br><br>
 
@@ -478,8 +487,7 @@ public:
 };
 ```
 
-
-hr>
+<hr>
 
 <br><br>
 
@@ -553,8 +561,7 @@ public:
 };
 ```
 
-
-hr>
+<hr>
 
 <br><br>
 
@@ -626,9 +633,7 @@ public:
 };
 ```
 
-
-
-hr>
+<hr>
 
 <br><br>
 
@@ -698,6 +703,403 @@ public:
 
         // the length of the longest path with the required conditions.
         return max_path;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 14)  [Lexicographically Smallest Equivalent String](https://leetcode.com/problems/lexicographically-smallest-equivalent-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Union Find`
+
+
+### Code
+
+```cpp
+class DSU {
+    public:
+    vector<int> p;
+    DSU(int n = 26) {
+	// Initialize the parent vector
+        p.resize(n);
+        for (int i = 0; i < n; i++) p[i] = i;
+    }
+    int ascii(char c) {
+        return c - 'a';
+    }
+    int find(char c) {
+        return find(ascii(c));
+    }
+    int find(int x) {
+        return x == p[x] ? x : p[x] = find(p[x]);
+    }
+    void merge(char u, char v) {
+	/*
+	 * 
+	 * When merging ... get the parent of both characters and make the smallest one be the parent of all
+	 * It guarantees that the parent will be the smallest character in each group
+	 *
+	 */
+        
+	int r1 = find(u), r2 = find(v);
+        if (r1 < r2) {
+            p[r2] = r1;
+        }
+        else {
+            p[r1] = r2;
+        }
+    }
+};
+
+class Solution {
+public:
+    string smallestEquivalentString(string s1, string s2, string baseStr) {
+        DSU dsu;
+        int n = s1.size();
+        for (int i = 0; i < n; i++) {
+	    // Merge each character in s1 to its corresponding character in s2
+            dsu.merge(s1[i], s2[i]);
+        }
+        string ans;
+        for (int i = 0; i < int(baseStr.size()); i++) {
+	    /*
+	     *
+	     * Take the parent of the group for each character in baseStr
+	     * It guarantees that it will be the lexicographically smallest string
+	     *
+	     */
+            ans += 'a' + dsu.find(baseStr[i]);
+        }
+        return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 15)  [Number of Good Paths](https://leetcode.com/problems/number-of-good-paths/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Union Find` `Tree` `Graph`
+
+### Code
+
+```cpp
+template < typename T = int, int Base = 0 > struct DSU {
+    
+    vector < T > parent, Gsize;
+
+    // every element will be equal it's parent and the group size equal 1
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // get the leader of each group
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // check if the two nodes in the same group
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // merge two groups together
+    void union_sets(int u, int v){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        if(leader_u == leader_v) return;
+        if(leader_u < leader_v) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // get group size
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+    int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
+        
+        // number of nodes
+        int n = vals.size();
+
+        // adjacent list for each node
+        vector < vector < int > > adj(n);
+
+        // dsu structure
+        DSU < int > dsu(n);
+
+        // the nodes that equal each value
+        map < int, vector < int > >  V_nodes;
+
+        // make edge between the nodes with nodes have value greater than or equal it
+        for(auto& edge : edges){
+            if(vals[edge[0]] <= vals[edge[1]])
+                adj[edge[1]].push_back(edge[0]);
+            if(vals[edge[1]] <= vals[edge[0]])
+                adj[edge[0]].push_back(edge[1]);
+        }
+
+        // add nodes of each value
+        for(int i = 0; i < n; i++)
+            V_nodes[vals[i]].push_back(i);
+        
+        // number of good paths equal to n because each node is good path
+        int good_paths = n;
+
+        // iterate for each value in ascending order
+        for(auto& [val, nodes] : V_nodes){
+
+            // iterate over the nodes with the value val and add the nodes with it's neighbours to merge the groups
+            for(auto& u : nodes)
+                for(auto& v : adj[u])
+                    dsu.union_sets(u, v);
+
+            // make frequency array for the leaders
+            unordered_map < int, int >  same_component;
+            for(auto& u : nodes)
+                same_component[dsu.find_leader(u)]++;
+
+            // add the good paths for each group leader
+            for(auto& [leader, cnt] : same_component)
+                good_paths += cnt * (cnt - 1) / 2;
+        }
+
+        // number of good paths
+        return good_paths;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 16)  [Insert Interval](https://leetcode.com/problems/insert-interval/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        // add the new interval in the vector of intervals
+        intervals.push_back(newInterval);
+
+        // sort the interval to make the new one in the right place
+        sort(intervals.begin(), intervals.end());
+
+        // make new vector to insert the marged_intervals in it
+        vector < vector < int > > merged;
+
+        // add the first interval to the vector
+        merged.push_back(intervals.front());
+
+        for(int i = 1; i < intervals.size(); i++){
+            /*
+                if the current interval less than or equal the last last time that convered with the merged interval 
+                so i will take the max end of the two intervals
+                otherwise i will start new interval by pushing it to the merged intervals vector
+            */
+            if(intervals[i].front() <= merged.back().back()) 
+                merged.back().back() = max(merged.back().back(), intervals[i].back());
+            else 
+                merged.push_back(intervals[i]);
+        }
+
+        // the merged vectors
+        return merged;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 17)  [Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int minFlipsMonoIncr(string& s) {
+        
+        // number of zeros and ones so far
+        int ones = 0, zeros = count(s.begin(), s.end(), '0');
+
+        // store the best answer while traversing
+        int min_flips = s.size();
+
+        for(auto& c : s){
+            // update number of zeros
+            zeros -= (c == '0');
+
+            // update the minimum flips
+            min_flips = min(min_flips, ones + zeros);
+
+            // update number of ones while traverse
+            ones += (c == '1');
+        }
+
+        return min_flips;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 18)  [Maximum Sum Circular Subarray](https://leetcode.com/problems/maximum-sum-circular-subarray/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    // get the maximum subarray sum
+    int Max_Subarray_Sum(vector < int >& nums){
+        int max_so_far = -1e9, max_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            max_curr += i;
+
+            // update max sum with the maximum between it and current sum 
+            max_so_far = max(max_so_far, max_curr);
+
+            // if the current sum < 0 make it 0
+            max_curr = max(max_curr, DEFAULT);
+        }
+        // maximum sum
+        return max_so_far;
+    }
+
+    // get the minimum subarray sum
+    int Min_Subarray_Sum(vector < int >& nums){
+        int min_so_far = 1e9, min_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            min_curr += i;
+
+            // update min sum with the minimum between it and current sum 
+            min_so_far = min(min_so_far, min_curr);
+
+            // if the current sum < 0 make it 0
+            min_curr = min(min_curr, DEFAULT);
+        }
+        // minimum sum
+        return min_so_far;
+    }
+
+
+    int maxSubarraySumCircular(vector<int>& nums) {
+        // get the summation of the vector
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        
+        // get maximum continous subarray sum
+        int max_subarray_sum = Max_Subarray_Sum(nums);
+    
+        // get minimum continous subarray sum
+        int min_subarray_sum = Min_Subarray_Sum(nums);
+    
+        // the answer will be the max of the maximum or total sum - minimum
+        return sum - min_subarray_sum == 0 ? max_subarray_sum : max(max_subarray_sum, sum - min_subarray_sum);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 19)  [Subarray Sums Divisible by K](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Prefix Sum`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+
+        // store the frequency of sum of the segments
+        vector < int > freq(k);
+        
+        // the current sum of the segment and the number of non-empty subarrays that have a sum divisible by k.
+        int current_sum = 0, ans = 0;
+
+        // the base case if the all segment is divisible by k
+        freq[0] = 1;
+        
+        for(auto& x : nums){
+            
+            // update the current sum and make it in the range of [0, k - 1]
+            current_sum  = ((current_sum + x) % k + k) % k;
+
+            // add the number of segment that i can remove the current sum to be equal to zero
+            ans += freq[current_sum];
+
+            // add one to the frequency the current sum to 
+            freq[current_sum]++;
+        }
+
+        // the number of non-empty subarrays that have a sum divisible by k
+        return ans;
     }
 };
 ```
