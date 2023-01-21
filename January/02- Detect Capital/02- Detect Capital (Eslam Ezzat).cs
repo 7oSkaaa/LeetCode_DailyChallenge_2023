@@ -28,7 +28,7 @@ public class Solution
             }
         }
 
-        //check if all chars is capital or all chars is small or the first char is capital and the others are small.
+        //check if all chars are capital or all chars are small or the first char is capital and the others are small.
         if (allCharCapital == sz || allCharSmall == sz ||
             (char.IsUpper(word[0]) && allCharSmall == sz - 1))
         {

@@ -39,7 +39,7 @@ public class Solution
                 }
             }
             if (checkSortedOrNot)
-                counter++; // counter increase by 1 if the column is non-sorted.
+                counter++; // counter increases by 1 if the column is non-sorted.
         }
         return counter;
     }
