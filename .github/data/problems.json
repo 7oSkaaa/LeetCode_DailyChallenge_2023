@@ -79,6 +79,10 @@
         {
             "day": "20",
             "title": "Non-decreasing Subsequences"
+        },
+        {
+            "day": "21",
+            "title": "Restore IP Addresses"
         }
     ]
 }
