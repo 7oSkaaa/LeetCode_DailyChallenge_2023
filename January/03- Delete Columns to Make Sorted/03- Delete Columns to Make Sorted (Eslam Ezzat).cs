@@ -14,10 +14,10 @@ public class Solution
         int numOfRows = strs.Length,numOfColumns = strs[0].Length,
             counter = 0;
 
-        // iterate through array of strs according to rows and columns.
+        // Iterate through array of strs according to rows and columns.
         for (int i = 0; i < numOfColumns; i++)
         {
-            // make an empty variable called storeEachColumn to store each column.
+            // Making an empty variable called storeEachColumn to store each column.
             string storeEachColumn = "";
 
             for (int j = 0; j < numOfRows; j++)
@@ -25,10 +25,10 @@ public class Solution
                 storeEachColumn += strs[j][i];
             }
 
-            // get the size of column.
+            // Get the size of column.
             int sizeOfColumn = storeEachColumn.Length;
 
-            // making boolean variable to check if the column is sorted or not
+            // Making boolean variable to check if the column is sorted or not
             Boolean checkSortedOrNot = false;
             for (int k = 1; k < sizeOfColumn; k++)
             {
@@ -39,7 +39,7 @@ public class Solution
                 }
             }
             if (checkSortedOrNot)
-                counter++; // counter increases by 1 if the column is non-sorted.
+                counter++; // It increases by 1 if the column is non-sorted.
         }
         return counter;
     }
