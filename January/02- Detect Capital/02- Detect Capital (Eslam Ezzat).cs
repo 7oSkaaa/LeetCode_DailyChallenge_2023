@@ -14,7 +14,7 @@ public class Solution
         // Making allCharSMALL variable to count the lowercase letters.
         int sz = word.Length, allCharCapital = 0, allCharSmall = 0;
 
-        // iterate through the string to check if the char is upper or lower.
+        // Iterate through the string to check if the char is upper or lower.
         for (int i = 0; i < sz; i++)
         {
             // char.IsUpper is used to check if the char is upper or not. 
@@ -28,7 +28,7 @@ public class Solution
             }
         }
 
-        //check if all chars is capital or all chars is small or the first char is capital and the others are small.
+        //Check if all chars are capital or all chars are small or the first char is capital and the others are small.
         if (allCharCapital == sz || allCharSmall == sz ||
             (char.IsUpper(word[0]) && allCharSmall == sz - 1))
         {
