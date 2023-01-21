@@ -41,6 +41,8 @@
 1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
 1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
 1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
+1. **[Non-decreasing Subsequences](#20--non-decreasing-subsequences)**
+1. **[Restore IP Addresses](#21--restore-ip-addresses)**
 
 <hr>
 
@@ -1100,6 +1102,137 @@ public:
 
         // the number of non-empty subarrays that have a sum divisible by k
         return ans;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 20)  [non-decreasing-subsequences](https://leetcode.com/problems/non-decreasing-subsequences/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Backtracking` `Bit Manipulation`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        // to store the answer
+        vector < vector < int > > inc_sub;
+        
+        // number of elements
+        int n = nums.size();
+
+        for(int mask = 0; mask < (1 << n); mask++){
+            // pick the current sub sequence and check if it valid 
+            bool is_valid = true;
+            vector < int > curr;
+            for(int i = 0; i < n; i++){
+                if(mask & (1 << i)){
+                    // check if it increasing subsequence or not
+                    if(curr.empty() || curr.back() <= nums[i])
+                        curr.push_back(nums[i]);
+                    else
+                        is_valid = false;
+                }
+            }
+
+            // if it's valid subsequence so we will add it
+            if(is_valid && curr.size() > 1)
+                inc_sub.push_back(curr);
+        }
+
+        // delete the duplicated subsequences
+        sort(inc_sub.begin(), inc_sub.end());
+        inc_sub.resize(unique(inc_sub.begin(), inc_sub.end()) - inc_sub.begin());
+        
+        return inc_sub;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Bitmasking`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return invalid if it's invalid seperation
+    string get_ip(vector < int >& part, string& s){
+        int n = s.size();
+        
+        // check if the summation of 4 parts equal to size of the string
+        if(n != accumulate(part.begin(), part.end(), 0)) return "invalid";
+
+        // store the ip address will returned and the integer parts
+        vector < int > ip(4);
+        string ip_address;
+        
+        
+        for(int i = 0, sz = 0; i < 4; sz += part[i], i++){
+            // current part after change it to string
+            ip[i] = stoi(s.substr(sz, part[i]));
+
+            // check if it in the range between [0, 255]
+            if(ip[i] < 0 || ip[i] > 255)
+                return "invalid";
+
+            // add this part to the address and if not the last part let's add . to it
+            ip_address += to_string(ip[i]) + (i == 3 ? "" : ".");
+        }
+
+        // check if there is a part with leading zeros
+        return (ip_address.size() - 3 == s.size() ? ip_address : "invalid");
+    }
+
+    vector<string> restoreIpAddresses(string& s) {
+        // vector to store valid ip addresses
+        vector < string > ip_addresses;
+
+        // make 4 nested loop to make 4 parts with these lenghts
+        for(int p1 = 1; p1 <= 3; p1++)
+            for(int p2 = 1; p2 <= 3; p2++)
+                for(int p3 = 1; p3 <= 3; p3++)
+                    for(int p4 = 1; p4 <= 3; p4++){
+
+                        // vector to store the size of each part
+                        vector < int > part = {p1, p2, p3, p4};
+
+                        // check if it valid seperation
+                        string ret = get_ip(part, s);
+
+                        // if it valid so let's add it
+                        if(ret != "invalid")
+                            ip_addresses.push_back(ret);
+                    }
+
+        // valid ip addresses
+        return ip_addresses;
     }
 };
 ```
