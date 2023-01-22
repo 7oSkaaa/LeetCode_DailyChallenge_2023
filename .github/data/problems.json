@@ -83,6 +83,10 @@
         {
             "day": "21",
             "title": "Restore IP Addresses"
+        },
+        {
+            "day": "22",
+            "title": "Palindrome Partitioning"
         }
     ]
 }
