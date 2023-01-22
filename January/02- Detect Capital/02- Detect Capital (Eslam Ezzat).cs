@@ -1,5 +1,4 @@
-﻿
-// Author: Eslam Ezzat
+﻿// Author: Eslam Ezzat
 
 // Time Complexity: O(word.length)
 
