@@ -1242,7 +1242,7 @@ public:
 
 <br><br>
 
-## 21)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
+## 22)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
 
 ### Difficulty
 
