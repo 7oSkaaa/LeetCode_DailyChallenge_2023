@@ -42,6 +42,8 @@
 1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
 1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 1. **[Non-decreasing Subsequences](#20--non-decreasing-subsequences)**
+1. **[Restore IP Addresses](#21--restore-ip-addresses)**
+1. **[Palindrome Partitioning](#22--palindrome-partitioning)**
 
 <hr>
 
@@ -1156,6 +1158,139 @@ public:
         inc_sub.resize(unique(inc_sub.begin(), inc_sub.end()) - inc_sub.begin());
         
         return inc_sub;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Bitmasking`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return invalid if it's invalid seperation
+    string get_ip(vector < int >& part, string& s){
+        int n = s.size();
+        
+        // check if the summation of 4 parts equal to size of the string
+        if(n != accumulate(part.begin(), part.end(), 0)) return "invalid";
+
+        // store the ip address will returned and the integer parts
+        vector < int > ip(4);
+        string ip_address;
+        
+        
+        for(int i = 0, sz = 0; i < 4; sz += part[i], i++){
+            // current part after change it to string
+            ip[i] = stoi(s.substr(sz, part[i]));
+
+            // check if it in the range between [0, 255]
+            if(ip[i] < 0 || ip[i] > 255)
+                return "invalid";
+
+            // add this part to the address and if not the last part let's add . to it
+            ip_address += to_string(ip[i]) + (i == 3 ? "" : ".");
+        }
+
+        // check if there is a part with leading zeros
+        return (ip_address.size() - 3 == s.size() ? ip_address : "invalid");
+    }
+
+    vector<string> restoreIpAddresses(string& s) {
+        // vector to store valid ip addresses
+        vector < string > ip_addresses;
+
+        // make 4 nested loop to make 4 parts with these lenghts
+        for(int p1 = 1; p1 <= 3; p1++)
+            for(int p2 = 1; p2 <= 3; p2++)
+                for(int p3 = 1; p3 <= 3; p3++)
+                    for(int p4 = 1; p4 <= 3; p4++){
+
+                        // vector to store the size of each part
+                        vector < int > part = {p1, p2, p3, p4};
+
+                        // check if it valid seperation
+                        string ret = get_ip(part, s);
+
+                        // if it valid so let's add it
+                        if(ret != "invalid")
+                            ip_addresses.push_back(ret);
+                    }
+
+        // valid ip addresses
+        return ip_addresses;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 22)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // to store the answers
+    vector < vector < string > > ans;
+    
+    // the pick up vector in the backtracking
+    vector < string > level;
+    
+    // check the string is palindrome or not
+    bool is_palindrome(string& s, int l, int r){
+        while(l <= r)
+            if(s[l++] != s[r--]) return false;
+        return true;
+    }
+    
+    void dfs(string &s, int start){
+        // if the string is end and all of it are palindromes
+        if(start >= s.size()) ans.push_back(level);
+        
+        // loop over the remaining indices and check if the substring is palindrome so pick it othwerwise leave it
+        for(int end = start; end < s.size(); end++){
+            if(is_palindrome(s, start, end)){
+                level.push_back(s.substr(start, end - start + 1));
+                dfs(s, end + 1);
+                level.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> partition(string& s) {
+        // do back tracking to get the palindrome vectors
+        dfs(s, 0);
+        
+        return ans;
     }
 };
 ```
