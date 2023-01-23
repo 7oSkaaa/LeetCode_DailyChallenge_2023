@@ -16,6 +16,15 @@ def read_data():
     return data
 
 
+# check if there is a duplicate in the list of folders or files
+def check_duplicate(items):
+    items.sort()
+    for i in range(len(items) - 1):
+        if items[i] == items[i + 1]:
+            print(f"There is a Duplicate with {items[i]}")
+            exit(1)
+
+
 def change_directory(dir=None, monthly=None, daily=None):
     if daily is not None and monthly is not None and dir is not None:
         os.chdir(f"{dir}/{monthly}/{daily}")
@@ -86,11 +95,14 @@ def check_files(folder_name):
 
         user_with_ext = file.replace(folder_name, '')
         if not re.match(
-            r"([A-Za-z -_]+).[cpp|rb|py|js|ts|c|java|php|dart]",
+            r"\s\([A-Za-z -_]+\)\.\b(cpp|rb|py|js|ts|c|java|php|dart|cs)\b",
             user_with_ext,
-        ) or not user_with_ext[0].isspace():
+        ):
             print(f"file {file} name is not valid")
             exit(1)
+
+    # check if there is a duplicate in the files
+    check_duplicate(files)
 
 
 def main():
@@ -125,8 +137,14 @@ def main():
             # change directory to the monthly folder again
             change_directory(monthly=monthly_folder, dir=dir)
 
+        # check if there is a duplicate in the monthly folders
+        check_duplicate(daily_folders)
+
         # change directory to the main folder again
         change_directory(dir=dir)
+
+    # check if there is a duplicate in the monthly folders
+    check_duplicate(monthly_folders)
 
     print("All files are valid")
 

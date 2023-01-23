@@ -37,6 +37,13 @@
 1. **[Longest Path With Different Adjacent Characters](#13--longest-path-with-different-adjacent-characters)**
 1. **[Lexicographically Smallest Equivalent String](#14--lexicographically-smallest-equivalent-string)**
 1. **[Number of Good Paths](#15--number-of-good-paths)**
+1. **[Insert Interval](#16--insert-interval)**
+1. **[Flip String to Monotone Increasing](#17--flip-string-to-monotone-increasing)**
+1. **[Maximum Sum Circular Subarray](#18--maximum-sum-circular-subarray)**
+1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
+1. **[Non-decreasing Subsequences](#20--non-decreasing-subsequences)**
+1. **[Restore IP Addresses](#21--restore-ip-addresses)**
+1. **[Palindrome Partitioning](#22--palindrome-partitioning)**
 
 <hr>
 
@@ -887,3 +894,403 @@ public:
 };
 ```
 
+
+<hr>
+
+<br><br>
+
+## 16)  [Insert Interval](https://leetcode.com/problems/insert-interval/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        // add the new interval in the vector of intervals
+        intervals.push_back(newInterval);
+
+        // sort the interval to make the new one in the right place
+        sort(intervals.begin(), intervals.end());
+
+        // make new vector to insert the marged_intervals in it
+        vector < vector < int > > merged;
+
+        // add the first interval to the vector
+        merged.push_back(intervals.front());
+
+        for(int i = 1; i < intervals.size(); i++){
+            /*
+                if the current interval less than or equal the last last time that convered with the merged interval 
+                so i will take the max end of the two intervals
+                otherwise i will start new interval by pushing it to the merged intervals vector
+            */
+            if(intervals[i].front() <= merged.back().back()) 
+                merged.back().back() = max(merged.back().back(), intervals[i].back());
+            else 
+                merged.push_back(intervals[i]);
+        }
+
+        // the merged vectors
+        return merged;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 17)  [Flip String to Monotone Increasing](https://leetcode.com/problems/flip-string-to-monotone-increasing/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int minFlipsMonoIncr(string& s) {
+        
+        // number of zeros and ones so far
+        int ones = 0, zeros = count(s.begin(), s.end(), '0');
+
+        // store the best answer while traversing
+        int min_flips = s.size();
+
+        for(auto& c : s){
+            // update number of zeros
+            zeros -= (c == '0');
+
+            // update the minimum flips
+            min_flips = min(min_flips, ones + zeros);
+
+            // update number of ones while traverse
+            ones += (c == '1');
+        }
+
+        return min_flips;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 18)  [Maximum Sum Circular Subarray](https://leetcode.com/problems/maximum-sum-circular-subarray/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    // get the maximum subarray sum
+    int Max_Subarray_Sum(vector < int >& nums){
+        int max_so_far = -1e9, max_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            max_curr += i;
+
+            // update max sum with the maximum between it and current sum 
+            max_so_far = max(max_so_far, max_curr);
+
+            // if the current sum < 0 make it 0
+            max_curr = max(max_curr, DEFAULT);
+        }
+        // maximum sum
+        return max_so_far;
+    }
+
+    // get the minimum subarray sum
+    int Min_Subarray_Sum(vector < int >& nums){
+        int min_so_far = 1e9, min_curr = 0, DEFAULT = 0;
+        for(auto& i : nums){
+            // add nums[i] to the current sum
+            min_curr += i;
+
+            // update min sum with the minimum between it and current sum 
+            min_so_far = min(min_so_far, min_curr);
+
+            // if the current sum < 0 make it 0
+            min_curr = min(min_curr, DEFAULT);
+        }
+        // minimum sum
+        return min_so_far;
+    }
+
+
+    int maxSubarraySumCircular(vector<int>& nums) {
+        // get the summation of the vector
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        
+        // get maximum continous subarray sum
+        int max_subarray_sum = Max_Subarray_Sum(nums);
+    
+        // get minimum continous subarray sum
+        int min_subarray_sum = Min_Subarray_Sum(nums);
+    
+        // the answer will be the max of the maximum or total sum - minimum
+        return sum - min_subarray_sum == 0 ? max_subarray_sum : max(max_subarray_sum, sum - min_subarray_sum);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 19)  [Subarray Sums Divisible by K](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Prefix Sum`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+
+        // store the frequency of sum of the segments
+        vector < int > freq(k);
+        
+        // the current sum of the segment and the number of non-empty subarrays that have a sum divisible by k.
+        int current_sum = 0, ans = 0;
+
+        // the base case if the all segment is divisible by k
+        freq[0] = 1;
+        
+        for(auto& x : nums){
+            
+            // update the current sum and make it in the range of [0, k - 1]
+            current_sum  = ((current_sum + x) % k + k) % k;
+
+            // add the number of segment that i can remove the current sum to be equal to zero
+            ans += freq[current_sum];
+
+            // add one to the frequency the current sum to 
+            freq[current_sum]++;
+        }
+
+        // the number of non-empty subarrays that have a sum divisible by k
+        return ans;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 20)  [non-decreasing-subsequences](https://leetcode.com/problems/non-decreasing-subsequences/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Backtracking` `Bit Manipulation`
+
+### Code
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        // to store the answer
+        vector < vector < int > > inc_sub;
+        
+        // number of elements
+        int n = nums.size();
+
+        for(int mask = 0; mask < (1 << n); mask++){
+            // pick the current sub sequence and check if it valid 
+            bool is_valid = true;
+            vector < int > curr;
+            for(int i = 0; i < n; i++){
+                if(mask & (1 << i)){
+                    // check if it increasing subsequence or not
+                    if(curr.empty() || curr.back() <= nums[i])
+                        curr.push_back(nums[i]);
+                    else
+                        is_valid = false;
+                }
+            }
+
+            // if it's valid subsequence so we will add it
+            if(is_valid && curr.size() > 1)
+                inc_sub.push_back(curr);
+        }
+
+        // delete the duplicated subsequences
+        sort(inc_sub.begin(), inc_sub.end());
+        inc_sub.resize(unique(inc_sub.begin(), inc_sub.end()) - inc_sub.begin());
+        
+        return inc_sub;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Bitmasking`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return invalid if it's invalid seperation
+    string get_ip(vector < int >& part, string& s){
+        int n = s.size();
+        
+        // check if the summation of 4 parts equal to size of the string
+        if(n != accumulate(part.begin(), part.end(), 0)) return "invalid";
+
+        // store the ip address will returned and the integer parts
+        vector < int > ip(4);
+        string ip_address;
+        
+        
+        for(int i = 0, sz = 0; i < 4; sz += part[i], i++){
+            // current part after change it to string
+            ip[i] = stoi(s.substr(sz, part[i]));
+
+            // check if it in the range between [0, 255]
+            if(ip[i] < 0 || ip[i] > 255)
+                return "invalid";
+
+            // add this part to the address and if not the last part let's add . to it
+            ip_address += to_string(ip[i]) + (i == 3 ? "" : ".");
+        }
+
+        // check if there is a part with leading zeros
+        return (ip_address.size() - 3 == s.size() ? ip_address : "invalid");
+    }
+
+    vector<string> restoreIpAddresses(string& s) {
+        // vector to store valid ip addresses
+        vector < string > ip_addresses;
+
+        // make 4 nested loop to make 4 parts with these lenghts
+        for(int p1 = 1; p1 <= 3; p1++)
+            for(int p2 = 1; p2 <= 3; p2++)
+                for(int p3 = 1; p3 <= 3; p3++)
+                    for(int p4 = 1; p4 <= 3; p4++){
+
+                        // vector to store the size of each part
+                        vector < int > part = {p1, p2, p3, p4};
+
+                        // check if it valid seperation
+                        string ret = get_ip(part, s);
+
+                        // if it valid so let's add it
+                        if(ret != "invalid")
+                            ip_addresses.push_back(ret);
+                    }
+
+        // valid ip addresses
+        return ip_addresses;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 22)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // to store the answers
+    vector < vector < string > > ans;
+    
+    // the pick up vector in the backtracking
+    vector < string > level;
+    
+    // check the string is palindrome or not
+    bool is_palindrome(string& s, int l, int r){
+        while(l <= r)
+            if(s[l++] != s[r--]) return false;
+        return true;
+    }
+    
+    void dfs(string &s, int start){
+        // if the string is end and all of it are palindromes
+        if(start >= s.size()) ans.push_back(level);
+        
+        // loop over the remaining indices and check if the substring is palindrome so pick it othwerwise leave it
+        for(int end = start; end < s.size(); end++){
+            if(is_palindrome(s, start, end)){
+                level.push_back(s.substr(start, end - start + 1));
+                dfs(s, end + 1);
+                level.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> partition(string& s) {
+        // do back tracking to get the palindrome vectors
+        dfs(s, 0);
+        
+        return ans;
+    }
+};
+```
