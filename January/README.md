@@ -43,6 +43,8 @@
 1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 1. **[Non-decreasing Subsequences](#20--non-decreasing-subsequences)**
 1. **[Restore IP Addresses](#21--restore-ip-addresses)**
+1. **[Palindrome Partitioning](#22--palindrome-partitioning)**
+1. **[Find the Town Judge](#23--find-the-town-judge)**
 
 <hr>
 
@@ -1233,6 +1235,110 @@ public:
 
         // valid ip addresses
         return ip_addresses;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 22)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // to store the answers
+    vector < vector < string > > ans;
+    
+    // the pick up vector in the backtracking
+    vector < string > level;
+    
+    // check the string is palindrome or not
+    bool is_palindrome(string& s, int l, int r){
+        while(l <= r)
+            if(s[l++] != s[r--]) return false;
+        return true;
+    }
+    
+    void dfs(string &s, int start){
+        // if the string is end and all of it are palindromes
+        if(start >= s.size()) ans.push_back(level);
+        
+        // loop over the remaining indices and check if the substring is palindrome so pick it othwerwise leave it
+        for(int end = start; end < s.size(); end++){
+            if(is_palindrome(s, start, end)){
+                level.push_back(s.substr(start, end - start + 1));
+                dfs(s, end + 1);
+                level.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> partition(string& s) {
+        // do back tracking to get the palindrome vectors
+        dfs(s, 0);
+        
+        return ans;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 23)  [Find the Town Judge](https://leetcode.com/problems/find-the-town-judge/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Graph` `Hash Table` `Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        
+        /*
+            to[i] -> number of people that the person i trust them
+            from[i] -> number of people that trust person i
+        */
+        vector < int > to(n + 1), from(n + 1);
+        for(auto vec : trust)
+            to[vec[0]]++, from[vec[1]]++;
+        
+        /*
+            the person is judge if two condition satisfied
+            - every body trust him -> from[i] = n - 1
+            - he trust no body -> to[i] = 0;
+        */ 
+
+        for(int i = 1; i <= n; i++)
+            if(to[i] == 0 && from[i] == n - 1)
+                return i;
+        
+        // if there is no judge exist
+        return -1;
     }
 };
 ```
