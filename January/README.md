@@ -1348,7 +1348,7 @@ public:
 
 <br><br>
 
-## 24)  [Find the Town Judge](https://leetcode.com/problems/find-the-town-judge/)
+## 24)  [Snakes and Ladders](https://leetcode.com/problems/snakes-and-ladders/)
 
 ### Difficulty
 
