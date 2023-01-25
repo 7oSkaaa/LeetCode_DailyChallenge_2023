@@ -95,6 +95,10 @@
         {
             "day": "24",
             "title": "Snakes and Ladders"
+        },
+        {
+            "day": "25",
+            "title": "Find Closest Node to Given Two Nodes"
         }
     ]
 }
