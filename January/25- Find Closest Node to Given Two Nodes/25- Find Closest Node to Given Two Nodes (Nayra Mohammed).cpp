@@ -1,5 +1,20 @@
 // Author : Nayra Mohammed
 
+/*
+    Here all we need is to find a node 'x'  that can be visited by node1 and node2 and also it must meet the following requests:
+                            // The max distance between (node1 -> x) and (node2 -> x) must be minimized 
+                            // It has the minimum labeled value 
+    So, we need to find distances from node1 to all other nodes and the same for node2
+    For each node in our graph we check which has minimum possible max distance and minimum label ,If it was visited by both node1 and node2 
+        
+    It can be solved with various types of graph's traversing algorithm,but i choosed to solve it using BFS
+    
+    materials for BFS:
+        https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+        
+        https://medium.com/swlh/breadth-first-search-algorithm-c2c394c77410
+*/
+
 #define sz(s) (int(s.size()))
 class Solution {
 public:
@@ -59,3 +74,4 @@ public:
         return BFS2(edges,node2); // to calculate the distance from node2 to all other nodes  and get the requested answer      
     }
 };
+
