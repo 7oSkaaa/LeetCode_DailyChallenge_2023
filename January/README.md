@@ -43,6 +43,10 @@
 1. **[Subarray Sums Divisible by K](#19--subarray-sums-divisible-by-k)**
 1. **[Non-decreasing Subsequences](#20--non-decreasing-subsequences)**
 1. **[Restore IP Addresses](#21--restore-ip-addresses)**
+1. **[Palindrome Partitioning](#22--palindrome-partitioning)**
+1. **[Find the Town Judge](#23--find-the-town-judge)**
+1. **[Snakes and Ladders](#24--snakes-and-ladders)**
+1. **[Find Closest Node to Given Two Nodes](#25--find-closest-node-to-given-two-nodes)**
 
 <hr>
 
@@ -1233,6 +1237,260 @@ public:
 
         // valid ip addresses
         return ip_addresses;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 22)  [Palindrome Partitioning](https://leetcode.com/problems/palindrome-partitioning/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String` `Backtracking` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // to store the answers
+    vector < vector < string > > ans;
+    
+    // the pick up vector in the backtracking
+    vector < string > level;
+    
+    // check the string is palindrome or not
+    bool is_palindrome(string& s, int l, int r){
+        while(l <= r)
+            if(s[l++] != s[r--]) return false;
+        return true;
+    }
+    
+    void dfs(string &s, int start){
+        // if the string is end and all of it are palindromes
+        if(start >= s.size()) ans.push_back(level);
+        
+        // loop over the remaining indices and check if the substring is palindrome so pick it othwerwise leave it
+        for(int end = start; end < s.size(); end++){
+            if(is_palindrome(s, start, end)){
+                level.push_back(s.substr(start, end - start + 1));
+                dfs(s, end + 1);
+                level.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> partition(string& s) {
+        // do back tracking to get the palindrome vectors
+        dfs(s, 0);
+        
+        return ans;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 23)  [Find the Town Judge](https://leetcode.com/problems/find-the-town-judge/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Graph` `Hash Table` `Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        
+        /*
+            to[i] -> number of people that the person i trust them
+            from[i] -> number of people that trust person i
+        */
+        vector < int > to(n + 1), from(n + 1);
+        for(auto vec : trust)
+            to[vec[0]]++, from[vec[1]]++;
+        
+        /*
+            the person is judge if two condition satisfied
+            - every body trust him -> from[i] = n - 1
+            - he trust no body -> to[i] = 0;
+        */ 
+
+        for(int i = 1; i <= n; i++)
+            if(to[i] == 0 && from[i] == n - 1)
+                return i;
+        
+        // if there is no judge exist
+        return -1;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 24)  [Snakes and Ladders](https://leetcode.com/problems/snakes-and-ladders/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Graph` `Matrix` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int snakesAndLadders(vector<vector<int>>& board) {
+        // dimension of the board
+        int n = board.size();
+
+        // coord[i] will be the coordinate of the cell that value is i
+        vector < pair < int, int > > coord(n * n + 1);
+
+        // dist for each value
+        vector < int > dist(n * n + 1, 1e9);
+
+        // assign coordinate the direction is alternating by row
+        bool is_right = true;
+        for(int r = n, idx = 1; r >= 1; r--){
+            if(is_right)
+                for(int c = 1; c <= n; c++)
+                    coord[idx++] = {r, c};
+            else
+                for(int c = n; c >= 1; c--)
+                    coord[idx++] = {r, c};
+            is_right = !is_right;
+        }
+
+        // make bfs from 1 to n * n
+        queue < int > bfs;
+        bfs.push(1);
+        dist[1] = 0;
+
+        while(!bfs.empty()){
+            // current value
+            auto u = bfs.front();
+            auto [r, c] = coord[u];        
+            bfs.pop();
+
+            for(int v = u + 1; v <= min(u + 6, n * n); v++){
+                // get coordinate of the next value
+                auto [new_r, new_c] = coord[v];
+
+                // if the next value contains snake or ladder so we will go forward to it
+                int next = (board[new_r - 1][new_c - 1] == -1 ? v : board[new_r - 1][new_c - 1]);
+                
+                // bfs 0-1
+                if(dist[next] > dist[u] + 1)
+                    dist[next] = dist[u] + 1, bfs.push(next);
+            }
+        }
+
+        // if it's impossible to reach n * n
+        if(dist[n * n] == int(1e9))
+            dist[n * n] = -1;
+
+        // distance to move to n * n
+        return dist[n * n];
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 25)  [Find Closest Node to Given Two Nodes](https://leetcode.com/problems/find-closest-node-to-given-two-nodes/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Graph` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < int > BFS(int root, vector < int >& edges){
+        int n = edges.size();
+        
+        // save the distance form the root to each node
+        vector < int > dist(n, 1e9);
+
+        // bfs queue
+        queue < int > bfs;
+
+        // add the root to the queue and make it distance is 0
+        bfs.push(root);
+        dist[root] = 0;
+
+        while(!bfs.empty()){
+            int u = bfs.front();
+            bfs.pop();
+
+            // if the node has no outgoing edge
+            if(edges[u] == -1) continue;
+
+            // update the distance for the current node and add it to the queue
+            int v = edges[u];
+            if(dist[v] > dist[u] + 1)
+                dist[v] = dist[u] + 1, bfs.push(v);
+        }
+
+        // return the distances
+        return dist;
+    }
+
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        int n = edges.size();
+
+        // get distances from node1 and node2 
+        vector < int > dist_a = BFS(node1, edges), dist_b = BFS(node2, edges);
+        
+        // get the min of max distance of all distances
+        int max_dist = 1e9, node = -1;
+        for(int u = 0; u < n; u++){
+            // get max_dist from node1 and node2 to the node u
+            int curr_dist = max(dist_a[u], dist_b[u]);
+
+            // update the minimum distance the answer for each node
+            if(curr_dist < max_dist)
+                max_dist = curr_dist, node = u;
+        }
+
+        // the index of the node that can be reach to the two nodes with minimum distance
+        return node;
     }
 };
 ```
