@@ -107,6 +107,10 @@
         {
             "day": "27",
             "title": "Concatenated Words"
+        },
+        {
+            "day": "28",
+            "title": "Data Stream as Disjoint Intervals"
         }
     ]
 }
