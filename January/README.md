@@ -48,6 +48,8 @@
 1. **[Snakes and Ladders](#24--snakes-and-ladders)**
 1. **[Find Closest Node to Given Two Nodes](#25--find-closest-node-to-given-two-nodes)**
 1. **[Cheapest Flights Within K Stops](#26--cheapest-flights-within-k-stops)**
+1. **[Concatenated Words](#27--concatenated-words)**
+1. **[Data Stream as Disjoint Intervals](#28--data-stream-as-disjoint-intervals)**
 
 <hr>
 
@@ -1557,6 +1559,145 @@ public:
 
         // return the minimum distance 
         return dist[dst];
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 27)  [Concatenated Words](https://leetcode.com/problems/concatenated-words/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Dynamic Programming` `Depth-First Search` `Array` `String` `Trie`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < vector < int > > dp;
+    unordered_map < string, bool > exist;
+    
+    bool wordBreak(string& s, int l, int r) {
+        // if the string become empty
+        if(l > r) return true;
+
+        // if this substring is calulated before
+        int& ret = dp[l][r];
+        if(~ret) return ret;
+
+        // check the left substring and right substring
+        ret = false;
+        for(int i = l; i <= r; i++){
+
+            // check the substring from l to i
+            if(exist[s.substr(l, i - l + 1)] && s.substr(l, i - l + 1) != s)
+                ret |= wordBreak(s, i + 1, r);
+
+            // check the substring from i to r
+            if(exist[s.substr(i, r - i + 1)] && s.substr(i, r - i + 1) != s)
+                ret |= wordBreak(s, l, i - 1);
+        }
+        return ret;
+    }
+
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector < string > conc_words;
+        for(auto& word : words)
+            exist[word] = true;
+        for(int i = 0; i < words.size(); i++){
+            int n = words[i].size();
+            // re inital the dp
+            dp = vector < vector < int > > (n, vector < int > (n, -1)); 
+            // check the current word
+            if(wordBreak(words[i], 0, n - 1))
+                conc_words.push_back(words[i]);
+        }
+        return conc_words;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 28)  [Data Stream as Disjoint Intervals](https://leetcode.com/problems/data-stream-as-disjoint-intervals/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Binary Search` `Design` `Ordered Set`
+
+### Code
+
+
+```cpp
+class SummaryRanges {
+public:
+
+    // we are going to use a vector to store the numbers in the data stream in sorted order
+    // we can use binary search to find the position of a number in the vector in O(logn) (upper_bound builtin function)
+    // we can insert a number in the vector in O(n) (insert builtin function)
+    // we can get the intervals in O(n) (we need to iterate over the vector and merge the intervals)
+    // so the total time complexity is O(nlogn)
+
+    vector<int> v;
+
+    SummaryRanges() {
+        // initialize the vector
+        v.assign(0, 0);
+    }
+    
+    void addNum(int value) {
+        // find the position of the number in the vector
+        auto it = upper_bound(v.begin(), v.end(), value);
+
+        // insert the number in the vector
+        v.insert(it, value);
+    }
+    
+    vector<vector<int>> getIntervals() {
+        // the answer (the intervals)
+        vector<vector<int>> ans;
+
+        // if the vector is empty we need to return the answer (empty vector of intervals)
+        if(v.empty())
+            return ans;
+        
+        // start and end of the current interval (initially the first number in the vector)
+        int st, ed;
+        st = ed = v.front();
+
+        // iterate over the vector and merge the intervals
+        for(int i = 0; i < v.size(); i++){
+            // if the current number is not adjacent to the current interval we need to add the current interval to the answer and start a new interval
+            if(v[i] - ed > 1){
+                ans.push_back({st, ed});
+                st = ed = v[i];
+            }else{
+                // if the current number is adjacent to the current interval we need to extend the current interval
+                ed = v[i];
+            }
+        }
+
+        // add the last interval to the answer
+        ans.push_back({st, ed});
+
+        // return the answer
+        return ans;
     }
 };
 ```
