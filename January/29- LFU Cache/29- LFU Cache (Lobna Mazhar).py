@@ -10,7 +10,7 @@ class LFUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.data = {}
-        self.useCounter = defaultdict(list)
+        self.useCounter, self.minUsedCounter = defaultdict(list), 0
         self.start, self.end = Node(-1, -1, 0), Node(-1, -1, 0)
         self.start.right, self.end.left = self.end, self.start
 
@@ -49,6 +49,8 @@ class LFUCache:
         prev.right, nxt.left = nxt, prev
     
     def incrementCounter(self, node):
+        if self.minUsedCounter == 0 or node.counter < self.minUsedCounter:
+            self.minUsedCounter = node.counter + 1
         node.counter += 1
         self.useCounter[node.counter].append(node)
     
@@ -56,16 +58,14 @@ class LFUCache:
         count = node.counter
         self.useCounter[count].remove(node)
         if len(self.useCounter[count]) == 0:
+            if self.minUsedCounter == count: self.minUsedCounter = 0
             del self.useCounter[count]
 
     def freeMemory(self):
-        for i in range(1, 20**5 + 1):
-            if len(self.useCounter[i]) > 0:
-                lfu = self.useCounter[i][0]
-                self.decrementCounter(lfu)
-                del self.data[lfu.key]
-                self.remove(lfu)
-                return
+        lfu = self.useCounter[self.minUsedCounter][0]
+        self.decrementCounter(lfu)
+        del self.data[lfu.key]
+        self.remove(lfu)
 
                         
 
