@@ -111,6 +111,10 @@
         {
             "day": "28",
             "title": "Data Stream as Disjoint Intervals"
+        },
+        {
+            "day": "29",
+            "title": "LFU Cache"
         }
     ]
 }
