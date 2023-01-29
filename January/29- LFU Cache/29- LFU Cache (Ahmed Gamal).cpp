@@ -27,7 +27,7 @@ public:
     };
 
 
-    // pq: priority queue to store the keys in sorted order according to the frequency of the keys and the time of the last access to the key
+    // Compare: custome comparator to use it in the priority queue while sorting the items
     class Compare {
         public:
             bool operator()(Item& a, Item& b){
