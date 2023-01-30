@@ -1,4 +1,4 @@
-//Auhtor: Mohamed Ibrahim
+//Author: Mohamed Ibrahim
 
 class Solution {
 public:
@@ -10,6 +10,6 @@ public:
             v[i%3] = v[(i-1) % 3] + v[(i-2) % 3] + v[(i-3) % 3];
         }
         // return the N-th tribonacci number
-        return v[n % 3];
+        return v[n%3];
     }
 };
