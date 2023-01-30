@@ -16,9 +16,9 @@ public:
         }
 
         auto max = max_element(trusted.begin(), trusted.end()); //find the most trusted count
-        int num = distance(trusted.begin(), max); //find the most trusted person (index of the most trusted count)
+        int num = distance(trusted.begin(), max); // find the most trusted person (index of the most trusted count)
    
-        if(*max == n-1 && trusts[num] == 0) //the number of trusted count is equal to n-1 and the same person doesn't trust anyone
+        if(*max == n-1 && trusts[num] == 0) // the number of trusted count is equal to n-1 and the same person doesn't trust anyone
             return num;
             
         return -1;
