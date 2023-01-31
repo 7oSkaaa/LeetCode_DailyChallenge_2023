@@ -50,6 +50,9 @@
 1. **[Cheapest Flights Within K Stops](#26--cheapest-flights-within-k-stops)**
 1. **[Concatenated Words](#27--concatenated-words)**
 1. **[Data Stream as Disjoint Intervals](#28--data-stream-as-disjoint-intervals)**
+1. **[LFU Cache](#29--lfu-cache)**
+1. **[N-th Tribonacci Number](#30--n-th-tribonacci-number)**
+1. **[Best Team With No Conflicts](#31--best-team-with-no-conflicts)**
 
 <hr>
 
@@ -1698,6 +1701,191 @@ public:
 
         // return the answer
         return ans;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 29)  [LFU Cache](https://leetcode.com/problems/lfu-cache/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Hash Table` `Linked List` `Design` `Doubly-Linked List`
+
+### Code
+
+```cpp
+unordered_map<int, int> val, cnt, lu; // lu: last_used maintained by 'ins' (aka. instruction_pointer)
+
+class LFUCache {
+public:
+    int cap; // capacity
+    int ins; // instruction_pointer: increased every put() and get() calls
+    /*
+        user-defined data type 'Node' for comparing firstly 'cnt' (aka. use counter)
+        secondly if 'cnt' are tie sort by 'lu' (aka. last_used)
+    */
+    class Node {
+    public:
+        int key;
+        Node(int _key = 0) : key(_key) {}
+        bool operator<(const Node & p) const {
+            if (cnt[key] == cnt[p.key]) return lu[key] < lu[p.key];
+            return cnt[key] < cnt[p.key];
+        }
+    };
+    set<Node> st;
+    LFUCache(int capacity) {
+        ins = 0;
+        cap = capacity;
+        /*
+            using clear here because they was in global scope
+            the reason of putting them in global,
+             is to be able to access them inside class 'Node' while using 'operator<'
+        */
+        val.clear();
+        cnt.clear();
+        lu.clear();
+    }
+    
+    int get(int key) {
+        if (!cap) return -1;
+        if (val.find(key) == val.end()) return -1;
+        /*
+            every update:
+            1- erase 'key'
+            2- update 'key'
+            3- insert 'key' again
+        */
+        st.erase(key);
+        lu[key] = ins++;
+        cnt[key]++;
+        st.insert(key);
+        return val[key];
+    }
+    
+    void put(int key, int value) {
+        if (!cap) return;
+        if (val.size() == cap && val.find(key) == val.end()) {
+            /*
+                the st.begin()->key is the key which is LFU and LRU, to be removed
+            */
+            int ans = st.begin()->key;
+            val.erase(ans);
+            cnt.erase(ans);
+            lu.erase(ans);
+        }
+        /*
+            every update:
+            1- erase 'key'
+            2- update 'key'
+            3- insert 'key' again
+        */
+        st.erase(key);
+        cnt[key]++;
+        lu[key] = ins++;
+        st.insert(key);
+        val[key] = value;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 30)  [N-th Tribonacci Number](https://leetcode.com/problems/n-th-tribonacci-number/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Dynamic Programming` `Memoization` `Math` 
+
+### Code
+
+```cpp
+class Solution {
+public:
+    int tribonacci(int n) {
+        // to calculate the n-th tribonacci number
+        // we only need the last 3 numbers
+        // so we can use a vector of size 3
+        // and use the mod operator to get the last 3 numbers
+        // and the mod operator will also help us to get the n-th number
+        
+        // store the first 3 numbers in the vector 0, 1, 1;
+        vector<int> v = {0, 1, 1};
+        
+        // loop from 3 to n 
+        for(int i = 3; i <= n; i++)
+            // store the new number in i % 3 index in the vector
+            // the new number is the sum of the last 3 numbers
+            // which are the numbers in the (i - 1) % 3, (i - 2) % 3, (i - 3) % 3 indexes
+            // in the vector
+            v[i % 3] = v[(i - 1) % 3] + v[(i - 2) % 3] + v[(i - 3) % 3];
+
+        // return the n-th number which is in the n % 3 index in the vector
+        return v[n % 3];
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 31)  [Best Team With No Conflicts](https://leetcode.com/problems/best-team-with-no-conflicts/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Dynamic Programming` `Array` `Sorting` 
+
+### Code
+
+```cpp
+class Solution {
+public:
+
+    int bestTeamScore(vector<int>& scores, vector<int>& ages) {
+        // number of players and maxAge of the players to initial the dp vectors
+        int n = scores.size(), maxAge = *max_element(ages.begin(), ages.end());
+
+        // make vector of pairs the first is the score and the second is the age to sort it
+        vector < pair < int, int > > players(n);
+        for(int i = 0; i < n; i++)
+            players[i] = {scores[i], ages[i]};
+        sort(players.begin(), players.end());
+
+        // make dp state with rolling back
+        vector < vector < int > > dp(2, vector < int > (maxAge + 5));
+        
+        for(int i = n - 1; i >= 0; i--){
+            // if we will skip this players so the answer will the same for the previous player
+            dp[i % 2] = dp[(i + 1) % 2];
+
+            // we want for each age in the range between [1, age of the i-th player] to calculate the max of take it or leave it
+            for(int age = 1; age <= players[i].second; age++)
+                dp[i % 2][age] = max(dp[i % 2][age], players[i].first + dp[(i + 1) % 2][players[i].second]);
+        }
+
+        // return the max state for the first player
+        return *max_element(dp[0].begin(), dp[0].end());
     }
 };
 ```
