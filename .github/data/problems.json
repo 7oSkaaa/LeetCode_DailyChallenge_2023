@@ -124,5 +124,11 @@
             "day": "31",
             "title": "Best Team With No Conflicts"
         }
+    ],
+    "February": [
+        {
+            "day": "01",
+            "title": "Greatest Common Divisor of Strings"
+        }
     ]
 }
