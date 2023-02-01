@@ -10,4 +10,5 @@ public:
         The result can be obtained by extracting a substring of the longer string with a length equal to the gcd of their lengths*/
         return str1.substr(0, __gcd(str1.size(), str2.size()));
     }
+    
 };
