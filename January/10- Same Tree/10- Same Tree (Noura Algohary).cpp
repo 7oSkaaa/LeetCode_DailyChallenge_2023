@@ -15,8 +15,10 @@ public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
         // Both nodes are NULL
         if(!p && !q) return true;
+
         // One of the nodes is NULL
         if (!p || !q) return false;
+        
         // Both nodes exist but different numbers
         if(p->val != q->val) return false;
         
