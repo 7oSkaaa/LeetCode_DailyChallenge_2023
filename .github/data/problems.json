@@ -129,6 +129,10 @@
         {
             "day": "01",
             "title": "Greatest Common Divisor of Strings"
+        },
+        {
+            "day": "02",
+            "title": "Verifying an Alien Dictionary"
         }
     ]
 }
