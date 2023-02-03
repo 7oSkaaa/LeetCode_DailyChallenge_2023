@@ -133,6 +133,10 @@
         {
             "day": "02",
             "title": "Verifying an Alien Dictionary"
+        },
+        {
+            "day": "03",
+            "title": "Zigzag Conversion"
         }
     ]
 }
