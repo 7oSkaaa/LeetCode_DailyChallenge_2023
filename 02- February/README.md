@@ -135,29 +135,33 @@ public:
 ```cpp
 class Solution {
 public:
-    string convert(string& s, int n) {
-        // if n == 1 there is no change will be
-        if(n == 1) return s;
+    string convert(string s, int numRows) {
+        // If the number of rows is 1, the pattern will be a straight line,
+        // so we can simply return the original string
+        if (numRows == 1) return s;
 
-        // vector of string for each row to add the characters
-        vector < string > grid(n);
+        // Create a vector of strings, where each element represents a row
+        vector<string> rows(min(numRows, int(s.size())));
 
-        // r -> index for current row, idx current char of the string
-        int r = 0, idx = 0, sz = s.size();
-        while(idx < sz){
-            // iterate to fill the column down 
-            while(idx < sz && r < n) grid[r++] += s[idx++];
-            r--;
-            // iterate fo fill up the rows except the first and last one
-            while(idx < sz && r > 0) grid[--r] += s[idx++];
-            r++;
+        // curRow keeps track of the current row we are on
+        int curRow = 0;
+        // goingDown indicates the direction we are moving (up or down)
+        bool goingDown = false;
+
+        // For each character in the input string,
+        for (char c : s) {
+            // add the character to the current row
+            rows[curRow] += c;
+            // If we have reached the top or bottom row, change direction
+            if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
+            // Update the current row
+            curRow += goingDown ? 1 : -1;
         }
 
-        // the result string will be the concatenation of the all rows
-        string conv;
-        for(auto& str : grid)
-            conv += str;
-        return conv;
+        // Combine all the rows into a single string
+        string res;
+        for (string row : rows) res += row;
+        return res;
     }
 };
 ```
