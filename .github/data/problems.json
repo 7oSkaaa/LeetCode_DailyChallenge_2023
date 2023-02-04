@@ -137,6 +137,10 @@
         {
             "day": "03",
             "title": "Zigzag Conversion"
+        },
+        {
+            "day": "04",
+            "title": "Permutation in String"
         }
     ]
 }
