@@ -11,7 +11,7 @@ public:
         4. if yes return true
         5. if not return false
      */
-    */
+    
     bool checkInclusion(string s1, string s2) {
         // if the size of s1 is greater than s2 then return false
         if (s1.size() > s2.size()) return false;
