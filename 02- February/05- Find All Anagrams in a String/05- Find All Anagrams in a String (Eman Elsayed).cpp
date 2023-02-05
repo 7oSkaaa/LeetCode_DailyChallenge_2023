@@ -17,9 +17,11 @@ public:
         for (int i = p.size(); i < s.size(); i++)
         {
             mps[s[i - p.size()]]--; // remove the first character from the window
+
             if (mps[s[i - p.size()]] == 0)
                 mps.erase(s[i - p.size()]); // if the frequency of the character is zero then remove it from the map
-            mps[s[i]]++;                    // add the new character to the window
+
+            mps[s[i]]++; // add the new character to the window
             if (mps == mpp)
                 ans.push_back(i - p.size() + 1); // check if window is anagram for string p or not
         }
