@@ -141,6 +141,10 @@
         {
             "day": "04",
             "title": "Permutation in String"
+        },
+        {
+            "day": "05",
+            "title": "Find All Anagrams in a String"
         }
     ]
 }
