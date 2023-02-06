@@ -145,6 +145,10 @@
         {
             "day": "05",
             "title": "Find All Anagrams in a String"
+        },
+        {
+            "day": "06",
+            "title": "Shuffle the Array"
         }
     ]
 }
