@@ -27,6 +27,7 @@
 1. **[Zigzag Conversion](#3--zigzag-conversion)**
 1. **[Permutation in String](#4--permutation-in-string)**
 1. **[Find All Anagrams in a String](#5--find-all-anagrams-in-a-string)**
+1. **[Shuffle the Array](#6--shuffle-the-array)**
 
 <hr>
 
@@ -274,6 +275,40 @@ public:
 
         // the indices of the start of the angrams
         return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 5)  [Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) {
+        // the shuffled vector 
+        vector < int > shuffled_vec;
+
+        // we will devide the vector into two halves and add one element from first one and one element from second one
+        for(int i = 0, j = n; i < n; i++, j++)
+            shuffled_vec.push_back(nums[i]), shuffled_vec.push_back(nums[j]);
+
+        // the resulted vector
+        return shuffled_vec;
     }
 };
 ```
