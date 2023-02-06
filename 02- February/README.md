@@ -25,6 +25,9 @@
 1. **[Greatest Common Divisor of Strings](#1--greatest-common-divisor-of-strings)**
 1. **[Verifying an Alien Dictionary](#2--verifying-an-alien-dictionary)**
 1. **[Zigzag Conversion](#3--zigzag-conversion)**
+1. **[Permutation in String](#4--permutation-in-string)**
+1. **[Find All Anagrams in a String](#5--find-all-anagrams-in-a-string)**
+1. **[Shuffle the Array](#6--shuffle-the-array)**
 
 <hr>
 
@@ -162,6 +165,150 @@ public:
         string res;
         for (string row : rows) res += row;
         return res;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 4)  [Permutation in String](https://leetcode.com/problems/permutation-in-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `Two Pointers` `String` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // function that compares two maps, each map represents a frequency array.
+    bool equal(unordered_map<char,int>&first, unordered_map<char,int>&second){
+        for(char c='a'; c<='z'; c++){
+            if(first[c]!=second[c])
+                return false;
+        }
+        return true;
+    }
+
+    bool checkInclusion(string s1, string s2) {
+        // first string is bigger than second string, it is impossible to include all the first in the second.
+        if(s1.size()>s2.size())
+            return false;
+
+        // carrys the count of each character in the first string
+        unordered_map<char,int>first;
+        for(auto& c: s1)
+            first[c]++;
+
+        // carrys the count of each character in the initial window (windows size = s1.size())
+        unordered_map<char,int>second;
+        for(int i=0; i<s1.size(); i++)
+            second[s2[i]]++;
+
+        // check if the initial window frequency is equal to the first string (s1)
+        if(equal(first, second))
+            return true;
+
+        // slide the window till we reach the end of s2, updating the second map with each step (adding the next element, and removing the very first element of the previous window)
+        for(int i=s1.size(); i<s2.size(); i++)
+        {
+            second[s2[i]]++;                // add new element to the window
+            second[s2[i-s1.size()]]--;      // remove the very first element of the old window
+
+            if(equal(first, second))        // check if window freq == first string freq
+                return true;        
+        }
+        return false;
+    }
+};
+
+```
+<hr>
+
+<br><br>
+
+## 5)  [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `String` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> findAnagrams(string& s, string& p) {
+        // make frequency for string s and string p
+        vector < int > freq_s(26), freq_p(26);
+
+        // add all character in string p to the frequency
+        for(auto& c : p) freq_p[c - 'a']++;
+
+        // store the indices of the start of the angrams
+        vector < int > ans;
+
+        int l = 0, r = 0;
+        while(r < s.size()){
+            // while r - l smaller than p we will add new characters to the current frequency
+            while(r < s.size() && r - l < p.size()) freq_s[s[r++] - 'a']++;
+            
+            // if the two frequencies are the same so the current window will be an angram 
+            if(freq_s == freq_p) ans.push_back(l);
+
+            // remove the current character
+            freq_s[s[l++] - 'a']--;
+        }
+
+        // the indices of the start of the angrams
+        return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 6)  [Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) {
+        // the shuffled vector 
+        vector < int > shuffled_vec;
+
+        // we will devide the vector into two halves and add one element from first one and one element from second one
+        for(int i = 0, j = n; i < n; i++, j++)
+            shuffled_vec.push_back(nums[i]), shuffled_vec.push_back(nums[j]);
+
+        // the resulted vector
+        return shuffled_vec;
     }
 };
 ```
