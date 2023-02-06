@@ -283,7 +283,7 @@ public:
 
 <br><br>
 
-## 5)  [Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/)
+## 6)  [Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/)
 
 ### Difficulty
 
