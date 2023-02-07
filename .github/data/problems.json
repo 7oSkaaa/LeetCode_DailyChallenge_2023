@@ -149,6 +149,10 @@
         {
             "day": "06",
             "title": "Shuffle the Array"
+        },
+        {
+            "day": "07",
+            "title": "Fruit Into Baskets"
         }
     ]
 }
