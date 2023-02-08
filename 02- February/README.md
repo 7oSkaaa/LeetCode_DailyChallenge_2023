@@ -375,7 +375,7 @@ public:
 
 <br><br>
 
-## 7)  [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+## 8)  [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
 
 ### Difficulty
 
