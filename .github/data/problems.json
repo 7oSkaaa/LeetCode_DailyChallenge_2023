@@ -153,6 +153,10 @@
         {
             "day": "07",
             "title": "Fruit Into Baskets"
+        },
+        {
+            "day": "08",
+            "title": "Jump Game II"
         }
     ]
 }
