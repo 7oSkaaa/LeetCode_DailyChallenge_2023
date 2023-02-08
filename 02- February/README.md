@@ -24,6 +24,12 @@
 
 1. **[Greatest Common Divisor of Strings](#1--greatest-common-divisor-of-strings)**
 1. **[Verifying an Alien Dictionary](#2--verifying-an-alien-dictionary)**
+1. **[Zigzag Conversion](#3--zigzag-conversion)**
+1. **[Permutation in String](#4--permutation-in-string)**
+1. **[Find All Anagrams in a String](#5--find-all-anagrams-in-a-string)**
+1. **[Shuffle the Array](#6--shuffle-the-array)**
+1. **[Fruit Into Baskets](#7--fruit-into-baskets)**
+1. **[Jump Game II](#8--jump-game-ii)**
 
 <hr>
 
@@ -114,3 +120,291 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
+## 3)  [Zigzag Conversion](https://leetcode.com/problems/zigzag-conversion/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`String`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        // If the number of rows is 1, the pattern will be a straight line,
+        // so we can simply return the original string
+        if (numRows == 1) return s;
+
+        // Create a vector of strings, where each element represents a row
+        vector<string> rows(min(numRows, int(s.size())));
+
+        // curRow keeps track of the current row we are on
+        int curRow = 0;
+        // goingDown indicates the direction we are moving (up or down)
+        bool goingDown = false;
+
+        // For each character in the input string,
+        for (char c : s) {
+            // add the character to the current row
+            rows[curRow] += c;
+            // If we have reached the top or bottom row, change direction
+            if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
+            // Update the current row
+            curRow += goingDown ? 1 : -1;
+        }
+
+        // Combine all the rows into a single string
+        string res;
+        for (string row : rows) res += row;
+        return res;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 4)  [Permutation in String](https://leetcode.com/problems/permutation-in-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `Two Pointers` `String` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // function that compares two maps, each map represents a frequency array.
+    bool equal(unordered_map<char,int>&first, unordered_map<char,int>&second){
+        for(char c='a'; c<='z'; c++){
+            if(first[c]!=second[c])
+                return false;
+        }
+        return true;
+    }
+
+    bool checkInclusion(string s1, string s2) {
+        // first string is bigger than second string, it is impossible to include all the first in the second.
+        if(s1.size()>s2.size())
+            return false;
+
+        // carrys the count of each character in the first string
+        unordered_map<char,int>first;
+        for(auto& c: s1)
+            first[c]++;
+
+        // carrys the count of each character in the initial window (windows size = s1.size())
+        unordered_map<char,int>second;
+        for(int i=0; i<s1.size(); i++)
+            second[s2[i]]++;
+
+        // check if the initial window frequency is equal to the first string (s1)
+        if(equal(first, second))
+            return true;
+
+        // slide the window till we reach the end of s2, updating the second map with each step (adding the next element, and removing the very first element of the previous window)
+        for(int i=s1.size(); i<s2.size(); i++)
+        {
+            second[s2[i]]++;                // add new element to the window
+            second[s2[i-s1.size()]]--;      // remove the very first element of the old window
+
+            if(equal(first, second))        // check if window freq == first string freq
+                return true;        
+        }
+        return false;
+    }
+};
+
+```
+<hr>
+
+<br><br>
+
+## 5)  [Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `String` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> findAnagrams(string& s, string& p) {
+        // make frequency for string s and string p
+        vector < int > freq_s(26), freq_p(26);
+
+        // add all character in string p to the frequency
+        for(auto& c : p) freq_p[c - 'a']++;
+
+        // store the indices of the start of the angrams
+        vector < int > ans;
+
+        int l = 0, r = 0;
+        while(r < s.size()){
+            // while r - l smaller than p we will add new characters to the current frequency
+            while(r < s.size() && r - l < p.size()) freq_s[s[r++] - 'a']++;
+            
+            // if the two frequencies are the same so the current window will be an angram 
+            if(freq_s == freq_p) ans.push_back(l);
+
+            // remove the current character
+            freq_s[s[l++] - 'a']--;
+        }
+
+        // the indices of the start of the angrams
+        return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 6)  [Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) {
+        // the shuffled vector 
+        vector < int > shuffled_vec;
+
+        // we will devide the vector into two halves and add one element from first one and one element from second one
+        for(int i = 0, j = n; i < n; i++, j++)
+            shuffled_vec.push_back(nums[i]), shuffled_vec.push_back(nums[j]);
+
+        // the resulted vector
+        return shuffled_vec;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 7)  [Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        //  the frequency of each type of tree
+        map < int, int > freq;
+
+        // two pointers to moves
+        int l = 0, r = 0, max_fruits = 0, n = fruits.size();
+        
+        while(r < n){
+            // add the current tree
+            freq[fruits[r]]++;
+
+            // check if you have only two types of trees or not
+            while(freq.size() > 2){
+                // remove the leftmoste tree from the baskets until you have two unique types of trees
+                freq[fruits[l]]--;
+                
+                // if the frequency of this tree becomes zero so let's remove it
+                if(freq[fruits[l]] == 0)
+                    freq.erase(fruits[l]);
+                
+                // move from the leftmost tree to it's right tree
+                l++;
+            }
+            
+            // update max_fruits can collect with the size of the range
+            max_fruits = max(max_fruits, r - l + 1);
+
+            // move the rightmost tree
+            r++;
+        }
+
+        // maximum number of fruits can be picked
+        return max_fruits;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 8)  [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        vector < int > dp(n + 1, 1e9);
+
+        // base case for dp
+        dp[n - 1] = 0;
+        
+        // for each dp[i] calculate minmum move to reach it
+        for(int i = n - 1; i >= 0; i--)
+            for(int j = 0; j <= nums[i] && j + i <= n - 1; j++)
+                dp[i] = min(dp[i], 1 + dp[i + j]);
+
+        //  the minimum number of jumps
+        return dp[0];
+    }
+};
+```
