@@ -28,6 +28,8 @@
 1. **[Permutation in String](#4--permutation-in-string)**
 1. **[Find All Anagrams in a String](#5--find-all-anagrams-in-a-string)**
 1. **[Shuffle the Array](#6--shuffle-the-array)**
+1. **[Fruit Into Baskets](#7--fruit-into-baskets)**
+1. **[Jump Game II](#8--jump-game-ii)**
 
 <hr>
 
@@ -309,6 +311,100 @@ public:
 
         // the resulted vector
         return shuffled_vec;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 7)  [Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        //  the frequency of each type of tree
+        map < int, int > freq;
+
+        // two pointers to moves
+        int l = 0, r = 0, max_fruits = 0, n = fruits.size();
+        
+        while(r < n){
+            // add the current tree
+            freq[fruits[r]]++;
+
+            // check if you have only two types of trees or not
+            while(freq.size() > 2){
+                // remove the leftmoste tree from the baskets until you have two unique types of trees
+                freq[fruits[l]]--;
+                
+                // if the frequency of this tree becomes zero so let's remove it
+                if(freq[fruits[l]] == 0)
+                    freq.erase(fruits[l]);
+                
+                // move from the leftmost tree to it's right tree
+                l++;
+            }
+            
+            // update max_fruits can collect with the size of the range
+            max_fruits = max(max_fruits, r - l + 1);
+
+            // move the rightmost tree
+            r++;
+        }
+
+        // maximum number of fruits can be picked
+        return max_fruits;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 8)  [Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        vector < int > dp(n + 1, 1e9);
+
+        // base case for dp
+        dp[n - 1] = 0;
+        
+        // for each dp[i] calculate minmum move to reach it
+        for(int i = n - 1; i >= 0; i--)
+            for(int j = 0; j <= nums[i] && j + i <= n - 1; j++)
+                dp[i] = min(dp[i], 1 + dp[i + j]);
+
+        //  the minimum number of jumps
+        return dp[0];
     }
 };
 ```
