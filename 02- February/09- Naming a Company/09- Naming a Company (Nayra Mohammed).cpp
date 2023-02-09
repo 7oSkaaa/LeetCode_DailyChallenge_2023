@@ -4,7 +4,7 @@
 class Solution
 {
 public:
-    //frq -> to store the frequencies of valid string starting with char j+'a' incase we replace it's first starting character with i +'a'
+    //frq -> to store the frequencies of valid string starting with char j+'a' in case we replace it's first starting character with i +'a'
     int frq[26][26];  
     long long distinctNames(vector<string> &ideas)
     {
@@ -23,7 +23,7 @@ public:
         /*
         - Here we gonna iterate over all possible replacements between starting characters
         - The possibility of valid naming using string  starting with (i +'a') and string starting with (j+'a')
-          is the frequency of all valid replacements between i,j multiplied by the frequency of all vlid replacements between j,i 
+          is the frequency of all valid replacements between i,j multiplied by the frequency of all valid replacements between j,i 
         */
         for (int i = 0; i < 26; i++)
             for (int j = 0; j < 26; j++)
