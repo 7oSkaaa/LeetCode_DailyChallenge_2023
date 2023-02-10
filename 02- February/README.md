@@ -30,6 +30,8 @@
 1. **[Shuffle the Array](#6--shuffle-the-array)**
 1. **[Fruit Into Baskets](#7--fruit-into-baskets)**
 1. **[Jump Game II](#8--jump-game-ii)**
+1. **[Naming a Company](#9--naming-a-company)**
+1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
 
 <hr>
 
@@ -405,6 +407,127 @@ public:
 
         //  the minimum number of jumps
         return dp[0];
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 9)  [Naming a Company](https://leetcode.com/problems/naming-a-company/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `String` `Bit Manipulation` `Enumeration`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    #define sz(x) int(x.size())
+
+    long long distinctNames(vector<string>& ideas) {
+        long long disName = 0;
+
+        // adjacent list for each character
+        vector < unordered_set < string > > adj(26);
+        
+        // add each string to the vector of each character
+        for (string s : ideas) 
+            adj[s[0] - 'a'].insert(s.substr(1));
+        
+        for (int i = 0; i < 26; i++) {
+            for (int j = i + 1; j < 26; j++) {
+                // merge the two sets into one set
+                unordered_set < string > unique;
+                unique.insert(adj[i].begin(), adj[i].end());
+                unique.insert(adj[j].begin(), adj[j].end());
+
+                // update the disName
+                disName += (sz(adj[i]) - sz(unique)) * (sz(adj[j]) - sz(unique));
+            }
+        }
+
+        // the answer will be the double of disName
+        return disName * 2;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 10)  [As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        
+        // vector contains the four direction to loop on them
+        vector < pair < int, int > > dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        // lets make bfs from each land cell to calculate the minimum distance from each cell of them to water cells
+        vector < vector < int > > dist(n, vector < int > (m, 1e9));
+        queue < pair < int, int > > bfs;
+
+        // lets add land cells
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(grid[i][j] == 1)
+                    dist[i][j] = 0, bfs.push({i, j});
+
+        // if there is no land cell
+        if(bfs.empty())
+            return -1;
+
+        // check if valid cell to add it
+        auto is_valid = [&](int x, int y){
+            return x >= 0 && x < n && y >= 0 && y < m && !grid[x][y];
+        };
+
+        while(!bfs.empty()){
+            auto [x, y] = bfs.front();
+            bfs.pop();
+
+            for(auto& [dx, dy] : dir){
+                int nx = x + dx, ny = y + dy;
+
+                // if the new cell is valid and you can reach it with distance less than its distance so add it to the queue
+                if(is_valid(nx, ny) && dist[nx][ny] > dist[x][y] + 1)
+                    dist[nx][ny] = dist[x][y] + 1, bfs.push({nx, ny});
+            }
+        }
+
+        // loop over the distance 2D vector to get the maximum distance for each water cell
+        int max_dist = -1;
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(!grid[i][j])
+                    max_dist = max(max_dist, dist[i][j]);
+
+        return max_dist;
     }
 };
 ```
