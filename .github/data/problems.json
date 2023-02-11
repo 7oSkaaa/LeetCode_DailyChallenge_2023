@@ -165,6 +165,10 @@
         {
             "day": "10",
             "title": "As Far from Land as Possible"
+        },
+        {
+            "day": "11",
+            "title": "Shortest Path with Alternating Colors"
         }
     ]
 }
