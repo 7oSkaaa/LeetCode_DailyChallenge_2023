@@ -31,6 +31,8 @@
 1. **[Fruit Into Baskets](#7--fruit-into-baskets)**
 1. **[Jump Game II](#8--jump-game-ii)**
 1. **[Naming a Company](#9--naming-a-company)**
+1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
+1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
 
 <hr>
 
@@ -457,6 +459,139 @@ public:
 
         // the answer will be the double of disName
         return disName * 2;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 10)  [As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        
+        // vector contains the four direction to loop on them
+        vector < pair < int, int > > dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        // lets make bfs from each land cell to calculate the minimum distance from each cell of them to water cells
+        vector < vector < int > > dist(n, vector < int > (m, 1e9));
+        queue < pair < int, int > > bfs;
+
+        // lets add land cells
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(grid[i][j] == 1)
+                    dist[i][j] = 0, bfs.push({i, j});
+
+        // if there is no land cell
+        if(bfs.empty())
+            return -1;
+
+        // check if valid cell to add it
+        auto is_valid = [&](int x, int y){
+            return x >= 0 && x < n && y >= 0 && y < m && !grid[x][y];
+        };
+
+        while(!bfs.empty()){
+            auto [x, y] = bfs.front();
+            bfs.pop();
+
+            for(auto& [dx, dy] : dir){
+                int nx = x + dx, ny = y + dy;
+
+                // if the new cell is valid and you can reach it with distance less than its distance so add it to the queue
+                if(is_valid(nx, ny) && dist[nx][ny] > dist[x][y] + 1)
+                    dist[nx][ny] = dist[x][y] + 1, bfs.push({nx, ny});
+            }
+        }
+
+        // loop over the distance 2D vector to get the maximum distance for each water cell
+        int max_dist = -1;
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(!grid[i][j])
+                    max_dist = max(max_dist, dist[i][j]);
+
+        return max_dist;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 11)  [Shortest Path with Alternating Colors](https://leetcode.com/problems/shortest-path-with-alternating-colors/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Graph` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector < vector < pair < int, int > > > adj(n);
+        vector < vector < int > > path(n, vector < int > (2, -1));
+        
+        // make the adjacency list each adjacent pair will be the another node and the color of the edge
+        for(auto& v : redEdges)
+            adj[v[0]].push_back({v[1], 0});
+        for(auto v:blueEdges)
+            adj[v[0]].push_back({v[1], 1});
+        
+        // do bfs from 0 to each nodes
+        queue < pair < int, int > > bfs;
+        bfs.push({0,0});
+        bfs.push({0,1});
+        path[0] = {0,0};
+        
+        while(!bfs.empty()){
+            // current node and current color
+            auto [u, c] = bfs.front(); 
+            bfs.pop();
+            
+            for(auto [v, new_c] : adj[u]){
+                // if this edge is the new edge is same colour will the current edge or this state is appears before skip it
+                if(path[v][new_c] != -1 || c == new_c) continue;
+
+                // update the path to the new vertex and put it in the queue
+                path[v][new_c] = 1 + path[u][c];
+                bfs.push({v, new_c});
+            }
+        }
+
+        // add the minimum path for each vertex
+        vector < int > res;
+        for(auto& v : path) {
+            sort(v.begin(), v.end());
+            res.push_back(v[0] != -1 ? v[0] : v[1]);
+        }
+
+        return res;
+        
     }
 };
 ```
