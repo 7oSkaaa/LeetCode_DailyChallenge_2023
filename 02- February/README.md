@@ -32,6 +32,8 @@
 1. **[Jump Game II](#8--jump-game-ii)**
 1. **[Naming a Company](#9--naming-a-company)**
 1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
+1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
+1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
 
 <hr>
 
@@ -528,6 +530,126 @@ public:
                     max_dist = max(max_dist, dist[i][j]);
 
         return max_dist;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 11)  [Shortest Path with Alternating Colors](https://leetcode.com/problems/shortest-path-with-alternating-colors/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Graph` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector < vector < pair < int, int > > > adj(n);
+        vector < vector < int > > path(n, vector < int > (2, -1));
+        
+        // make the adjacency list each adjacent pair will be the another node and the color of the edge
+        for(auto& v : redEdges)
+            adj[v[0]].push_back({v[1], 0});
+        for(auto v:blueEdges)
+            adj[v[0]].push_back({v[1], 1});
+        
+        // do bfs from 0 to each nodes
+        queue < pair < int, int > > bfs;
+        bfs.push({0,0});
+        bfs.push({0,1});
+        path[0] = {0,0};
+        
+        while(!bfs.empty()){
+            // current node and current color
+            auto [u, c] = bfs.front(); 
+            bfs.pop();
+            
+            for(auto [v, new_c] : adj[u]){
+                // if this edge is the new edge is same colour will the current edge or this state is appears before skip it
+                if(path[v][new_c] != -1 || c == new_c) continue;
+
+                // update the path to the new vertex and put it in the queue
+                path[v][new_c] = 1 + path[u][c];
+                bfs.push({v, new_c});
+            }
+        }
+
+        // add the minimum path for each vertex
+        vector < int > res;
+        for(auto& v : path) {
+            sort(v.begin(), v.end());
+            res.push_back(v[0] != -1 ? v[0] : v[1]);
+        }
+
+        return res;
+        
+    }
+};
+```
+
+## 12)  [Minimum Fuel Cost to Report to the Capital](https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    #define ceil(n, m) (((n) + (m) - 1) / (m))
+
+    vector < vector < int > > adj;
+    vector < int > child;
+
+    long long dfs(int u, int p, int seats){
+        long long fuel = 0;
+        for(auto& v : adj[u]){
+            // to avoid cycling
+            if(v == p) continue;
+
+            // dfs on the child of u to get the size of each subtree of them and the answers also
+            fuel += dfs(v, u, seats);
+            
+            // add the subtree size of v to subtree of u
+            child[u] += child[v];
+        }
+
+        // the fuel used will be the sum of that used in my children and ceil the seats of current subtree
+        if(u != 0)
+            fuel += ceil(child[u], seats);
+        
+        return fuel;
+    }
+
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int n = roads.size() + 1;
+        adj = vector < vector < int > > (n);
+        child = vector < int > (n, 1);
+
+        // make adjacency list for all nodes
+        for(auto& v : roads)
+            adj[v[0]].push_back(v[1]), adj[v[1]].push_back(v[0]);
+
+        // dfs from root to get_answers;
+        return dfs(0, -1, seats);
     }
 };
 ```
