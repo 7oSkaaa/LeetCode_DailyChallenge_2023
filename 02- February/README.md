@@ -33,6 +33,7 @@
 1. **[Naming a Company](#9--naming-a-company)**
 1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
 1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
+1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
 
 <hr>
 
@@ -592,6 +593,63 @@ public:
 
         return res;
         
+    }
+};
+```
+
+## 12)  [Minimum Fuel Cost to Report to the Capital](https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    #define ceil(n, m) (((n) + (m) - 1) / (m))
+
+    vector < vector < int > > adj;
+    vector < int > child;
+
+    long long dfs(int u, int p, int seats){
+        long long fuel = 0;
+        for(auto& v : adj[u]){
+            // to avoid cycling
+            if(v == p) continue;
+
+            // dfs on the child of u to get the size of each subtree of them and the answers also
+            fuel += dfs(v, u, seats);
+            
+            // add the subtree size of v to subtree of u
+            child[u] += child[v];
+        }
+
+        // the fuel used will be the sum of that used in my children and ceil the seats of current subtree
+        if(u != 0)
+            fuel += ceil(child[u], seats);
+        
+        return fuel;
+    }
+
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int n = roads.size() + 1;
+        adj = vector < vector < int > > (n);
+        child = vector < int > (n, 1);
+
+        // make adjacency list for all nodes
+        for(auto& v : roads)
+            adj[v[0]].push_back(v[1]), adj[v[1]].push_back(v[0]);
+
+        // dfs from root to get_answers;
+        return dfs(0, -1, seats);
     }
 };
 ```
