@@ -1,4 +1,4 @@
-// Authour : ubey saab
+// Author : ubey saab
 
  
 var countOdds = function(low, high) {
