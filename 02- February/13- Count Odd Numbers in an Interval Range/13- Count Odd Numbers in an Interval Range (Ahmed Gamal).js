@@ -19,5 +19,14 @@ var countOdds = function(low, high) {
 
     // if the range is even then we don't need to add 1 to the count
     // otherwise if the range is odd then we need to add 1 to the count if the low is odd
-    return Math.floor(length / 2) + (low % 2 * (length % 2 ? 1 : 0));
+ 
+    // javascript treats 0 as false and any other number as true so we can use the low % 2 as a boolean
+    // javascript also deals with logical operators in a different way than other languages
+    // it will return the first value that is false or the last value if all are true in case we are using logical and (short circuit evaluation in and and or operators)
+    // so if the low is even then the first value that is false is the low % 2 and the result will be 0
+    // if the low is odd and the range is even then the first value that is false is the length % 2 and the result will be 0
+    // if the low is odd and the range is odd then the last value that is true is the length % 2 and the result will be 1
+    // so we can use the low % 2 && length % 2 to get the correct result
+    
+    return Math.floor(length / 2) + (low % 2 && length % 2);
 };
