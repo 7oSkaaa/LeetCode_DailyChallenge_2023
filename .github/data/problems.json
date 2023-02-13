@@ -173,6 +173,10 @@
         {
             "day": "12",
             "title": "Minimum Fuel Cost to Report to the Capital"
+        },
+        {
+            "day": "13",
+            "title": "Count Odd Numbers in an Interval Range"
         }
     ]
 }
