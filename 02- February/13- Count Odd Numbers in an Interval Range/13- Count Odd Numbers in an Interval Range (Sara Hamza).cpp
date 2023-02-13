@@ -1,3 +1,5 @@
+//Author: Sara Hamza
+
 class Solution {
 public:
     int countOdds(int low, int high) {
