@@ -1,4 +1,4 @@
-//! Authour : ubey saab
+// Authour : ubey saab
 
  
 var countOdds = function(low, high) {
