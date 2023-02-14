@@ -34,6 +34,7 @@
 1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
 1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
 1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
+1. **[Count Odd Numbers in an Interval Range](#13--count-odd-numbers-in-an-interval-range)**
 
 <hr>
 
@@ -597,6 +598,11 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
+
 ## 12)  [Minimum Fuel Cost to Report to the Capital](https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/)
 
 ### Difficulty
@@ -650,6 +656,39 @@ public:
 
         // dfs from root to get_answers;
         return dfs(0, -1, seats);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 13)  [Count Odd Numbers in an Interval Range](https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int countOdds(int low, int high) {
+        // count odd number in range from 1 to x
+        auto count_odd = [&](int x){
+            return (x + 1) / 2;
+        };
+
+        // number of odd from l to r will be number of odd from [1 to r] - number of odd from [1 to l - 1]
+        return count_odd(high) - count_odd(low - 1);
     }
 };
 ```
