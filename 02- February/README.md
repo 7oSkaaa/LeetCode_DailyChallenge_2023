@@ -34,6 +34,8 @@
 1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
 1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
 1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
+1. **[Count Odd Numbers in an Interval Range](#13--count-odd-numbers-in-an-interval-range)**
+1. **[Add Binary](#14--add-binary)**
 
 <hr>
 
@@ -597,6 +599,11 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
+
 ## 12)  [Minimum Fuel Cost to Report to the Capital](https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/)
 
 ### Difficulty
@@ -650,6 +657,97 @@ public:
 
         // dfs from root to get_answers;
         return dfs(0, -1, seats);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 13)  [Count Odd Numbers in an Interval Range](https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int countOdds(int low, int high) {
+        // count odd number in range from 1 to x
+        auto count_odd = [&](int x){
+            return (x + 1) / 2;
+        };
+
+        // number of odd from l to r will be number of odd from [1 to r] - number of odd from [1 to l - 1]
+        return count_odd(high) - count_odd(low - 1);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 14)  [Add Binary](https://leetcode.com/problems/add-binary/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math` `String` `Bit Manipulation` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    string addBinary(string& a, string& b) {
+        string sum;
+        // iterate over the two strings from the end
+        int i = a.size() - 1, j = b.size() - 1, carry = 0;
+        // while we have not reached the beginning of the strings
+        while(~i || ~j){
+            // get the current bit and add the carry to it
+            int current_bit = carry;
+
+            // if the index is valid, add the bit to the current bit
+            if(~i)
+                current_bit += a[i--] - '0';
+            
+            // if the index is valid, add the bit to the current bit
+            if(~j)
+                current_bit += b[j--] - '0';
+            
+            // add the current bit to the sum
+            sum += (current_bit % 2) + '0';
+
+            // update the carry for the next iteration
+            carry = current_bit / 2;
+        }
+
+        // if there is a carry left, add it to the sum
+        if(carry)
+            sum += '1';
+
+        // reverse the sum to get the correct order
+        reverse(sum.begin(), sum.end());
+
+        // return the sum
+        return sum;
     }
 };
 ```
