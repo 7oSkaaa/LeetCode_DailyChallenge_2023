@@ -41,9 +41,7 @@ var addBinary = function(a, b) {
         // then we add the current bit to the result
         // we use Math.floor to get the integer part of the division
 
-        // we use the post decrement operator to decrement the value of i after we use it
-
-        let currBit = a.charCodeAt(i) + b.charCodeAt(i--) - 48 * 2 + carry;
+        let currBit = a.charCodeAt(i) + b.charCodeAt(i) - 48 * 2 + carry;
         carry = Math.floor(currBit / 2);
         currBit %= 2;
         ans += currBit;
