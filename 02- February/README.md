@@ -698,7 +698,7 @@ public:
 <br><br>
 
 
-## 13)  [Add Binary](https://leetcode.com/problems/add-binary/)
+## 14)  [Add Binary](https://leetcode.com/problems/add-binary/)
 
 ### Difficulty
 
