@@ -32,7 +32,7 @@ var addBinary = function(a, b) {
     // we use the bitwise NOT operator to convert the value of i to a boolean and then we negate it to get the boolean value of the condition
     // it is the same as writing i >= 0 (the condition is true if i is greater than or equal to 0, and it will be false once i becomes -1)
     for(let i = a.length - 1; ~i; i--){
-        
+
         // first we add the two bits and the carry from the previous bit and subtract 48 * 2 because the characters are represented by their ASCII codes
         // then we divide the sum by 2 to get the carry
         // then we take the modulo 2 to get the current bit
@@ -52,3 +52,9 @@ var addBinary = function(a, b) {
     // to do this we convert the string to an array of characters, reverse the array and then join the characters to make a string
     return [...(ans + (carry ? carry : ''))].reverse().join('');
 };
+
+// for the solution that uses BigInt we can use the toString method to convert the result to binary
+// the solution will be just one line of code
+// return (BigInt('0b' + a) + BigInt('0b' + b)).toString(2);
+// or we can use string literals
+// return (BigInt(`0b${a}`) + BigInt(`0b${b}`)).toString(2);
