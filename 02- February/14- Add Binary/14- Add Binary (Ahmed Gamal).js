@@ -1,3 +1,5 @@
+// Author: Ahmed Gamal
+
 /**
  * @param {string} a
  * @param {string} b
