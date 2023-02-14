@@ -177,6 +177,10 @@
         {
             "day": "13",
             "title": "Count Odd Numbers in an Interval Range"
+        },
+        {
+            "day": "14",
+            "title": "Add Binary"
         }
     ]
 }
