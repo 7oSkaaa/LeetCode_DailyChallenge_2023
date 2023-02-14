@@ -12,7 +12,7 @@
 
 // when we add two binary numbers, the current bit is the sum of the two bits and the carry from the previous bit (if there is one) modulo 2 (because the sum of two bits can be 0, 1, 2 or 3)
 // the carry is the sum of the two bits and the carry from the previous bit divided by 2
-// the two strings can have different lengths so we need to pad the shorter string with zeros to make them the same length for easier implementation (for example 101 + 1111 = 101 + 1111 = 0101 + 1111)
+// the two strings can have different lengths so we need to pad the shorter string with zeros to make them the same length for easier implementation (for example 101 + 1111 = 0101 + 1111)
 
 var addBinary = function(a, b) {
     // if the first string is longer than the second string then we need to swap them to make the first string the shorter one
