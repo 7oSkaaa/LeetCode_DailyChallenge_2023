@@ -16,7 +16,7 @@
 
 var addBinary = function(a, b) {
     // if the first string is longer than the second string then we need to swap them to make the first string the shorter one
-    // this is because we need to pad the shorter string with zeros to make them the same length and we don't to consider many cases
+    // this is because we need to pad the shorter string with zeros to make them the same length and we don't want to consider many cases
     if(a.length > b.length){
         [a, b] = [b, a];
     }
