@@ -1,4 +1,4 @@
-// Author : Ubey Saab
+// Author: Ubey Saab
 var addToArrayForm = function(num, k) {
   // define carry 
   let carry=0
