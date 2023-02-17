@@ -8,7 +8,7 @@ public:
         for(int i = 0; i < l; i++)
             ans += sub;
         return (ans == s);
-    }
+    } 
 
     string gcdOfStrings(string& s, string& t)
     {
