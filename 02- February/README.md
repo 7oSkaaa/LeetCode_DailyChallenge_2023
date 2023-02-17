@@ -816,3 +816,33 @@ public:
     }
 };
 ```
+<hr>
+
+<br><br>
+
+
+## 16)  [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        // if the root is null i will return 0
+        // otherwise i will return 1 + max depth of my left and right children depth
+        return (!root ? 0 : 1 + max(maxDepth(root -> right), maxDepth(root -> left)));
+    }
+};
+```
+
+
