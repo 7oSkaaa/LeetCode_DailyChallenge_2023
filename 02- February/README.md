@@ -36,6 +36,9 @@
 1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
 1. **[Count Odd Numbers in an Interval Range](#13--count-odd-numbers-in-an-interval-range)**
 1. **[Add Binary](#14--add-binary)**
+1. **[Add to Array-Form of Integer](#15--add-to-array-form-of-integer)**
+1. **[Maximum Depth of Binary Tree](#16--maximum-depth-of-binary-tree)**
+1. **[Minimum Distance Between BST Nodes](#17--minimum-distance-between-bst-nodes)**
 
 <hr>
 
@@ -748,6 +751,138 @@ public:
 
         // return the sum
         return sum;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 15)  [Add to Array-Form of Integer](https://leetcode.com/problems/add-to-array-form-of-integer/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math` `Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        // we turn the two numbers to strings for the ease of manipulation
+        // then we sum the two numbers from the right to the left
+        // and we keep track of the carry
+        // and at each point we store the sum % 10 in the result
+        // and the carry is the sum / 10
+
+        string s1 = "";
+        string s2 = to_string(k);
+        for(auto&i: num)
+            s1 += i + '0';
+
+        // i is the index of the last digit in s1, j is the index of the last digit in s2, carry is the carry
+        int i = s1.size() - 1, j = s2.size() - 1, carry = 0;
+        string res = "";
+
+        // while we haven't reached the end of both s1, s2, and carry is not 0
+        while(i >= 0 || j >= 0 || carry > 0){
+            // if we haven't reached the end of s1, we add the digit to the carry
+            if(i >= 0)
+                carry += s1[i--] - '0';
+
+            // if we haven't reached the end of s2, we add the digit to the carry
+            if(j >= 0)
+                carry += s2[j--] - '0';
+
+            // we add the carry % 10 to the result
+            res += (carry % 10) + '0';
+            // we update the carry to be the carry / 10
+            carry /= 10;
+        }
+
+        // we turn the result to a vector of integers and reverse it because we added the digits from the right to the left but we stored them from the left to the right
+        vector<int> ans(res.size());
+        for(i = 0, j = res.size() - 1; i < ans.size(); i++, j--)
+            ans[i] = res[j] - '0';
+
+        return ans;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 16)  [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        // if the root is null i will return 0
+        // otherwise i will return 1 + max depth of my left and right children depth
+        return (!root ? 0 : 1 + max(maxDepth(root -> right), maxDepth(root -> left)));
+    }
+};
+```
+
+## 17)  [Minimum Distance Between BST Nodes](https://leetcode.com/problems/minimum-distance-between-bst-nodes/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree` `Binary Search Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // get values of the tree
+    vector < int > values;
+
+    // Left -> Root -> Right
+    void Inorder(TreeNode* root){
+        if(!root) return;
+        Inorder(root -> left);
+        values.push_back(root -> val);
+        Inorder(root -> right);
+    }
+
+    int minDiffInBST(TreeNode* root) {
+        // lets make Inorder traverse to get the tree sorted in increasing order
+        Inorder(root);
+
+        // let get the min_diff between any two adjacent numbers
+        int min_diff = 1e9;
+        for(int i = 1; i < values.size(); i++)
+            min_diff = min(min_diff, values[i] - values[i - 1]);
+
+        return min_diff;
     }
 };
 ```
