@@ -1,7 +1,6 @@
+import json
 import os
 import re
-import json
-
 
 # get the daily problem name and date
 problems = {}
@@ -9,7 +8,7 @@ problems = {}
 
 def read_data():
     # read the data from the file
-    with open('.github/data/problems.json', 'r') as file:
+    with open(".github/data/problems.json", "r") as file:
         data = json.loads(file.read())
 
     # return the data
@@ -35,7 +34,6 @@ def change_directory(dir=None, monthly=None, daily=None):
 
 
 def check_monthly_folders():
-
     # name of the folders in the directory
     folders = [f for f in os.listdir(".") if os.path.isdir(f)]
 
@@ -54,7 +52,6 @@ def check_monthly_folders():
 
 
 def check_daily_folders(monthly_folder):
-
     # name of the folders in the directory
     folders = [f for f in os.listdir() if os.path.isdir(f)]
 
@@ -63,15 +60,11 @@ def check_daily_folders(monthly_folder):
 
     # check if the folders are in the directory
     for folder in folders:
-
         # make sure the folder is in the problems
-        parts = folder.split(' ')
+        parts = folder.split(" ")
         parts[0] = parts[0][:-1]
 
-        problem = {
-            "day": parts[0],
-            "title": ' '.join(parts[1:])
-        }
+        problem = {"day": parts[0], "title": " ".join(parts[1:])}
 
         if problem not in problems_folders:
             print(f"Folder {folder} name is not valid")
@@ -82,20 +75,18 @@ def check_daily_folders(monthly_folder):
 
 
 def check_files(folder_name):
-
     # name of the folders in the directory
     files = [f for f in os.listdir() if os.path.isfile(f)]
 
     # check if the folders are in the directory
     for file in files:
-
         # ignore .gitkeep file
         if file == ".gitkeep":
             continue
 
-        user_with_ext = file.replace(folder_name, '')
+        user_with_ext = file.replace(folder_name, "")
         if not re.match(
-            r"\s\([A-Za-z0-9 -_]+\)\.\b(cpp|rb|py|js|ts|c|java|php|dart|cs)\b",
+            r"\s\([A-Za-z0-9 -_]+\)\.\b(cpp|rb|py|js|ts|c|java|php|dart|cs|exs)\b",
             user_with_ext,
         ):
             print(f"file {file} name is not valid")
@@ -127,7 +118,6 @@ def main():
         daily_folders = check_daily_folders(monthly_folder)
 
         for daily_folder in daily_folders:
-
             # change directory to the current daily folder
             change_directory(daily=daily_folder, monthly=monthly_folder, dir=dir)
 
