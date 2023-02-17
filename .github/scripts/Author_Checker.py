@@ -24,7 +24,6 @@ def change_directory(dir=None, monthly=None, daily=None):
 # check the author line in the given file
 def check_author_line(file=None):
     if file is not None:
-
         # ignore .gitkeep file
         if file == ".gitkeep":
             return
@@ -32,9 +31,11 @@ def check_author_line(file=None):
         with open(file, "r") as f:
             lines = f.readlines()
             for line in lines:
-                words = line.lower().split(' ')
+                words = line.lower().split(" ")
                 for word in words:
-                    if "author:" in word or ("author" in word and ":" in words and "author:" not in words):
+                    if "author:" in word or (
+                        "author" in word and ":" in words and "author:" not in words
+                    ):
                         return
 
     print(f"Author line is not in {file} file")
@@ -42,7 +43,6 @@ def check_author_line(file=None):
 
 
 def main():
-
     # directory of the root folder
     dir = os.getcwd()
 
