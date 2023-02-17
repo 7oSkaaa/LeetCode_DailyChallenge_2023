@@ -1,0 +1,198 @@
+{
+    "01- January": [
+        {
+            "day": "01",
+            "title": "Word Pattern"
+        },
+        {
+            "day": "02",
+            "title": "Detect Capital"
+        },
+        {
+            "day": "03",
+            "title": "Delete Columns to Make Sorted"
+        },
+        {
+            "day": "04",
+            "title": "Minimum Rounds to Complete All Tasks"
+        },
+        {
+            "day": "05",
+            "title": "Minimum Number of Arrows to Burst Balloons"
+        },
+        {
+            "day": "06",
+            "title": "Maximum Ice Cream Bars"
+        },
+        {
+            "day": "07",
+            "title": "Gas Station"
+        },
+        {
+            "day": "08",
+            "title": "Max Points on a Line"
+        },
+        {
+            "day": "09",
+            "title": "Binary Tree Preorder Traversal"
+        },
+        {
+            "day": "10",
+            "title": "Same Tree"
+        },
+        {
+            "day": "11",
+            "title": "Minimum Time to Collect All Apples in a Tree"
+        },
+        {
+            "day": "12",
+            "title": "Number of Nodes in the Sub-Tree With the Same Label"
+        },
+        {
+            "day": "13",
+            "title": "Longest Path With Different Adjacent Characters"
+        },
+        {
+            "day": "14",
+            "title": "Lexicographically Smallest Equivalent String"
+        },
+        {
+            "day": "15",
+            "title": "Number of Good Paths"
+        },
+        {
+            "day": "16",
+            "title": "Insert Interval"
+        },
+        {
+            "day": "17",
+            "title": "Flip String to Monotone Increasing"
+        },
+        {
+            "day": "18",
+            "title": "Maximum Sum Circular Subarray"
+        },
+        {
+            "day": "19",
+            "title": "Subarray Sums Divisible by K"
+        },
+        {
+            "day": "20",
+            "title": "Non-decreasing Subsequences"
+        },
+        {
+            "day": "21",
+            "title": "Restore IP Addresses"
+        },
+        {
+            "day": "22",
+            "title": "Palindrome Partitioning"
+        },
+        {
+            "day": "23",
+            "title": "Find the Town Judge"
+        },
+        {
+            "day": "24",
+            "title": "Snakes and Ladders"
+        },
+        {
+            "day": "25",
+            "title": "Find Closest Node to Given Two Nodes"
+        },
+        {
+            "day": "26",
+            "title": "Cheapest Flights Within K Stops"
+        },
+        {
+            "day": "27",
+            "title": "Concatenated Words"
+        },
+        {
+            "day": "28",
+            "title": "Data Stream as Disjoint Intervals"
+        },
+        {
+            "day": "29",
+            "title": "LFU Cache"
+        },
+        {
+            "day": "30",
+            "title": "N-th Tribonacci Number"
+        },
+        {
+            "day": "31",
+            "title": "Best Team With No Conflicts"
+        }
+    ],
+    "02- February": [
+        {
+            "day": "01",
+            "title": "Greatest Common Divisor of Strings"
+        },
+        {
+            "day": "02",
+            "title": "Verifying an Alien Dictionary"
+        },
+        {
+            "day": "03",
+            "title": "Zigzag Conversion"
+        },
+        {
+            "day": "04",
+            "title": "Permutation in String"
+        },
+        {
+            "day": "05",
+            "title": "Find All Anagrams in a String"
+        },
+        {
+            "day": "06",
+            "title": "Shuffle the Array"
+        },
+        {
+            "day": "07",
+            "title": "Fruit Into Baskets"
+        },
+        {
+            "day": "08",
+            "title": "Jump Game II"
+        },
+        {
+            "day": "09",
+            "title": "Naming a Company"
+        },
+        {
+            "day": "10",
+            "title": "As Far from Land as Possible"
+        },
+        {
+            "day": "11",
+            "title": "Shortest Path with Alternating Colors"
+        },
+        {
+            "day": "12",
+            "title": "Minimum Fuel Cost to Report to the Capital"
+        },
+        {
+            "day": "13",
+            "title": "Count Odd Numbers in an Interval Range"
+        },
+        {
+            "day": "14",
+            "title": "Add Binary"
+        },
+        {
+            "day": "15",
+            "title": "Add to Array-Form of Integer"
+        },
+        {
+            "day": "16",
+            "title": "Maximum Depth of Binary Tree"
+        },
+        {
+            "day": "17",
+            "title": "Minimum Distance Between BST Nodes"
+        }
+    ]
+}
