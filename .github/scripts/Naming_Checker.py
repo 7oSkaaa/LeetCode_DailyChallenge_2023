@@ -1,7 +1,6 @@
+import json
 import os
 import re
-import json
-
 
 # get the daily problem name and date
 problems = {}
