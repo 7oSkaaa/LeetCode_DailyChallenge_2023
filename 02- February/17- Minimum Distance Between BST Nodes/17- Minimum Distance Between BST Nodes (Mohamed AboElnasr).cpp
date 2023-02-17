@@ -1,5 +1,5 @@
 /*
-    Authour: Mohamed AboElnasr
+    Author: Mohamed AboElnasr
 */
 /*
     -the solution is to inorder traverse the BST 
