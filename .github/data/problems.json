@@ -193,6 +193,10 @@
         {
             "day": "17",
             "title": "Minimum Distance Between BST Nodes"
+        },
+        {
+            "day": "18",
+            "title": "Invert Binary Tree"
         }
     ]
 }
