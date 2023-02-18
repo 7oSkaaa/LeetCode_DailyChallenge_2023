@@ -1,6 +1,7 @@
-import requests
 import json
 import os
+
+import requests
 
 
 # get the daily problem name
@@ -42,7 +43,6 @@ def parse_date(date):
 
 
 def parse_month(month):
-
     months = [
         "01- January",
         "02- February",
@@ -77,7 +77,6 @@ def write_data(data):
 
 
 def append_folder(problem_name, day, month):
-
     print(f"{month}/{day}- {problem_name} folder created successfully!")
 
     # append to folder
