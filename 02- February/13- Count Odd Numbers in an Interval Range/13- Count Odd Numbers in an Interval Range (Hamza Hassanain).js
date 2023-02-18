@@ -1,4 +1,3 @@
-// Author: Hamza Hassanain (hamzahasa067)
 /**
  * @param {number} low
  * @param {number} high
