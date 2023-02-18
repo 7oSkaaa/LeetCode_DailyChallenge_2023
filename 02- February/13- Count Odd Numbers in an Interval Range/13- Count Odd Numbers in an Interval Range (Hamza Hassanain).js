@@ -1,3 +1,5 @@
+// Author: Hamza Hassanain
+
 /**
  * @param {number} low
  * @param {number} high
