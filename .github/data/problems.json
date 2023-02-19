@@ -197,6 +197,10 @@
         {
             "day": "18",
             "title": "Invert Binary Tree"
+        },
+        {
+            "day": "19",
+            "title": "Binary Tree Zigzag Level Order Traversal"
         }
     ]
 }
