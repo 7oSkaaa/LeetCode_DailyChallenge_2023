@@ -49,15 +49,15 @@ public:
                 q.push(node->right);
 
             }
-        // empty vector -> ignore
-        if(level.size() == 0)
-            continue;
+            // empty vector -> ignore
+            if(level.size() == 0)
+                continue;
 
-        //reverse vector "level" before appending to the final answer to get the zigzag shape?
-        if(rev)
-            reverse(level.begin(), level.end());
+            //reverse vector "level" before appending to the final answer to get the zigzag shape?
+            if(rev)
+                reverse(level.begin(), level.end());
 
-        ans.push_back(level);
+            ans.push_back(level);
 
 
         }
