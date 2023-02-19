@@ -39,6 +39,7 @@
 1. **[Add to Array-Form of Integer](#15--add-to-array-form-of-integer)**
 1. **[Maximum Depth of Binary Tree](#16--maximum-depth-of-binary-tree)**
 1. **[Minimum Distance Between BST Nodes](#17--minimum-distance-between-bst-nodes)**
+1. **[Invert Binary Tree](#18--invert-binary-tree)**
 
 <hr>
 
@@ -883,6 +884,44 @@ public:
             min_diff = min(min_diff, values[i] - values[i - 1]);
 
         return min_diff;
+    }
+};
+```
+
+## 18)  [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    void invert(TreeNode* root){
+        // if the root is null so do nothing and return
+        if(!root) return;
+        
+        // swap the left subtree with the right subtree
+        swap(root -> right, root -> left);
+        
+        // swap each subtrees in the right subtree
+        invert(root -> right);
+        
+        // swap eaxh subtrees in the left subtree
+        invert(root -> left);
+    }
+    
+    TreeNode* invertTree(TreeNode* root) {
+        invert(root);
+        return root;
     }
 };
 ```
