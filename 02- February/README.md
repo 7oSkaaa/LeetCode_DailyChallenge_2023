@@ -41,6 +41,7 @@
 1. **[Minimum Distance Between BST Nodes](#17--minimum-distance-between-bst-nodes)**
 1. **[Invert Binary Tree](#18--invert-binary-tree)**
 1. **[Binary Tree Zigzag Level Order Traversal](#19--binary-tree-zigzag-level-order-traversal)**
+1. **[Search Insert Position](#20--search-insert-position)**
 
 <hr>
 
@@ -847,6 +848,10 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
 ## 17)  [Minimum Distance Between BST Nodes](https://leetcode.com/problems/minimum-distance-between-bst-nodes/)
 
 ### Difficulty
@@ -926,6 +931,11 @@ public:
     }
 };
 ```
+
+<hr>
+
+<br><br>
+
 
 ## 18)  [Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
 
