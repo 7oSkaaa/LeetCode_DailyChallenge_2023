@@ -201,6 +201,10 @@
         {
             "day": "19",
             "title": "Binary Tree Zigzag Level Order Traversal"
+        },
+        {
+            "day": "20",
+            "title": "Search Insert Position"
         }
     ]
 }
