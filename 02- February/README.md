@@ -1011,3 +1011,29 @@ public:
     }
 };
 ```
+<hr>
+
+<br><br>
+
+## 18)  [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        // get the index of the first element greater than or equal target
+        return lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+    }
+};
+```
