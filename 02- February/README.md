@@ -1015,7 +1015,7 @@ public:
 
 <br><br>
 
-## 18)  [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+## 20)  [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
 
 ### Difficulty
 
