@@ -42,6 +42,7 @@
 1. **[Invert Binary Tree](#18--invert-binary-tree)**
 1. **[Binary Tree Zigzag Level Order Traversal](#19--binary-tree-zigzag-level-order-traversal)**
 1. **[Search Insert Position](#20--search-insert-position)**
+1. **[Single Element in a Sorted Array](#21--single-element-in-a-sorted-array)**
 
 <hr>
 
@@ -1034,6 +1035,37 @@ public:
     int searchInsert(vector<int>& nums, int target) {
         // get the index of the first element greater than or equal target
         return lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        // a ^ a = 0 
+        // so each element will enter twice will be zero so the remaining answer will be the number that appears odd times
+        int xr = 0;
+        for(auto& i : nums)
+            xr ^= i;
+        return xr;
     }
 };
 ```
