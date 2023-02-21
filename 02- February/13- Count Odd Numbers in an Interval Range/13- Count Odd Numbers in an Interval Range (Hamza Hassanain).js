@@ -1,4 +1,5 @@
-// Author: Hamza Hassanain (hamzahasa067)
+// Author: Hamza Hassanain
+
 /**
  * @param {number} low
  * @param {number} high
