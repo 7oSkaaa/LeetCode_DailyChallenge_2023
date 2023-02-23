@@ -1,4 +1,4 @@
-// Author :Nayra Mohammed
+//Author: Nayra Mohammed
 
 #define sz(s) (int(s.size()))
 class Solution
