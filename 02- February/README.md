@@ -45,6 +45,7 @@
 1. **[Single Element in a Sorted Array](#21--single-element-in-a-sorted-array)**
 1. **[Capacity To Ship Packages Within D Days](#22--capacity-to-ship-packages-within-d-days)**
 1. **[IPO](#23--ipo)**
+1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
 
 <hr>
 
@@ -1175,6 +1176,69 @@ public:
         }
 
         return w;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 24)  [Minimize Deviation in Array](https://leetcode.com/problems/minimize-deviation-in-array/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Ordered Set` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimumDeviation(vector<int>& nums) {
+        priority_queue < int > pq;
+        int minval = INT_MAX;
+        
+        // make all elements even
+        for(auto& i : nums){
+
+            // if the number is odd multiply it by 2 to be even
+            if(i & 1) i *= 2;
+
+            // get the minimum value after make all element even
+            minval = min(minval, i);
+
+            // add the element in the pq
+            pq.push(i);
+        }
+
+        // to get the minimum diff
+        int diff = INT_MAX;
+
+        // while the first max element in the pq is even
+        while(!pq.empty() && pq.top() % 2 == 0){
+            // get the max value and remove it from the pq
+            int maxval = pq.top();
+            pq.pop();
+
+            // update the min diff with min value and max value
+            diff = min(diff,maxval - minval);
+
+            // update the min val by the new value of the element
+            minval = min(minval, maxval / 2);
+
+            // add new value of the element
+            pq.push(maxval / 2);
+        }
+
+        // update the minimum diff with max odd element with the min val
+        return min(diff, pq.top() - minval);
     }
 };
 ```
