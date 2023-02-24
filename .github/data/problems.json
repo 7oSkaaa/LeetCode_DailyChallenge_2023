@@ -217,6 +217,10 @@
         {
             "day": "23",
             "title": "IPO"
+        },
+        {
+            "day": "24",
+            "title": "Minimize Deviation in Array"
         }
     ]
 }
