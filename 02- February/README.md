@@ -44,6 +44,9 @@
 1. **[Search Insert Position](#20--search-insert-position)**
 1. **[Single Element in a Sorted Array](#21--single-element-in-a-sorted-array)**
 1. **[Capacity To Ship Packages Within D Days](#22--capacity-to-ship-packages-within-d-days)**
+1. **[IPO](#23--ipo)**
+1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
+1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
 
 <hr>
 
@@ -1122,4 +1125,159 @@ public:
         return ans;
     }
 };
+```
+
+<hr>
+
+<br><br>
+
+## 23)  [IPO](https://leetcode.com/problems/ipo/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size();
+
+        // make vector of indices to sort it
+        vector < int > Idx(n);
+        
+        // make the vector 0 ... n - 1
+        iota(Idx.begin(), Idx.end(), 0);
+        
+        // We sort the projects by their minimum capital required in ascending order because we want to consider the projects that we can afford with our current capital. 
+        // By iterating over the sorted projects, we can ensure that we only consider the projects that have a minimum capital requirement less than or equal to our current capital.
+        sort(Idx.begin(), Idx.end(), [&](int i, int j){
+            return capital[i] < capital[j] || (capital[i] == capital[j] && profits[i] < profits[j]);
+        });
+        
+        int i = 0;
+        priority_queue < int > maximizeCapital;
+        while (k--) {
+            //The condition capital[Idx[i]] <= w checks if the minimum capital requirement of the next project is less than or equal to our current capital w. If this condition is true, we can add the project to the priority queue because we have enough capital to start the project.
+            //We use this condition to ensure that we only add the available projects that we can afford to the priority queue. By checking the minimum capital requirement of the next project before adding it to the priority queue, we can avoid adding projects that we cannot afford, and we can focus on selecting the most profitable project that we can afford with our current capital.
+            while (i < n && capital[Idx[i]] <= w) 
+                maximizeCapital.push(profits[Idx[i++]]);
+
+            if (maximizeCapital.empty()) break;
+
+            w += maximizeCapital.top();
+            maximizeCapital.pop();
+        }
+
+        return w;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 24)  [Minimize Deviation in Array](https://leetcode.com/problems/minimize-deviation-in-array/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Ordered Set` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimumDeviation(vector<int>& nums) {
+        priority_queue < int > pq;
+        int minval = INT_MAX;
+        
+        // make all elements even
+        for(auto& i : nums){
+
+            // if the number is odd multiply it by 2 to be even
+            if(i & 1) i *= 2;
+
+            // get the minimum value after make all element even
+            minval = min(minval, i);
+
+            // add the element in the pq
+            pq.push(i);
+        }
+
+        // to get the minimum diff
+        int diff = INT_MAX;
+
+        // while the first max element in the pq is even
+        while(!pq.empty() && pq.top() % 2 == 0){
+            // get the max value and remove it from the pq
+            int maxval = pq.top();
+            pq.pop();
+
+            // update the min diff with min value and max value
+            diff = min(diff,maxval - minval);
+
+            // update the min val by the new value of the element
+            minval = min(minval, maxval / 2);
+
+            // add new value of the element
+            pq.push(maxval / 2);
+        }
+
+        // update the minimum diff with max odd element with the min val
+        return min(diff, pq.top() - minval);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 25)  [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int maxProfit(vector<int>& prices) {
+        // make vector prices in increasing order to get the max price after current
+        vector < int > sorted(prices.size());
+        sorted.back() = prices.back();
+        for(int i = prices.size() - 2; i >= 0; i--)
+            sorted[i] = max(sorted[i + 1], prices[i]);
+
+        // the best profit will be max value after current - current
+        int Max = INT_MIN;
+        for(int i = 0; i < prices.size(); i++)
+            Max = max(Max, sorted[i] - prices[i]);
+        return Max;
+    }
+};
+
 ```
