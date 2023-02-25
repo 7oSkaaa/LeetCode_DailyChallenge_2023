@@ -221,6 +221,10 @@
         {
             "day": "24",
             "title": "Minimize Deviation in Array"
+        },
+        {
+            "day": "25",
+            "title": "Best Time to Buy and Sell Stock"
         }
     ]
 }
