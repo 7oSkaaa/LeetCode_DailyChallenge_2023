@@ -46,6 +46,7 @@
 1. **[Capacity To Ship Packages Within D Days](#22--capacity-to-ship-packages-within-d-days)**
 1. **[IPO](#23--ipo)**
 1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
+1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
 
 <hr>
 
@@ -1241,4 +1242,42 @@ public:
         return min(diff, pq.top() - minval);
     }
 };
+```
+
+<hr>
+
+<br><br>
+
+## 25)  [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int maxProfit(vector<int>& prices) {
+        // make vector prices in increasing order to get the max price after current
+        vector < int > sorted(prices.size());
+        sorted.back() = prices.back();
+        for(int i = prices.size() - 2; i >= 0; i--)
+            sorted[i] = max(sorted[i + 1], prices[i]);
+
+        // the best profit will be max value after current - current
+        int Max = INT_MIN;
+        for(int i = 0; i < prices.size(); i++)
+            Max = max(Max, sorted[i] - prices[i]);
+        return Max;
+    }
+};
+
 ```
