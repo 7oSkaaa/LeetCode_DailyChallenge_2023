@@ -31,6 +31,22 @@
 1. **[Fruit Into Baskets](#7--fruit-into-baskets)**
 1. **[Jump Game II](#8--jump-game-ii)**
 1. **[Naming a Company](#9--naming-a-company)**
+1. **[As Far from Land as Possible](#10--as-far-from-land-as-possible)**
+1. **[Shortest Path with Alternating Colors](#11--shortest-path-with-alternating-colors)**
+1. **[Minimum Fuel Cost to Report to the Capital](#12--minimum-fuel-cost-to-report-to-the-capital)**
+1. **[Count Odd Numbers in an Interval Range](#13--count-odd-numbers-in-an-interval-range)**
+1. **[Add Binary](#14--add-binary)**
+1. **[Add to Array-Form of Integer](#15--add-to-array-form-of-integer)**
+1. **[Maximum Depth of Binary Tree](#16--maximum-depth-of-binary-tree)**
+1. **[Minimum Distance Between BST Nodes](#17--minimum-distance-between-bst-nodes)**
+1. **[Invert Binary Tree](#18--invert-binary-tree)**
+1. **[Binary Tree Zigzag Level Order Traversal](#19--binary-tree-zigzag-level-order-traversal)**
+1. **[Search Insert Position](#20--search-insert-position)**
+1. **[Single Element in a Sorted Array](#21--single-element-in-a-sorted-array)**
+1. **[Capacity To Ship Packages Within D Days](#22--capacity-to-ship-packages-within-d-days)**
+1. **[IPO](#23--ipo)**
+1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
+1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
 
 <hr>
 
@@ -459,4 +475,809 @@ public:
         return disName * 2;
     }
 };
+```
+
+<hr>
+
+<br><br>
+
+## 10)  [As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        int n = grid.size(), m = grid[0].size();
+        
+        // vector contains the four direction to loop on them
+        vector < pair < int, int > > dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        // lets make bfs from each land cell to calculate the minimum distance from each cell of them to water cells
+        vector < vector < int > > dist(n, vector < int > (m, 1e9));
+        queue < pair < int, int > > bfs;
+
+        // lets add land cells
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(grid[i][j] == 1)
+                    dist[i][j] = 0, bfs.push({i, j});
+
+        // if there is no land cell
+        if(bfs.empty())
+            return -1;
+
+        // check if valid cell to add it
+        auto is_valid = [&](int x, int y){
+            return x >= 0 && x < n && y >= 0 && y < m && !grid[x][y];
+        };
+
+        while(!bfs.empty()){
+            auto [x, y] = bfs.front();
+            bfs.pop();
+
+            for(auto& [dx, dy] : dir){
+                int nx = x + dx, ny = y + dy;
+
+                // if the new cell is valid and you can reach it with distance less than its distance so add it to the queue
+                if(is_valid(nx, ny) && dist[nx][ny] > dist[x][y] + 1)
+                    dist[nx][ny] = dist[x][y] + 1, bfs.push({nx, ny});
+            }
+        }
+
+        // loop over the distance 2D vector to get the maximum distance for each water cell
+        int max_dist = -1;
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(!grid[i][j])
+                    max_dist = max(max_dist, dist[i][j]);
+
+        return max_dist;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 11)  [Shortest Path with Alternating Colors](https://leetcode.com/problems/shortest-path-with-alternating-colors/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Graph` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
+        vector < vector < pair < int, int > > > adj(n);
+        vector < vector < int > > path(n, vector < int > (2, -1));
+        
+        // make the adjacency list each adjacent pair will be the another node and the color of the edge
+        for(auto& v : redEdges)
+            adj[v[0]].push_back({v[1], 0});
+        for(auto v:blueEdges)
+            adj[v[0]].push_back({v[1], 1});
+        
+        // do bfs from 0 to each nodes
+        queue < pair < int, int > > bfs;
+        bfs.push({0,0});
+        bfs.push({0,1});
+        path[0] = {0,0};
+        
+        while(!bfs.empty()){
+            // current node and current color
+            auto [u, c] = bfs.front(); 
+            bfs.pop();
+            
+            for(auto [v, new_c] : adj[u]){
+                // if this edge is the new edge is same colour will the current edge or this state is appears before skip it
+                if(path[v][new_c] != -1 || c == new_c) continue;
+
+                // update the path to the new vertex and put it in the queue
+                path[v][new_c] = 1 + path[u][c];
+                bfs.push({v, new_c});
+            }
+        }
+
+        // add the minimum path for each vertex
+        vector < int > res;
+        for(auto& v : path) {
+            sort(v.begin(), v.end());
+            res.push_back(v[0] != -1 ? v[0] : v[1]);
+        }
+
+        return res;
+        
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 12)  [Minimum Fuel Cost to Report to the Capital](https://leetcode.com/problems/minimum-fuel-cost-to-report-to-the-capital/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    #define ceil(n, m) (((n) + (m) - 1) / (m))
+
+    vector < vector < int > > adj;
+    vector < int > child;
+
+    long long dfs(int u, int p, int seats){
+        long long fuel = 0;
+        for(auto& v : adj[u]){
+            // to avoid cycling
+            if(v == p) continue;
+
+            // dfs on the child of u to get the size of each subtree of them and the answers also
+            fuel += dfs(v, u, seats);
+            
+            // add the subtree size of v to subtree of u
+            child[u] += child[v];
+        }
+
+        // the fuel used will be the sum of that used in my children and ceil the seats of current subtree
+        if(u != 0)
+            fuel += ceil(child[u], seats);
+        
+        return fuel;
+    }
+
+    long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
+        int n = roads.size() + 1;
+        adj = vector < vector < int > > (n);
+        child = vector < int > (n, 1);
+
+        // make adjacency list for all nodes
+        for(auto& v : roads)
+            adj[v[0]].push_back(v[1]), adj[v[1]].push_back(v[0]);
+
+        // dfs from root to get_answers;
+        return dfs(0, -1, seats);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 13)  [Count Odd Numbers in an Interval Range](https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int countOdds(int low, int high) {
+        // count odd number in range from 1 to x
+        auto count_odd = [&](int x){
+            return (x + 1) / 2;
+        };
+
+        // number of odd from l to r will be number of odd from [1 to r] - number of odd from [1 to l - 1]
+        return count_odd(high) - count_odd(low - 1);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 14)  [Add Binary](https://leetcode.com/problems/add-binary/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math` `String` `Bit Manipulation` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    string addBinary(string& a, string& b) {
+        string sum;
+        // iterate over the two strings from the end
+        int i = a.size() - 1, j = b.size() - 1, carry = 0;
+        // while we have not reached the beginning of the strings
+        while(~i || ~j){
+            // get the current bit and add the carry to it
+            int current_bit = carry;
+
+            // if the index is valid, add the bit to the current bit
+            if(~i)
+                current_bit += a[i--] - '0';
+            
+            // if the index is valid, add the bit to the current bit
+            if(~j)
+                current_bit += b[j--] - '0';
+            
+            // add the current bit to the sum
+            sum += (current_bit % 2) + '0';
+
+            // update the carry for the next iteration
+            carry = current_bit / 2;
+        }
+
+        // if there is a carry left, add it to the sum
+        if(carry)
+            sum += '1';
+
+        // reverse the sum to get the correct order
+        reverse(sum.begin(), sum.end());
+
+        // return the sum
+        return sum;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 15)  [Add to Array-Form of Integer](https://leetcode.com/problems/add-to-array-form-of-integer/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Math` `Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& num, int k) {
+        // we turn the two numbers to strings for the ease of manipulation
+        // then we sum the two numbers from the right to the left
+        // and we keep track of the carry
+        // and at each point we store the sum % 10 in the result
+        // and the carry is the sum / 10
+
+        string s1 = "";
+        string s2 = to_string(k);
+        for(auto&i: num)
+            s1 += i + '0';
+
+        // i is the index of the last digit in s1, j is the index of the last digit in s2, carry is the carry
+        int i = s1.size() - 1, j = s2.size() - 1, carry = 0;
+        string res = "";
+
+        // while we haven't reached the end of both s1, s2, and carry is not 0
+        while(i >= 0 || j >= 0 || carry > 0){
+            // if we haven't reached the end of s1, we add the digit to the carry
+            if(i >= 0)
+                carry += s1[i--] - '0';
+
+            // if we haven't reached the end of s2, we add the digit to the carry
+            if(j >= 0)
+                carry += s2[j--] - '0';
+
+            // we add the carry % 10 to the result
+            res += (carry % 10) + '0';
+            // we update the carry to be the carry / 10
+            carry /= 10;
+        }
+
+        // we turn the result to a vector of integers and reverse it because we added the digits from the right to the left but we stored them from the left to the right
+        vector<int> ans(res.size());
+        for(i = 0, j = res.size() - 1; i < ans.size(); i++, j--)
+            ans[i] = res[j] - '0';
+
+        return ans;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 16)  [Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        // if the root is null i will return 0
+        // otherwise i will return 1 + max depth of my left and right children depth
+        return (!root ? 0 : 1 + max(maxDepth(root -> right), maxDepth(root -> left)));
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 17)  [Minimum Distance Between BST Nodes](https://leetcode.com/problems/minimum-distance-between-bst-nodes/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree` `Binary Search Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // get values of the tree
+    vector < int > values;
+
+    // Left -> Root -> Right
+    void Inorder(TreeNode* root){
+        if(!root) return;
+        Inorder(root -> left);
+        values.push_back(root -> val);
+        Inorder(root -> right);
+    }
+
+    int minDiffInBST(TreeNode* root) {
+        // lets make Inorder traverse to get the tree sorted in increasing order
+        Inorder(root);
+
+        // let get the min_diff between any two adjacent numbers
+        int min_diff = 1e9;
+        for(int i = 1; i < values.size(); i++)
+            min_diff = min(min_diff, values[i] - values[i - 1]);
+
+        return min_diff;
+    }
+};
+```
+
+## 18)  [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    void invert(TreeNode* root){
+        // if the root is null so do nothing and return
+        if(!root) return;
+        
+        // swap the left subtree with the right subtree
+        swap(root -> right, root -> left);
+        
+        // swap each subtrees in the right subtree
+        invert(root -> right);
+        
+        // swap eaxh subtrees in the left subtree
+        invert(root -> left);
+    }
+    
+    TreeNode* invertTree(TreeNode* root) {
+        invert(root);
+        return root;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 19)  [Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        // if the root is empty
+        if(!root) return {};
+
+        // to store the nodes in each level in zigzag order
+        vector < vector < int > > nodes;
+        
+        // make bfs on the tree
+        queue < TreeNode* > bfs;
+    
+        // add root to start from it
+        bfs.push(root);
+
+        // add the two children
+        auto add_children = [&](TreeNode* node){
+            // if the child is available so add it
+            if(node -> left)
+                bfs.push(node -> left);
+            if(node -> right)
+                bfs.push(node -> right);
+        };
+
+        // to know the current level
+        int level = 0;
+
+        while(!bfs.empty()){
+            int sz = bfs.size();
+            
+            // store the nodes of the current level
+            vector < int > current_level_nodes;
+
+            // iterate on the current level nodes
+            while(sz--){
+                auto node = bfs.front();
+                bfs.pop();
+                
+                // add the current node val to the vector
+                current_level_nodes.push_back(node -> val);
+
+                // add the childrens of node
+                add_children(node);
+            }
+
+            // zigzag order will be if the current level is odd and order will be normal
+            // otherwise the order will be reversed
+            if(level & 1)
+                reverse(current_level_nodes.begin(), current_level_nodes.end());
+
+            nodes.push_back(current_level_nodes);        
+
+            // move to the current level
+            level++;
+        }
+
+        return nodes;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 20)  [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        // get the index of the first element greater than or equal target
+        return lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        // a ^ a = 0 
+        // so each element will enter twice will be zero so the remaining answer will be the number that appears odd times
+        int xr = 0;
+        for(auto& i : nums)
+            xr ^= i;
+        return xr;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 22)  [Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+
+        // functions is_good to check the current capacity
+        auto is_good = [&](int max_cap){
+            // days to ship all weights and the current capacity
+            int days_to_use = 1, curr_cap = 0;
+            for(auto& w : weights){
+                // if any wieght is greater than max_cap this max_cap isn't good
+                if(w > max_cap) return false;
+
+                // add current weight to current cap
+                curr_cap += w;
+
+                // if the current cap is greater than max_cap we will use another day to ship it
+                if(curr_cap > max_cap)
+                    curr_cap = w, days_to_use++;
+            }
+
+            // current_max_cap will be good if the number of days to move all weights smaller than number of allowed days
+            return days_to_use <= days;
+        };
+
+        // we will make binary search to get the maximum capacity
+        int l = 1, r = 1e9, ans = -1;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? r = m - 1, ans = m : l = m + 1);
+        }
+        // the answer will be the minimum good capacity to use
+        return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 23)  [IPO](https://leetcode.com/problems/ipo/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Sorting` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size();
+
+        // make vector of indices to sort it
+        vector < int > Idx(n);
+        
+        // make the vector 0 ... n - 1
+        iota(Idx.begin(), Idx.end(), 0);
+        
+        // We sort the projects by their minimum capital required in ascending order because we want to consider the projects that we can afford with our current capital. 
+        // By iterating over the sorted projects, we can ensure that we only consider the projects that have a minimum capital requirement less than or equal to our current capital.
+        sort(Idx.begin(), Idx.end(), [&](int i, int j){
+            return capital[i] < capital[j] || (capital[i] == capital[j] && profits[i] < profits[j]);
+        });
+        
+        int i = 0;
+        priority_queue < int > maximizeCapital;
+        while (k--) {
+            //The condition capital[Idx[i]] <= w checks if the minimum capital requirement of the next project is less than or equal to our current capital w. If this condition is true, we can add the project to the priority queue because we have enough capital to start the project.
+            //We use this condition to ensure that we only add the available projects that we can afford to the priority queue. By checking the minimum capital requirement of the next project before adding it to the priority queue, we can avoid adding projects that we cannot afford, and we can focus on selecting the most profitable project that we can afford with our current capital.
+            while (i < n && capital[Idx[i]] <= w) 
+                maximizeCapital.push(profits[Idx[i++]]);
+
+            if (maximizeCapital.empty()) break;
+
+            w += maximizeCapital.top();
+            maximizeCapital.pop();
+        }
+
+        return w;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 24)  [Minimize Deviation in Array](https://leetcode.com/problems/minimize-deviation-in-array/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Greedy` `Ordered Set` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimumDeviation(vector<int>& nums) {
+        priority_queue < int > pq;
+        int minval = INT_MAX;
+        
+        // make all elements even
+        for(auto& i : nums){
+
+            // if the number is odd multiply it by 2 to be even
+            if(i & 1) i *= 2;
+
+            // get the minimum value after make all element even
+            minval = min(minval, i);
+
+            // add the element in the pq
+            pq.push(i);
+        }
+
+        // to get the minimum diff
+        int diff = INT_MAX;
+
+        // while the first max element in the pq is even
+        while(!pq.empty() && pq.top() % 2 == 0){
+            // get the max value and remove it from the pq
+            int maxval = pq.top();
+            pq.pop();
+
+            // update the min diff with min value and max value
+            diff = min(diff,maxval - minval);
+
+            // update the min val by the new value of the element
+            minval = min(minval, maxval / 2);
+
+            // add new value of the element
+            pq.push(maxval / 2);
+        }
+
+        // update the minimum diff with max odd element with the min val
+        return min(diff, pq.top() - minval);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 25)  [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+### Difficulty
+
+**${\bf{\color\{green}\{Easy}}}$**
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int maxProfit(vector<int>& prices) {
+        // make vector prices in increasing order to get the max price after current
+        vector < int > sorted(prices.size());
+        sorted.back() = prices.back();
+        for(int i = prices.size() - 2; i >= 0; i--)
+            sorted[i] = max(sorted[i + 1], prices[i]);
+
+        // the best profit will be max value after current - current
+        int Max = INT_MIN;
+        for(int i = 0; i < prices.size(); i++)
+            Max = max(Max, sorted[i] - prices[i]);
+        return Max;
+    }
+};
+
 ```
