@@ -229,6 +229,10 @@
         {
             "day": "26",
             "title": "Edit Distance"
+        },
+        {
+            "day": "27",
+            "title": "Construct Quad Tree"
         }
     ]
 }
