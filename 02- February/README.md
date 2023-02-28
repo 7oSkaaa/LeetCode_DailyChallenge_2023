@@ -49,6 +49,7 @@
 1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
 1. **[Edit Distance](#26--edit-distance)**
 1. **[Construct Quad Tree](#27--construct-quad-tree)**
+1. **[Find Duplicate Subtrees](#28--find-duplicate-subtrees)**
 
 <hr>
 
@@ -1018,6 +1019,7 @@ public:
     }
 };
 ```
+
 <hr>
 
 <br><br>
@@ -1406,6 +1408,69 @@ public:
         int n = grid.size();  // Assume the grid is square.
         buildQuad(grid, root, 0, 0, n);  // Start building the Quadtree from the root node.
         return root;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 19)  [Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string postOrder(TreeNode* root, unordered_map<string, int>& subtree_hash, vector<TreeNode*>& result) {
+        // null node
+        if(!root)
+            return "#";
+        
+        // Get the traversal hash for the left and right subtrees
+        string left_hash = postOrder(root -> left, subtree_hash, result);
+        string right_hash = postOrder(root -> right, subtree_hash, result);
+        
+        // Hash string for the current subtree rooted at 'root'
+        // If we do left + curr + right, then we can have same pattern for this pattern:
+        /*
+                       0
+                      / \
+         [#,0,#,0,#] 0   0 [#,0,#,0,#]
+                    /     \
+          [#,0,#]  0       0 [#,0,#]
+          
+          That's why we need either preorder or postorder in subtree path pattern
+        */
+        string subtree = left_hash + "," + right_hash + "," + to_string(root->val);
+        
+        // check if the same subtree path was seen before or not
+        // If seen before and this is the second time seen, then only add to result
+        // don't add after second time since that would be redundant
+        if(subtree_hash.count(subtree) && subtree_hash[subtree] == 1)
+            result.emplace_back(root);
+        
+        ++subtree_hash[subtree];
+        return subtree;
+    }
+    
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        // <subtree_traversal_path, no. of nodes to have that in their tree with them as root>
+        unordered_map < string, int > subtree_hash;
+        vector < TreeNode* > result;
+        
+        postOrder(root, subtree_hash, result);
+        return result;
     }
 };
 ```
