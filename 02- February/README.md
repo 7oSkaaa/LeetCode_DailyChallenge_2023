@@ -1343,7 +1343,7 @@ public:
 
 <br><br>
 
-## 27)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
+## 28)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
 
 ### Difficulty
 
