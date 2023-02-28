@@ -233,6 +233,10 @@
         {
             "day": "27",
             "title": "Construct Quad Tree"
+        },
+        {
+            "day": "28",
+            "title": "Find Duplicate Subtrees"
         }
     ]
 }
