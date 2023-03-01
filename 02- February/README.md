@@ -47,6 +47,9 @@
 1. **[IPO](#23--ipo)**
 1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
 1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
+1. **[Edit Distance](#26--edit-distance)**
+1. **[Construct Quad Tree](#27--construct-quad-tree)**
+1. **[Find Duplicate Subtrees](#28--find-duplicate-subtrees)**
 
 <hr>
 
@@ -1016,6 +1019,7 @@ public:
     }
 };
 ```
+
 <hr>
 
 <br><br>
@@ -1280,4 +1284,193 @@ public:
     }
 };
 
+```
+<hr>
+
+<br><br>
+
+## 26)  [Edit Distance](https://leetcode.com/problems/edit-distance/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+    int n,m, memo[505][505];
+    string s, t;
+
+public:
+
+    int dp (int i, int j){
+        if (j == m) return n-i; // Delete all remain characters in string s
+        if (i == n) return m-j; // Insert all remain characters in string t to string s
+
+        int& ans = memo[i][j];
+        if (~ans) return ans;
+
+        if (s[i] == t[j]) ans = dp(i+1, j+1);
+        else {
+            ans = 1 + dp(i+1, j); // Delete
+            ans = min(ans, 1 + dp(i, j+1)); // Insert
+            ans = min(ans, 1 + dp(i+1, j+1)); // Replace
+        }
+
+        return ans;
+    }
+
+    int minDistance(string word1, string word2) {
+        n = word1.size();
+        m = word2.size();
+        s = word1, t = word2;
+
+        for (int i = 0; i < n + 5; i++)
+            for (int j = 0; j < m + 5; j++) 
+                memo[i][j] = -1;
+
+        return dp(0, 0);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 28)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Divide and Conquer` `Tree` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Checks if all elements within a sub-grid of size n x n
+    // starting from position (x, y) in the grid have the same value.
+    bool checkvalue(vector<vector<int>>& grid, int x, int y, int n){
+        int m = n, val = grid[x][y];
+        for(int i = x; i < x + n; i++){
+            for(int j = y; j < y + n; j++){
+                if(grid[i][j] != val){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    // Recursively constructs a Quadtree for the input grid.
+    void buildQuad(vector<vector<int>>& grid, Node* root, int x, int y, int n){
+        // If all elements in the current sub-grid have the same value,
+        // mark the current node as a leaf and set its val to the common value.
+        if(checkvalue(grid, x, y, n)){
+            root->isLeaf = true;
+            root->val = grid[x][y];
+        }
+        // If the elements in the current sub-grid have different values,
+        // mark the current node as an internal node and recursively construct
+        // its four child nodes.
+        else{
+            root->isLeaf = false;
+            root->val = 1;  // Doesn't matter, since it's an internal node.
+            // Construct the top-left child node.
+            root->topLeft = new Node();
+            buildQuad(grid, root->topLeft, x, y, n/2);
+            // Construct the top-right child node.
+            root->topRight = new Node();
+            buildQuad(grid, root->topRight, x, y + n/2, n/2);
+            // Construct the bottom-left child node.
+            root->bottomLeft = new Node();
+            buildQuad(grid, root->bottomLeft, x + n/2, y, n/2);
+            // Construct the bottom-right child node.
+            root->bottomRight = new Node();
+            buildQuad(grid, root->bottomRight, x + n/2, y + n/2, n/2);
+        }
+    }
+    
+    // Constructs the Quadtree for the input grid and returns the root node.
+    Node* construct(vector<vector<int>>& grid) {
+        Node* root = new Node();
+        int n = grid.size();  // Assume the grid is square.
+        buildQuad(grid, root, 0, 0, n);  // Start building the Quadtree from the root node.
+        return root;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 19)  [Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Hash Table` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string postOrder(TreeNode* root, unordered_map<string, int>& subtree_hash, vector<TreeNode*>& result) {
+        // null node
+        if(!root)
+            return "#";
+        
+        // Get the traversal hash for the left and right subtrees
+        string left_hash = postOrder(root -> left, subtree_hash, result);
+        string right_hash = postOrder(root -> right, subtree_hash, result);
+        
+        // Hash string for the current subtree rooted at 'root'
+        // If we do left + curr + right, then we can have same pattern for this pattern:
+        /*
+                       0
+                      / \
+         [#,0,#,0,#] 0   0 [#,0,#,0,#]
+                    /     \
+          [#,0,#]  0       0 [#,0,#]
+          
+          That's why we need either preorder or postorder in subtree path pattern
+        */
+        string subtree = left_hash + "," + right_hash + "," + to_string(root->val);
+        
+        // check if the same subtree path was seen before or not
+        // If seen before and this is the second time seen, then only add to result
+        // don't add after second time since that would be redundant
+        if(subtree_hash.count(subtree) && subtree_hash[subtree] == 1)
+            result.emplace_back(root);
+        
+        ++subtree_hash[subtree];
+        return subtree;
+    }
+    
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        // <subtree_traversal_path, no. of nodes to have that in their tree with them as root>
+        unordered_map < string, int > subtree_hash;
+        vector < TreeNode* > result;
+        
+        postOrder(root, subtree_hash, result);
+        return result;
+    }
+};
 ```
