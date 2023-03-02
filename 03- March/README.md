@@ -22,8 +22,8 @@
 
 ## Problems:
 
-1. **[Sort an Array](#1--sort-an-array/)**
-1. **[String Compression](#2--string-compression/)**
+1. **[Sort an Array](#1--sort-an-array)**
+1. **[String Compression](#2--string-compression)**
 
 <hr>
 
