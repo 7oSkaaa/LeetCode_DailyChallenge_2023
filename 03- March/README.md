@@ -29,7 +29,7 @@
 
 <br><br>
 
-## 1)  [Sort an Array](https://leetcode.com/problems/sort-an-array//)
+## 1)  [Sort an Array](https://leetcode.com/problems/sort-an-array/)
 
 ### Difficulty
 
@@ -95,7 +95,7 @@ public:
 
 <br><br>
 
-## 2)  [Sort an Array](https://leetcode.com/problems/sort-an-array//)
+## 2)  [String Compression](https://leetcode.com/problems/string-compression/)
 
 ### Difficulty
 
