@@ -201,6 +201,48 @@
         {
             "day": "19",
             "title": "Binary Tree Zigzag Level Order Traversal"
+        },
+        {
+            "day": "20",
+            "title": "Search Insert Position"
+        },
+        {
+            "day": "21",
+            "title": "Single Element in a Sorted Array"
+        },
+        {
+            "day": "22",
+            "title": "Capacity To Ship Packages Within D Days"
+        },
+        {
+            "day": "23",
+            "title": "IPO"
+        },
+        {
+            "day": "24",
+            "title": "Minimize Deviation in Array"
+        },
+        {
+            "day": "25",
+            "title": "Best Time to Buy and Sell Stock"
+        },
+        {
+            "day": "26",
+            "title": "Edit Distance"
+        },
+        {
+            "day": "27",
+            "title": "Construct Quad Tree"
+        },
+        {
+            "day": "28",
+            "title": "Find Duplicate Subtrees"
+        }
+    ],
+    "03- March": [
+        {
+            "day": "01",
+            "title": "Sort an Array"
         }
     ]
 }
