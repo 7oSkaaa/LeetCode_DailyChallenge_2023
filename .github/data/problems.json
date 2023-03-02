@@ -243,6 +243,10 @@
         {
             "day": "01",
             "title": "Sort an Array"
+        },
+        {
+            "day": "02",
+            "title": "String Compression"
         }
     ]
 }
