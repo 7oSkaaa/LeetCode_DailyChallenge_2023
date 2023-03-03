@@ -24,6 +24,7 @@
 
 1. **[Sort an Array](#1--sort-an-array)**
 1. **[String Compression](#2--string-compression)**
+1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
 
 <hr>
 
@@ -142,6 +143,36 @@ public:
         add_new_group(chars.back());
 
         return index;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 3)  [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Two Pointers` `String` `String Matching`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        // just use find builtin function
+        int idx = haystack.find(needle);
+
+        // string::npos means that we cannot find the subtring
+        return (idx == string::npos ? -1 : idx);
     }
 };
 ```
