@@ -251,6 +251,10 @@
         {
             "day": "03",
             "title": "Find the Index of the First Occurrence in a String"
+        },
+        {
+            "day": "04",
+            "title": "Count Subarrays With Fixed Bounds"
         }
     ]
 }
