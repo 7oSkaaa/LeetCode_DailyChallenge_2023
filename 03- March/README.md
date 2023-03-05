@@ -25,6 +25,8 @@
 1. **[Sort an Array](#1--sort-an-array)**
 1. **[String Compression](#2--string-compression)**
 1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
+1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
+1. **[Jump Game IV](#5--jump-game-iv)**
 
 <hr>
 
@@ -173,6 +175,121 @@ public:
 
         // string::npos means that we cannot find the subtring
         return (idx == string::npos ? -1 : idx);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 4)  [Count Subarrays With Fixed Bounds](https://leetcode.com/problems/count-subarrays-with-fixed-bounds/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Queue` `Sliding Window` `Monotonic Queue`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        int n = nums.size(), minPos = -1, maxPos = -1, leftBound = -1;
+        long long res = 0;
+
+        for (int i = 0; i < n; ++i) {
+            
+            // the index of the last invalid bound
+            if (nums[i] < minK || nums[i] > maxK)
+                leftBound = i;
+            
+            // update min position
+            if (nums[i] == minK) 
+                minPos = i;
+            
+            // update max position
+            if (nums[i] == maxK)
+                maxPos = i;
+
+            // add the number of subarrays that i will be the right bound of them
+            res += max(0, min(maxPos, minPos) - leftBound);
+        }
+        
+        return res;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 5)  [Jump Game IV](https://leetcode.com/problems/jump-game-iv/)
+
+### Difficulty
+
+**${\bf{\color\{red}\{Hard}}}$**
+
+### Related Topic
+
+`Array` `Hash Table` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minJumps(vector<int>& arr) {
+        // number of elements
+        int n = arr.size();
+
+        // adjacent list for each number with the indices that appears in it
+        map < int, vector < int > > adj;
+        for(int i = 0; i < n; i++)
+            adj[arr[i]].push_back(i);
+
+        // make distance vector to get the minimum distance for each index
+        vector < int > dist(n, 1e9);
+
+        // make bfs started from index 0
+        queue < int > bfs;
+        bfs.push(0);
+        dist[0] = 0;
+
+        // to check it's valid indices to add to the current queue or not
+        auto add = [&](int u, int v) -> void {
+            if(v < 0 || v >= n) return;
+            if(dist[v] > dist[u] + 1)
+                dist[v] = dist[u] + 1, bfs.push(v);
+        };
+
+        // make bfs to get the minimum distance for each index
+        while(!bfs.empty()){
+            // the current index
+            int u = bfs.front();
+            bfs.pop();
+
+            // check can i add the next index to me
+            add(u, u + 1);
+
+            // check can i add the prev index to me
+            add(u, u - 1);
+
+            // try to move to the index of any element same number of me
+            for(auto& v : adj[arr[u]])
+                add(u, v);
+
+            // clear the adjacent list for the current element to avoid redundancy
+            adj[arr[u]].clear();
+        }
+
+        // return the minimum distance to reach last element
+        return dist[n - 1];
     }
 };
 ```
