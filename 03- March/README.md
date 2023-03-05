@@ -25,6 +25,7 @@
 1. **[Sort an Array](#1--sort-an-array)**
 1. **[String Compression](#2--string-compression)**
 1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
+1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
 
 <hr>
 
@@ -173,6 +174,52 @@ public:
 
         // string::npos means that we cannot find the subtring
         return (idx == string::npos ? -1 : idx);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 4)  [Count Subarrays With Fixed Bounds](https://leetcode.com/problems/count-subarrays-with-fixed-bounds/)
+
+### Difficulty
+
+**${\bf{\color\{orange}\{Medium}}}$**
+
+### Related Topic
+
+`Array` `Queue` `Sliding Window` `Monotonic Queue`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        int n = nums.size(), minPos = -1, maxPos = -1, leftBound = -1;
+        long long res = 0;
+
+        for (int i = 0; i < n; ++i) {
+            
+            // the index of the last invalid bound
+            if (nums[i] < minK || nums[i] > maxK)
+                leftBound = i;
+            
+            // update min position
+            if (nums[i] == minK) 
+                minPos = i;
+            
+            // update max position
+            if (nums[i] == maxK)
+                maxPos = i;
+
+            // add the number of subarrays that i will be the right bound of them
+            res += max(0, min(maxPos, minPos) - leftBound);
+        }
+        
+        return res;
     }
 };
 ```
