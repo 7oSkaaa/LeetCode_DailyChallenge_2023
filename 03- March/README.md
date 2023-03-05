@@ -36,7 +36,7 @@
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -102,7 +102,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -157,7 +157,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -186,7 +186,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -232,7 +232,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{red}\{Hard}}}$**
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
 
 ### Related Topic
 
