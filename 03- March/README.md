@@ -22,17 +22,22 @@
 
 ## Problems:
 
-1. **[Sort an Array](#1--sort-an-array/)**
+1. **[Sort an Array](#1--sort-an-array)**
+1. **[String Compression](#2--string-compression)**
+1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
+1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
+1. **[Jump Game IV](#5--jump-game-iv)**
+1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 
 <hr>
 
 <br><br>
 
-## 1)  [Sort an Array](https://leetcode.com/problems/sort-an-array//)
+## 1)  [Sort an Array](https://leetcode.com/problems/sort-an-array/)
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -93,3 +98,245 @@ public:
 <hr>
 
 <br><br>
+
+## 2)  [String Compression](https://leetcode.com/problems/string-compression/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int cnt = 1, index = 0;
+        
+        auto add_new_group = [&](char c){
+            // make the current char of the new array equal c
+            chars[index++] = c;
+
+            // the number of element in the group more than 1 add the freq
+            if(cnt > 1){
+                for(auto& cc : to_string(cnt))
+                    chars[index++] = cc;
+            }
+
+            // reset the number of elements in the group
+            cnt = 1;
+        };
+
+        // loop over the chars and checks the consecutive characters
+        for(int i = 1; i < chars.size(); i++){
+            // if the current char equal the last one so we will add to the current group
+            // otherwise we will start new group
+            if(chars[i] == chars[i - 1])
+                cnt++;
+            else 
+                add_new_group(chars[i - 1]);
+        }
+
+        // add the remainig characters
+        add_new_group(chars.back());
+
+        return index;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 3)  [Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Two Pointers` `String` `String Matching`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        // just use find builtin function
+        int idx = haystack.find(needle);
+
+        // string::npos means that we cannot find the subtring
+        return (idx == string::npos ? -1 : idx);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 4)  [Count Subarrays With Fixed Bounds](https://leetcode.com/problems/count-subarrays-with-fixed-bounds/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Queue` `Sliding Window` `Monotonic Queue`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long countSubarrays(vector<int>& nums, int minK, int maxK) {
+        int n = nums.size(), minPos = -1, maxPos = -1, leftBound = -1;
+        long long res = 0;
+
+        for (int i = 0; i < n; ++i) {
+            
+            // the index of the last invalid bound
+            if (nums[i] < minK || nums[i] > maxK)
+                leftBound = i;
+            
+            // update min position
+            if (nums[i] == minK) 
+                minPos = i;
+            
+            // update max position
+            if (nums[i] == maxK)
+                maxPos = i;
+
+            // add the number of subarrays that i will be the right bound of them
+            res += max(0, min(maxPos, minPos) - leftBound);
+        }
+        
+        return res;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 5)  [Jump Game IV](https://leetcode.com/problems/jump-game-iv/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Breadth-First Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minJumps(vector<int>& arr) {
+        // number of elements
+        int n = arr.size();
+
+        // adjacent list for each number with the indices that appears in it
+        map < int, vector < int > > adj;
+        for(int i = 0; i < n; i++)
+            adj[arr[i]].push_back(i);
+
+        // make distance vector to get the minimum distance for each index
+        vector < int > dist(n, 1e9);
+
+        // make bfs started from index 0
+        queue < int > bfs;
+        bfs.push(0);
+        dist[0] = 0;
+
+        // to check it's valid indices to add to the current queue or not
+        auto add = [&](int u, int v) -> void {
+            if(v < 0 || v >= n) return;
+            if(dist[v] > dist[u] + 1)
+                dist[v] = dist[u] + 1, bfs.push(v);
+        };
+
+        // make bfs to get the minimum distance for each index
+        while(!bfs.empty()){
+            // the current index
+            int u = bfs.front();
+            bfs.pop();
+
+            // check can i add the next index to me
+            add(u, u + 1);
+
+            // check can i add the prev index to me
+            add(u, u - 1);
+
+            // try to move to the index of any element same number of me
+            for(auto& v : adj[arr[u]])
+                add(u, v);
+
+            // clear the adjacent list for the current element to avoid redundancy
+            adj[arr[u]].clear();
+        }
+
+        // return the minimum distance to reach last element
+        return dist[n - 1];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 06)  [Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findKthPositive(vector<int>& a, int k) {
+        /*
+            we will make BS on asnwer to get the kth missing number
+            I try to make sequence of consecutive number it will be 
+            - 1 2 3 4 5 6 7 8 9 .......
+            my array will be 
+            - 2 3 4 7 11
+
+            i will try to check the second element in my array the difference between it
+            and my second element in the sequence will be the number of missing elements
+            untill this element
+
+            if the answer will be -1 so the answer will be out of the array 
+        */
+
+        // the bounds of the search
+        int n = a.size(), l = 1, r = n, ans = 0;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (a[m - 1] - m < k ? l = m + 1, ans = m : r = m - 1);
+        }
+        return ans + k;
+    }
+};
+```
+    
