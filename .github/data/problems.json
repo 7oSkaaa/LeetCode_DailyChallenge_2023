@@ -259,6 +259,10 @@
         {
             "day": "05",
             "title": "Jump Game IV"
+        },
+        {
+            "day": "06",
+            "title": "Kth Missing Positive Number"
         }
     ]
 }
