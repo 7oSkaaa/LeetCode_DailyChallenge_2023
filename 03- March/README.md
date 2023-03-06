@@ -27,6 +27,7 @@
 1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
 1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
 1. **[Jump Game IV](#5--jump-game-iv)**
+1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 
 <hr>
 
@@ -36,7 +37,7 @@
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -102,7 +103,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -157,7 +158,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -186,7 +187,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -232,7 +233,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{red}\{Hard}}}$**
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
 
 ### Related Topic
 
@@ -293,3 +294,49 @@ public:
     }
 };
 ```
+
+<hr>
+<br><br>
+
+## 06)  [Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findKthPositive(vector<int>& a, int k) {
+        /*
+            we will make BS on asnwer to get the kth missing number
+            I try to make sequence of consecutive number it will be 
+            - 1 2 3 4 5 6 7 8 9 .......
+            my array will be 
+            - 2 3 4 7 11
+
+            i will try to check the second element in my array the difference between it
+            and my second element in the sequence will be the number of missing elements
+            untill this element
+
+            if the answer will be -1 so the answer will be out of the array 
+        */
+
+        // the bounds of the search
+        int n = a.size(), l = 1, r = n, ans = 0;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (a[m - 1] - m < k ? l = m + 1, ans = m : r = m - 1);
+        }
+        return ans + k;
+    }
+};
+```
+    
