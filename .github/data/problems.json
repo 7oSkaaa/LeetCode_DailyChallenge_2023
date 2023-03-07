@@ -263,6 +263,10 @@
         {
             "day": "06",
             "title": "Kth Missing Positive Number"
+        },
+        {
+            "day": "07",
+            "title": "Minimum Time to Complete Trips"
         }
     ]
 }
