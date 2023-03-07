@@ -28,6 +28,7 @@
 1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
 1. **[Jump Game IV](#5--jump-game-iv)**
 1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
+1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
 
 <hr>
 
@@ -336,6 +337,55 @@ public:
             (a[m - 1] - m < k ? l = m + 1, ans = m : r = m - 1);
         }
         return ans + k;
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 07)  [Minimum Time to Complete Trips](https://leetcode.com/problems/minimum-time-to-complete-trips/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        // check the current time
+        auto is_good = [&](long long t){
+            // to store number of trips can make with this time
+            long long ach_trips = 0;
+            for(auto& bus : time)
+                ach_trips += t / bus;
+            // if the number of trips greater than totalTrips so it's good time
+            return ach_trips >= totalTrips;
+        };
+        
+        // search for the minimum time to make total trips with buses
+        long long l = 1, r = 1, min_time = -1;
+
+        // to get best r
+        while(!is_good(r)) r *= 2;
+
+        while(l <= r){
+            long long m = l + (r - l) / 2;
+            // if the time m can acheive so try number less than it to achieve best time
+            (is_good(m) ? r = m - 1, min_time = m : l = m + 1);
+        }
+
+        // the minimum time for all buses to complete totalTrips
+        return min_time;
     }
 };
 ```
