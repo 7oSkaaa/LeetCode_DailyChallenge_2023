@@ -29,6 +29,7 @@
 1. **[Jump Game IV](#5--jump-game-iv)**
 1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
+1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
 
 <hr>
 
@@ -386,6 +387,65 @@ public:
 
         // the minimum time for all buses to complete totalTrips
         return min_time;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return the ceiling of the division between a and b 
+    inline int ceil(const int& a, const int& b){
+        return (a + b - 1) / b;
+    }
+
+    int minEatingSpeed(vector<int>& piles, int& h) {
+        auto is_good = [&](int k){
+            int total_hours = 0;
+            /*
+                loop over the piles and calculate the total hours needed to eat
+                all the bananas such that each hour you will eat number of bananas <= k
+            */
+            for(auto& p : piles){
+                total_hours += ceil(p, k);
+                if(total_hours > h)
+                    return false;
+            }
+            
+            // if the number of hours less than h so k is valid choice
+            return total_hours <= h;
+        };
+
+        // make binary search to get the least valid choice
+        int l = 1, r = 1, k = -1;
+
+        // make r less power of 2 valid number
+        while(!is_good(r)) r *= 2;
+
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? r = m - 1, k = m : l = m + 1);
+        }
+
+        // the minimum valid k
+        return k;
     }
 };
 ```
