@@ -267,6 +267,10 @@
         {
             "day": "07",
             "title": "Minimum Time to Complete Trips"
+        },
+        {
+            "day": "08",
+            "title": "Koko Eating Bananas"
         }
     ]
 }
