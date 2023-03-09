@@ -271,6 +271,10 @@
         {
             "day": "08",
             "title": "Koko Eating Bananas"
+        },
+        {
+            "day": "09",
+            "title": "Linked List Cycle II"
         }
     ]
 }
