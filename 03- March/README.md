@@ -30,6 +30,7 @@
 1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
 1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
+1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
 
 <hr>
 
@@ -450,3 +451,42 @@ public:
 };
 ```
     
+<hr>
+<br><br>
+
+## 09)  [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    ListNode* find_cycle(ListNode* head, unordered_map < ListNode*, bool >& occ){
+        // return the node if it is visited before
+        if(!head || occ[head]) return head;
+        
+        // mark this node as visited node
+        occ[head] = true;
+
+        return find_cycle(head -> next, occ);
+    }
+    
+    ListNode *detectCycle(ListNode *head) {
+        // map to store the visited nodes
+        unordered_map < ListNode*, bool > occ;
+
+        // the node that make cycle
+        return find_cycle(head, occ);
+    }
+};
+```
