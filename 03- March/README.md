@@ -30,6 +30,9 @@
 1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
 1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
+1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
+1. **[Linked List Random Node](#10--linked-list-random-node)**
+1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 
 <hr>
 
@@ -450,3 +453,137 @@ public:
 };
 ```
     
+<hr>
+<br><br>
+
+## 09)  [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    ListNode* find_cycle(ListNode* head, unordered_map < ListNode*, bool >& occ){
+        // return the node if it is visited before
+        if(!head || occ[head]) return head;
+        
+        // mark this node as visited node
+        occ[head] = true;
+
+        return find_cycle(head -> next, occ);
+    }
+    
+    ListNode *detectCycle(ListNode *head) {
+        // map to store the visited nodes
+        unordered_map < ListNode*, bool > occ;
+
+        // the node that make cycle
+        return find_cycle(head, occ);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 10)  [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Reservoir Sampling` `Randomized`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // vector  to push the number in it
+    vector < int > nums;
+    
+    Solution(ListNode* head) {
+        // loop over the list and add the number in it
+        ListNode* curr = head;
+        while(curr != nullptr)
+            nums.push_back(curr -> val), curr = curr -> next;
+    }
+    
+    int getRandom() {
+        // get the size of the list and return a random number from it with equal probability
+        int sz = nums.size();
+        return nums[rand() % sz];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 11)  [Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Tree` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        // vector to store the numbers in sorted form
+        vector < int > nums;
+
+        // loop over the list and make the numbers sorted
+        ListNode* curr = head;
+        while(curr != nullptr){
+            // add the current number and move to the next number
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // the BST Tree
+        return construct(0, nums.size() - 1, nums);
+    }
+
+    TreeNode* construct(int l, int r, vector < int >& nums){
+        // the base if the left pointer greater than right pointer
+        if(l > r) return nullptr;
+        
+        // middle of the current subarray
+        int m = l + (r - l) / 2;
+
+        // the middle element will be the root of this subarray
+        TreeNode* root = new TreeNode(nums[m]);
+
+        // construct the left subtree with same concept
+        root -> left = construct(l, m - 1, nums);
+
+        // construct the right subtree with same concept
+        root -> right = construct(m + 1, r, nums);
+
+        // return the root of the current subtree
+        return root;
+    }
+};
+```
