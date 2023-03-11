@@ -513,15 +513,18 @@ public:
 class Solution {
 public:
     
+    // vector  to push the number in it
     vector < int > nums;
     
     Solution(ListNode* head) {
+        // loop over the list and add the number in it
         ListNode* curr = head;
         while(curr != nullptr)
             nums.push_back(curr -> val), curr = curr -> next;
     }
     
     int getRandom() {
+        // get the size of the list and return a random number from it with equal probability
         int sz = nums.size();
         return nums[rand() % sz];
     }
