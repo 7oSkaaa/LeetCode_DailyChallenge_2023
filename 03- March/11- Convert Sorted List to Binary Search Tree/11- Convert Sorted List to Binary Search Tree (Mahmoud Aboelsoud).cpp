@@ -26,10 +26,6 @@ public:
         // find the middle index
         int mid = l + (r - l) / 2;
         
-        // if the number of elements is even then we will have two middle elements so we will take the right one
-        int x = (((r - l + 1) % 2) == 0);
-        mid += x;
-        
         // create the root of the subtree and call the function recursively to build the left and right subtrees 
         TreeNode* root = new TreeNode(v[mid]);
         root -> left = build(l, mid - 1);
