@@ -31,6 +31,7 @@
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
 1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
 1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
+1. **[Linked List Random Node](#10--linked-list-random-node)**
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 
 <hr>
@@ -488,6 +489,41 @@ public:
 
         // the node that make cycle
         return find_cycle(head, occ);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 10)  [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Reservoir Sampling` `Randomized`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    vector < int > nums;
+    
+    Solution(ListNode* head) {
+        ListNode* curr = head;
+        while(curr != nullptr)
+            nums.push_back(curr -> val), curr = curr -> next;
+    }
+    
+    int getRandom() {
+        int sz = nums.size();
+        return nums[rand() % sz];
     }
 };
 ```
