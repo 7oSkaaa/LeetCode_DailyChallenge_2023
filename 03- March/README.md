@@ -33,6 +33,7 @@
 1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
 1. **[Linked List Random Node](#10--linked-list-random-node)**
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
+1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
 
 <hr>
 
@@ -583,6 +584,58 @@ public:
         root -> right = construct(m + 1, r, nums);
 
         // return the root of the current subtree
+        return root;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 12)  [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Heap (Priority Queue)` `Merge Sort`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // initial the current node in the list
+        ListNode* root = nullptr;
+
+        // let us save the index of the minimum element of the current head list of lists
+        int idx = -1;
+
+        for(int i = 0; i < lists.size(); i++){
+            // if the current list is empty skip it
+            if(lists[i] == nullptr) continue;
+
+            // if it's the first list we found or it's minimum than the minimum of we found update the index
+            if(idx == -1 || lists[i] -> val < lists[idx] -> val)
+                idx = i;
+        }
+
+        // if there are no lists anymore
+        if(idx == -1) return nullptr;
+
+        // update the current node with the minimum value of the minimum node
+        root = new ListNode(lists[idx] -> val);
+
+        // move the minimum node to it's next
+        lists[idx] = lists[idx] -> next;
+
+        // the next of the current node in the new list will be the returned node of the next step
+        root -> next = mergeKLists(lists);
+
+        // return the current node of the new list
         return root;
     }
 };
