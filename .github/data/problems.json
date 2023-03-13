@@ -287,6 +287,10 @@
         {
             "day": "12",
             "title": "Merge k Sorted Lists"
+        },
+        {
+            "day": "13",
+            "title": "Symmetric Tree"
         }
     ]
 }
