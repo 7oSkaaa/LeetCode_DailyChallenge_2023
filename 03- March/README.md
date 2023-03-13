@@ -27,6 +27,13 @@
 1. **[Find the Index of the First Occurrence in a String](#3--find-the-index-of-the-first-occurrence-in-a-string)**
 1. **[Count Subarrays With Fixed Bounds](#4--count-subarrays-with-fixed-bounds)**
 1. **[Jump Game IV](#5--jump-game-iv)**
+1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
+1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
+1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
+1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
+1. **[Linked List Random Node](#10--linked-list-random-node)**
+1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
+1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
 
 <hr>
 
@@ -290,6 +297,346 @@ public:
 
         // return the minimum distance to reach last element
         return dist[n - 1];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 06)  [Kth Missing Positive Number](https://leetcode.com/problems/kth-missing-positive-number/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findKthPositive(vector<int>& a, int k) {
+        /*
+            we will make BS on asnwer to get the kth missing number
+            I try to make sequence of consecutive number it will be 
+            - 1 2 3 4 5 6 7 8 9 .......
+            my array will be 
+            - 2 3 4 7 11
+
+            i will try to check the second element in my array the difference between it
+            and my second element in the sequence will be the number of missing elements
+            untill this element
+
+            if the answer will be -1 so the answer will be out of the array 
+        */
+
+        // the bounds of the search
+        int n = a.size(), l = 1, r = n, ans = 0;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (a[m - 1] - m < k ? l = m + 1, ans = m : r = m - 1);
+        }
+        return ans + k;
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 07)  [Minimum Time to Complete Trips](https://leetcode.com/problems/minimum-time-to-complete-trips/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        // check the current time
+        auto is_good = [&](long long t){
+            // to store number of trips can make with this time
+            long long ach_trips = 0;
+            for(auto& bus : time)
+                ach_trips += t / bus;
+            // if the number of trips greater than totalTrips so it's good time
+            return ach_trips >= totalTrips;
+        };
+        
+        // search for the minimum time to make total trips with buses
+        long long l = 1, r = 1, min_time = -1;
+
+        // to get best r
+        while(!is_good(r)) r *= 2;
+
+        while(l <= r){
+            long long m = l + (r - l) / 2;
+            // if the time m can acheive so try number less than it to achieve best time
+            (is_good(m) ? r = m - 1, min_time = m : l = m + 1);
+        }
+
+        // the minimum time for all buses to complete totalTrips
+        return min_time;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return the ceiling of the division between a and b 
+    inline int ceil(const int& a, const int& b){
+        return (a + b - 1) / b;
+    }
+
+    int minEatingSpeed(vector<int>& piles, int& h) {
+        auto is_good = [&](int k){
+            int total_hours = 0;
+            /*
+                loop over the piles and calculate the total hours needed to eat
+                all the bananas such that each hour you will eat number of bananas <= k
+            */
+            for(auto& p : piles){
+                total_hours += ceil(p, k);
+                if(total_hours > h)
+                    return false;
+            }
+            
+            // if the number of hours less than h so k is valid choice
+            return total_hours <= h;
+        };
+
+        // make binary search to get the least valid choice
+        int l = 1, r = 1, k = -1;
+
+        // make r less power of 2 valid number
+        while(!is_good(r)) r *= 2;
+
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? r = m - 1, k = m : l = m + 1);
+        }
+
+        // the minimum valid k
+        return k;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    ListNode* find_cycle(ListNode* head, unordered_map < ListNode*, bool >& occ){
+        // return the node if it is visited before
+        if(!head || occ[head]) return head;
+        
+        // mark this node as visited node
+        occ[head] = true;
+
+        return find_cycle(head -> next, occ);
+    }
+    
+    ListNode *detectCycle(ListNode *head) {
+        // map to store the visited nodes
+        unordered_map < ListNode*, bool > occ;
+
+        // the node that make cycle
+        return find_cycle(head, occ);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 10)  [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Reservoir Sampling` `Randomized`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // vector  to push the number in it
+    vector < int > nums;
+    
+    Solution(ListNode* head) {
+        // loop over the list and add the number in it
+        ListNode* curr = head;
+        while(curr != nullptr)
+            nums.push_back(curr -> val), curr = curr -> next;
+    }
+    
+    int getRandom() {
+        // get the size of the list and return a random number from it with equal probability
+        int sz = nums.size();
+        return nums[rand() % sz];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 11)  [Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Tree` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        // vector to store the numbers in sorted form
+        vector < int > nums;
+
+        // loop over the list and make the numbers sorted
+        ListNode* curr = head;
+        while(curr != nullptr){
+            // add the current number and move to the next number
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // the BST Tree
+        return construct(0, nums.size() - 1, nums);
+    }
+
+    TreeNode* construct(int l, int r, vector < int >& nums){
+        // the base if the left pointer greater than right pointer
+        if(l > r) return nullptr;
+        
+        // middle of the current subarray
+        int m = l + (r - l) / 2;
+
+        // the middle element will be the root of this subarray
+        TreeNode* root = new TreeNode(nums[m]);
+
+        // construct the left subtree with same concept
+        root -> left = construct(l, m - 1, nums);
+
+        // construct the right subtree with same concept
+        root -> right = construct(m + 1, r, nums);
+
+        // return the root of the current subtree
+        return root;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 12)  [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Heap (Priority Queue)` `Merge Sort`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // initial the current node in the list
+        ListNode* root = nullptr;
+
+        // let us save the index of the minimum element of the current head list of lists
+        int idx = -1;
+
+        for(int i = 0; i < lists.size(); i++){
+            // if the current list is empty skip it
+            if(lists[i] == nullptr) continue;
+
+            // if it's the first list we found or it's minimum than the minimum of we found update the index
+            if(idx == -1 || lists[i] -> val < lists[idx] -> val)
+                idx = i;
+        }
+
+        // if there are no lists anymore
+        if(idx == -1) return nullptr;
+
+        // update the current node with the minimum value of the minimum node
+        root = new ListNode(lists[idx] -> val);
+
+        // move the minimum node to it's next
+        lists[idx] = lists[idx] -> next;
+
+        // the next of the current node in the new list will be the returned node of the next step
+        root -> next = mergeKLists(lists);
+
+        // return the current node of the new list
+        return root;
     }
 };
 ```
