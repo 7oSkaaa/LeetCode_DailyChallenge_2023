@@ -31,6 +31,10 @@
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
 1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
 1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
+1. **[Linked List Random Node](#10--linked-list-random-node)**
+1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
+1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
+1. **[Symmetric Tree](#13--symmetric-tree)**
 
 <hr>
 
@@ -487,6 +491,198 @@ public:
 
         // the node that make cycle
         return find_cycle(head, occ);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 10)  [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Reservoir Sampling` `Randomized`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // vector  to push the number in it
+    vector < int > nums;
+    
+    Solution(ListNode* head) {
+        // loop over the list and add the number in it
+        ListNode* curr = head;
+        while(curr != nullptr)
+            nums.push_back(curr -> val), curr = curr -> next;
+    }
+    
+    int getRandom() {
+        // get the size of the list and return a random number from it with equal probability
+        int sz = nums.size();
+        return nums[rand() % sz];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 11)  [Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Tree` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        // vector to store the numbers in sorted form
+        vector < int > nums;
+
+        // loop over the list and make the numbers sorted
+        ListNode* curr = head;
+        while(curr != nullptr){
+            // add the current number and move to the next number
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // the BST Tree
+        return construct(0, nums.size() - 1, nums);
+    }
+
+    TreeNode* construct(int l, int r, vector < int >& nums){
+        // the base if the left pointer greater than right pointer
+        if(l > r) return nullptr;
+        
+        // middle of the current subarray
+        int m = l + (r - l) / 2;
+
+        // the middle element will be the root of this subarray
+        TreeNode* root = new TreeNode(nums[m]);
+
+        // construct the left subtree with same concept
+        root -> left = construct(l, m - 1, nums);
+
+        // construct the right subtree with same concept
+        root -> right = construct(m + 1, r, nums);
+
+        // return the root of the current subtree
+        return root;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 12)  [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Heap (Priority Queue)` `Merge Sort`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // initial the current node in the list
+        ListNode* root = nullptr;
+
+        // let us save the index of the minimum element of the current head list of lists
+        int idx = -1;
+
+        for(int i = 0; i < lists.size(); i++){
+            // if the current list is empty skip it
+            if(lists[i] == nullptr) continue;
+
+            // if it's the first list we found or it's minimum than the minimum of we found update the index
+            if(idx == -1 || lists[i] -> val < lists[idx] -> val)
+                idx = i;
+        }
+
+        // if there are no lists anymore
+        if(idx == -1) return nullptr;
+
+        // update the current node with the minimum value of the minimum node
+        root = new ListNode(lists[idx] -> val);
+
+        // move the minimum node to it's next
+        lists[idx] = lists[idx] -> next;
+
+        // the next of the current node in the new list will be the returned node of the next step
+        root -> next = mergeKLists(lists);
+
+        // return the current node of the new list
+        return root;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    
+    bool traverse(TreeNode* node1, TreeNode* node2){
+        // if the two subtrees are empty so they are symmetric
+        if(!node1 && !node2) return true;
+
+        // if one of the two nodes empty so the subtree not symmetric
+        if(!node1 || !node2) return false;
+
+        // if the value of the two subtrees root different the subtrees aren't symmetric
+        if(node1 -> val != node2 -> val) return false;
+
+        // if the left tree and right tree are symmetric so the current subtree are symmetric also
+        return traverse(node1 -> right, node2 -> left) && traverse(node1 -> left, node2 -> right);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        // if the tree are empty 
+        if(!root) return true;
+
+        // check the symmetry of the tree
+        return traverse(root -> left, root -> right);
     }
 };
 ```
