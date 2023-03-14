@@ -5,9 +5,9 @@ public:
     int sumNumbers(TreeNode* root, int curr = 0) {
         // if the current node is NULL pointer return 0
         if (!root) return 0;
-        // if the current node is a leaf node (no left node and no right node), return the previous calculated 'curr' shifted left (by multiply 10) and ADD the node value
+        // if the current node is a leaf node
         if (!root->left && !root->right) return curr * 10 + root->val;
-        // Every time go left and right with curr has new value equal to curr shifted left (by multiply 10) and ADD the node value
+        // go to the left node and the right node
         return sumNumbers(root->left, curr * 10 + root->val) + sumNumbers(root->right, curr * 10 + root->val);
     }
 };
