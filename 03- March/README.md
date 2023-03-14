@@ -34,6 +34,7 @@
 1. **[Linked List Random Node](#10--linked-list-random-node)**
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
+1. **[Symmetric Tree](#13--symmetric-tree)**
 
 <hr>
 
@@ -637,6 +638,51 @@ public:
 
         // return the current node of the new list
         return root;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    
+    bool traverse(TreeNode* node1, TreeNode* node2){
+        // if the two subtrees are empty so they are symmetric
+        if(!node1 && !node2) return true;
+
+        // if one of the two nodes empty so the subtree not symmetric
+        if(!node1 || !node2) return false;
+
+        // if the value of the two subtrees root different the subtrees aren't symmetric
+        if(node1 -> val != node2 -> val) return false;
+
+        // if the left tree and right tree are symmetric so the current subtree are symmetric also
+        return traverse(node1 -> right, node2 -> left) && traverse(node1 -> left, node2 -> right);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        // if the tree are empty 
+        if(!root) return true;
+
+        // check the symmetry of the tree
+        return traverse(root -> left, root -> right);
     }
 };
 ```
