@@ -2,8 +2,10 @@
 
 /*
 # Intuition
-    If I want to return the total sum of all root-to-leaf numbers, then I will have to traverse through the tree from the root node to the leaf node. We are going to use DFS for that.
-    And if I want to add a new digit to the right of an existing number, I can do it by multiplying the existing number by 10 that is going to create a new digit to the right, then adding the number that I wish to add in the new digit.
+    If I want to return the total sum of all root-to-leaf numbers, then I will have to traverse through the tree from the root node to the leaf node.
+    We are going to use DFS for that. And if I want to add a new digit to the right of an existing number,
+    I can do it by multiplying the existing number by 10 that is going to create a new digit to the right,
+    then adding the number that I wish to add in the new digit.
 
 # Approach
     1. Initialize sum global variable
