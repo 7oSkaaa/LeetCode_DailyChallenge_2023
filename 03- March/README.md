@@ -34,6 +34,8 @@
 1. **[Linked List Random Node](#10--linked-list-random-node)**
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
+1. **[Symmetric Tree](#13--symmetric-tree)**
+1. **[Sum Root to Leaf Numbers](#14--sum-root-to-leaf-numbers)**
 
 <hr>
 
@@ -637,6 +639,104 @@ public:
 
         // return the current node of the new list
         return root;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    
+    bool traverse(TreeNode* node1, TreeNode* node2){
+        // if the two subtrees are empty so they are symmetric
+        if(!node1 && !node2) return true;
+
+        // if one of the two nodes empty so the subtree not symmetric
+        if(!node1 || !node2) return false;
+
+        // if the value of the two subtrees root different the subtrees aren't symmetric
+        if(node1 -> val != node2 -> val) return false;
+
+        // if the left tree and right tree are symmetric so the current subtree are symmetric also
+        return traverse(node1 -> right, node2 -> left) && traverse(node1 -> left, node2 -> right);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        // if the tree are empty 
+        if(!root) return true;
+
+        // check the symmetry of the tree
+        return traverse(root -> left, root -> right);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 14)  [Sum Root to Leaf Numbers](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // we just need to traverse the tree and keep track of the current value of concatenation of the nodes from the root to the current node
+    // when we reach a leaf node, we add the current value to the answer
+    
+
+    // the answer variable
+    int ans;
+
+    // the dfs function to traverse the tree
+    void dfs(TreeNode* root, int val){
+        // if the current node is null, we return
+        if(root == NULL) return;
+
+        // we concatenate the current node value to the current value
+        val = val * 10 + root -> val;
+
+        // if we reach a leaf node, we add the current value to the answer
+        if(!root -> left && !root -> right) ans += val;
+        
+        // we traverse the left and right subtrees
+        dfs(root -> left, val);
+        dfs(root -> right, val);
+    }
+
+    int sumNumbers(TreeNode* root) {
+        // we initialize the answer to zero
+        ans = 0;
+        // we call the dfs function to traverse the tree and calculate the answer
+        dfs(root, 0);
+        
+        // we return the answer
+        return ans;
     }
 };
 ```
