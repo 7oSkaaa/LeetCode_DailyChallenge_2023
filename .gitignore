@@ -161,3 +161,8 @@ cython_debug/
 
 # vscode
 .vscode/
+
+
+# scripts
+README.py
+daily_problem.md
