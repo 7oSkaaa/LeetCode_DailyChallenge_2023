@@ -35,6 +35,9 @@
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
 1. **[Symmetric Tree](#13--symmetric-tree)**
+1. **[Sum Root to Leaf Numbers](#14--sum-root-to-leaf-numbers)**
+1. **[Check Completeness of a Binary Tree](#15--check-completeness-of-a-binary-tree)**
+1. **[Construct Binary Tree from Inorder and Postorder Traversal](#16--construct-binary-tree-from-inorder-and-postorder-traversal)**
 
 <hr>
 
@@ -685,4 +688,162 @@ public:
         return traverse(root -> left, root -> right);
     }
 };
+```
+<hr>
+<br><br>
+
+## 14)  [Sum Root to Leaf Numbers](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // we just need to traverse the tree and keep track of the current value of concatenation of the nodes from the root to the current node
+    // when we reach a leaf node, we add the current value to the answer
+    
+
+    // the answer variable
+    int ans;
+
+    // the dfs function to traverse the tree
+    void dfs(TreeNode* root, int val){
+        // if the current node is null, we return
+        if(root == NULL) return;
+
+        // we concatenate the current node value to the current value
+        val = val * 10 + root -> val;
+
+        // if we reach a leaf node, we add the current value to the answer
+        if(!root -> left && !root -> right) ans += val;
+        
+        // we traverse the left and right subtrees
+        dfs(root -> left, val);
+        dfs(root -> right, val);
+    }
+
+    int sumNumbers(TreeNode* root) {
+        // we initialize the answer to zero
+        ans = 0;
+        // we call the dfs function to traverse the tree and calculate the answer
+        dfs(root, 0);
+        
+        // we return the answer
+        return ans;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 15)  [Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root, bool isHaveRight = false) {
+        // try to bfs about the tree to get all levels
+        queue < TreeNode* > bfs;
+
+        // add the root to start the bfs from it
+        bfs.push(root);
+
+        // if the previous node have missed one right sub-tree
+        bool isNodeMissed = false;
+
+        while(!bfs.empty()){
+            // get the current size of the queue
+            int sz = bfs.size();
+
+            // add node and check the state
+            auto add_node = [&](TreeNode* node){
+                // if the current node is nullptr so there is a missed node right now
+                if(!node)
+                    return isNodeMissed = true;
+
+                // if we have to add a node and there is a node missed before so it's not completed tree
+                if(isNodeMissed)
+                    return false;
+
+                // add the current node because it's valid to add
+                return bfs.push(node), true;
+            };
+
+            while(sz--){
+                TreeNode* curr = bfs.front();
+                bfs.pop();
+
+                // to check the current root is valid or not
+                bool valid_root = true;
+
+                valid_root &= add_node(curr -> left);
+                valid_root &= add_node(curr -> right);
+
+                // if the current root not valid so it's not completed tree
+                if(!valid_root)
+                    return false;
+            }
+        }
+
+        // ok, it's a completed tree right now.
+        return true;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 16)  [Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Divide and Conquer` `Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        # If the inorder array is empty, return an empty tree
+        if len(inorder) == 0: return None
+        # If the inorder array has 1 element, return it as the only node (root)
+        if len(inorder) == 1: return TreeNode(inorder[0])
+        
+        # Mark the root as the last node in the postorder array (left,right,parent)
+        root = TreeNode(postorder[-1])
+        # Traverse the inorder array to find the left subtree which will be all the nodes before the root node (the last node in the post order)
+        for i in range(len(inorder)):
+            # If current node is the root
+            if inorder[i] == postorder[-1]:
+                # Build the left subtree using the inorder and postorder nodes right before the root using the current index i
+                root.left = self.buildTree(inorder[:i], postorder[:i])
+                # Build the right subtree using the inorder nodes right after the root using the current index i and the postorder nodes from index i to the end
+                root.right = self.buildTree(inorder[i+1:], postorder[i:-1])
+        return root
 ```
