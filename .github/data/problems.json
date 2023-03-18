@@ -307,6 +307,10 @@
         {
             "day": "17",
             "title": "Implement Trie (Prefix Tree)"
+        },
+        {
+            "day": "18",
+            "title": "Design Browser History"
         }
     ]
 }
