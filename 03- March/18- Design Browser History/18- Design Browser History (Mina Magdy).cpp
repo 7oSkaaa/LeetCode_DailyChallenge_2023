@@ -1,3 +1,5 @@
+// Author: Mina Magdy
+
 class BrowserHistory {
 public:
     vector<string> vec;
