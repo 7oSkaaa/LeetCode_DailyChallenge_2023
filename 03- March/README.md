@@ -34,6 +34,11 @@
 1. **[Linked List Random Node](#10--linked-list-random-node)**
 1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
 1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
+1. **[Symmetric Tree](#13--symmetric-tree)**
+1. **[Sum Root to Leaf Numbers](#14--sum-root-to-leaf-numbers)**
+1. **[Check Completeness of a Binary Tree](#15--check-completeness-of-a-binary-tree)**
+1. **[Construct Binary Tree from Inorder and Postorder Traversal](#16--construct-binary-tree-from-inorder-and-postorder-traversal)**
+1. **[Implement Trie (Prefix Tree)](#17--implement-trie-prefix-tree)**
 
 <hr>
 
@@ -637,6 +642,316 @@ public:
 
         // return the current node of the new list
         return root;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    
+    bool traverse(TreeNode* node1, TreeNode* node2){
+        // if the two subtrees are empty so they are symmetric
+        if(!node1 && !node2) return true;
+
+        // if one of the two nodes empty so the subtree not symmetric
+        if(!node1 || !node2) return false;
+
+        // if the value of the two subtrees root different the subtrees aren't symmetric
+        if(node1 -> val != node2 -> val) return false;
+
+        // if the left tree and right tree are symmetric so the current subtree are symmetric also
+        return traverse(node1 -> right, node2 -> left) && traverse(node1 -> left, node2 -> right);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        // if the tree are empty 
+        if(!root) return true;
+
+        // check the symmetry of the tree
+        return traverse(root -> left, root -> right);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 14)  [Sum Root to Leaf Numbers](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // we just need to traverse the tree and keep track of the current value of concatenation of the nodes from the root to the current node
+    // when we reach a leaf node, we add the current value to the answer
+    
+
+    // the answer variable
+    int ans;
+
+    // the dfs function to traverse the tree
+    void dfs(TreeNode* root, int val){
+        // if the current node is null, we return
+        if(root == NULL) return;
+
+        // we concatenate the current node value to the current value
+        val = val * 10 + root -> val;
+
+        // if we reach a leaf node, we add the current value to the answer
+        if(!root -> left && !root -> right) ans += val;
+        
+        // we traverse the left and right subtrees
+        dfs(root -> left, val);
+        dfs(root -> right, val);
+    }
+
+    int sumNumbers(TreeNode* root) {
+        // we initialize the answer to zero
+        ans = 0;
+        // we call the dfs function to traverse the tree and calculate the answer
+        dfs(root, 0);
+        
+        // we return the answer
+        return ans;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 15)  [Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root, bool isHaveRight = false) {
+        // try to bfs about the tree to get all levels
+        queue < TreeNode* > bfs;
+
+        // add the root to start the bfs from it
+        bfs.push(root);
+
+        // if the previous node have missed one right sub-tree
+        bool isNodeMissed = false;
+
+        while(!bfs.empty()){
+            // get the current size of the queue
+            int sz = bfs.size();
+
+            // add node and check the state
+            auto add_node = [&](TreeNode* node){
+                // if the current node is nullptr so there is a missed node right now
+                if(!node)
+                    return isNodeMissed = true;
+
+                // if we have to add a node and there is a node missed before so it's not completed tree
+                if(isNodeMissed)
+                    return false;
+
+                // add the current node because it's valid to add
+                return bfs.push(node), true;
+            };
+
+            while(sz--){
+                TreeNode* curr = bfs.front();
+                bfs.pop();
+
+                // to check the current root is valid or not
+                bool valid_root = true;
+
+                valid_root &= add_node(curr -> left);
+                valid_root &= add_node(curr -> right);
+
+                // if the current root not valid so it's not completed tree
+                if(!valid_root)
+                    return false;
+            }
+        }
+
+        // ok, it's a completed tree right now.
+        return true;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 16)  [Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Divide and Conquer` `Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        # If the inorder array is empty, return an empty tree
+        if len(inorder) == 0: return None
+        # If the inorder array has 1 element, return it as the only node (root)
+        if len(inorder) == 1: return TreeNode(inorder[0])
+        
+        # Mark the root as the last node in the postorder array (left,right,parent)
+        root = TreeNode(postorder[-1])
+        # Traverse the inorder array to find the left subtree which will be all the nodes before the root node (the last node in the post order)
+        for i in range(len(inorder)):
+            # If current node is the root
+            if inorder[i] == postorder[-1]:
+                # Build the left subtree using the inorder and postorder nodes right before the root using the current index i
+                root.left = self.buildTree(inorder[:i], postorder[:i])
+                # Build the right subtree using the inorder nodes right after the root using the current index i and the postorder nodes from index i to the end
+                root.right = self.buildTree(inorder[i+1:], postorder[i:-1])
+        return root
+```
+<hr>
+<br><br>
+
+## 17)  [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Design` `Trie`
+
+### Code
+
+
+```cpp
+class Trie {
+
+    // the node class that represents each node in the trie data structure
+    class Node {
+    public:
+        // the children of the node (one for each letter in the alphabet)
+        Node* children[26];
+
+        // a boolean variable that indicates if the node is the end of a word or not
+        bool is_end;
+
+        // the constructor of the node class
+        Node() {
+            // initialize the children of the node to null
+            for(auto& i : children) {
+                i = nullptr;
+            }
+            // initialize the is_end variable to false
+            is_end = false;
+        }
+    };
+
+    // the root node of the trie data structure
+    Node* root;
+public:
+
+    // the constructor of the trie data structure
+    Trie() {
+        // initialize the root node to a new node (the root node is a dummy node)
+        root = new Node();
+    }
+    
+    // the insert function that inserts a word in the trie data structure
+    void insert(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then create a new node
+            if(not curr -> children[word[i] - 'a'])
+                curr -> children[word[i] - 'a'] = new Node();
+        
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // mark the last node as the end of a word
+        curr -> is_end = true;
+    }
+    
+    // the search function that searches for a word in the trie data structure
+    bool search(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then return false
+            if(not curr -> children[word[i] - 'a'])
+                return false;
+            
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // return true if the last node is the end of a word and false otherwise
+        return curr -> is_end;
+    }
+    
+    // the startsWith function that searches for a prefix in the trie data structure
+    bool startsWith(string prefix) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the prefix
+        for(int i = 0; i < prefix.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the prefix then return false
+            if(not curr -> children[prefix[i] - 'a'])
+                return false;
+
+            // move to the child of the current node with the current letter of the prefix
+            curr = curr -> children[prefix[i] - 'a'];
+        }
+
+        // since we reached the end of the prefix then return true (the prefix exists)
+        return true;
     }
 };
 ```
