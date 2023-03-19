@@ -311,6 +311,10 @@
         {
             "day": "18",
             "title": "Design Browser History"
+        },
+        {
+            "day": "19",
+            "title": "Design Add and Search Words Data Structure"
         }
     ]
 }
