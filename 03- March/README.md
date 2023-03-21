@@ -29,6 +29,19 @@
 1. **[Jump Game IV](#5--jump-game-iv)**
 1. **[Kth Missing Positive Number](#06--kth-missing-positive-number)**
 1. **[Minimum Time to Complete Trips](#07--minimum-time-to-complete-trips)**
+1. **[Koko Eating Bananas](#08--koko-eating-bananas)**
+1. **[Linked List Cycle II](#09--linked-list-cycle-ii)**
+1. **[Linked List Random Node](#10--linked-list-random-node)**
+1. **[Convert Sorted List to Binary Search Tree](#11--convert-sorted-list-to-binary-search-tree)**
+1. **[Merge k Sorted Lists](#12--merge-k-sorted-lists)**
+1. **[Symmetric Tree](#13--symmetric-tree)**
+1. **[Sum Root to Leaf Numbers](#14--sum-root-to-leaf-numbers)**
+1. **[Check Completeness of a Binary Tree](#15--check-completeness-of-a-binary-tree)**
+1. **[Construct Binary Tree from Inorder and Postorder Traversal](#16--construct-binary-tree-from-inorder-and-postorder-traversal)**
+1. **[Implement Trie (Prefix Tree)](#17--implement-trie-prefix-tree)**
+1. **[Design Browser History](#18--design-browser-history)**
+1. **[Design Add and Search Words Data Structure](#19--design-add-and-search-words-data-structure)**
+1. **[Can Place Flowers](#20--can-place-flowers)**
 
 <hr>
 
@@ -390,3 +403,765 @@ public:
 };
 ```
     
+<hr>
+<br><br>
+
+## 08)  [Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // return the ceiling of the division between a and b 
+    inline int ceil(const int& a, const int& b){
+        return (a + b - 1) / b;
+    }
+
+    int minEatingSpeed(vector<int>& piles, int& h) {
+        auto is_good = [&](int k){
+            int total_hours = 0;
+            /*
+                loop over the piles and calculate the total hours needed to eat
+                all the bananas such that each hour you will eat number of bananas <= k
+            */
+            for(auto& p : piles){
+                total_hours += ceil(p, k);
+                if(total_hours > h)
+                    return false;
+            }
+            
+            // if the number of hours less than h so k is valid choice
+            return total_hours <= h;
+        };
+
+        // make binary search to get the least valid choice
+        int l = 1, r = 1, k = -1;
+
+        // make r less power of 2 valid number
+        while(!is_good(r)) r *= 2;
+
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? r = m - 1, k = m : l = m + 1);
+        }
+
+        // the minimum valid k
+        return k;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Linked List Cycle II](https://leetcode.com/problems/linked-list-cycle-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    ListNode* find_cycle(ListNode* head, unordered_map < ListNode*, bool >& occ){
+        // return the node if it is visited before
+        if(!head || occ[head]) return head;
+        
+        // mark this node as visited node
+        occ[head] = true;
+
+        return find_cycle(head -> next, occ);
+    }
+    
+    ListNode *detectCycle(ListNode *head) {
+        // map to store the visited nodes
+        unordered_map < ListNode*, bool > occ;
+
+        // the node that make cycle
+        return find_cycle(head, occ);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 10)  [Linked List Random Node](https://leetcode.com/problems/linked-list-random-node/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Reservoir Sampling` `Randomized`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // vector  to push the number in it
+    vector < int > nums;
+    
+    Solution(ListNode* head) {
+        // loop over the list and add the number in it
+        ListNode* curr = head;
+        while(curr != nullptr)
+            nums.push_back(curr -> val), curr = curr -> next;
+    }
+    
+    int getRandom() {
+        // get the size of the list and return a random number from it with equal probability
+        int sz = nums.size();
+        return nums[rand() % sz];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 11)  [Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Tree` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        // vector to store the numbers in sorted form
+        vector < int > nums;
+
+        // loop over the list and make the numbers sorted
+        ListNode* curr = head;
+        while(curr != nullptr){
+            // add the current number and move to the next number
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // the BST Tree
+        return construct(0, nums.size() - 1, nums);
+    }
+
+    TreeNode* construct(int l, int r, vector < int >& nums){
+        // the base if the left pointer greater than right pointer
+        if(l > r) return nullptr;
+        
+        // middle of the current subarray
+        int m = l + (r - l) / 2;
+
+        // the middle element will be the root of this subarray
+        TreeNode* root = new TreeNode(nums[m]);
+
+        // construct the left subtree with same concept
+        root -> left = construct(l, m - 1, nums);
+
+        // construct the right subtree with same concept
+        root -> right = construct(m + 1, r, nums);
+
+        // return the root of the current subtree
+        return root;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 12)  [Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Divide and Conquer` `Heap (Priority Queue)` `Merge Sort`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        // initial the current node in the list
+        ListNode* root = nullptr;
+
+        // let us save the index of the minimum element of the current head list of lists
+        int idx = -1;
+
+        for(int i = 0; i < lists.size(); i++){
+            // if the current list is empty skip it
+            if(lists[i] == nullptr) continue;
+
+            // if it's the first list we found or it's minimum than the minimum of we found update the index
+            if(idx == -1 || lists[i] -> val < lists[idx] -> val)
+                idx = i;
+        }
+
+        // if there are no lists anymore
+        if(idx == -1) return nullptr;
+
+        // update the current node with the minimum value of the minimum node
+        root = new ListNode(lists[idx] -> val);
+
+        // move the minimum node to it's next
+        lists[idx] = lists[idx] -> next;
+
+        // the next of the current node in the new list will be the returned node of the next step
+        root -> next = mergeKLists(lists);
+
+        // return the current node of the new list
+        return root;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    
+    bool traverse(TreeNode* node1, TreeNode* node2){
+        // if the two subtrees are empty so they are symmetric
+        if(!node1 && !node2) return true;
+
+        // if one of the two nodes empty so the subtree not symmetric
+        if(!node1 || !node2) return false;
+
+        // if the value of the two subtrees root different the subtrees aren't symmetric
+        if(node1 -> val != node2 -> val) return false;
+
+        // if the left tree and right tree are symmetric so the current subtree are symmetric also
+        return traverse(node1 -> right, node2 -> left) && traverse(node1 -> left, node2 -> right);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        // if the tree are empty 
+        if(!root) return true;
+
+        // check the symmetry of the tree
+        return traverse(root -> left, root -> right);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 14)  [Sum Root to Leaf Numbers](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // we just need to traverse the tree and keep track of the current value of concatenation of the nodes from the root to the current node
+    // when we reach a leaf node, we add the current value to the answer
+    
+
+    // the answer variable
+    int ans;
+
+    // the dfs function to traverse the tree
+    void dfs(TreeNode* root, int val){
+        // if the current node is null, we return
+        if(root == NULL) return;
+
+        // we concatenate the current node value to the current value
+        val = val * 10 + root -> val;
+
+        // if we reach a leaf node, we add the current value to the answer
+        if(!root -> left && !root -> right) ans += val;
+        
+        // we traverse the left and right subtrees
+        dfs(root -> left, val);
+        dfs(root -> right, val);
+    }
+
+    int sumNumbers(TreeNode* root) {
+        // we initialize the answer to zero
+        ans = 0;
+        // we call the dfs function to traverse the tree and calculate the answer
+        dfs(root, 0);
+        
+        // we return the answer
+        return ans;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 15)  [Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root, bool isHaveRight = false) {
+        // try to bfs about the tree to get all levels
+        queue < TreeNode* > bfs;
+
+        // add the root to start the bfs from it
+        bfs.push(root);
+
+        // if the previous node have missed one right sub-tree
+        bool isNodeMissed = false;
+
+        while(!bfs.empty()){
+            // get the current size of the queue
+            int sz = bfs.size();
+
+            // add node and check the state
+            auto add_node = [&](TreeNode* node){
+                // if the current node is nullptr so there is a missed node right now
+                if(!node)
+                    return isNodeMissed = true;
+
+                // if we have to add a node and there is a node missed before so it's not completed tree
+                if(isNodeMissed)
+                    return false;
+
+                // add the current node because it's valid to add
+                return bfs.push(node), true;
+            };
+
+            while(sz--){
+                TreeNode* curr = bfs.front();
+                bfs.pop();
+
+                // to check the current root is valid or not
+                bool valid_root = true;
+
+                valid_root &= add_node(curr -> left);
+                valid_root &= add_node(curr -> right);
+
+                // if the current root not valid so it's not completed tree
+                if(!valid_root)
+                    return false;
+            }
+        }
+
+        // ok, it's a completed tree right now.
+        return true;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 16)  [Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Divide and Conquer` `Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        # If the inorder array is empty, return an empty tree
+        if len(inorder) == 0: return None
+        # If the inorder array has 1 element, return it as the only node (root)
+        if len(inorder) == 1: return TreeNode(inorder[0])
+        
+        # Mark the root as the last node in the postorder array (left,right,parent)
+        root = TreeNode(postorder[-1])
+        # Traverse the inorder array to find the left subtree which will be all the nodes before the root node (the last node in the post order)
+        for i in range(len(inorder)):
+            # If current node is the root
+            if inorder[i] == postorder[-1]:
+                # Build the left subtree using the inorder and postorder nodes right before the root using the current index i
+                root.left = self.buildTree(inorder[:i], postorder[:i])
+                # Build the right subtree using the inorder nodes right after the root using the current index i and the postorder nodes from index i to the end
+                root.right = self.buildTree(inorder[i+1:], postorder[i:-1])
+        return root
+```
+<hr>
+<br><br>
+
+## 17)  [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Design` `Trie`
+
+### Code
+
+
+```cpp
+class Trie {
+
+    // the node class that represents each node in the trie data structure
+    class Node {
+    public:
+        // the children of the node (one for each letter in the alphabet)
+        Node* children[26];
+
+        // a boolean variable that indicates if the node is the end of a word or not
+        bool is_end;
+
+        // the constructor of the node class
+        Node() {
+            // initialize the children of the node to null
+            for(auto& i : children) {
+                i = nullptr;
+            }
+            // initialize the is_end variable to false
+            is_end = false;
+        }
+    };
+
+    // the root node of the trie data structure
+    Node* root;
+public:
+
+    // the constructor of the trie data structure
+    Trie() {
+        // initialize the root node to a new node (the root node is a dummy node)
+        root = new Node();
+    }
+    
+    // the insert function that inserts a word in the trie data structure
+    void insert(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then create a new node
+            if(not curr -> children[word[i] - 'a'])
+                curr -> children[word[i] - 'a'] = new Node();
+        
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // mark the last node as the end of a word
+        curr -> is_end = true;
+    }
+    
+    // the search function that searches for a word in the trie data structure
+    bool search(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then return false
+            if(not curr -> children[word[i] - 'a'])
+                return false;
+            
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // return true if the last node is the end of a word and false otherwise
+        return curr -> is_end;
+    }
+    
+    // the startsWith function that searches for a prefix in the trie data structure
+    bool startsWith(string prefix) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the prefix
+        for(int i = 0; i < prefix.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the prefix then return false
+            if(not curr -> children[prefix[i] - 'a'])
+                return false;
+
+            // move to the child of the current node with the current letter of the prefix
+            curr = curr -> children[prefix[i] - 'a'];
+        }
+
+        // since we reached the end of the prefix then return true (the prefix exists)
+        return true;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 18)  [Design Browser History](https://leetcode.com/problems/design-browser-history/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Linked List` `Stack` `Design` `Doubly-Linked List` `Data Stream`
+
+### Code
+
+
+```cpp
+// Author: Ahmed Hossam
+
+class BrowserHistory {
+public:
+    
+    // to store the size and current index of the tab
+    int sz, currIdx;
+
+    // to store the urls 
+    vector < string > history;
+
+    // constructor to initialize the vector with homepage
+    BrowserHistory(string& homepage) {
+        history.push_back(homepage);
+        sz = 1, currIdx = 0;
+    }
+
+    void visit(const string& url) {
+        // If the user has gone back in history and is now adding a new URL, 
+        // the forward history from the current position should be removed.
+        if(currIdx + 1 < history.size())
+            history[++currIdx] = url, sz = currIdx + 1;
+        else 
+            history.push_back(url), sz++, currIdx++;
+    }
+    
+    // This function moves the user back in the history by the specified number of steps.
+    // If the user has reached the beginning of the history, it returns the first URL in the history.
+    string back(int steps) {
+        currIdx = max(currIdx - steps, 0);
+        return history[currIdx];
+    }
+    
+    // This function moves the user forward in the history by the specified number of steps.
+    // If the user has reached the end of the history, it returns the last URL in the history.
+    string forward(int steps) {
+        currIdx = min(currIdx + steps, sz - 1);
+        return history[currIdx];
+    }
+};
+```
+<hr>
+<br><br>
+
+## 19)  [Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Depth-First Search` `Design` `Trie`
+
+### Code
+
+
+```cpp
+template < int Mode = 0 > struct Trie {
+    // Mode [lowercase, uppercase, digits]
+    static constexpr int sz[4] = {26, 26, 10};
+
+    struct Node {
+
+        // declare array of nodes with requires size
+        Node* child[sz[Mode]];
+        bool is_word;
+        int freq;
+ 
+        Node(){
+            memset(child, 0, sizeof(child));
+            is_word = false;
+            freq = 0;
+        }
+    };
+
+    // declare the base root
+    Node* root;
+    char DEFAULT;
+
+    Trie(){
+        root = new Node;
+        DEFAULT = "aA0"[Mode];
+    }
+    
+    // insert a word in the trie
+    void insert(const string& word){
+        Node* curr = root;
+        for(auto& c : word){
+            // if this char in this position not appeared before let's create it
+            if(!curr -> child[c - DEFAULT]) 
+                curr -> child[c - DEFAULT] = new Node;
+            // move to the next position
+            curr = curr -> child[c - DEFAULT];
+            // update the frequency of the current string
+            curr -> freq++;
+        }
+        curr -> is_word = true;
+    }
+    
+    // search for a string in the Trie
+    bool search(const string& word, int idx, Node* curr){
+        // if we reach the final of the string let's return if it was a word or not
+        if(idx == word.size()) return curr -> is_word;
+
+        // if the current char is a lowercase letter
+        if(word[idx] != '.'){
+            // let us check if it is already found so check the next letter otherwise retrun false
+		    if(!curr -> child[word[idx] - DEFAULT]) return false;
+		    return search(word, idx + 1, curr -> child[word[idx] - DEFAULT]);
+        }else {
+            // if the current char is a wildcard
+            bool answer = false;
+            // let's check all the possible letters
+            for(auto& node : curr -> child){
+                if(node)
+                    if(search(word, idx + 1, node))
+                        return true;
+            }
+            return answer;
+        }
+    }
+
+    // overloading function to the user to use
+    bool search(const string& word){
+        return search(word, 0, root);
+    }
+ 
+};
+
+class WordDictionary {
+public:
+
+    // trie to store the strings
+    Trie < > trie;
+
+    WordDictionary() {
+        trie = Trie < 0 > ();
+    }
+    
+    void addWord(const string& word) {
+        // add the current word to the trie
+        trie.insert(word);
+    }
+    
+    bool search(const string& word) {
+        // search about this word can we got it or not
+        return trie.search(word);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 20)  [Can Place Flowers](https://leetcode.com/problems/can-place-flowers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        // insert 0 at the back of the vector
+        flowerbed.push_back(0);
+
+        // insert 0 at the front of the vector
+        flowerbed.insert(flowerbed.begin(), 0);
+
+        // check every subarray with size 3 if all of them = 0
+        for(int i = 1; i < flowerbed.size() - 1; i++){
+            if(!flowerbed[i] && !flowerbed[i - 1] && !flowerbed[i + 1]){
+                // if is valid subarray so make the middle of them equal 1
+                flowerbed[i] = 1, n--;
+            }
+        }
+
+        // if we can put n flowers in the array
+        return n <= 0;
+    }
+};
+```
