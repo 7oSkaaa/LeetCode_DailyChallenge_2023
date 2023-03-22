@@ -8,7 +8,9 @@ permissions:
 jobs:
   README:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: .
     steps:
       - name: install dotenv
         run: pip install python-dotenv
