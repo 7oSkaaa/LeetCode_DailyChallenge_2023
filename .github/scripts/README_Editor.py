@@ -179,9 +179,8 @@ def get_daily_problem():
     try:
         env_file = os.getenv('GITHUB_ENV')
         with open(env_file, "r") as env_file:
-            env_file = env_file.readlines()
-        env_file = [line for line in env_file if "LINK" in line]
-        env_file = env_file[0].split("=")[-1].strip()
+            env_file = env_file.read()
+        env_file = env_file.split("=")[-1].strip()
         print(env_file)
         link = None
         if link is None:
