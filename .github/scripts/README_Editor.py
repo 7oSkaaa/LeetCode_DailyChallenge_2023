@@ -2,6 +2,8 @@ import requests
 import http.client
 import os
 
+from dotenv import load_dotenv
+
 
 # get the solution of the link with the problem
 def fetch_solution(link):
@@ -216,6 +218,7 @@ def get_daily_problem():
 
 
 def main():
+    load_dotenv()
     problem = get_daily_problem()
     save_to_file(problem)
 
