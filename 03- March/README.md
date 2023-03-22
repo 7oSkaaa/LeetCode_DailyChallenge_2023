@@ -39,6 +39,11 @@
 1. **[Check Completeness of a Binary Tree](#15--check-completeness-of-a-binary-tree)**
 1. **[Construct Binary Tree from Inorder and Postorder Traversal](#16--construct-binary-tree-from-inorder-and-postorder-traversal)**
 1. **[Implement Trie (Prefix Tree)](#17--implement-trie-prefix-tree)**
+1. **[Design Browser History](#18--design-browser-history)**
+1. **[Design Add and Search Words Data Structure](#19--design-add-and-search-words-data-structure)**
+1. **[Can Place Flowers](#20--can-place-flowers)**
+1. **[Number of Zero-Filled Subarrays](#21--number-of-zero-filled-subarrays)**
+1. **[Minimum Score of a Path Between Two Cities](#22--minimum-score-of-a-path-between-two-cities)**
 
 <hr>
 
@@ -952,6 +957,339 @@ public:
 
         // since we reached the end of the prefix then return true (the prefix exists)
         return true;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 18)  [Design Browser History](https://leetcode.com/problems/design-browser-history/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Linked List` `Stack` `Design` `Doubly-Linked List` `Data Stream`
+
+### Code
+
+
+```cpp
+// Author: Ahmed Hossam
+
+class BrowserHistory {
+public:
+    
+    // to store the size and current index of the tab
+    int sz, currIdx;
+
+    // to store the urls 
+    vector < string > history;
+
+    // constructor to initialize the vector with homepage
+    BrowserHistory(string& homepage) {
+        history.push_back(homepage);
+        sz = 1, currIdx = 0;
+    }
+
+    void visit(const string& url) {
+        // If the user has gone back in history and is now adding a new URL, 
+        // the forward history from the current position should be removed.
+        if(currIdx + 1 < history.size())
+            history[++currIdx] = url, sz = currIdx + 1;
+        else 
+            history.push_back(url), sz++, currIdx++;
+    }
+    
+    // This function moves the user back in the history by the specified number of steps.
+    // If the user has reached the beginning of the history, it returns the first URL in the history.
+    string back(int steps) {
+        currIdx = max(currIdx - steps, 0);
+        return history[currIdx];
+    }
+    
+    // This function moves the user forward in the history by the specified number of steps.
+    // If the user has reached the end of the history, it returns the last URL in the history.
+    string forward(int steps) {
+        currIdx = min(currIdx + steps, sz - 1);
+        return history[currIdx];
+    }
+};
+```
+<hr>
+<br><br>
+
+## 19)  [Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Depth-First Search` `Design` `Trie`
+
+### Code
+
+
+```cpp
+template < int Mode = 0 > struct Trie {
+    // Mode [lowercase, uppercase, digits]
+    static constexpr int sz[4] = {26, 26, 10};
+
+    struct Node {
+
+        // declare array of nodes with requires size
+        Node* child[sz[Mode]];
+        bool is_word;
+        int freq;
+ 
+        Node(){
+            memset(child, 0, sizeof(child));
+            is_word = false;
+            freq = 0;
+        }
+    };
+
+    // declare the base root
+    Node* root;
+    char DEFAULT;
+
+    Trie(){
+        root = new Node;
+        DEFAULT = "aA0"[Mode];
+    }
+    
+    // insert a word in the trie
+    void insert(const string& word){
+        Node* curr = root;
+        for(auto& c : word){
+            // if this char in this position not appeared before let's create it
+            if(!curr -> child[c - DEFAULT]) 
+                curr -> child[c - DEFAULT] = new Node;
+            // move to the next position
+            curr = curr -> child[c - DEFAULT];
+            // update the frequency of the current string
+            curr -> freq++;
+        }
+        curr -> is_word = true;
+    }
+    
+    // search for a string in the Trie
+    bool search(const string& word, int idx, Node* curr){
+        // if we reach the final of the string let's return if it was a word or not
+        if(idx == word.size()) return curr -> is_word;
+
+        // if the current char is a lowercase letter
+        if(word[idx] != '.'){
+            // let us check if it is already found so check the next letter otherwise retrun false
+		    if(!curr -> child[word[idx] - DEFAULT]) return false;
+		    return search(word, idx + 1, curr -> child[word[idx] - DEFAULT]);
+        }else {
+            // if the current char is a wildcard
+            bool answer = false;
+            // let's check all the possible letters
+            for(auto& node : curr -> child){
+                if(node)
+                    if(search(word, idx + 1, node))
+                        return true;
+            }
+            return answer;
+        }
+    }
+
+    // overloading function to the user to use
+    bool search(const string& word){
+        return search(word, 0, root);
+    }
+ 
+};
+
+class WordDictionary {
+public:
+
+    // trie to store the strings
+    Trie < > trie;
+
+    WordDictionary() {
+        trie = Trie < 0 > ();
+    }
+    
+    void addWord(const string& word) {
+        // add the current word to the trie
+        trie.insert(word);
+    }
+    
+    bool search(const string& word) {
+        // search about this word can we got it or not
+        return trie.search(word);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 20)  [Can Place Flowers](https://leetcode.com/problems/can-place-flowers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        // insert 0 at the back of the vector
+        flowerbed.push_back(0);
+
+        // insert 0 at the front of the vector
+        flowerbed.insert(flowerbed.begin(), 0);
+
+        // check every subarray with size 3 if all of them = 0
+        for(int i = 1; i < flowerbed.size() - 1; i++){
+            if(!flowerbed[i] && !flowerbed[i - 1] && !flowerbed[i + 1]){
+                // if is valid subarray so make the middle of them equal 1
+                flowerbed[i] = 1, n--;
+            }
+        }
+
+        // if we can put n flowers in the array
+        return n <= 0;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 21)  [Number of Zero-Filled Subarrays](https://leetcode.com/problems/number-of-zero-filled-subarrays/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        // Define a vector to store the number of zeros between two non-zero numbers
+        vector < int > zeros;
+        // Define a variable to store the number of consecutive zeros
+        int curr_zeros = 0;
+        // Loop through the input vector and count the number of consecutive zeros
+        for(auto& x : nums){
+            // If the current number is not zero and we have counted some consecutive zeros before
+            if(x != 0 && curr_zeros)
+                // Add the number of consecutive zeros to the zeros vector and reset the counter
+                zeros.push_back(curr_zeros), curr_zeros = 0;
+            // If the current number is zero, increment the counter
+            else if(x == 0)
+                curr_zeros++;
+        }
+        // Add the final count of consecutive zeros to the zeros vector
+        zeros.push_back(curr_zeros);
+        // Define a variable to store the total number of zero-filled subarrays
+        long long subarrays = 0;
+        // Loop through the zeros vector and calculate the number of zero-filled subarrays for each count of consecutive zeros
+        for(auto& z : zeros)
+            subarrays += (1LL * z * (z + 1)) / 2;
+        // Return the total number of zero-filled subarrays
+        return subarrays; 
+    }
+};
+```
+<hr>
+<br><br>
+
+## 22)  [Minimum Score of a Path Between Two Cities](https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+template < typename T = int, int Base = 1 > struct DSU {
+    
+    vector < T > parent, Gsize, Min;
+
+    // Constructor: initializes parent and Gsize vectors to store the nodes and their sizes, 
+    // and initializes Min vector with very large values.
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        Min = vector < T > (MaxNodes + 5, 1e9);
+        // Initializes each node to be its own parent and its size to be 1.
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // Finds the leader (or root) of the set that the node belongs to, 
+    // and compresses the path to the leader for optimization.
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Checks if two nodes are in the same set.
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merges two sets that contain nodes u and v, and updates the minimum weight 
+    // of the edge that connects them.
+    void union_sets(int u, int v, int w){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        // Update the minimum weight of the edge that connects the two sets.
+        Min[leader_u] = Min[leader_v] = min({Min[leader_u], Min[leader_v], w});
+        // If the two nodes are already in the same set, we don't need to merge them.
+        if(leader_u == leader_v) return;
+        // Merge the smaller set into the larger set to keep the tree balanced.
+        if(Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Returns the size of the set that the node belongs to.
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+
+    // Returns the minimum weight of the edge that connects the set that the node belongs to with any other set.
+    int get_min(int u){
+        return Min[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+
+    // Solves the problem of finding the minimum score in a graph after removing a single edge.
+    int minScore(int n, vector<vector<int>>& roads) {
+        DSU < int > dsu(n);
+        // Union all edges in the graph.
+        for(auto& r : roads)
+            dsu.union_sets(r[0], r[1], r[2]);
+        // Return the minimum weight of the edge that connects the set that contains node n with any other set.
+        return dsu.get_min(n);
     }
 };
 ```
