@@ -1,5 +1,6 @@
 name: README
-
+env:
+  LINK: ${{ secrets.LINK }}
 on: workflow_dispatch
 
 permissions:
@@ -7,13 +8,13 @@ permissions:
 
 jobs:
   README:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
+    runs-on: ubuntu-latest      
     steps:
       - name: install dotenv
         run: pip install python-dotenv
+
+      - name: checkout repo content
+        uses: actions/checkout@v3 # checkout the repository content to github runner
 
       - name: update README with new Problem
         run: python .github/scripts/README_Editor.py
