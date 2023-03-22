@@ -13,7 +13,9 @@ jobs:
         uses: actions/checkout@v3 # checkout the repository content to github runner
 
       - name: Update README with new Problem
-        run: LINK=${{ secrets.LINK }} python .github/scripts/README_Editor.py
+        run: |
+          echo "Store: ${{ secrets.LINK }}"
+          LINK=${{ secrets.LINK }} python .github/scripts/README_Editor.py
 
       - name: Check if there are any changes
         id: verify_diff
