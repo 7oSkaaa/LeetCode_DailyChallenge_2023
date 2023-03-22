@@ -1,0 +1,12 @@
+name: README
+
+# This command allows us to run the Action automatically from the Actions tab.
+workflow_dispatch:
+
+jobs:
+  README:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Naming of files
+        run: LINK=${{ secrets.LINK }} python .github/scripts/README_Editor.py
