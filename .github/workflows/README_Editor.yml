@@ -1,13 +1,7 @@
 name: README
 
-on
-  # This command allows us to run the Action automatically from the Actions tab.
-  workflow_dispatch:
-    inputs:
-       Link:
-         description: 'Link of daily problem'
-         required: true
-
+# This command allows us to run the Action automatically from the Actions tab.
+workflow_dispatch:
 
 jobs:
   README:
