@@ -323,6 +323,10 @@
         {
             "day": "21",
             "title": "Number of Zero-Filled Subarrays"
+        },
+        {
+            "day": "22",
+            "title": "Minimum Score of a Path Between Two Cities"
         }
     ]
 }
