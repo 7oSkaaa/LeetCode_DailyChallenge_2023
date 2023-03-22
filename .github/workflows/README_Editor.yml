@@ -7,10 +7,9 @@ permissions:
 
 jobs:
   README:
-    build:
-      environment: REAME_Update
-      env:
-        LINK: ${{secret.LINK}}
+    environment: REAME_Update
+    env:
+      LINK: ${{secret.LINK}}
     runs-on: ubuntu-latest
 
     steps:
