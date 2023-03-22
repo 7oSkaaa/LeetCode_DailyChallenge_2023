@@ -9,7 +9,7 @@ jobs:
   README:
     environment: REAME_Update
     env:
-      LINK: ${{secret.LINK}}
+      LINK: ${{secrets.LINK}}
     runs-on: ubuntu-latest
 
     steps:
