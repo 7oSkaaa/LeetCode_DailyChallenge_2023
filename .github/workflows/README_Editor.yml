@@ -35,7 +35,7 @@ jobs:
           git config --global user.name "7oSkaaa"
           
           git add .
-          git commit -am 'Add new daily problem'
+          git commit -am 'Add new daily problem to README'
           
       - name: Push
         if: ${{ env.IS_VALID == 'true' }}
