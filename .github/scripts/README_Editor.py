@@ -177,7 +177,13 @@ def get_daily_problem():
 
     # fetcht the solution
     try:
-        link = os.environ.get("LINK")
+        env_file = os.getenv('GITHUB_ENV')
+        with open(env_file, "r") as env_file:
+            env_file = env_file.readlines()
+        env_file = [line for line in env_file if "LINK" in line]
+        env_file = env_file[0].split("=")[-1].strip()
+        print(env_file)
+        link = None
         if link is None:
             print('Missing Link in Environemnt Variable')
             exit(1)
