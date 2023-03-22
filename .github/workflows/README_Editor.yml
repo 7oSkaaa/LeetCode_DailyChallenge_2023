@@ -15,4 +15,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Check Naming of files
-        run: LINK=${{ secrets.LINK }} python .github/scripts/Naming_Checker.py
+        run: LINK=${{ secrets.LINK }} python .github/scripts/README_Editor.py
