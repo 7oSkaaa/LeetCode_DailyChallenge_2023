@@ -176,7 +176,15 @@ def get_daily_problem():
     response = response["data"]["activeDailyCodingChallengeQuestion"]
 
     # fetcht the solution
-    solution = fetch_solution(os.environ.get("LINK"))
+    try:
+        link = os.environ.get("LINK")
+        if link is None:
+            print('Missing Link in Environemnt Variable')
+            exit(1)
+        solution = fetch_solution(link=link)
+    except Exception as e:
+        print(e)
+        exit(1)
 
     # remove the author line
     solution = remove_author_line(solution)

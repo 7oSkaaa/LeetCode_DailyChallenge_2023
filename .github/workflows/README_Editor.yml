@@ -7,9 +7,6 @@ permissions:
 
 jobs:
   README:
-    environment: REAME_Update
-    env:
-      LINK: ${{secrets.LINK}}
     runs-on: ubuntu-latest
 
     steps:
@@ -17,9 +14,7 @@ jobs:
         uses: actions/checkout@v3 # checkout the repository content to github runner
 
       - name: Update README with new Problem
-        run: |
-          echo "Store: ${{ env.LINK }}"
-          LINK=${{ env.LINK }} python .github/scripts/README_Editor.py
+        run: python .github/scripts/README_Editor.py
 
       - name: Check if there are any changes
         id: verify_diff
