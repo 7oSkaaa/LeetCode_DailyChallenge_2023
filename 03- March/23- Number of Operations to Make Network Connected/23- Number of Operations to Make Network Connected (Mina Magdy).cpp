@@ -1,3 +1,5 @@
+// Author: Mina Magdy
+
 // Define a class Solution
 class Solution {
 public:
