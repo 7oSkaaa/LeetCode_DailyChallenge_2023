@@ -327,6 +327,10 @@
         {
             "day": "22",
             "title": "Minimum Score of a Path Between Two Cities"
+        },
+        {
+            "day": "23",
+            "title": "Number of Operations to Make Network Connected"
         }
     ]
 }
