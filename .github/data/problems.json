@@ -331,6 +331,10 @@
         {
             "day": "23",
             "title": "Number of Operations to Make Network Connected"
+        },
+        {
+            "day": "24",
+            "title": "Reorder Routes to Make All Paths Lead to the City Zero"
         }
     ]
 }
