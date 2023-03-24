@@ -37,6 +37,15 @@
 1. **[Symmetric Tree](#13--symmetric-tree)**
 1. **[Sum Root to Leaf Numbers](#14--sum-root-to-leaf-numbers)**
 1. **[Check Completeness of a Binary Tree](#15--check-completeness-of-a-binary-tree)**
+1. **[Construct Binary Tree from Inorder and Postorder Traversal](#16--construct-binary-tree-from-inorder-and-postorder-traversal)**
+1. **[Implement Trie (Prefix Tree)](#17--implement-trie-prefix-tree)**
+1. **[Design Browser History](#18--design-browser-history)**
+1. **[Design Add and Search Words Data Structure](#19--design-add-and-search-words-data-structure)**
+1. **[Can Place Flowers](#20--can-place-flowers)**
+1. **[Number of Zero-Filled Subarrays](#21--number-of-zero-filled-subarrays)**
+1. **[Minimum Score of a Path Between Two Cities](#22--minimum-score-of-a-path-between-two-cities)**
+1. **[Number of Operations to Make Network Connected](#23--number-of-operations-to-make-network-connected)**
+1. **[Reorder Routes to Make All Paths Lead to the City Zero](#24--reorder-routes-to-make-all-paths-lead-to-the-city-zero)**
 
 <hr>
 
@@ -809,3 +818,711 @@ public:
     }
 };
 ```
+
+<hr>
+<br><br>
+
+## 16)  [Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Divide and Conquer` `Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        # If the inorder array is empty, return an empty tree
+        if len(inorder) == 0: return None
+        # If the inorder array has 1 element, return it as the only node (root)
+        if len(inorder) == 1: return TreeNode(inorder[0])
+        
+        # Mark the root as the last node in the postorder array (left,right,parent)
+        root = TreeNode(postorder[-1])
+        # Traverse the inorder array to find the left subtree which will be all the nodes before the root node (the last node in the post order)
+        for i in range(len(inorder)):
+            # If current node is the root
+            if inorder[i] == postorder[-1]:
+                # Build the left subtree using the inorder and postorder nodes right before the root using the current index i
+                root.left = self.buildTree(inorder[:i], postorder[:i])
+                # Build the right subtree using the inorder nodes right after the root using the current index i and the postorder nodes from index i to the end
+                root.right = self.buildTree(inorder[i+1:], postorder[i:-1])
+        return root
+```
+<hr>
+<br><br>
+
+## 17)  [Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Design` `Trie`
+
+### Code
+
+
+```cpp
+class Trie {
+
+    // the node class that represents each node in the trie data structure
+    class Node {
+    public:
+        // the children of the node (one for each letter in the alphabet)
+        Node* children[26];
+
+        // a boolean variable that indicates if the node is the end of a word or not
+        bool is_end;
+
+        // the constructor of the node class
+        Node() {
+            // initialize the children of the node to null
+            for(auto& i : children) {
+                i = nullptr;
+            }
+            // initialize the is_end variable to false
+            is_end = false;
+        }
+    };
+
+    // the root node of the trie data structure
+    Node* root;
+public:
+
+    // the constructor of the trie data structure
+    Trie() {
+        // initialize the root node to a new node (the root node is a dummy node)
+        root = new Node();
+    }
+    
+    // the insert function that inserts a word in the trie data structure
+    void insert(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then create a new node
+            if(not curr -> children[word[i] - 'a'])
+                curr -> children[word[i] - 'a'] = new Node();
+        
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // mark the last node as the end of a word
+        curr -> is_end = true;
+    }
+    
+    // the search function that searches for a word in the trie data structure
+    bool search(string word) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the word
+        for(int i = 0; i < word.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the word then return false
+            if(not curr -> children[word[i] - 'a'])
+                return false;
+            
+            // move to the child of the current node with the current letter of the word
+            curr = curr -> children[word[i] - 'a'];
+        }
+
+        // return true if the last node is the end of a word and false otherwise
+        return curr -> is_end;
+    }
+    
+    // the startsWith function that searches for a prefix in the trie data structure
+    bool startsWith(string prefix) {
+        // start from the root node
+        auto curr = root;
+
+        // loop over the prefix
+        for(int i = 0; i < prefix.size(); i++) {
+            // if the current node doesn't have a child with the current letter of the prefix then return false
+            if(not curr -> children[prefix[i] - 'a'])
+                return false;
+
+            // move to the child of the current node with the current letter of the prefix
+            curr = curr -> children[prefix[i] - 'a'];
+        }
+
+        // since we reached the end of the prefix then return true (the prefix exists)
+        return true;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 18)  [Design Browser History](https://leetcode.com/problems/design-browser-history/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Linked List` `Stack` `Design` `Doubly-Linked List` `Data Stream`
+
+### Code
+
+
+```cpp
+// Author: Ahmed Hossam
+
+class BrowserHistory {
+public:
+    
+    // to store the size and current index of the tab
+    int sz, currIdx;
+
+    // to store the urls 
+    vector < string > history;
+
+    // constructor to initialize the vector with homepage
+    BrowserHistory(string& homepage) {
+        history.push_back(homepage);
+        sz = 1, currIdx = 0;
+    }
+
+    void visit(const string& url) {
+        // If the user has gone back in history and is now adding a new URL, 
+        // the forward history from the current position should be removed.
+        if(currIdx + 1 < history.size())
+            history[++currIdx] = url, sz = currIdx + 1;
+        else 
+            history.push_back(url), sz++, currIdx++;
+    }
+    
+    // This function moves the user back in the history by the specified number of steps.
+    // If the user has reached the beginning of the history, it returns the first URL in the history.
+    string back(int steps) {
+        currIdx = max(currIdx - steps, 0);
+        return history[currIdx];
+    }
+    
+    // This function moves the user forward in the history by the specified number of steps.
+    // If the user has reached the end of the history, it returns the last URL in the history.
+    string forward(int steps) {
+        currIdx = min(currIdx + steps, sz - 1);
+        return history[currIdx];
+    }
+};
+```
+<hr>
+<br><br>
+
+## 19)  [Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Depth-First Search` `Design` `Trie`
+
+### Code
+
+
+```cpp
+template < int Mode = 0 > struct Trie {
+    // Mode [lowercase, uppercase, digits]
+    static constexpr int sz[4] = {26, 26, 10};
+
+    struct Node {
+
+        // declare array of nodes with requires size
+        Node* child[sz[Mode]];
+        bool is_word;
+        int freq;
+ 
+        Node(){
+            memset(child, 0, sizeof(child));
+            is_word = false;
+            freq = 0;
+        }
+    };
+
+    // declare the base root
+    Node* root;
+    char DEFAULT;
+
+    Trie(){
+        root = new Node;
+        DEFAULT = "aA0"[Mode];
+    }
+    
+    // insert a word in the trie
+    void insert(const string& word){
+        Node* curr = root;
+        for(auto& c : word){
+            // if this char in this position not appeared before let's create it
+            if(!curr -> child[c - DEFAULT]) 
+                curr -> child[c - DEFAULT] = new Node;
+            // move to the next position
+            curr = curr -> child[c - DEFAULT];
+            // update the frequency of the current string
+            curr -> freq++;
+        }
+        curr -> is_word = true;
+    }
+    
+    // search for a string in the Trie
+    bool search(const string& word, int idx, Node* curr){
+        // if we reach the final of the string let's return if it was a word or not
+        if(idx == word.size()) return curr -> is_word;
+
+        // if the current char is a lowercase letter
+        if(word[idx] != '.'){
+            // let us check if it is already found so check the next letter otherwise retrun false
+		    if(!curr -> child[word[idx] - DEFAULT]) return false;
+		    return search(word, idx + 1, curr -> child[word[idx] - DEFAULT]);
+        }else {
+            // if the current char is a wildcard
+            bool answer = false;
+            // let's check all the possible letters
+            for(auto& node : curr -> child){
+                if(node)
+                    if(search(word, idx + 1, node))
+                        return true;
+            }
+            return answer;
+        }
+    }
+
+    // overloading function to the user to use
+    bool search(const string& word){
+        return search(word, 0, root);
+    }
+ 
+};
+
+class WordDictionary {
+public:
+
+    // trie to store the strings
+    Trie < > trie;
+
+    WordDictionary() {
+        trie = Trie < 0 > ();
+    }
+    
+    void addWord(const string& word) {
+        // add the current word to the trie
+        trie.insert(word);
+    }
+    
+    bool search(const string& word) {
+        // search about this word can we got it or not
+        return trie.search(word);
+    }
+};
+```
+<hr>
+<br><br>
+
+## 20)  [Can Place Flowers](https://leetcode.com/problems/can-place-flowers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        // insert 0 at the back of the vector
+        flowerbed.push_back(0);
+
+        // insert 0 at the front of the vector
+        flowerbed.insert(flowerbed.begin(), 0);
+
+        // check every subarray with size 3 if all of them = 0
+        for(int i = 1; i < flowerbed.size() - 1; i++){
+            if(!flowerbed[i] && !flowerbed[i - 1] && !flowerbed[i + 1]){
+                // if is valid subarray so make the middle of them equal 1
+                flowerbed[i] = 1, n--;
+            }
+        }
+
+        // if we can put n flowers in the array
+        return n <= 0;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 21)  [Number of Zero-Filled Subarrays](https://leetcode.com/problems/number-of-zero-filled-subarrays/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        // Define a vector to store the number of zeros between two non-zero numbers
+        vector < int > zeros;
+        // Define a variable to store the number of consecutive zeros
+        int curr_zeros = 0;
+        // Loop through the input vector and count the number of consecutive zeros
+        for(auto& x : nums){
+            // If the current number is not zero and we have counted some consecutive zeros before
+            if(x != 0 && curr_zeros)
+                // Add the number of consecutive zeros to the zeros vector and reset the counter
+                zeros.push_back(curr_zeros), curr_zeros = 0;
+            // If the current number is zero, increment the counter
+            else if(x == 0)
+                curr_zeros++;
+        }
+        // Add the final count of consecutive zeros to the zeros vector
+        zeros.push_back(curr_zeros);
+        // Define a variable to store the total number of zero-filled subarrays
+        long long subarrays = 0;
+        // Loop through the zeros vector and calculate the number of zero-filled subarrays for each count of consecutive zeros
+        for(auto& z : zeros)
+            subarrays += (1LL * z * (z + 1)) / 2;
+        // Return the total number of zero-filled subarrays
+        return subarrays; 
+    }
+};
+```
+<hr>
+<br><br>
+
+## 22)  [Minimum Score of a Path Between Two Cities](https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+template < typename T = int, int Base = 1 > struct DSU {
+    
+    vector < T > parent, Gsize, Min;
+
+    // Constructor: initializes parent and Gsize vectors to store the nodes and their sizes, 
+    // and initializes Min vector with very large values.
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        Min = vector < T > (MaxNodes + 5, 1e9);
+        // Initializes each node to be its own parent and its size to be 1.
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // Finds the leader (or root) of the set that the node belongs to, 
+    // and compresses the path to the leader for optimization.
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Checks if two nodes are in the same set.
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merges two sets that contain nodes u and v, and updates the minimum weight 
+    // of the edge that connects them.
+    void union_sets(int u, int v, int w){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        // Update the minimum weight of the edge that connects the two sets.
+        Min[leader_u] = Min[leader_v] = min({Min[leader_u], Min[leader_v], w});
+        // If the two nodes are already in the same set, we don't need to merge them.
+        if(leader_u == leader_v) return;
+        // Merge the smaller set into the larger set to keep the tree balanced.
+        if(Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Returns the size of the set that the node belongs to.
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+
+    // Returns the minimum weight of the edge that connects the set that the node belongs to with any other set.
+    int get_min(int u){
+        return Min[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+
+    // Solves the problem of finding the minimum score in a graph after removing a single edge.
+    int minScore(int n, vector<vector<int>>& roads) {
+        DSU < int > dsu(n);
+        // Union all edges in the graph.
+        for(auto& r : roads)
+            dsu.union_sets(r[0], r[1], r[2]);
+        // Return the minimum weight of the edge that connects the set that contains node n with any other set.
+        return dsu.get_min(n);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 22)  [Minimum Score of a Path Between Two Cities](https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+template < typename T = int, int Base = 1 > struct DSU {
+    
+    vector < T > parent, Gsize, Min;
+
+    // Constructor: initializes parent and Gsize vectors to store the nodes and their sizes, 
+    // and initializes Min vector with very large values.
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        Min = vector < T > (MaxNodes + 5, 1e9);
+        // Initializes each node to be its own parent and its size to be 1.
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // Finds the leader (or root) of the set that the node belongs to, 
+    // and compresses the path to the leader for optimization.
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Checks if two nodes are in the same set.
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merges two sets that contain nodes u and v, and updates the minimum weight 
+    // of the edge that connects them.
+    void union_sets(int u, int v, int w){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        // Update the minimum weight of the edge that connects the two sets.
+        Min[leader_u] = Min[leader_v] = min({Min[leader_u], Min[leader_v], w});
+        // If the two nodes are already in the same set, we don't need to merge them.
+        if(leader_u == leader_v) return;
+        // Merge the smaller set into the larger set to keep the tree balanced.
+        if(Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Returns the size of the set that the node belongs to.
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+
+    // Returns the minimum weight of the edge that connects the set that the node belongs to with any other set.
+    int get_min(int u){
+        return Min[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+
+    // Solves the problem of finding the minimum score in a graph after removing a single edge.
+    int minScore(int n, vector<vector<int>>& roads) {
+        DSU < int > dsu(n);
+        // Union all edges in the graph.
+        for(auto& r : roads)
+            dsu.union_sets(r[0], r[1], r[2]);
+        // Return the minimum weight of the edge that connects the set that contains node n with any other set.
+        return dsu.get_min(n);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 23)  [Number of Operations to Make Network Connected](https://leetcode.com/problems/number-of-operations-to-make-network-connected/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+// A template class for Disjoint Set Union (DSU) data structure
+template < typename T = int, int Base = 0 > struct DSU {
+    vector < T > parent, Gsize; // Parent and size vectors to store the parent of each node and the size of each set
+
+    // Constructor to initialize the parent and Gsize vectors
+    DSU(int MaxNodes) {
+        // Allocate memory for parent and Gsize vectors
+        parent = Gsize = vector < T >(MaxNodes + 5); 
+
+        // Initially, set the parent of each node to itself and the size of each set to 1
+        for (int i = Base; i <= MaxNodes; i++)
+            parent[i] = i, Gsize[i] = 1;
+    }
+
+    // Function to find the leader (root) of the set that the given node belongs to
+    T find_leader(int node) {
+        // Path compression optimization
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Function to check if two nodes are in the same set
+    bool is_same_sets(int u, int v) {
+        // Check if both nodes have the same leader (root)
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Function to merge two sets containing the given nodes
+    void union_sets(int u, int v) {
+        // Find the leaders of the sets containing u and v
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+
+        // If they are already in the same set, nothing to do
+        if (leader_u == leader_v) return;
+
+        // Merge the smaller set into the larger set
+        if (Gsize[leader_u] < Gsize[leader_v]) 
+            swap(leader_u, leader_v);
+
+        // Update the size of the merged set
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+};
+
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        DSU < int > dsu(n);
+
+        // Merge the sets containing each pair of connected nodes
+        for (auto& vec : connections)
+            dsu.union_sets(vec[0], vec[1]);
+
+        int connected = 0;
+
+        // Count the number of connected components
+        for (int i = 0; i < n; i++)
+            if (dsu.find_leader(i) == i)
+                connected++;
+
+        // If there are not enough edges to connect all nodes, return -1
+        if (connections.size() < n - 1)
+            return -1;
+
+        // Return the number of redundant edges needed to connect all nodes
+        return connected - 1;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Reorder Routes to Make All Paths Lead to the City Zero](https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // adjacency list to store the graph
+    vector < vector < int > > adj;
+    
+    // visited array to mark nodes as visited during dfs
+    vector < bool > vis;
+
+    // dfs function to traverse the graph and count the number of edges to reverse
+    int dfs(int u){
+        // convert negative nodes to positive
+        u = abs(u);
+        // count the number of edges to reverse
+        int cnt = 0;
+        // mark node as visited
+        vis[u] = true;
+        // iterate over all adjacent nodes
+        for(auto& v :  adj[u]){
+            // skip if node has already been visited
+            if(vis[abs(v)]) continue;
+            // recursively traverse the graph and count the number of edges to reverse
+            cnt += dfs(v) + (v > 0);
+        }
+        // return the total number of edges to reverse
+        return cnt;
+    }
+
+    // function to find the minimum number of edges to reverse
+    int minReorder(int n, vector < vector < int > > &connections){
+        // initialize the adjacency list and visited array
+        adj = vector < vector < int > > (n);
+        vis = vector < bool > (n);
+        // add edges to the adjacency list with appropriate signs
+        for(auto& vec : connections){
+            // add forward edge
+            adj[vec[0]].push_back(vec[1]);
+            // add reverse edge
+            adj[vec[1]].push_back(-vec[0]);
+        }
+        // perform dfs from vertex 0 and return the total number of edges to reverse
+        return dfs(0);
+    }
+};
+```
+    
