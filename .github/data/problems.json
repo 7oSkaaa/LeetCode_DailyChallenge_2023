@@ -335,6 +335,10 @@
         {
             "day": "24",
             "title": "Reorder Routes to Make All Paths Lead to the City Zero"
+        },
+        {
+            "day": "25",
+            "title": "Count Unreachable Pairs of Nodes in an Undirected Graph"
         }
     ]
 }
