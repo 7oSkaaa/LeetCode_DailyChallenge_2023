@@ -339,6 +339,10 @@
         {
             "day": "25",
             "title": "Count Unreachable Pairs of Nodes in an Undirected Graph"
+        },
+        {
+            "day": "26",
+            "title": "Longest Cycle in a Graph"
         }
     ]
 }
