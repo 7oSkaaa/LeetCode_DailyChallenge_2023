@@ -343,6 +343,10 @@
         {
             "day": "26",
             "title": "Longest Cycle in a Graph"
+        },
+        {
+            "day": "27",
+            "title": "Minimum Path Sum"
         }
     ]
 }
