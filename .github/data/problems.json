@@ -347,6 +347,10 @@
         {
             "day": "27",
             "title": "Minimum Path Sum"
+        },
+        {
+            "day": "28",
+            "title": "Minimum Cost For Tickets"
         }
     ]
 }
