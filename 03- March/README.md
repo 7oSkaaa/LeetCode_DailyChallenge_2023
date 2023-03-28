@@ -44,6 +44,12 @@
 1. **[Can Place Flowers](#20--can-place-flowers)**
 1. **[Number of Zero-Filled Subarrays](#21--number-of-zero-filled-subarrays)**
 1. **[Minimum Score of a Path Between Two Cities](#22--minimum-score-of-a-path-between-two-cities)**
+1. **[Number of Operations to Make Network Connected](#23--number-of-operations-to-make-network-connected)**
+1. **[Reorder Routes to Make All Paths Lead to the City Zero](#24--reorder-routes-to-make-all-paths-lead-to-the-city-zero)**
+1. **[Count Unreachable Pairs of Nodes in an Undirected Graph](#25--count-unreachable-pairs-of-nodes-in-an-undirected-graph)**
+1. **[Longest Cycle in a Graph](#26--longest-cycle-in-a-graph)**
+1. **[Minimum Path Sum](#27--minimum-path-sum)**
+1. **[Minimum Cost For Tickets](#28--minimum-cost-for-tickets)**
 
 <hr>
 
@@ -1293,3 +1299,489 @@ public:
     }
 };
 ```
+
+<hr>
+<br><br>
+
+## 22)  [Minimum Score of a Path Between Two Cities](https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+template < typename T = int, int Base = 1 > struct DSU {
+    
+    vector < T > parent, Gsize, Min;
+
+    // Constructor: initializes parent and Gsize vectors to store the nodes and their sizes, 
+    // and initializes Min vector with very large values.
+    DSU(int MaxNodes){
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        Min = vector < T > (MaxNodes + 5, 1e9);
+        // Initializes each node to be its own parent and its size to be 1.
+        for(int i = Base; i <= MaxNodes; i++)
+          parent[i] = i, Gsize[i] = 1;
+    }
+    
+    // Finds the leader (or root) of the set that the node belongs to, 
+    // and compresses the path to the leader for optimization.
+    T find_leader(int node){
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Checks if two nodes are in the same set.
+    bool is_same_sets(int u, int v){
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merges two sets that contain nodes u and v, and updates the minimum weight 
+    // of the edge that connects them.
+    void union_sets(int u, int v, int w){
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        // Update the minimum weight of the edge that connects the two sets.
+        Min[leader_u] = Min[leader_v] = min({Min[leader_u], Min[leader_v], w});
+        // If the two nodes are already in the same set, we don't need to merge them.
+        if(leader_u == leader_v) return;
+        // Merge the smaller set into the larger set to keep the tree balanced.
+        if(Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Returns the size of the set that the node belongs to.
+    int get_size(int u){
+        return Gsize[find_leader(u)];
+    }
+
+    // Returns the minimum weight of the edge that connects the set that the node belongs to with any other set.
+    int get_min(int u){
+        return Min[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+
+    // Solves the problem of finding the minimum score in a graph after removing a single edge.
+    int minScore(int n, vector<vector<int>>& roads) {
+        DSU < int > dsu(n);
+        // Union all edges in the graph.
+        for(auto& r : roads)
+            dsu.union_sets(r[0], r[1], r[2]);
+        // Return the minimum weight of the edge that connects the set that contains node n with any other set.
+        return dsu.get_min(n);
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 23)  [Number of Operations to Make Network Connected](https://leetcode.com/problems/number-of-operations-to-make-network-connected/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+// A template class for Disjoint Set Union (DSU) data structure
+template < typename T = int, int Base = 0 > struct DSU {
+    vector < T > parent, Gsize; // Parent and size vectors to store the parent of each node and the size of each set
+
+    // Constructor to initialize the parent and Gsize vectors
+    DSU(int MaxNodes) {
+        // Allocate memory for parent and Gsize vectors
+        parent = Gsize = vector < T >(MaxNodes + 5); 
+
+        // Initially, set the parent of each node to itself and the size of each set to 1
+        for (int i = Base; i <= MaxNodes; i++)
+            parent[i] = i, Gsize[i] = 1;
+    }
+
+    // Function to find the leader (root) of the set that the given node belongs to
+    T find_leader(int node) {
+        // Path compression optimization
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Function to check if two nodes are in the same set
+    bool is_same_sets(int u, int v) {
+        // Check if both nodes have the same leader (root)
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Function to merge two sets containing the given nodes
+    void union_sets(int u, int v) {
+        // Find the leaders of the sets containing u and v
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+
+        // If they are already in the same set, nothing to do
+        if (leader_u == leader_v) return;
+
+        // Merge the smaller set into the larger set
+        if (Gsize[leader_u] < Gsize[leader_v]) 
+            swap(leader_u, leader_v);
+
+        // Update the size of the merged set
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+};
+
+class Solution {
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        DSU < int > dsu(n);
+
+        // Merge the sets containing each pair of connected nodes
+        for (auto& vec : connections)
+            dsu.union_sets(vec[0], vec[1]);
+
+        int connected = 0;
+
+        // Count the number of connected components
+        for (int i = 0; i < n; i++)
+            if (dsu.find_leader(i) == i)
+                connected++;
+
+        // If there are not enough edges to connect all nodes, return -1
+        if (connections.size() < n - 1)
+            return -1;
+
+        // Return the number of redundant edges needed to connect all nodes
+        return connected - 1;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Reorder Routes to Make All Paths Lead to the City Zero](https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // adjacency list to store the graph
+    vector < vector < int > > adj;
+    
+    // visited array to mark nodes as visited during dfs
+    vector < bool > vis;
+
+    // dfs function to traverse the graph and count the number of edges to reverse
+    int dfs(int u){
+        // convert negative nodes to positive
+        u = abs(u);
+        // count the number of edges to reverse
+        int cnt = 0;
+        // mark node as visited
+        vis[u] = true;
+        // iterate over all adjacent nodes
+        for(auto& v :  adj[u]){
+            // skip if node has already been visited
+            if(vis[abs(v)]) continue;
+            // recursively traverse the graph and count the number of edges to reverse
+            cnt += dfs(v) + (v > 0);
+        }
+        // return the total number of edges to reverse
+        return cnt;
+    }
+
+    // function to find the minimum number of edges to reverse
+    int minReorder(int n, vector < vector < int > > &connections){
+        // initialize the adjacency list and visited array
+        adj = vector < vector < int > > (n);
+        vis = vector < bool > (n);
+        // add edges to the adjacency list with appropriate signs
+        for(auto& vec : connections){
+            // add forward edge
+            adj[vec[0]].push_back(vec[1]);
+            // add reverse edge
+            adj[vec[1]].push_back(-vec[0]);
+        }
+        // perform dfs from vertex 0 and return the total number of edges to reverse
+        return dfs(0);
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 25)  [Count Unreachable Pairs of Nodes in an Undirected Graph](https://leetcode.com/problems/count-unreachable-pairs-of-nodes-in-an-undirected-graph/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+// Define a class for Disjoint Set Union (DSU)
+template < typename T = int, int Base = 0 > struct DSU {
+    // Declare a vector to store the parent and size of each node
+    vector < T > parent, Gsize;
+
+    // Constructor for DSU class
+    DSU(int MaxNodes) {
+        // Initialize the parent and Gsize vector with Base and 1 respectively
+        parent = Gsize = vector < T > (MaxNodes + 5);
+        for (int i = Base; i <= MaxNodes; i++)
+            parent[i] = i, Gsize[i] = 1;
+    }
+
+    // Function to find the leader of the set to which a node belongs
+    T find_leader(int node) {
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Function to check if two nodes belong to the same set or not
+    bool is_same_sets(int u, int v) {
+        // if the two nodes have the same leader so they are in the same set
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Function to union the sets of two nodes
+    void union_sets(int u, int v) {
+        // Find the leaders of the sets to which the two nodes belong
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        // If the two nodes belong to the same set so there is no need to union them
+        if (leader_u == leader_v) return;
+        // Union the two sets by attaching the smaller set to the larger set
+        if (Gsize[leader_u] < Gsize[leader_v]) 
+            swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Function to get the size of the set to which a node belongs
+    int get_size(int u) {
+        return Gsize[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+    // Function to count the number of pairs of nodes such that they belong to different components
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        // Create an instance of the DSU class
+        DSU < int > dsu(n);
+        // Union the sets of all nodes in the given edges
+        for (auto& edge : edges)
+            dsu.union_sets(edge[0], edge[1]);
+        // Create a map to store the number of nodes in each component
+        unordered_map < int, int > components;
+        for (int i = 0; i < n; i++)
+            components[dsu.find_leader(i)]++;
+        // Calculate the number of pairs of nodes such that they belong to different components
+        long long ans = 0;
+        for (auto& [leader, sz] : components)
+            ans += 1ll * sz * (n - sz);
+
+        // Return the number of pairs of nodes such that they belong to different components
+        return ans / 2;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Longest Cycle in a Graph](https://leetcode.com/problems/longest-cycle-in-a-graph/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Graph` `Topological Sort`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int LC, id;
+    vector < int > path, edges, vis;
+
+    // Helper function to perform DFS traversal
+    void dfs(int u, int len) {
+        // Set path length for current node
+        path[u] = len;
+        // Mark current node as visited in current DFS traversal
+        vis[u] = id;
+
+        // If current node has no outgoing edge, return
+        if (edges[u] == -1)
+            return;
+
+        // Get next node in the cycle
+        int v = edges[u];
+
+        // If next node hasn't been visited yet, continue DFS traversal from next node
+        if (path[v] == -1) 
+            dfs(v, len + 1);
+        // If next node has been visited in current traversal and is on a shorter path to the start node
+        else if (path[v] < path[u] && vis[u] == vis[v])
+            // Update longest cycle length
+            LC = max(LC, len + 1 - path[v]);
+    }
+
+    int longestCycle(vector<int>& edges) {
+        int n = edges.size();
+        // Initialize path lengths and visited nodes to -1
+        path = vis = vector < int > (n, -1);
+        this -> edges = edges;
+        LC = -1, id = 0;
+
+        // Iterate through all nodes in the graph
+        for (int i = 0; i < n; i++) {
+            // If node hasn't been visited yet, perform DFS traversal from that node and increment ID
+            if (path[i] == -1)
+                dfs(i, 0), id++;
+        }
+
+        // the longest Cycle in the graph
+        return LC;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        // Get the dimensions of the grid
+        int n = grid.size(), m = grid[0].size();
+        
+        // Initialize a 2D vector 'dp' to store minimum path sums for each cell in the grid
+        // 'dp' is initialized to a large value so that it can be easily updated with smaller values later
+        vector < vector < int > > dp(n + 5, vector < int > (m + 5, 1e9));
+        
+        // Initialize the top-left and top-right cells to 0, since the minimum path sum to those cells is 0
+        dp[0][1] = dp[1][0] = 0;
+        
+        // Iterate through each cell in the grid
+        for(int i = 1; i <= n; i++)
+            for(int j = 1; j <= m; j++)
+                // Calculate the minimum path sum to reach the current cell
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) +  grid[i - 1][j - 1];
+                // The above line of code calculates the minimum path sum to reach the cell (i,j) in the grid
+                // It does this by comparing the minimum path sum to reach the cell above (i-1, j) and the cell to the left (i, j-1)
+                // The minimum path sum is then updated to include the current cell's value (grid[i-1][j-1])
+        
+        // Return the minimum path sum to the bottom-right cell (i.e., the last element in 'dp')
+        return dp[n][m];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Minimum Cost For Tickets](https://leetcode.com/problems/minimum-cost-for-tickets/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // A function that takes in a vector of days and a vector of costs and returns the minimum cost of tickets.
+    int mincostTickets(vector < int >& days, vector < int >& costs) {
+        // n is the size of the days vector.
+        int n = days.size();
+        
+        // dp is a vector of size n+5 initialized to 0, where dp[i] represents the minimum cost of tickets starting from day i.
+        vector < int > dp(n + 5, 0);
+        
+        // Starting from the end of the days vector, iterate through each day backwards.
+        for(int idx = n - 1; idx >= 0; idx--){
+            
+            // tempidx is a variable to store the index of the day after the current day that needs to be covered by the ticket.
+            int tempidx = -1;
+
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 1 day.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 1) - days.begin();
+            
+            // Calculate the cost of the ticket that covers only one day, and add the cost to the minimum cost starting from tempidx.
+            int first = costs[0] + dp[tempidx];
+            
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 7 days.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 7) - days.begin();
+            
+            // Calculate the cost of the ticket that covers 7 days, and add the cost to the minimum cost starting from tempidx.
+            int second = costs[1] + dp[tempidx];
+            
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 30 days.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 30) - days.begin();
+            
+            // Calculate the cost of the ticket that covers 30 days, and add the cost to the minimum cost starting from tempidx.
+            int third = costs[2] + dp[tempidx];
+            
+            // Store the minimum cost among the three options in dp[idx], which represents the minimum cost starting from day idx.
+            dp[idx] = min(first, min(second, third)); 
+        }
+
+        // Return the minimum cost starting from day 0, which is stored in dp[0].
+        return dp[0];
+    }
+};
+```
+    
