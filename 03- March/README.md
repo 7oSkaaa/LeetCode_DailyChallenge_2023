@@ -48,6 +48,9 @@
 1. **[Reorder Routes to Make All Paths Lead to the City Zero](#24--reorder-routes-to-make-all-paths-lead-to-the-city-zero)**
 1. **[Count Unreachable Pairs of Nodes in an Undirected Graph](#25--count-unreachable-pairs-of-nodes-in-an-undirected-graph)**
 1. **[Longest Cycle in a Graph](#26--longest-cycle-in-a-graph)**
+1. **[Minimum Path Sum](#27--minimum-path-sum)**
+1. **[Minimum Cost For Tickets](#28--minimum-cost-for-tickets)**
+1. **[Reducing Dishes](#29--reducing-dishes)**
 
 <hr>
 
@@ -1673,6 +1676,161 @@ public:
 
         // the longest Cycle in the graph
         return LC;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        // Get the dimensions of the grid
+        int n = grid.size(), m = grid[0].size();
+        
+        // Initialize a 2D vector 'dp' to store minimum path sums for each cell in the grid
+        // 'dp' is initialized to a large value so that it can be easily updated with smaller values later
+        vector < vector < int > > dp(n + 5, vector < int > (m + 5, 1e9));
+        
+        // Initialize the top-left and top-right cells to 0, since the minimum path sum to those cells is 0
+        dp[0][1] = dp[1][0] = 0;
+        
+        // Iterate through each cell in the grid
+        for(int i = 1; i <= n; i++)
+            for(int j = 1; j <= m; j++)
+                // Calculate the minimum path sum to reach the current cell
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) +  grid[i - 1][j - 1];
+                // The above line of code calculates the minimum path sum to reach the cell (i,j) in the grid
+                // It does this by comparing the minimum path sum to reach the cell above (i-1, j) and the cell to the left (i, j-1)
+                // The minimum path sum is then updated to include the current cell's value (grid[i-1][j-1])
+        
+        // Return the minimum path sum to the bottom-right cell (i.e., the last element in 'dp')
+        return dp[n][m];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Minimum Cost For Tickets](https://leetcode.com/problems/minimum-cost-for-tickets/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // A function that takes in a vector of days and a vector of costs and returns the minimum cost of tickets.
+    int mincostTickets(vector < int >& days, vector < int >& costs) {
+        // n is the size of the days vector.
+        int n = days.size();
+        
+        // dp is a vector of size n+5 initialized to 0, where dp[i] represents the minimum cost of tickets starting from day i.
+        vector < int > dp(n + 5, 0);
+        
+        // Starting from the end of the days vector, iterate through each day backwards.
+        for(int idx = n - 1; idx >= 0; idx--){
+            
+            // tempidx is a variable to store the index of the day after the current day that needs to be covered by the ticket.
+            int tempidx = -1;
+
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 1 day.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 1) - days.begin();
+            
+            // Calculate the cost of the ticket that covers only one day, and add the cost to the minimum cost starting from tempidx.
+            int first = costs[0] + dp[tempidx];
+            
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 7 days.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 7) - days.begin();
+            
+            // Calculate the cost of the ticket that covers 7 days, and add the cost to the minimum cost starting from tempidx.
+            int second = costs[1] + dp[tempidx];
+            
+            // Calculate the index of the first day that needs to be covered by a ticket that is valid for 30 days.
+            tempidx = lower_bound(days.begin() + idx, days.end(), days[idx] + 30) - days.begin();
+            
+            // Calculate the cost of the ticket that covers 30 days, and add the cost to the minimum cost starting from tempidx.
+            int third = costs[2] + dp[tempidx];
+            
+            // Store the minimum cost among the three options in dp[idx], which represents the minimum cost starting from day idx.
+            dp[idx] = min(first, min(second, third)); 
+        }
+
+        // Return the minimum cost starting from day 0, which is stored in dp[0].
+        return dp[0];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 29)  [Reducing Dishes](https://leetcode.com/problems/reducing-dishes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Greedy` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int maxSatisfaction(vector < int >& a) {                
+        // size of the satisfaction vector
+        int n = a.size();
+        
+        // sorting the satisfaction vector in non-decreasing order
+        sort(a.begin(), a.end());
+
+        // initializing variables for storing maximum satisfaction, current sum, and total sum
+        int MaxAns = 0, currSum = 0, Sum = 0;
+        
+        // iterating over the dishes in reverse order
+        for(int i = n - 1; i >= 0; i--){
+    
+            // adding the satisfaction of the current dish to the current sum
+            currSum += a[i];
+    
+            // adding the current sum to the total sum
+            Sum += currSum;
+    
+            // updating the maximum satisfaction with the maximum of current and previous satisfactions
+            MaxAns = max(MaxAns, Sum);
+        }
+
+        // returning the maximum satisfaction for cooking the dishes with minimum time 1
+        return MaxAns;
     }
 };
 ```
