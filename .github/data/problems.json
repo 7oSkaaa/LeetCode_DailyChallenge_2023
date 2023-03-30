@@ -355,6 +355,10 @@
         {
             "day": "29",
             "title": "Reducing Dishes"
+        },
+        {
+            "day": "30",
+            "title": "Scramble String"
         }
     ]
 }
