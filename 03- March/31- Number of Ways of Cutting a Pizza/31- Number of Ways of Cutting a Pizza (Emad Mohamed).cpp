@@ -2,7 +2,7 @@
 /*
   We will use DP to try all the possible solutions.
 
-  Dp represents the piece from x y to n m with k remaining cuts.
+  Dp represents the piece from (x, y) to (n, m) with k remaining cuts.
 
   We can go through each row (except the last) and try to cut 
   from there and see if the one above it is valid.
