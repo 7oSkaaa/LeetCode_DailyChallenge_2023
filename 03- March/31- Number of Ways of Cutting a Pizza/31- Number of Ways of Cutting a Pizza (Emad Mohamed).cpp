@@ -23,23 +23,23 @@ class Solution {
     int n, m, dp[51][51][11], mod = 1e9 + 7;
     vector<vector<int>>pref;
 
-    bool is_valid_cut(int x1, int y1, int x2, int y2){
+    bool is_valid_piece(int x1, int y1, int x2, int y2){
         return (pref[x2][y2] - pref[x2][y1 - 1] - pref[x1 - 1][y2] + pref[x1 - 1][y1 - 1]) > 0;
     }
 
     int findCnt(int x, int y, int k){
         if(!k)
-            return is_valid_cut(x, y, n, m);
+            return is_valid_piece(x, y, n, m);
         int& ret = dp[x][y][k];
         if(~ret) return ret;
         ret = 0;
         // try to cut from each row
         for(int row = x; row < n; row++)
-            if(is_valid_cut(x, y, row, m))
+            if(is_valid_piece(x, y, row, m))
                 ret += findCnt(row + 1, y, k - 1), ret %= mod;
         // try to cut from each column
         for(int col = y; col < m; col++)
-            if(is_valid_cut(x, y, n, col))
+            if(is_valid_piece(x, y, n, col))
                 ret += findCnt(x, col + 1, k - 1), ret %= mod;
         return ret;
     }
