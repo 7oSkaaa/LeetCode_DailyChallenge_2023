@@ -17,7 +17,7 @@
   check that the last piece is valid.
 
   We check the validity of each piece using 2d prefix sum
-  to make sure that each one has more than one apple.
+  to make sure that each one has atleast one apple.
 */
 class Solution {
     int n, m, dp[51][51][11], mod = 1e9 + 7;
