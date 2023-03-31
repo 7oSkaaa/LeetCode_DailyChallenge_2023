@@ -359,6 +359,10 @@
         {
             "day": "30",
             "title": "Scramble String"
+        },
+        {
+            "day": "31",
+            "title": "Number of Ways of Cutting a Pizza"
         }
     ]
 }
