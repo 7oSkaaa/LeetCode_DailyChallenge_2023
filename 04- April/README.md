@@ -24,7 +24,6 @@
 
 1. **[Binary Search](#01--binary-search)**
 
-<hr>
 
 <hr>
 <br><br>
