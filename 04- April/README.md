@@ -22,5 +22,102 @@
 
 ## Problems:
 
+1. **[Binary Search](#01--binary-search)**
+
+1. **[Successful Pairs of Spells and Potions](#02--successful-pairs-of-spells-and-potions)**
 
 <hr>
+<br><br>
+
+## 01)  [Binary Search](https://leetcode.com/problems/binary-search/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int search(vector < int >& nums, int target) {
+        // the start and end of the interval that we will search in it
+        int l = 0, r = nums.size() - 1;
+
+        // Start a while loop with condition "l <= r".
+        while(l <= r){
+            // Declare an integer variable "m" and initialize it to the midpoint between "l" and "r".
+            int m = l + (r - l) / 2;
+            
+            // If the value at index "m" in the "nums" vector is equal to the target integer, return "m".
+            if(nums[m] == target) return m;
+            
+            // If the value at index "m" in the "nums" vector is less than the target integer, update "l" to "m + 1". Otherwise, update "r" to "m - 1".
+            (nums[m] < target ? l = m + 1 : r = m - 1);
+        }
+
+        // If the target integer was not found in the "nums" vector, return -1.
+        return -1;
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 02)  [Successful Pairs of Spells and Potions](https://leetcode.com/problems/successful-pairs-of-spells-and-potions/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Two Pointers` `Binary Search` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Inline function to calculate the ceil value
+    inline long long ceil(long long a, long long b){
+        return (a + b - 1) / b;
+    }
+
+    // Function to calculate successful pairs
+    vector < int > successfulPairs(vector < int >& spells, vector < int >& potions, long long success) {
+        // Get the sizes of vectors
+        int n = spells.size(), m = potions.size();
+        
+        // Sort potions vector
+        sort(potions.begin(), potions.end());
+        
+        // Vector to store successful pairs
+        vector < int > successful_pairs;
+        
+        for(auto& x : spells){
+            // Calculate target value for a spell that will make it greater than success
+            long long target = ceil(success, x);
+            
+            // Get the index of first potion having value greater or equal to target
+            int idx = lower_bound(potions.begin(), potions.end(), target) - potions.begin();
+            
+            // Calculate number of successful pairs
+            successful_pairs.push_back(m - idx);
+        }
+
+        // Return the vector containing number of successful pairs for each spell
+        return successful_pairs;
+    }
+};
+```
+    
