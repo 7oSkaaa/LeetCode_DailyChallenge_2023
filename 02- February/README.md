@@ -1,4 +1,4 @@
-# LeetCode Daily Challenge Problems for January
+# LeetCode Daily Challenge Problems for February
 
 <br><br>
 
@@ -39,6 +39,17 @@
 1. **[Add to Array-Form of Integer](#15--add-to-array-form-of-integer)**
 1. **[Maximum Depth of Binary Tree](#16--maximum-depth-of-binary-tree)**
 1. **[Minimum Distance Between BST Nodes](#17--minimum-distance-between-bst-nodes)**
+1. **[Invert Binary Tree](#18--invert-binary-tree)**
+1. **[Binary Tree Zigzag Level Order Traversal](#19--binary-tree-zigzag-level-order-traversal)**
+1. **[Search Insert Position](#20--search-insert-position)**
+1. **[Single Element in a Sorted Array](#21--single-element-in-a-sorted-array)**
+1. **[Capacity To Ship Packages Within D Days](#22--capacity-to-ship-packages-within-d-days)**
+1. **[IPO](#23--ipo)**
+1. **[Minimize Deviation in Array](#24--minimize-deviation-in-array)**
+1. **[Best Time to Buy and Sell Stock](#25--best-time-to-buy-and-sell-stock)**
+1. **[Edit Distance](#26--edit-distance)**
+1. **[Construct Quad Tree](#27--construct-quad-tree)**
+1. **[Find Duplicate Subtrees](#28--find-duplicate-subtrees)**
 
 <hr>
 
@@ -48,7 +59,7 @@
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -80,7 +91,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -137,7 +148,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -187,7 +198,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -250,7 +261,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -298,7 +309,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -332,7 +343,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -388,7 +399,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -426,7 +437,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{red}\{Hard}}}$**
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
 
 ### Related Topic
 
@@ -477,7 +488,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -546,7 +557,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -611,7 +622,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{orange}\{Medium}}}$**
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
 
 ### Related Topic
 
@@ -673,7 +684,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -705,7 +716,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -763,7 +774,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -825,7 +836,7 @@ public:
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -845,11 +856,15 @@ public:
 };
 ```
 
+<hr>
+
+<br><br>
+
 ## 17)  [Minimum Distance Between BST Nodes](https://leetcode.com/problems/minimum-distance-between-bst-nodes/)
 
 ### Difficulty
 
-**${\bf{\color\{green}\{Easy}}}$**
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
 
 ### Related Topic
 
@@ -883,6 +898,579 @@ public:
             min_diff = min(min_diff, values[i] - values[i - 1]);
 
         return min_diff;
+    }
+};
+```
+
+## 18)  [Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    void invert(TreeNode* root){
+        // if the root is null so do nothing and return
+        if(!root) return;
+        
+        // swap the left subtree with the right subtree
+        swap(root -> right, root -> left);
+        
+        // swap each subtrees in the right subtree
+        invert(root -> right);
+        
+        // swap eaxh subtrees in the left subtree
+        invert(root -> left);
+    }
+    
+    TreeNode* invertTree(TreeNode* root) {
+        invert(root);
+        return root;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+
+## 19)  [Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        // if the root is empty
+        if(!root) return {};
+
+        // to store the nodes in each level in zigzag order
+        vector < vector < int > > nodes;
+        
+        // make bfs on the tree
+        queue < TreeNode* > bfs;
+    
+        // add root to start from it
+        bfs.push(root);
+
+        // add the two children
+        auto add_children = [&](TreeNode* node){
+            // if the child is available so add it
+            if(node -> left)
+                bfs.push(node -> left);
+            if(node -> right)
+                bfs.push(node -> right);
+        };
+
+        // to know the current level
+        int level = 0;
+
+        while(!bfs.empty()){
+            int sz = bfs.size();
+            
+            // store the nodes of the current level
+            vector < int > current_level_nodes;
+
+            // iterate on the current level nodes
+            while(sz--){
+                auto node = bfs.front();
+                bfs.pop();
+                
+                // add the current node val to the vector
+                current_level_nodes.push_back(node -> val);
+
+                // add the childrens of node
+                add_children(node);
+            }
+
+            // zigzag order will be if the current level is odd and order will be normal
+            // otherwise the order will be reversed
+            if(level & 1)
+                reverse(current_level_nodes.begin(), current_level_nodes.end());
+
+            nodes.push_back(current_level_nodes);        
+
+            // move to the current level
+            level++;
+        }
+
+        return nodes;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 20)  [Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int searchInsert(vector<int>& nums, int target) {
+        // get the index of the first element greater than or equal target
+        return lower_bound(nums.begin(), nums.end(), target) - nums.begin();
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 21)  [Single Element in a Sorted Array](https://leetcode.com/problems/single-element-in-a-sorted-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        // a ^ a = 0 
+        // so each element will enter twice will be zero so the remaining answer will be the number that appears odd times
+        int xr = 0;
+        for(auto& i : nums)
+            xr ^= i;
+        return xr;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 22)  [Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+
+        // functions is_good to check the current capacity
+        auto is_good = [&](int max_cap){
+            // days to ship all weights and the current capacity
+            int days_to_use = 1, curr_cap = 0;
+            for(auto& w : weights){
+                // if any wieght is greater than max_cap this max_cap isn't good
+                if(w > max_cap) return false;
+
+                // add current weight to current cap
+                curr_cap += w;
+
+                // if the current cap is greater than max_cap we will use another day to ship it
+                if(curr_cap > max_cap)
+                    curr_cap = w, days_to_use++;
+            }
+
+            // current_max_cap will be good if the number of days to move all weights smaller than number of allowed days
+            return days_to_use <= days;
+        };
+
+        // we will make binary search to get the maximum capacity
+        int l = 1, r = 1e9, ans = -1;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? r = m - 1, ans = m : l = m + 1);
+        }
+        // the answer will be the minimum good capacity to use
+        return ans;
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 23)  [IPO](https://leetcode.com/problems/ipo/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy` `Sorting` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        int n = profits.size();
+
+        // make vector of indices to sort it
+        vector < int > Idx(n);
+        
+        // make the vector 0 ... n - 1
+        iota(Idx.begin(), Idx.end(), 0);
+        
+        // We sort the projects by their minimum capital required in ascending order because we want to consider the projects that we can afford with our current capital. 
+        // By iterating over the sorted projects, we can ensure that we only consider the projects that have a minimum capital requirement less than or equal to our current capital.
+        sort(Idx.begin(), Idx.end(), [&](int i, int j){
+            return capital[i] < capital[j] || (capital[i] == capital[j] && profits[i] < profits[j]);
+        });
+        
+        int i = 0;
+        priority_queue < int > maximizeCapital;
+        while (k--) {
+            //The condition capital[Idx[i]] <= w checks if the minimum capital requirement of the next project is less than or equal to our current capital w. If this condition is true, we can add the project to the priority queue because we have enough capital to start the project.
+            //We use this condition to ensure that we only add the available projects that we can afford to the priority queue. By checking the minimum capital requirement of the next project before adding it to the priority queue, we can avoid adding projects that we cannot afford, and we can focus on selecting the most profitable project that we can afford with our current capital.
+            while (i < n && capital[Idx[i]] <= w) 
+                maximizeCapital.push(profits[Idx[i++]]);
+
+            if (maximizeCapital.empty()) break;
+
+            w += maximizeCapital.top();
+            maximizeCapital.pop();
+        }
+
+        return w;
+    }
+};
+```
+
+
+<hr>
+
+<br><br>
+
+## 24)  [Minimize Deviation in Array](https://leetcode.com/problems/minimize-deviation-in-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy` `Ordered Set` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimumDeviation(vector<int>& nums) {
+        priority_queue < int > pq;
+        int minval = INT_MAX;
+        
+        // make all elements even
+        for(auto& i : nums){
+
+            // if the number is odd multiply it by 2 to be even
+            if(i & 1) i *= 2;
+
+            // get the minimum value after make all element even
+            minval = min(minval, i);
+
+            // add the element in the pq
+            pq.push(i);
+        }
+
+        // to get the minimum diff
+        int diff = INT_MAX;
+
+        // while the first max element in the pq is even
+        while(!pq.empty() && pq.top() % 2 == 0){
+            // get the max value and remove it from the pq
+            int maxval = pq.top();
+            pq.pop();
+
+            // update the min diff with min value and max value
+            diff = min(diff,maxval - minval);
+
+            // update the min val by the new value of the element
+            minval = min(minval, maxval / 2);
+
+            // add new value of the element
+            pq.push(maxval / 2);
+        }
+
+        // update the minimum diff with max odd element with the min val
+        return min(diff, pq.top() - minval);
+    }
+};
+```
+
+<hr>
+
+<br><br>
+
+## 25)  [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int maxProfit(vector<int>& prices) {
+        // make vector prices in increasing order to get the max price after current
+        vector < int > sorted(prices.size());
+        sorted.back() = prices.back();
+        for(int i = prices.size() - 2; i >= 0; i--)
+            sorted[i] = max(sorted[i + 1], prices[i]);
+
+        // the best profit will be max value after current - current
+        int Max = INT_MIN;
+        for(int i = 0; i < prices.size(); i++)
+            Max = max(Max, sorted[i] - prices[i]);
+        return Max;
+    }
+};
+
+```
+<hr>
+
+<br><br>
+
+## 26)  [Edit Distance](https://leetcode.com/problems/edit-distance/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+    int n,m, memo[505][505];
+    string s, t;
+
+public:
+
+    int dp (int i, int j){
+        if (j == m) return n-i; // Delete all remain characters in string s
+        if (i == n) return m-j; // Insert all remain characters in string t to string s
+
+        int& ans = memo[i][j];
+        if (~ans) return ans;
+
+        if (s[i] == t[j]) ans = dp(i+1, j+1);
+        else {
+            ans = 1 + dp(i+1, j); // Delete
+            ans = min(ans, 1 + dp(i, j+1)); // Insert
+            ans = min(ans, 1 + dp(i+1, j+1)); // Replace
+        }
+
+        return ans;
+    }
+
+    int minDistance(string word1, string word2) {
+        n = word1.size();
+        m = word2.size();
+        s = word1, t = word2;
+
+        for (int i = 0; i < n + 5; i++)
+            for (int j = 0; j < m + 5; j++) 
+                memo[i][j] = -1;
+
+        return dp(0, 0);
+    }
+};
+```
+<hr>
+
+<br><br>
+
+## 28)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Divide and Conquer` `Tree` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Checks if all elements within a sub-grid of size n x n
+    // starting from position (x, y) in the grid have the same value.
+    bool checkvalue(vector<vector<int>>& grid, int x, int y, int n){
+        int m = n, val = grid[x][y];
+        for(int i = x; i < x + n; i++){
+            for(int j = y; j < y + n; j++){
+                if(grid[i][j] != val){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    // Recursively constructs a Quadtree for the input grid.
+    void buildQuad(vector<vector<int>>& grid, Node* root, int x, int y, int n){
+        // If all elements in the current sub-grid have the same value,
+        // mark the current node as a leaf and set its val to the common value.
+        if(checkvalue(grid, x, y, n)){
+            root->isLeaf = true;
+            root->val = grid[x][y];
+        }
+        // If the elements in the current sub-grid have different values,
+        // mark the current node as an internal node and recursively construct
+        // its four child nodes.
+        else{
+            root->isLeaf = false;
+            root->val = 1;  // Doesn't matter, since it's an internal node.
+            // Construct the top-left child node.
+            root->topLeft = new Node();
+            buildQuad(grid, root->topLeft, x, y, n/2);
+            // Construct the top-right child node.
+            root->topRight = new Node();
+            buildQuad(grid, root->topRight, x, y + n/2, n/2);
+            // Construct the bottom-left child node.
+            root->bottomLeft = new Node();
+            buildQuad(grid, root->bottomLeft, x + n/2, y, n/2);
+            // Construct the bottom-right child node.
+            root->bottomRight = new Node();
+            buildQuad(grid, root->bottomRight, x + n/2, y + n/2, n/2);
+        }
+    }
+    
+    // Constructs the Quadtree for the input grid and returns the root node.
+    Node* construct(vector<vector<int>>& grid) {
+        Node* root = new Node();
+        int n = grid.size();  // Assume the grid is square.
+        buildQuad(grid, root, 0, 0, n);  // Start building the Quadtree from the root node.
+        return root;
+    }
+};
+```
+<hr>
+
+<br><br>
+
+
+## 19)  [Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string postOrder(TreeNode* root, unordered_map<string, int>& subtree_hash, vector<TreeNode*>& result) {
+        // null node
+        if(!root)
+            return "#";
+        
+        // Get the traversal hash for the left and right subtrees
+        string left_hash = postOrder(root -> left, subtree_hash, result);
+        string right_hash = postOrder(root -> right, subtree_hash, result);
+        
+        // Hash string for the current subtree rooted at 'root'
+        // If we do left + curr + right, then we can have same pattern for this pattern:
+        /*
+                       0
+                      / \
+         [#,0,#,0,#] 0   0 [#,0,#,0,#]
+                    /     \
+          [#,0,#]  0       0 [#,0,#]
+          
+          That's why we need either preorder or postorder in subtree path pattern
+        */
+        string subtree = left_hash + "," + right_hash + "," + to_string(root->val);
+        
+        // check if the same subtree path was seen before or not
+        // If seen before and this is the second time seen, then only add to result
+        // don't add after second time since that would be redundant
+        if(subtree_hash.count(subtree) && subtree_hash[subtree] == 1)
+            result.emplace_back(root);
+        
+        ++subtree_hash[subtree];
+        return subtree;
+    }
+    
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        // <subtree_traversal_path, no. of nodes to have that in their tree with them as root>
+        unordered_map < string, int > subtree_hash;
+        vector < TreeNode* > result;
+        
+        postOrder(root, subtree_hash, result);
+        return result;
     }
 };
 ```
