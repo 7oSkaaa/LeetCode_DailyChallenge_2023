@@ -369,6 +369,10 @@
         {
             "day": "01",
             "title": "Binary Search"
+        },
+        {
+            "day": "02",
+            "title": "Successful Pairs of Spells and Potions"
         }
     ]
 }
