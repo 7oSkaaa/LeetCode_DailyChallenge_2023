@@ -11,7 +11,8 @@ public:
         int f;
 
         double sum=nums[0];
-        //We want to distribute the numbers equal from left to right,                  and compare them with the first and take max by collecting them and dividing them by their number
+        //We want to distribute the numbers equal from left to right
+        //and compare them with the first and take max by collecting them and dividing them by their number
         for(int i=1;i<sz;i++){
 
             sum+=nums[i];
