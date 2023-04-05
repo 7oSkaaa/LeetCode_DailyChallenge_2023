@@ -26,6 +26,8 @@
 
 1. **[Successful Pairs of Spells and Potions](#02--successful-pairs-of-spells-and-potions)**
 1. **[Boats to Save People](#03--boats-to-save-people)**
+1. **[Optimal Partition of String](#04--optimal-partition-of-string)**
+1. **[Minimize Maximum of Array](#05--minimize-maximum-of-array)**
 
 <hr>
 <br><br>
@@ -160,6 +162,114 @@ public:
         
         // Return the total number of boats required
         return boats;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 04)  [Optimal Partition of String](https://leetcode.com/problems/optimal-partition-of-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int partitionString(string& s) {
+        int partitions = 1, mask = 0;
+        
+        // Iterate over each character in the string
+        for(auto& c : s){
+            // Create a mask for the current character
+            int curr_mask = (1 << (c - 'a'));
+            
+            // If the current mask is already present in the mask variable
+            // increment the number of partitions and reset the mask variable
+            if(mask & curr_mask)
+                partitions++, mask = 0;
+            
+            // XOR the current mask with the mask variable
+            mask ^= curr_mask;
+        }
+        
+        // Return the number of partitions
+        return partitions;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 05)  [Minimize Maximum of Array](https://leetcode.com/problems/minimize-maximum-of-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Dynamic Programming` `Greedy` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // make shortcut for long long
+    #define ll long long
+
+    int minimizeArrayValue(vector < int >& nums) {
+        // Lambda function that takes an integer as input and returns a boolean value indicating whether the given integer is good or not.
+        auto is_good = [&](ll m){
+            // If the first element in the vector is greater than the given integer, it cannot be good.
+            if(nums[0] > m) return false;
+            ll last = nums[0];
+            
+            // Loop through the vector starting from the second element.
+            for(int i = 1; i < nums.size(); i++){
+                // Calculate the value to be removed from the previous element to make it less than or equal to the given integer.
+                ll to_remove = m - last;
+                
+                // Calculate the new value for the current element after removing the calculated value from the previous element.
+                last = nums[i] - abs(to_remove);
+                
+                // If the new value is greater than the given integer, it cannot be good.
+                if(last > m) 
+                    return false;
+            }
+            
+            // All elements in the vector are less than or equal to the given integer, hence it is good.
+            return true;
+        };
+        
+        // Initialize the lower and upper bounds of the binary search.
+        int l = 0, r = 1e9, ans = -1;
+        
+        // Binary search for the minimum good integer.
+        while(l <= r){
+            // Calculate the middle point.
+            int m = l + (r - l) / 2;
+            
+            // If the middle point is good, update the upper bound and the answer.
+            (is_good(m) ? r = m - 1, ans = m : l = m + 1);
+        }
+
+        // Return the minimum good integer.
+        return ans;
     }
 
 };
