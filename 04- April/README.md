@@ -26,6 +26,7 @@
 
 1. **[Successful Pairs of Spells and Potions](#02--successful-pairs-of-spells-and-potions)**
 1. **[Boats to Save People](#03--boats-to-save-people)**
+1. **[Optimal Partition of String](#04--optimal-partition-of-string)**
 
 <hr>
 <br><br>
@@ -162,6 +163,48 @@ public:
         return boats;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 04)  [Optimal Partition of String](https://leetcode.com/problems/optimal-partition-of-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int partitionString(string& s) {
+        int partitions = 1, mask = 0;
+        
+        // Iterate over each character in the string
+        for(auto& c : s){
+            // Create a mask for the current character
+            int curr_mask = (1 << (c - 'a'));
+            
+            // If the current mask is already present in the mask variable
+            // increment the number of partitions and reset the mask variable
+            if(mask & curr_mask)
+                partitions++, mask = 0;
+            
+            // XOR the current mask with the mask variable
+            mask ^= curr_mask;
+        }
+        
+        // Return the number of partitions
+        return partitions;
+    }
 };
 ```
     
