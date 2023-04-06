@@ -385,6 +385,10 @@
         {
             "day": "05",
             "title": "Minimize Maximum of Array"
+        },
+        {
+            "day": "06",
+            "title": "Number of Closed Islands"
         }
     ]
 }
