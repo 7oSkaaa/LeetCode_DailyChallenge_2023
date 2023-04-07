@@ -389,6 +389,10 @@
         {
             "day": "06",
             "title": "Number of Closed Islands"
+        },
+        {
+            "day": "07",
+            "title": "Number of Enclaves"
         }
     ]
 }
