@@ -393,6 +393,10 @@
         {
             "day": "07",
             "title": "Number of Enclaves"
+        },
+        {
+            "day": "08",
+            "title": "Clone Graph"
         }
     ]
 }
