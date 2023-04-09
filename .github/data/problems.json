@@ -397,6 +397,10 @@
         {
             "day": "08",
             "title": "Clone Graph"
+        },
+        {
+            "day": "09",
+            "title": "Largest Color Value in a Directed Graph"
         }
     ]
 }
