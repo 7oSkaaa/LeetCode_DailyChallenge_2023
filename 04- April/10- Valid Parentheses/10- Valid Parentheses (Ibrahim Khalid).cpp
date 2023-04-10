@@ -1,3 +1,4 @@
+// Author: Ibrahim Khalid
 class Solution {
 public:
     bool isValid(string s) {
