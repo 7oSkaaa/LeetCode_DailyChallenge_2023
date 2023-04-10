@@ -32,6 +32,7 @@
 1. **[Number of Enclaves](#07--number-of-enclaves)**
 1. **[Clone Graph](#08--clone-graph)**
 1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
+1. **[Valid Parentheses](#10--valid-parentheses)**
 
 <hr>
 <br><br>
@@ -548,6 +549,50 @@ public:
         return visited == n ? maxFreq : -1;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isValid(const string& s) {
+        // Initialize a stack to hold open parenthesis, braces, and brackets
+        stack < char > st;
+        // Iterate over each character in the string
+        for (auto& c : s) {
+            // If the character is an open parenthesis, brace, or bracket, add it to the stack
+            if (c == '(' || c == '{' || c == '[') st.push(c);
+            // If the character is a close parenthesis, brace, or bracket
+            else if ((c == ')' || c == '}' || c == ']') && st.empty()) return false;
+            // If the stack is empty, the string is invalid, return false
+            else {
+                // Check if the top element of the stack matches the current character, if so pop the stack
+                if (c == ')' && st.top() == '(') st.pop();
+                else if (c == '}' && st.top() == '{') st.pop();
+                else if (c == ']' && st.top() == '[') st.pop();
+                // If the top element of the stack does not match the current character, return false
+                else return false;
+            }
+        }
+        // If the stack is empty, the string is valid, return true
+        return st.empty();
+    }
 };
 ```
     
