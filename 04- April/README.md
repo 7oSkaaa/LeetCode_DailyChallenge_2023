@@ -28,6 +28,11 @@
 1. **[Boats to Save People](#03--boats-to-save-people)**
 1. **[Optimal Partition of String](#04--optimal-partition-of-string)**
 1. **[Minimize Maximum of Array](#05--minimize-maximum-of-array)**
+1. **[Number of Closed Islands](#06--number-of-closed-islands)**
+1. **[Number of Enclaves](#07--number-of-enclaves)**
+1. **[Clone Graph](#08--clone-graph)**
+1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
+1. **[Valid Parentheses](#10--valid-parentheses)**
 
 <hr>
 <br><br>
@@ -272,6 +277,322 @@ public:
         return ans;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Number of Closed Islands](https://leetcode.com/problems/number-of-closed-islands/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Union Find` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Declare variables for the size of the grid
+    int n, m;
+
+    // make the given grid global
+    vector < vector < int > > grid;
+
+    // Check if a given cell is inside the grid.
+    bool is_valid(int r, int c) {
+        return r >= 0 && r < n && c >= 0 && c < m;
+    }
+
+    // DFS to traverse the grid and check if a cell is part of an island.
+    bool dfs(int r, int c) {
+        // If the cell is not inside the grid, return false.
+        if (!is_valid(r, c)) return false;
+        
+        // If the cell is already part of an island, return true.
+        if (grid[r][c]) return true;
+        
+        // Mark the cell as visited by changing its value to 2.
+        grid[r][c] = 2;
+        
+        // Traverse all the neighbors of the cell recursively and check if they are part of an island.
+        bool valid = true;
+        valid &= dfs(r - 1, c);
+        valid &= dfs(r + 1, c);
+        valid &= dfs(r, c - 1);
+        valid &= dfs(r, c + 1);
+        
+        // Return true if all the neighbors are part of an island, false otherwise.
+        return valid;
+    }
+
+    // Function to count the number of closed islands in the grid.
+    int closedIsland(vector<vector<int>>& mat) {
+        // Assign the input grid to the class grid variable, and get its size.
+        this -> grid = mat;
+        n = grid.size(), m = grid[0].size();
+        
+        // Initialize the answer variable to zero, and traverse the entire grid to count the number of closed islands.
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                if (!grid[i][j])
+                    ans += dfs(i, j);
+        
+        // Return the number of closed islands.
+        return ans;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 07)  [Number of Enclaves](https://leetcode.com/problems/number-of-enclaves/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Union Find` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Initializing two 2D vectors to store the grid values
+    vector < vector < int > > grid;
+
+    // Variables for the dimensions of the grid
+    int n, m;
+
+    // Function to check if a cell is valid
+    bool is_valid(int r, int c){
+        return r >= 0 && c >= 0 && r < n && c < m && grid[r][c];
+    }
+
+    // Depth first search function
+    int dfs(int r, int c){
+        // If the cell is not valid return 0
+        if(!is_valid(r, c)) return 0;
+
+        // Set the cell as visited
+        grid[r][c] = 0;
+        
+        // Return 1 plus the results of the DFS of the adjacent cells
+        return 1 + dfs(r + 1, c) + dfs(r, c + 1) + dfs(r - 1, c) + dfs(r, c - 1);
+    }
+
+    int numEnclaves(vector<vector<int>>& grid) {
+        // Set the grid dimensions
+        this -> grid = grid;
+        n = grid.size(), m = grid[0].size();
+                
+        // Perform DFS on all cells on the border
+        for(int i = 0; i < n; i++) dfs(i, 0); // left border
+        for(int i = 0; i < n; i++) dfs(i, m - 1); // right border
+        for(int i = 0; i < m; i++) dfs(0, i); // upper border
+        for(int i = 0; i < m; i++) dfs(n - 1, i); // lower border
+        
+        // Count the number of enclaves by performing DFS on each valid cell
+        int cnt = 0;
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                if(is_valid(i, j))
+                    cnt += dfs(i, j);
+        
+        // Return the count of enclaves
+        return cnt;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Clone Graph](https://leetcode.com/problems/clone-graph/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Depth-First Search` `Breadth-First Search` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Define an unordered map to store the nodes and their copies
+    unordered_map < int, Node* > mp;
+
+    // Define a function to clone the given graph
+    Node* cloneGraph(Node* node) {
+        // If node is NULL, return the node
+        if (node == NULL) return node;
+
+        // If the node already exists in the map, return its copy
+        if (mp.count(node -> val)) return mp[node -> val];
+
+        // Create a vector to store the neighbors of the current node and add the current node to the map
+        mp[node -> val] = new Node(node -> val, {});
+
+        // Recursively clone the neighbors of the current node and add them to the copy's neighbors vector
+        for (auto& newNode : node -> neighbors) {
+            Node* newNeighbors = cloneGraph(newNode);
+            mp[node -> val] -> neighbors.push_back(newNeighbors);
+        }
+
+        // Return the copy of the given node
+        return mp[node -> val];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Largest Color Value in a Directed Graph](https://leetcode.com/problems/largest-color-value-in-a-directed-graph/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Dynamic Programming` `Graph` `Topological Sort` `Memoization` `Counting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int largestPathValue(const string& colors, vector<vector<int>>& edges) {
+        // Initialize variables 'n', 'maxFreq', and 'visited' with initial values.
+        int n = colors.size(), maxFreq = 0, visited = 0;
+        
+        // Initialize a vector called 'adj' with size 'n'.
+        vector < vector < int > > adj(n);
+        
+        // Initialize a vector called 'deg' with size 'n'.
+        vector < int > deg(n);
+        
+        // Initialize a vector called 'freq' with size 'n x 26', and all elements initialized to 0.
+        vector < vector < int > > freq(n, vector < int > (26));
+        
+        // Loop through each vector in the 'edges' vector.
+        for(auto& vec : edges){
+            // Add the second element in the current vector to the adjacency list of the first element.
+            adj[vec[0]].push_back(vec[1]);
+            // Increment the degree of the second element.
+            deg[vec[1]]++;
+        }
+        
+        // Initialize a queue called 'topo'.
+        queue < int > topo;
+        
+        // Loop through each element in the range [0, n).
+        for(int v = 0; v < n; v++)
+            // If the degree of the current element is 0, add it to the queue.
+            if(!deg[v])
+                topo.push(v);
+                
+        // While the queue is not empty:
+        while(!topo.empty()){
+            // Get the front element of the queue.
+            int u = topo.front();
+            
+            // Remove the front element from the queue.
+            topo.pop();
+            
+            // Increment the visited counter.
+            visited++;
+            
+            // Update the maximum frequency seen so far.
+            maxFreq = max(maxFreq, ++freq[u][colors[u] - 'a']);
+            
+            // Loop through each element in the adjacency list of the current element.
+            for(auto& v : adj[u]){
+                // Decrement the degree of the current element.
+                if(--deg[v] == 0)
+                    // If the degree of the current element is 0, add it to the queue.
+                    topo.push(v);
+                
+                // Loop through each character in the range ['a', 'z'].
+                for(char c = 'a'; c <= 'z'; c++)
+                    // Update the frequency of the current character in the adjacency list of the current element.
+                    freq[v][c - 'a'] = max(freq[v][c - 'a'], freq[u][c - 'a']);
+            }
+        }
+        
+        // If all elements have been visited, return the maximum frequency seen so far. Otherwise, return -1.
+        return visited == n ? maxFreq : -1;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isValid(const string& s) {
+        // Initialize a stack to hold open parenthesis, braces, and brackets
+        stack < char > st;
+        // Iterate over each character in the string
+        for (auto& c : s) {
+            // If the character is an open parenthesis, brace, or bracket, add it to the stack
+            if (c == '(' || c == '{' || c == '[') st.push(c);
+            // If the character is a close parenthesis, brace, or bracket
+            else if ((c == ')' || c == '}' || c == ']') && st.empty()) return false;
+            // If the stack is empty, the string is invalid, return false
+            else {
+                // Check if the top element of the stack matches the current character, if so pop the stack
+                if (c == ')' && st.top() == '(') st.pop();
+                else if (c == '}' && st.top() == '{') st.pop();
+                else if (c == ']' && st.top() == '[') st.pop();
+                // If the top element of the stack does not match the current character, return false
+                else return false;
+            }
+        }
+        // If the stack is empty, the string is valid, return true
+        return st.empty();
+    }
 };
 ```
     
