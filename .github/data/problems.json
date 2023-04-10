@@ -401,6 +401,10 @@
         {
             "day": "09",
             "title": "Largest Color Value in a Directed Graph"
+        },
+        {
+            "day": "10",
+            "title": "Valid Parentheses"
         }
     ]
 }
