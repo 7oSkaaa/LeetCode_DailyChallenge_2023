@@ -33,6 +33,7 @@
 1. **[Clone Graph](#08--clone-graph)**
 1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
 1. **[Valid Parentheses](#10--valid-parentheses)**
+1. **[Removing Stars From a String](#11--removing-stars-from-a-string)**
 
 <hr>
 <br><br>
@@ -593,6 +594,45 @@ public:
         // If the stack is empty, the string is valid, return true
         return st.empty();
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 11)  [Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string removeStars(const string& s) {
+        string without_stars;
+
+        //iterating over the string s
+        for(auto& c : s){
+            //if the current character is an asterisk, remove the last character from the answer string
+            if(c == '*')
+                without_stars.pop_back();
+            //otherwise, add the current character to the answer string
+            else
+                without_stars += c;
+        }
+        
+        //return the answer string without the asterisks
+        return without_stars;
+    }
+
 };
 ```
     
