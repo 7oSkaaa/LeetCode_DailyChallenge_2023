@@ -1,4 +1,4 @@
-// Auhtor: Osama Ayman
+// Author: Osama Ayman
 // Time: O(n)
 // Space: O(n)
 
