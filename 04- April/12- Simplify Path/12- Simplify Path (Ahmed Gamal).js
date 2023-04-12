@@ -15,23 +15,12 @@
  */
 var simplifyPath = function(path) {
     let ans = [];
-    for(let i of path.split('/')) {
-        if(i == '.' || i == '') 
-            continue;
-        else if(i == '..') {
+    path.split('/').forEach(i => {
+        if(i === '..')
             ans.pop();
-            continue;
-        }
-        ans.push('/' + i);
-    }
-    if(ans.length > 1 && ans[ans.length - 1] == '/') {
-        ans.pop();
-    }
-    if(ans.length === 0) {
-        ans.push('/');
-    } else if(ans.length > 1 && ans[ans.length - 1] === '/') {
-        ans.pop();
-    }
-
-    return ans.join('');
+        else if(i !== '.' && i !== '')
+            ans.push(i);
+    });
+    
+    return '/' + ans.join('/');
 };
