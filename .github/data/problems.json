@@ -409,6 +409,10 @@
         {
             "day": "11",
             "title": "Removing Stars From a String"
+        },
+        {
+            "day": "12",
+            "title": "Simplify Path"
         }
     ]
 }
