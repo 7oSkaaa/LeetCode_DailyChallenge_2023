@@ -413,6 +413,10 @@
         {
             "day": "12",
             "title": "Simplify Path"
+        },
+        {
+            "day": "13",
+            "title": "Validate Stack Sequences"
         }
     ]
 }
