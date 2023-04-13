@@ -33,6 +33,9 @@
 1. **[Clone Graph](#08--clone-graph)**
 1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
 1. **[Valid Parentheses](#10--valid-parentheses)**
+1. **[Removing Stars From a String](#11--removing-stars-from-a-string)**
+1. **[Simplify Path](#12--simplify-path)**
+1. **[Validate Stack Sequences](#13--validate-stack-sequences)**
 
 <hr>
 <br><br>
@@ -592,6 +595,179 @@ public:
         }
         // If the stack is empty, the string is valid, return true
         return st.empty();
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 11)  [Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string removeStars(const string& s) {
+        string without_stars;
+
+        //iterating over the string s
+        for(auto& c : s){
+            //if the current character is an asterisk, remove the last character from the answer string
+            if(c == '*')
+                without_stars.pop_back();
+            //otherwise, add the current character to the answer string
+            else
+                without_stars += c;
+        }
+        
+        //return the answer string without the asterisks
+        return without_stars;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Simplify Path](https://leetcode.com/problems/simplify-path/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    string simplifyPath(string path) {
+        // Initialize variables
+        int length = path.size();
+        string ans;
+        stack < int > S;
+        int i = 1;
+        
+        // Loop through the path
+        while(i < length){
+            // Add a slash to the answer string
+            ans += "/";
+            
+            // Find the next index of '/'
+            int next_ind = path.find('/', i);
+            
+            // If there are no more '/', set next_ind to the end of the path
+            if(next_ind == std::string::npos) next_ind = length;
+            
+            // Get the current directory
+            string curr_dir = path.substr(i, next_ind - i);
+            
+            // If the current directory is empty or '.', remove the last character from the answer string
+            if(curr_dir.empty() || curr_dir == ".") ans.pop_back();
+            // If the current directory is '..', remove the last directory from the answer string
+            else if(curr_dir == ".."){
+                if(S.empty()) ans.clear();
+                else{
+                    int prev_idx = S.top();
+                    S.pop();
+                    ans = ans.substr(0, prev_idx - 1);
+                }
+            }
+            // Otherwise, add the current directory to the answer string
+            else{
+                int curr_length = ans.size();
+                S.push(curr_length);
+                ans += curr_dir;
+            }
+            
+            // Update i to the next index of '/'
+            i = next_ind + 1;
+        }
+        
+        // If the answer string is empty, return '/'
+        if(ans.empty()) return "/";
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 13)  [Validate Stack Sequences](https://leetcode.com/problems/validate-stack-sequences/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        // Define a vector to store the current state
+        vector < int > state;
+        
+        // Initialize variables i, j, and n
+        int i = 0, j = 0, n = pushed.size();
+        
+        // Initialize variables last_i and last_j
+        int last_i = i, last_j = j;
+        
+        // Loop through pushed vector
+        while(i < n){
+            // Save current i and j values
+            last_i = i, last_j = j;
+            
+            // Loop through pushed vector until we find the value of popped[i]
+            while(j < n && pushed[j] != popped[i]) {
+                // Add current value to the state vector
+                state.push_back(pushed[j++]);
+            }
+            
+            // If we found the value of popped[i], add it to the state vector
+            if(j < n) {
+                state.push_back(pushed[j++]);
+            }
+            
+            // Loop through state vector and remove elements that match popped[i]
+            while(!state.empty() && state.back() == popped[i]) {
+                state.pop_back();
+                i++;
+            }
+            
+            // If we haven't made any progress, return false
+            if(i == last_i && j == last_j) {
+                return false;
+            }
+        }
+        
+        // If we have looped through the entire pushed vector and there are no elements left in state, return true
+        return (i == n && j == n);
     }
 };
 ```
