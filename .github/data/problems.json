@@ -417,6 +417,10 @@
         {
             "day": "13",
             "title": "Validate Stack Sequences"
+        },
+        {
+            "day": "14",
+            "title": "Longest Palindromic Subsequence"
         }
     ]
 }
