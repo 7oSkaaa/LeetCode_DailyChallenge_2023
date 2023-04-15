@@ -421,6 +421,10 @@
         {
             "day": "14",
             "title": "Longest Palindromic Subsequence"
+        },
+        {
+            "day": "15",
+            "title": "Maximum Value of K Coins From Piles"
         }
     ]
 }
