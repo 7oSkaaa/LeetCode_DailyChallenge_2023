@@ -34,6 +34,11 @@
 1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
 1. **[Valid Parentheses](#10--valid-parentheses)**
 1. **[Removing Stars From a String](#11--removing-stars-from-a-string)**
+1. **[Simplify Path](#12--simplify-path)**
+1. **[Validate Stack Sequences](#13--validate-stack-sequences)**
+1. **[Longest Palindromic Subsequence](#14--longest-palindromic-subsequence)**
+1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
+1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
 
 <hr>
 <br><br>
@@ -631,6 +636,301 @@ public:
         
         //return the answer string without the asterisks
         return without_stars;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Simplify Path](https://leetcode.com/problems/simplify-path/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    string simplifyPath(string path) {
+        // Initialize variables
+        int length = path.size();
+        string ans;
+        stack < int > S;
+        int i = 1;
+        
+        // Loop through the path
+        while(i < length){
+            // Add a slash to the answer string
+            ans += "/";
+            
+            // Find the next index of '/'
+            int next_ind = path.find('/', i);
+            
+            // If there are no more '/', set next_ind to the end of the path
+            if(next_ind == std::string::npos) next_ind = length;
+            
+            // Get the current directory
+            string curr_dir = path.substr(i, next_ind - i);
+            
+            // If the current directory is empty or '.', remove the last character from the answer string
+            if(curr_dir.empty() || curr_dir == ".") ans.pop_back();
+            // If the current directory is '..', remove the last directory from the answer string
+            else if(curr_dir == ".."){
+                if(S.empty()) ans.clear();
+                else{
+                    int prev_idx = S.top();
+                    S.pop();
+                    ans = ans.substr(0, prev_idx - 1);
+                }
+            }
+            // Otherwise, add the current directory to the answer string
+            else{
+                int curr_length = ans.size();
+                S.push(curr_length);
+                ans += curr_dir;
+            }
+            
+            // Update i to the next index of '/'
+            i = next_ind + 1;
+        }
+        
+        // If the answer string is empty, return '/'
+        if(ans.empty()) return "/";
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 13)  [Validate Stack Sequences](https://leetcode.com/problems/validate-stack-sequences/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        // Define a vector to store the current state
+        vector < int > state;
+        
+        // Initialize variables i, j, and n
+        int i = 0, j = 0, n = pushed.size();
+        
+        // Initialize variables last_i and last_j
+        int last_i = i, last_j = j;
+        
+        // Loop through pushed vector
+        while(i < n){
+            // Save current i and j values
+            last_i = i, last_j = j;
+            
+            // Loop through pushed vector until we find the value of popped[i]
+            while(j < n && pushed[j] != popped[i]) {
+                // Add current value to the state vector
+                state.push_back(pushed[j++]);
+            }
+            
+            // If we found the value of popped[i], add it to the state vector
+            if(j < n) {
+                state.push_back(pushed[j++]);
+            }
+            
+            // Loop through state vector and remove elements that match popped[i]
+            while(!state.empty() && state.back() == popped[i]) {
+                state.pop_back();
+                i++;
+            }
+            
+            // If we haven't made any progress, return false
+            if(i == last_i && j == last_j) {
+                return false;
+            }
+        }
+        
+        // If we have looped through the entire pushed vector and there are no elements left in state, return true
+        return (i == n && j == n);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int longestPalindromeSubseq(const string& s) {
+        // Store the size of the given string
+        int sz = s.size();
+
+        // Create a 2D vector with size (sz + 5) * (sz + 5) and initialize all elements to 0
+        vector < vector < int > > dp(sz + 5, vector < int > (sz + 5));
+
+        // Loop through all possible pairs of (i, j) where 1 <= i, j <= sz
+        for(int i = 1; i <= sz; i++) {
+            for(int j = 1; j <= sz; j++) {
+
+                // If the i-th character of the string is equal to the (sz - j + 1)-th character of the string
+                if(s[i - 1] == s[sz - j]) {
+
+                    // Update dp[i][j] to be 1 plus the value of dp[i - 1][j - 1]
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                }
+                else {
+
+                    // Otherwise, update dp[i][j] to be the maximum of dp[i - 1][j] and dp[i][j - 1]
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        // Return the value of dp[sz][sz], which represents the length of the longest palindromic subsequence
+        return dp[sz][sz];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Maximum Value of K Coins From Piles](https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+   
+    // This macro is used to get the size of a container 
+    #define sz(x) int(x.size())
+
+    // Function to find the maximum value of coins that can be obtained
+    int maxValueOfCoins(vector<vector<int>>& piles, int k) {
+        int n = piles.size();
+        
+        // Dynamic programming table to store the maximum value of coins that can be obtained for each state
+        vector < vector < int > > dp(n + 1, vector < int > (k + 1));
+        
+        // Loop through all the possible remaining values of coins
+        for(int remain = 0; remain <= k; remain++){
+            // Loop through all the piles from right to left
+            for(int i = n - 1; ~i; i--){
+                // The maximum value of coins that can be obtained if we don't take any coins from this pile
+                dp[i][remain] = dp[i + 1][remain];
+
+                // Loop through all the possible number of coins that can be taken from this pile
+                for(int take = 1, sum = 0; take <= min(remain, sz(piles[i])); take++){
+                    // Calculate the total value of the coins taken
+                    sum += piles[i][take - 1];
+                    
+                    // Update the maximum value of coins that can be obtained for this state
+                    dp[i][remain] = max(dp[i][remain], sum + dp[i + 1][remain - take]);
+                }
+            }
+        }
+
+        // Return the maximum value of coins that can be obtained for the initial state
+        return dp[0][k];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Number of Ways to Form a Target String Given a Dictionary](https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of strings 'words' and a string 'target' as input and returns the number of ways to form the 'target' string
+    int numWays(vector<string>& words, string target) {
+        // Initializing variables
+        int n = words.size(), len = words[0].size(), k = target.size();
+
+        // Using a vector of unordered_map to store the frequency of each character in each position of the 'words' vector
+        vector < unordered_map < char, int > > frequencies(len);
+        
+        // Calculating the frequency of each character in each position of the 'words' vector
+        for(auto& word : words)
+            for(int i = 0; i < len; i++)
+                frequencies[i][word[i]]++;
+        
+        // Defining the constant MOD value
+        constexpr int MOD = 1000000007;
+        
+        // Initializing a 2D vector 'dp' to store the number of ways to form the 'target' string
+        vector < vector < int > > dp(k+1, vector < int > (len + 1));
+        
+        // Initializing the 'dp' vector for base case
+        dp[0] = vector < int > (len + 1, 1);
+        
+        // Filling the 'dp' vector using dynamic programming
+        for(int i = 1; i <= k; i++){
+            for(int j = 1; j <= len; j++){
+                dp[i][j] += dp[i][j - 1];
+                dp[i][j] += (1ll * frequencies[j - 1][target[i - 1]] * dp[i - 1][j - 1]) % MOD;
+                dp[i][j] %= MOD;
+            }
+        }
+
+        // Returning the number of ways to form the 'target' string
+        return dp[k][len];
     }
 
 };
