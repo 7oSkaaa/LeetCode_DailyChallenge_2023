@@ -425,6 +425,10 @@
         {
             "day": "15",
             "title": "Maximum Value of K Coins From Piles"
+        },
+        {
+            "day": "16",
+            "title": "Number of Ways to Form a Target String Given a Dictionary"
         }
     ]
 }
