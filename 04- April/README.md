@@ -36,6 +36,10 @@
 1. **[Removing Stars From a String](#11--removing-stars-from-a-string)**
 1. **[Simplify Path](#12--simplify-path)**
 1. **[Validate Stack Sequences](#13--validate-stack-sequences)**
+1. **[Longest Palindromic Subsequence](#14--longest-palindromic-subsequence)**
+1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
+1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
+1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
 
 <hr>
 <br><br>
@@ -768,6 +772,205 @@ public:
         
         // If we have looped through the entire pushed vector and there are no elements left in state, return true
         return (i == n && j == n);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int longestPalindromeSubseq(const string& s) {
+        // Store the size of the given string
+        int sz = s.size();
+
+        // Create a 2D vector with size (sz + 5) * (sz + 5) and initialize all elements to 0
+        vector < vector < int > > dp(sz + 5, vector < int > (sz + 5));
+
+        // Loop through all possible pairs of (i, j) where 1 <= i, j <= sz
+        for(int i = 1; i <= sz; i++) {
+            for(int j = 1; j <= sz; j++) {
+
+                // If the i-th character of the string is equal to the (sz - j + 1)-th character of the string
+                if(s[i - 1] == s[sz - j]) {
+
+                    // Update dp[i][j] to be 1 plus the value of dp[i - 1][j - 1]
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                }
+                else {
+
+                    // Otherwise, update dp[i][j] to be the maximum of dp[i - 1][j] and dp[i][j - 1]
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        // Return the value of dp[sz][sz], which represents the length of the longest palindromic subsequence
+        return dp[sz][sz];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Maximum Value of K Coins From Piles](https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+   
+    // This macro is used to get the size of a container 
+    #define sz(x) int(x.size())
+
+    // Function to find the maximum value of coins that can be obtained
+    int maxValueOfCoins(vector<vector<int>>& piles, int k) {
+        int n = piles.size();
+        
+        // Dynamic programming table to store the maximum value of coins that can be obtained for each state
+        vector < vector < int > > dp(n + 1, vector < int > (k + 1));
+        
+        // Loop through all the possible remaining values of coins
+        for(int remain = 0; remain <= k; remain++){
+            // Loop through all the piles from right to left
+            for(int i = n - 1; ~i; i--){
+                // The maximum value of coins that can be obtained if we don't take any coins from this pile
+                dp[i][remain] = dp[i + 1][remain];
+
+                // Loop through all the possible number of coins that can be taken from this pile
+                for(int take = 1, sum = 0; take <= min(remain, sz(piles[i])); take++){
+                    // Calculate the total value of the coins taken
+                    sum += piles[i][take - 1];
+                    
+                    // Update the maximum value of coins that can be obtained for this state
+                    dp[i][remain] = max(dp[i][remain], sum + dp[i + 1][remain - take]);
+                }
+            }
+        }
+
+        // Return the maximum value of coins that can be obtained for the initial state
+        return dp[0][k];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Number of Ways to Form a Target String Given a Dictionary](https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of strings 'words' and a string 'target' as input and returns the number of ways to form the 'target' string
+    int numWays(vector<string>& words, string target) {
+        // Initializing variables
+        int n = words.size(), len = words[0].size(), k = target.size();
+
+        // Using a vector of unordered_map to store the frequency of each character in each position of the 'words' vector
+        vector < unordered_map < char, int > > frequencies(len);
+        
+        // Calculating the frequency of each character in each position of the 'words' vector
+        for(auto& word : words)
+            for(int i = 0; i < len; i++)
+                frequencies[i][word[i]]++;
+        
+        // Defining the constant MOD value
+        constexpr int MOD = 1000000007;
+        
+        // Initializing a 2D vector 'dp' to store the number of ways to form the 'target' string
+        vector < vector < int > > dp(k+1, vector < int > (len + 1));
+        
+        // Initializing the 'dp' vector for base case
+        dp[0] = vector < int > (len + 1, 1);
+        
+        // Filling the 'dp' vector using dynamic programming
+        for(int i = 1; i <= k; i++){
+            for(int j = 1; j <= len; j++){
+                dp[i][j] += dp[i][j - 1];
+                dp[i][j] += (1ll * frequencies[j - 1][target[i - 1]] * dp[i - 1][j - 1]) % MOD;
+                dp[i][j] %= MOD;
+            }
+        }
+
+        // Returning the number of ways to form the 'target' string
+        return dp[k][len];
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < bool > kidsWithCandies(vector < int >& candies, int extraCandies) {
+        // This variable finds the maximum number of candies any kid has
+        int Max = *max_element(candies.begin(), candies.end());
+
+        // This creates a boolean vector with the same size as the candies vector
+        vector<bool> can(candies.size());
+
+        // This loop checks if each kid can have the most number of candies
+        // after adding the extra candies, and stores the result in the boolean vector
+        for(int i = 0; i < candies.size(); i++)
+            can[i] = candies[i] + extraCandies >= Max;
+
+        // This returns the boolean vector
+        return can;
     }
 };
 ```
