@@ -39,6 +39,7 @@
 1. **[Longest Palindromic Subsequence](#14--longest-palindromic-subsequence)**
 1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
 1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
+1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
 
 <hr>
 <br><br>
@@ -933,6 +934,44 @@ public:
         return dp[k][len];
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < bool > kidsWithCandies(vector < int >& candies, int extraCandies) {
+        // This variable finds the maximum number of candies any kid has
+        int Max = *max_element(candies.begin(), candies.end());
+
+        // This creates a boolean vector with the same size as the candies vector
+        vector<bool> can(candies.size());
+
+        // This loop checks if each kid can have the most number of candies
+        // after adding the extra candies, and stores the result in the boolean vector
+        for(int i = 0; i < candies.size(); i++)
+            can[i] = candies[i] + extraCandies >= Max;
+
+        // This returns the boolean vector
+        return can;
+    }
 };
 ```
     
