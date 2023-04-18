@@ -433,6 +433,10 @@
         {
             "day": "17",
             "title": "Kids With the Greatest Number of Candies"
+        },
+        {
+            "day": "18",
+            "title": "Merge Strings Alternately"
         }
     ]
 }
