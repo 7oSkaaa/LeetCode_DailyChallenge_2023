@@ -40,6 +40,7 @@
 1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
 1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
 1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
+1. **[Merge Strings Alternately](#18--merge-strings-alternately)**
 
 <hr>
 <br><br>
@@ -973,5 +974,31 @@ public:
         return can;
     }
 };
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Two Pointers` `String`
+
+### Code
+
+
+```cpp
+<html>
+<head>
+<title>Fastly error: unknown domain github.com</title>
+</head>
+<body>
+<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
+<p>Details: cache-iad-kiad7000143-IAD</p></body></html>
 ```
     
