@@ -41,6 +41,7 @@
 1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
 1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
 1. **[Merge Strings Alternately](#18--merge-strings-alternately)**
+1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
 
 <hr>
 <br><br>
@@ -1000,5 +1001,31 @@ public:
 <body>
 <p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
 <p>Details: cache-iad-kiad7000143-IAD</p></body></html>
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Longest ZigZag Path in a Binary Tree](https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+<html>
+<head>
+<title>Fastly error: unknown domain github.com</title>
+</head>
+<body>
+<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
+<p>Details: cache-dfw-kdfw8210116-DFW</p></body></html>
 ```
     
