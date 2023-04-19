@@ -437,6 +437,10 @@
         {
             "day": "18",
             "title": "Merge Strings Alternately"
+        },
+        {
+            "day": "19",
+            "title": "Longest ZigZag Path in a Binary Tree"
         }
     ]
 }
