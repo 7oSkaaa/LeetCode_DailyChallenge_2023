@@ -997,13 +997,34 @@ public:
 
 
 ```cpp
-<html>
-<head>
-<title>Fastly error: unknown domain github.com</title>
-</head>
-<body>
-<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
-<p>Details: cache-iad-kiad7000143-IAD</p></body></html>
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
 ```
     
 <hr>
