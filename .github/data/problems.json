@@ -449,6 +449,10 @@
         {
             "day": "21",
             "title": "Profitable Schemes"
+        },
+        {
+            "day": "22",
+            "title": "Minimum Insertion Steps to Make a String Palindrome"
         }
     ]
 }
