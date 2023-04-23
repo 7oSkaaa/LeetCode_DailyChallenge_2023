@@ -32,6 +32,20 @@
 1. **[Number of Enclaves](#07--number-of-enclaves)**
 1. **[Clone Graph](#08--clone-graph)**
 1. **[Largest Color Value in a Directed Graph](#09--largest-color-value-in-a-directed-graph)**
+1. **[Valid Parentheses](#10--valid-parentheses)**
+1. **[Removing Stars From a String](#11--removing-stars-from-a-string)**
+1. **[Simplify Path](#12--simplify-path)**
+1. **[Validate Stack Sequences](#13--validate-stack-sequences)**
+1. **[Longest Palindromic Subsequence](#14--longest-palindromic-subsequence)**
+1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
+1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
+1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
+1. **[Merge Strings Alternately](#18--merge-strings-alternately)**
+1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
+1. **[Maximum Width of Binary Tree](#20--maximum-width-of-binary-tree)**
+1. **[Profitable Schemes](#21--profitable-schemes)**
+1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
+1. **[Restore The Array](#23--restore-the-array)**
 
 <hr>
 <br><br>
@@ -546,6 +560,787 @@ public:
         
         // If all elements have been visited, return the maximum frequency seen so far. Otherwise, return -1.
         return visited == n ? maxFreq : -1;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    bool isValid(const string& s) {
+        // Initialize a stack to hold open parenthesis, braces, and brackets
+        stack < char > st;
+        // Iterate over each character in the string
+        for (auto& c : s) {
+            // If the character is an open parenthesis, brace, or bracket, add it to the stack
+            if (c == '(' || c == '{' || c == '[') st.push(c);
+            // If the character is a close parenthesis, brace, or bracket
+            else if ((c == ')' || c == '}' || c == ']') && st.empty()) return false;
+            // If the stack is empty, the string is invalid, return false
+            else {
+                // Check if the top element of the stack matches the current character, if so pop the stack
+                if (c == ')' && st.top() == '(') st.pop();
+                else if (c == '}' && st.top() == '{') st.pop();
+                else if (c == ']' && st.top() == '[') st.pop();
+                // If the top element of the stack does not match the current character, return false
+                else return false;
+            }
+        }
+        // If the stack is empty, the string is valid, return true
+        return st.empty();
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 11)  [Removing Stars From a String](https://leetcode.com/problems/removing-stars-from-a-string/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string removeStars(const string& s) {
+        string without_stars;
+
+        //iterating over the string s
+        for(auto& c : s){
+            //if the current character is an asterisk, remove the last character from the answer string
+            if(c == '*')
+                without_stars.pop_back();
+            //otherwise, add the current character to the answer string
+            else
+                without_stars += c;
+        }
+        
+        //return the answer string without the asterisks
+        return without_stars;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Simplify Path](https://leetcode.com/problems/simplify-path/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    string simplifyPath(string path) {
+        // Initialize variables
+        int length = path.size();
+        string ans;
+        stack < int > S;
+        int i = 1;
+        
+        // Loop through the path
+        while(i < length){
+            // Add a slash to the answer string
+            ans += "/";
+            
+            // Find the next index of '/'
+            int next_ind = path.find('/', i);
+            
+            // If there are no more '/', set next_ind to the end of the path
+            if(next_ind == std::string::npos) next_ind = length;
+            
+            // Get the current directory
+            string curr_dir = path.substr(i, next_ind - i);
+            
+            // If the current directory is empty or '.', remove the last character from the answer string
+            if(curr_dir.empty() || curr_dir == ".") ans.pop_back();
+            // If the current directory is '..', remove the last directory from the answer string
+            else if(curr_dir == ".."){
+                if(S.empty()) ans.clear();
+                else{
+                    int prev_idx = S.top();
+                    S.pop();
+                    ans = ans.substr(0, prev_idx - 1);
+                }
+            }
+            // Otherwise, add the current directory to the answer string
+            else{
+                int curr_length = ans.size();
+                S.push(curr_length);
+                ans += curr_dir;
+            }
+            
+            // Update i to the next index of '/'
+            i = next_ind + 1;
+        }
+        
+        // If the answer string is empty, return '/'
+        if(ans.empty()) return "/";
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 13)  [Validate Stack Sequences](https://leetcode.com/problems/validate-stack-sequences/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Stack` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        // Define a vector to store the current state
+        vector < int > state;
+        
+        // Initialize variables i, j, and n
+        int i = 0, j = 0, n = pushed.size();
+        
+        // Initialize variables last_i and last_j
+        int last_i = i, last_j = j;
+        
+        // Loop through pushed vector
+        while(i < n){
+            // Save current i and j values
+            last_i = i, last_j = j;
+            
+            // Loop through pushed vector until we find the value of popped[i]
+            while(j < n && pushed[j] != popped[i]) {
+                // Add current value to the state vector
+                state.push_back(pushed[j++]);
+            }
+            
+            // If we found the value of popped[i], add it to the state vector
+            if(j < n) {
+                state.push_back(pushed[j++]);
+            }
+            
+            // Loop through state vector and remove elements that match popped[i]
+            while(!state.empty() && state.back() == popped[i]) {
+                state.pop_back();
+                i++;
+            }
+            
+            // If we haven't made any progress, return false
+            if(i == last_i && j == last_j) {
+                return false;
+            }
+        }
+        
+        // If we have looped through the entire pushed vector and there are no elements left in state, return true
+        return (i == n && j == n);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int longestPalindromeSubseq(const string& s) {
+        // Store the size of the given string
+        int sz = s.size();
+
+        // Create a 2D vector with size (sz + 5) * (sz + 5) and initialize all elements to 0
+        vector < vector < int > > dp(sz + 5, vector < int > (sz + 5));
+
+        // Loop through all possible pairs of (i, j) where 1 <= i, j <= sz
+        for(int i = 1; i <= sz; i++) {
+            for(int j = 1; j <= sz; j++) {
+
+                // If the i-th character of the string is equal to the (sz - j + 1)-th character of the string
+                if(s[i - 1] == s[sz - j]) {
+
+                    // Update dp[i][j] to be 1 plus the value of dp[i - 1][j - 1]
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                }
+                else {
+
+                    // Otherwise, update dp[i][j] to be the maximum of dp[i - 1][j] and dp[i][j - 1]
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        // Return the value of dp[sz][sz], which represents the length of the longest palindromic subsequence
+        return dp[sz][sz];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Maximum Value of K Coins From Piles](https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+   
+    // This macro is used to get the size of a container 
+    #define sz(x) int(x.size())
+
+    // Function to find the maximum value of coins that can be obtained
+    int maxValueOfCoins(vector<vector<int>>& piles, int k) {
+        int n = piles.size();
+        
+        // Dynamic programming table to store the maximum value of coins that can be obtained for each state
+        vector < vector < int > > dp(n + 1, vector < int > (k + 1));
+        
+        // Loop through all the possible remaining values of coins
+        for(int remain = 0; remain <= k; remain++){
+            // Loop through all the piles from right to left
+            for(int i = n - 1; ~i; i--){
+                // The maximum value of coins that can be obtained if we don't take any coins from this pile
+                dp[i][remain] = dp[i + 1][remain];
+
+                // Loop through all the possible number of coins that can be taken from this pile
+                for(int take = 1, sum = 0; take <= min(remain, sz(piles[i])); take++){
+                    // Calculate the total value of the coins taken
+                    sum += piles[i][take - 1];
+                    
+                    // Update the maximum value of coins that can be obtained for this state
+                    dp[i][remain] = max(dp[i][remain], sum + dp[i + 1][remain - take]);
+                }
+            }
+        }
+
+        // Return the maximum value of coins that can be obtained for the initial state
+        return dp[0][k];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Number of Ways to Form a Target String Given a Dictionary](https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of strings 'words' and a string 'target' as input and returns the number of ways to form the 'target' string
+    int numWays(vector<string>& words, string target) {
+        // Initializing variables
+        int n = words.size(), len = words[0].size(), k = target.size();
+
+        // Using a vector of unordered_map to store the frequency of each character in each position of the 'words' vector
+        vector < unordered_map < char, int > > frequencies(len);
+        
+        // Calculating the frequency of each character in each position of the 'words' vector
+        for(auto& word : words)
+            for(int i = 0; i < len; i++)
+                frequencies[i][word[i]]++;
+        
+        // Defining the constant MOD value
+        constexpr int MOD = 1000000007;
+        
+        // Initializing a 2D vector 'dp' to store the number of ways to form the 'target' string
+        vector < vector < int > > dp(k+1, vector < int > (len + 1));
+        
+        // Initializing the 'dp' vector for base case
+        dp[0] = vector < int > (len + 1, 1);
+        
+        // Filling the 'dp' vector using dynamic programming
+        for(int i = 1; i <= k; i++){
+            for(int j = 1; j <= len; j++){
+                dp[i][j] += dp[i][j - 1];
+                dp[i][j] += (1ll * frequencies[j - 1][target[i - 1]] * dp[i - 1][j - 1]) % MOD;
+                dp[i][j] %= MOD;
+            }
+        }
+
+        // Returning the number of ways to form the 'target' string
+        return dp[k][len];
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < bool > kidsWithCandies(vector < int >& candies, int extraCandies) {
+        // This variable finds the maximum number of candies any kid has
+        int Max = *max_element(candies.begin(), candies.end());
+
+        // This creates a boolean vector with the same size as the candies vector
+        vector<bool> can(candies.size());
+
+        // This loop checks if each kid can have the most number of candies
+        // after adding the extra candies, and stores the result in the boolean vector
+        for(int i = 0; i < candies.size(); i++)
+            can[i] = candies[i] + extraCandies >= Max;
+
+        // This returns the boolean vector
+        return can;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Two Pointers` `String`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Longest ZigZag Path in a Binary Tree](https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to find the length of the longest zigzag path in a binary tree
+    int longestZigZag(TreeNode* root) {
+        // If root is the only node or if the root has no left or right child, return 0
+        if(!root -> left && !root -> right)
+            return 0;
+        
+        // Call the depth-first search function with the root, length 0, and shouldGoLeft flag set to false
+        return dfs(root, 0, false);
+    }
+
+    // Function to perform depth-first search
+    int dfs(TreeNode* root, int length, bool shouldGoLeft) {
+        // If the current node is null, return the current length
+        if(!root) return length;
+        
+        // Declare variables for left and right paths and the current length
+        int left = 0, right = 0, currLen = 0;
+        
+        // If shouldGoLeft flag is set and there is no left child for the current node, set currLen to length and reset length to 0
+        if(shouldGoLeft && !root -> left)
+            currLen = length, length = 0;
+        // If shouldGoLeft flag is not set and there is no right child for the current node, set currLen to length and reset length to 0
+        else if(!shouldGoLeft && !root -> right)
+            currLen = length, length = 0;
+        
+        // Recursively call dfs function for the right and left nodes and update their lengths accordingly
+        right = dfs(root -> right, shouldGoLeft ? 1 : length + 1, true);
+        left = dfs(root -> left, shouldGoLeft ? length + 1 : 1, false);
+        
+        // Return the maximum of left, right, length and currLen
+        return max({left, right, length, currLen});
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 20)  [Maximum Width of Binary Tree](https://leetcode.com/problems/maximum-width-of-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to calculate the maximum width of a binary tree
+    int widthOfBinaryTree(TreeNode* root) {
+
+        // Return 0 if the tree is empty
+        if(!root) return 0;
+
+        // Create a queue to store the nodes of the binary tree
+        // A pair is used to store the node and its index
+        queue < pair < TreeNode*, int > > bfs;
+
+        // Push the root node and its index to the queue
+        bfs.push({root, 1});
+
+        // Set the initial result to 1
+        int res = 1;
+
+        // Loop until the queue is empty
+        while(!bfs.empty()){
+            
+            // Get the number of nodes in the current level
+            int sz = bfs.size();
+            
+            // Get the index of the first node in the current level
+            int prev = bfs.front().second;
+            
+            // Update the result by finding the difference between the index of the first and last nodes in the current level
+            res = max(res, bfs.back().second - bfs.front().second + 1);
+            
+            // Process all the nodes in the current level
+            while(sz--){
+                
+                // Get the current node and its index from the queue
+                auto [node, curr] = bfs.front();
+                
+                // If the current node has a left child, push it to the queue with the appropriate index
+                if(node -> left) 
+                    bfs.push({node -> left, 2ll * (curr - prev) + 1});
+                
+                // If the current node has a right child, push it to the queue with the appropriate index
+                if(node -> right) 
+                    bfs.push({node -> right, 2ll * (curr - prev) + 2});
+                
+                // Remove the current node from the queue
+                bfs.pop();
+            }
+        }
+        
+        // Return the result
+        return res;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Profitable Schemes](https://leetcode.com/problems/profitable-schemes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Constants
+    static constexpr int MOD = 1e9 + 7;
+    static constexpr int N = 105;
+
+    // Declare variables
+    int dp[N][N][N];
+    int n, minProfit;
+    vector < int > group, profit;
+
+    // Function to count the number of ways to form profitable schemes
+    int cnt_ways(int idx, int members, int prof){
+        // If we have iterated through all the groups, check if the profit is greater than or equal to minProfit
+        if(idx == group.size()) return prof >= minProfit;
+        
+        // Memoization
+        int& ret = dp[idx][members][prof];
+        if(~ret) return ret;
+        
+        // Recursion
+        ret = cnt_ways(idx + 1, members, prof) % MOD;
+        if(members + group[idx] <= n)
+            ret = (ret + cnt_ways(idx + 1, members + group[idx], min(minProfit, prof + profit[idx]))) % MOD;
+        return ret;
+    }
+
+    int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+        // Initialize variables
+        memset(dp, -1, sizeof(dp));
+        this -> group = group, this -> profit = profit;
+        this -> n = n, this -> minProfit = minProfit;
+        
+        // Call recursive function and return result
+        return cnt_ways(0, 0, 0);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the minimum number of insertions needed to make a given string a palindrome.
+    int minInsertions(const string& s) {
+
+        // The size of the string.
+        int n = s.size();
+
+        // Creating a 2D vector of size 2 x (n+1) to store the dynamic programming table.
+        vector < vector < int > > dp(2, vector < int > (n + 1));
+
+        // Looping through the string from end to start.
+        for(int l = n; l >= 1; l--) {
+
+            // Looping through the string from start to end.
+            for(int r = l; r <= n; r++) {
+
+                // If the characters at the left and right ends are same, then the answer is the same as that for the substring without these two characters.
+                if(s[l - 1] == s[r - 1]) 
+                    dp[l & 1][r] = dp[(l + 1) & 1][r - 1];
+
+                // Else, we need to add one character either at the beginning or end, so we take the minimum of two cases:
+                // 1) Add character to the left end and recur for substring s[l+1..r]
+                // 2) Add character to the right end and recur for substring s[l..r-1]
+                else
+                    dp[l & 1][r] = 1 + min(dp[(l + 1) & 1][r], dp[l & 1][r - 1]);
+            }
+        }
+
+        // Returning the answer, which is stored in dp[1][n].
+        return dp[1][n];
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 23)  [Restore The Array](https://leetcode.com/problems/restore-the-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Set a constant value for modulo operation
+    static constexpr int MOD = 1e9 + 7;
+
+    // Declare a vector named dp to store the calculated values
+    vector < long long > dp;
+
+    // Define a function named add, which adds two integers and apply modulo operation on the result
+    void add(long long& a, int b){
+        a += b;
+        if(a >= MOD)
+            a -= MOD;
+    }
+
+    // Define a recursive function named cnt_ways which takes three arguments, 
+    // idx denotes the current index of string s, k is an integer value,
+    // and s is the string given as an input to the function.
+    int cnt_ways(int idx, int k, const string& s){
+        // If the end of the string is reached, then return 1
+        if(idx == s.size()) return 1;
+        
+        // Use reference variable ret to store the value of dp[idx]
+        // num is used to store the integer value of the substring s[idx...i]
+        long long &ret = dp[idx], num = 0;
+        
+        // If the value of dp[idx] has been calculated before, return the stored value
+        if(~ret) return ret;
+        
+        // Set ret to 0
+        ret = 0;
+        
+        // Iterate from idx to the end of the string, and calculate the integer value of the substring s[idx...i] using variable num
+        // If the integer value of the substring is less than or equal to k, then add the number of ways of splitting the string from index i+1 to the end of the string, to the value of ret
+        for(int i = idx; i < s.size(); i++){
+            num = num * 10 + (s[i] - '0');
+            if(num >= 1 && num <= k)
+                add(ret, cnt_ways(i + 1, k, s));
+            else
+                break;
+        }
+        return ret;
+    }
+
+    // Define a function named numberOfArrays which takes two arguments, 
+    // s is a string and k is an integer value.
+    int numberOfArrays(const string& s, int k) {
+        // Initialize dp vector with -1 and size s.size() + 5
+        dp = vector < long long > (s.size() + 5, -1);
+        
+        // Return the number of ways to split the string
+        return cnt_ways(0, k, s);
     }
 
 };
