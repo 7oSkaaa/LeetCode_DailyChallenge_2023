@@ -44,6 +44,7 @@
 1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
 1. **[Maximum Width of Binary Tree](#20--maximum-width-of-binary-tree)**
 1. **[Profitable Schemes](#21--profitable-schemes)**
+1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
 
 <hr>
 <br><br>
@@ -996,13 +997,34 @@ public:
 
 
 ```cpp
-<html>
-<head>
-<title>Fastly error: unknown domain github.com</title>
-</head>
-<body>
-<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
-<p>Details: cache-iad-kiad7000143-IAD</p></body></html>
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
 ```
     
 <hr>
@@ -1189,6 +1211,59 @@ public:
         
         // Call recursive function and return result
         return cnt_ways(0, 0, 0);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the minimum number of insertions needed to make a given string a palindrome.
+    int minInsertions(const string& s) {
+
+        // The size of the string.
+        int n = s.size();
+
+        // Creating a 2D vector of size 2 x (n+1) to store the dynamic programming table.
+        vector < vector < int > > dp(2, vector < int > (n + 1));
+
+        // Looping through the string from end to start.
+        for(int l = n; l >= 1; l--) {
+
+            // Looping through the string from start to end.
+            for(int r = l; r <= n; r++) {
+
+                // If the characters at the left and right ends are same, then the answer is the same as that for the substring without these two characters.
+                if(s[l - 1] == s[r - 1]) 
+                    dp[l & 1][r] = dp[(l + 1) & 1][r - 1];
+
+                // Else, we need to add one character either at the beginning or end, so we take the minimum of two cases:
+                // 1) Add character to the left end and recur for substring s[l+1..r]
+                // 2) Add character to the right end and recur for substring s[l..r-1]
+                else
+                    dp[l & 1][r] = 1 + min(dp[(l + 1) & 1][r], dp[l & 1][r - 1]);
+            }
+        }
+
+        // Returning the answer, which is stored in dp[1][n].
+        return dp[1][n];
     }
 
 };
