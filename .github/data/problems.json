@@ -457,6 +457,10 @@
         {
             "day": "23",
             "title": "Restore The Array"
+        },
+        {
+            "day": "24",
+            "title": "Last Stone Weight"
         }
     ]
 }
