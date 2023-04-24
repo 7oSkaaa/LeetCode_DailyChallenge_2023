@@ -41,6 +41,11 @@
 1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
 1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
 1. **[Merge Strings Alternately](#18--merge-strings-alternately)**
+1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
+1. **[Maximum Width of Binary Tree](#20--maximum-width-of-binary-tree)**
+1. **[Profitable Schemes](#21--profitable-schemes)**
+1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
+1. **[Restore The Array](#23--restore-the-array)**
 
 <hr>
 <br><br>
@@ -993,12 +998,351 @@ public:
 
 
 ```cpp
-<html>
-<head>
-<title>Fastly error: unknown domain github.com</title>
-</head>
-<body>
-<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
-<p>Details: cache-iad-kiad7000143-IAD</p></body></html>
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Longest ZigZag Path in a Binary Tree](https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to find the length of the longest zigzag path in a binary tree
+    int longestZigZag(TreeNode* root) {
+        // If root is the only node or if the root has no left or right child, return 0
+        if(!root -> left && !root -> right)
+            return 0;
+        
+        // Call the depth-first search function with the root, length 0, and shouldGoLeft flag set to false
+        return dfs(root, 0, false);
+    }
+
+    // Function to perform depth-first search
+    int dfs(TreeNode* root, int length, bool shouldGoLeft) {
+        // If the current node is null, return the current length
+        if(!root) return length;
+        
+        // Declare variables for left and right paths and the current length
+        int left = 0, right = 0, currLen = 0;
+        
+        // If shouldGoLeft flag is set and there is no left child for the current node, set currLen to length and reset length to 0
+        if(shouldGoLeft && !root -> left)
+            currLen = length, length = 0;
+        // If shouldGoLeft flag is not set and there is no right child for the current node, set currLen to length and reset length to 0
+        else if(!shouldGoLeft && !root -> right)
+            currLen = length, length = 0;
+        
+        // Recursively call dfs function for the right and left nodes and update their lengths accordingly
+        right = dfs(root -> right, shouldGoLeft ? 1 : length + 1, true);
+        left = dfs(root -> left, shouldGoLeft ? length + 1 : 1, false);
+        
+        // Return the maximum of left, right, length and currLen
+        return max({left, right, length, currLen});
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 20)  [Maximum Width of Binary Tree](https://leetcode.com/problems/maximum-width-of-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to calculate the maximum width of a binary tree
+    int widthOfBinaryTree(TreeNode* root) {
+
+        // Return 0 if the tree is empty
+        if(!root) return 0;
+
+        // Create a queue to store the nodes of the binary tree
+        // A pair is used to store the node and its index
+        queue < pair < TreeNode*, int > > bfs;
+
+        // Push the root node and its index to the queue
+        bfs.push({root, 1});
+
+        // Set the initial result to 1
+        int res = 1;
+
+        // Loop until the queue is empty
+        while(!bfs.empty()){
+            
+            // Get the number of nodes in the current level
+            int sz = bfs.size();
+            
+            // Get the index of the first node in the current level
+            int prev = bfs.front().second;
+            
+            // Update the result by finding the difference between the index of the first and last nodes in the current level
+            res = max(res, bfs.back().second - bfs.front().second + 1);
+            
+            // Process all the nodes in the current level
+            while(sz--){
+                
+                // Get the current node and its index from the queue
+                auto [node, curr] = bfs.front();
+                
+                // If the current node has a left child, push it to the queue with the appropriate index
+                if(node -> left) 
+                    bfs.push({node -> left, 2ll * (curr - prev) + 1});
+                
+                // If the current node has a right child, push it to the queue with the appropriate index
+                if(node -> right) 
+                    bfs.push({node -> right, 2ll * (curr - prev) + 2});
+                
+                // Remove the current node from the queue
+                bfs.pop();
+            }
+        }
+        
+        // Return the result
+        return res;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Profitable Schemes](https://leetcode.com/problems/profitable-schemes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Constants
+    static constexpr int MOD = 1e9 + 7;
+    static constexpr int N = 105;
+
+    // Declare variables
+    int dp[N][N][N];
+    int n, minProfit;
+    vector < int > group, profit;
+
+    // Function to count the number of ways to form profitable schemes
+    int cnt_ways(int idx, int members, int prof){
+        // If we have iterated through all the groups, check if the profit is greater than or equal to minProfit
+        if(idx == group.size()) return prof >= minProfit;
+        
+        // Memoization
+        int& ret = dp[idx][members][prof];
+        if(~ret) return ret;
+        
+        // Recursion
+        ret = cnt_ways(idx + 1, members, prof) % MOD;
+        if(members + group[idx] <= n)
+            ret = (ret + cnt_ways(idx + 1, members + group[idx], min(minProfit, prof + profit[idx]))) % MOD;
+        return ret;
+    }
+
+    int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+        // Initialize variables
+        memset(dp, -1, sizeof(dp));
+        this -> group = group, this -> profit = profit;
+        this -> n = n, this -> minProfit = minProfit;
+        
+        // Call recursive function and return result
+        return cnt_ways(0, 0, 0);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the minimum number of insertions needed to make a given string a palindrome.
+    int minInsertions(const string& s) {
+
+        // The size of the string.
+        int n = s.size();
+
+        // Creating a 2D vector of size 2 x (n+1) to store the dynamic programming table.
+        vector < vector < int > > dp(2, vector < int > (n + 1));
+
+        // Looping through the string from end to start.
+        for(int l = n; l >= 1; l--) {
+
+            // Looping through the string from start to end.
+            for(int r = l; r <= n; r++) {
+
+                // If the characters at the left and right ends are same, then the answer is the same as that for the substring without these two characters.
+                if(s[l - 1] == s[r - 1]) 
+                    dp[l & 1][r] = dp[(l + 1) & 1][r - 1];
+
+                // Else, we need to add one character either at the beginning or end, so we take the minimum of two cases:
+                // 1) Add character to the left end and recur for substring s[l+1..r]
+                // 2) Add character to the right end and recur for substring s[l..r-1]
+                else
+                    dp[l & 1][r] = 1 + min(dp[(l + 1) & 1][r], dp[l & 1][r - 1]);
+            }
+        }
+
+        // Returning the answer, which is stored in dp[1][n].
+        return dp[1][n];
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 23)  [Restore The Array](https://leetcode.com/problems/restore-the-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Set a constant value for modulo operation
+    static constexpr int MOD = 1e9 + 7;
+
+    // Declare a vector named dp to store the calculated values
+    vector < long long > dp;
+
+    // Define a function named add, which adds two integers and apply modulo operation on the result
+    void add(long long& a, int b){
+        a += b;
+        if(a >= MOD)
+            a -= MOD;
+    }
+
+    // Define a recursive function named cnt_ways which takes three arguments, 
+    // idx denotes the current index of string s, k is an integer value,
+    // and s is the string given as an input to the function.
+    int cnt_ways(int idx, int k, const string& s){
+        // If the end of the string is reached, then return 1
+        if(idx == s.size()) return 1;
+        
+        // Use reference variable ret to store the value of dp[idx]
+        // num is used to store the integer value of the substring s[idx...i]
+        long long &ret = dp[idx], num = 0;
+        
+        // If the value of dp[idx] has been calculated before, return the stored value
+        if(~ret) return ret;
+        
+        // Set ret to 0
+        ret = 0;
+        
+        // Iterate from idx to the end of the string, and calculate the integer value of the substring s[idx...i] using variable num
+        // If the integer value of the substring is less than or equal to k, then add the number of ways of splitting the string from index i+1 to the end of the string, to the value of ret
+        for(int i = idx; i < s.size(); i++){
+            num = num * 10 + (s[i] - '0');
+            if(num >= 1 && num <= k)
+                add(ret, cnt_ways(i + 1, k, s));
+            else
+                break;
+        }
+        return ret;
+    }
+
+    // Define a function named numberOfArrays which takes two arguments, 
+    // s is a string and k is an integer value.
+    int numberOfArrays(const string& s, int k) {
+        // Initialize dp vector with -1 and size s.size() + 5
+        dp = vector < long long > (s.size() + 5, -1);
+        
+        // Return the number of ways to split the string
+        return cnt_ways(0, k, s);
+    }
+
+};
 ```
     
