@@ -44,6 +44,8 @@
 1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
 1. **[Maximum Width of Binary Tree](#20--maximum-width-of-binary-tree)**
 1. **[Profitable Schemes](#21--profitable-schemes)**
+1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
+1. **[Restore The Array](#23--restore-the-array)**
 
 <hr>
 <br><br>
@@ -996,13 +998,34 @@ public:
 
 
 ```cpp
-<html>
-<head>
-<title>Fastly error: unknown domain github.com</title>
-</head>
-<body>
-<p>Fastly error: unknown domain: github.com. Please check that this domain has been added to a service.</p>
-<p>Details: cache-iad-kiad7000143-IAD</p></body></html>
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
 ```
     
 <hr>
@@ -1189,6 +1212,135 @@ public:
         
         // Call recursive function and return result
         return cnt_ways(0, 0, 0);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the minimum number of insertions needed to make a given string a palindrome.
+    int minInsertions(const string& s) {
+
+        // The size of the string.
+        int n = s.size();
+
+        // Creating a 2D vector of size 2 x (n+1) to store the dynamic programming table.
+        vector < vector < int > > dp(2, vector < int > (n + 1));
+
+        // Looping through the string from end to start.
+        for(int l = n; l >= 1; l--) {
+
+            // Looping through the string from start to end.
+            for(int r = l; r <= n; r++) {
+
+                // If the characters at the left and right ends are same, then the answer is the same as that for the substring without these two characters.
+                if(s[l - 1] == s[r - 1]) 
+                    dp[l & 1][r] = dp[(l + 1) & 1][r - 1];
+
+                // Else, we need to add one character either at the beginning or end, so we take the minimum of two cases:
+                // 1) Add character to the left end and recur for substring s[l+1..r]
+                // 2) Add character to the right end and recur for substring s[l..r-1]
+                else
+                    dp[l & 1][r] = 1 + min(dp[(l + 1) & 1][r], dp[l & 1][r - 1]);
+            }
+        }
+
+        // Returning the answer, which is stored in dp[1][n].
+        return dp[1][n];
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 23)  [Restore The Array](https://leetcode.com/problems/restore-the-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Set a constant value for modulo operation
+    static constexpr int MOD = 1e9 + 7;
+
+    // Declare a vector named dp to store the calculated values
+    vector < long long > dp;
+
+    // Define a function named add, which adds two integers and apply modulo operation on the result
+    void add(long long& a, int b){
+        a += b;
+        if(a >= MOD)
+            a -= MOD;
+    }
+
+    // Define a recursive function named cnt_ways which takes three arguments, 
+    // idx denotes the current index of string s, k is an integer value,
+    // and s is the string given as an input to the function.
+    int cnt_ways(int idx, int k, const string& s){
+        // If the end of the string is reached, then return 1
+        if(idx == s.size()) return 1;
+        
+        // Use reference variable ret to store the value of dp[idx]
+        // num is used to store the integer value of the substring s[idx...i]
+        long long &ret = dp[idx], num = 0;
+        
+        // If the value of dp[idx] has been calculated before, return the stored value
+        if(~ret) return ret;
+        
+        // Set ret to 0
+        ret = 0;
+        
+        // Iterate from idx to the end of the string, and calculate the integer value of the substring s[idx...i] using variable num
+        // If the integer value of the substring is less than or equal to k, then add the number of ways of splitting the string from index i+1 to the end of the string, to the value of ret
+        for(int i = idx; i < s.size(); i++){
+            num = num * 10 + (s[i] - '0');
+            if(num >= 1 && num <= k)
+                add(ret, cnt_ways(i + 1, k, s));
+            else
+                break;
+        }
+        return ret;
+    }
+
+    // Define a function named numberOfArrays which takes two arguments, 
+    // s is a string and k is an integer value.
+    int numberOfArrays(const string& s, int k) {
+        // Initialize dp vector with -1 and size s.size() + 5
+        dp = vector < long long > (s.size() + 5, -1);
+        
+        // Return the number of ways to split the string
+        return cnt_ways(0, k, s);
     }
 
 };
