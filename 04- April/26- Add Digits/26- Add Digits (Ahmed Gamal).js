@@ -1,4 +1,4 @@
-// Autor: Ahmed Gamal
+// Author: Ahmed Gamal
 
 // the idea for this solution is so simple, we will loop until the number is less than 10
 // in each iteration we will calculate the sum of the digits of the number
