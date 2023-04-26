@@ -48,6 +48,7 @@
 1. **[Restore The Array](#23--restore-the-array)**
 1. **[Last Stone Weight](#24--last-stone-weight)**
 1. **[Smallest Number in Infinite Set](#25--smallest-number-in-infinite-set)**
+1. **[Add Digits](#26--add-digits)**
 
 <hr>
 <br><br>
@@ -1449,6 +1450,52 @@ public:
     void addBack(int num) {
         // Insert the integer into the set variable Mex
         Mex.insert(num);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Add Digits](https://leetcode.com/problems/add-digits/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Simulation` `Number Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // A function to find the sum of digits of a given number
+    int sumDigits(int num){
+        // Initialize the sum variable to zero
+        int sum = 0;
+        
+        // Convert the number to a string and iterate over each character
+        for(auto& c : to_string(num))
+            // Subtract the ASCII value of '0' from the character and add it to the sum
+            sum += c - '0';
+
+        // Return the sum of digits
+        return sum;
+    }
+
+    int addDigits(int num) {
+        // Repeat the process until the number is a single digit
+        while(num > 9)
+            // Sum the digits of the number
+            num = sumDigits(num);
+            
+        // Return the resulting single digit
+        return num;
     }
 };
 ```
