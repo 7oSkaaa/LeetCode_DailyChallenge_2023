@@ -47,6 +47,8 @@
 1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
 1. **[Restore The Array](#23--restore-the-array)**
 1. **[Last Stone Weight](#24--last-stone-weight)**
+1. **[Smallest Number in Infinite Set](#25--smallest-number-in-infinite-set)**
+1. **[Add Digits](#26--add-digits)**
 
 <hr>
 <br><br>
@@ -1396,6 +1398,104 @@ public:
 
         //Returns the weight of the last stone or 0 if the priority queue is empty
         return (pq.empty() ? 0 : pq.top());
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Design` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class SmallestInfiniteSet {
+public:
+    // Define a set variable named Mex
+    set < int > Mex;
+
+    // Define a constant integer N with a value of 1000
+    static constexpr int N = 1000;
+
+    // Constructor function for the SmallestInfiniteSet class
+    SmallestInfiniteSet() {
+        // Loop through integers from 1 to N and insert them into the set variable Mex
+        for(int i = 1; i <= N; i++)
+            Mex.insert(i);
+    }
+    
+    // Function to remove and return the smallest integer from the set variable Mex
+    int popSmallest() {
+        // Store the smallest integer in the set variable Mex
+        int mex = *Mex.begin();
+
+        // Remove the smallest integer from the set variable Mex
+        Mex.erase(Mex.begin());
+        
+        // Return the smallest integer
+        return mex;
+    }
+    
+    // Function to add an integer back to the set variable Mex
+    void addBack(int num) {
+        // Insert the integer into the set variable Mex
+        Mex.insert(num);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Add Digits](https://leetcode.com/problems/add-digits/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Simulation` `Number Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // A function to find the sum of digits of a given number
+    int sumDigits(int num){
+        // Initialize the sum variable to zero
+        int sum = 0;
+        
+        // Convert the number to a string and iterate over each character
+        for(auto& c : to_string(num))
+            // Subtract the ASCII value of '0' from the character and add it to the sum
+            sum += c - '0';
+
+        // Return the sum of digits
+        return sum;
+    }
+
+    int addDigits(int num) {
+        // Repeat the process until the number is a single digit
+        while(num > 9)
+            // Sum the digits of the number
+            num = sumDigits(num);
+            
+        // Return the resulting single digit
+        return num;
     }
 };
 ```
