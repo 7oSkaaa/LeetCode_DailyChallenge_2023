@@ -38,6 +38,17 @@
 1. **[Validate Stack Sequences](#13--validate-stack-sequences)**
 1. **[Longest Palindromic Subsequence](#14--longest-palindromic-subsequence)**
 1. **[Maximum Value of K Coins From Piles](#15--maximum-value-of-k-coins-from-piles)**
+1. **[Number of Ways to Form a Target String Given a Dictionary](#16--number-of-ways-to-form-a-target-string-given-a-dictionary)**
+1. **[Kids With the Greatest Number of Candies](#17--kids-with-the-greatest-number-of-candies)**
+1. **[Merge Strings Alternately](#18--merge-strings-alternately)**
+1. **[Longest ZigZag Path in a Binary Tree](#19--longest-zigzag-path-in-a-binary-tree)**
+1. **[Maximum Width of Binary Tree](#20--maximum-width-of-binary-tree)**
+1. **[Profitable Schemes](#21--profitable-schemes)**
+1. **[Minimum Insertion Steps to Make a String Palindrome](#22--minimum-insertion-steps-to-make-a-string-palindrome)**
+1. **[Restore The Array](#23--restore-the-array)**
+1. **[Last Stone Weight](#24--last-stone-weight)**
+1. **[Smallest Number in Infinite Set](#25--smallest-number-in-infinite-set)**
+1. **[Add Digits](#26--add-digits)**
 
 <hr>
 <br><br>
@@ -874,6 +885,617 @@ public:
 
         // Return the maximum value of coins that can be obtained for the initial state
         return dp[0][k];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Number of Ways to Form a Target String Given a Dictionary](https://leetcode.com/problems/number-of-ways-to-form-a-target-string-given-a-dictionary/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of strings 'words' and a string 'target' as input and returns the number of ways to form the 'target' string
+    int numWays(vector<string>& words, string target) {
+        // Initializing variables
+        int n = words.size(), len = words[0].size(), k = target.size();
+
+        // Using a vector of unordered_map to store the frequency of each character in each position of the 'words' vector
+        vector < unordered_map < char, int > > frequencies(len);
+        
+        // Calculating the frequency of each character in each position of the 'words' vector
+        for(auto& word : words)
+            for(int i = 0; i < len; i++)
+                frequencies[i][word[i]]++;
+        
+        // Defining the constant MOD value
+        constexpr int MOD = 1000000007;
+        
+        // Initializing a 2D vector 'dp' to store the number of ways to form the 'target' string
+        vector < vector < int > > dp(k+1, vector < int > (len + 1));
+        
+        // Initializing the 'dp' vector for base case
+        dp[0] = vector < int > (len + 1, 1);
+        
+        // Filling the 'dp' vector using dynamic programming
+        for(int i = 1; i <= k; i++){
+            for(int j = 1; j <= len; j++){
+                dp[i][j] += dp[i][j - 1];
+                dp[i][j] += (1ll * frequencies[j - 1][target[i - 1]] * dp[i - 1][j - 1]) % MOD;
+                dp[i][j] %= MOD;
+            }
+        }
+
+        // Returning the number of ways to form the 'target' string
+        return dp[k][len];
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Kids With the Greatest Number of Candies](https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < bool > kidsWithCandies(vector < int >& candies, int extraCandies) {
+        // This variable finds the maximum number of candies any kid has
+        int Max = *max_element(candies.begin(), candies.end());
+
+        // This creates a boolean vector with the same size as the candies vector
+        vector<bool> can(candies.size());
+
+        // This loop checks if each kid can have the most number of candies
+        // after adding the extra candies, and stores the result in the boolean vector
+        for(int i = 0; i < candies.size(); i++)
+            can[i] = candies[i] + extraCandies >= Max;
+
+        // This returns the boolean vector
+        return can;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Merge Strings Alternately](https://leetcode.com/problems/merge-strings-alternately/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Two Pointers` `String`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string mergeAlternately(const string& s, const string& t) {
+        // Initialize indices and sizes of s and t
+        int i = 0, j = 0, n = s.size(), m = t.size();
+        
+        // Initialize the merged string
+        string merged;
+        
+        // Merge s and t alternately while there are still characters in both strings
+        while(i < n && j < m) {
+            merged += s[i++];
+            merged += t[j++];
+        }
+
+        // If there are still characters in s, add them to the merged string
+        while(i < n)
+            merged += s[i++];
+
+        // If there are still characters in t, add them to the merged string
+        while(j < m)
+            merged += t[j++];
+
+        // Return the merged string
+        return merged;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Longest ZigZag Path in a Binary Tree](https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Tree` `Depth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to find the length of the longest zigzag path in a binary tree
+    int longestZigZag(TreeNode* root) {
+        // If root is the only node or if the root has no left or right child, return 0
+        if(!root -> left && !root -> right)
+            return 0;
+        
+        // Call the depth-first search function with the root, length 0, and shouldGoLeft flag set to false
+        return dfs(root, 0, false);
+    }
+
+    // Function to perform depth-first search
+    int dfs(TreeNode* root, int length, bool shouldGoLeft) {
+        // If the current node is null, return the current length
+        if(!root) return length;
+        
+        // Declare variables for left and right paths and the current length
+        int left = 0, right = 0, currLen = 0;
+        
+        // If shouldGoLeft flag is set and there is no left child for the current node, set currLen to length and reset length to 0
+        if(shouldGoLeft && !root -> left)
+            currLen = length, length = 0;
+        // If shouldGoLeft flag is not set and there is no right child for the current node, set currLen to length and reset length to 0
+        else if(!shouldGoLeft && !root -> right)
+            currLen = length, length = 0;
+        
+        // Recursively call dfs function for the right and left nodes and update their lengths accordingly
+        right = dfs(root -> right, shouldGoLeft ? 1 : length + 1, true);
+        left = dfs(root -> left, shouldGoLeft ? length + 1 : 1, false);
+        
+        // Return the maximum of left, right, length and currLen
+        return max({left, right, length, currLen});
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 20)  [Maximum Width of Binary Tree](https://leetcode.com/problems/maximum-width-of-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    // Function to calculate the maximum width of a binary tree
+    int widthOfBinaryTree(TreeNode* root) {
+
+        // Return 0 if the tree is empty
+        if(!root) return 0;
+
+        // Create a queue to store the nodes of the binary tree
+        // A pair is used to store the node and its index
+        queue < pair < TreeNode*, int > > bfs;
+
+        // Push the root node and its index to the queue
+        bfs.push({root, 1});
+
+        // Set the initial result to 1
+        int res = 1;
+
+        // Loop until the queue is empty
+        while(!bfs.empty()){
+            
+            // Get the number of nodes in the current level
+            int sz = bfs.size();
+            
+            // Get the index of the first node in the current level
+            int prev = bfs.front().second;
+            
+            // Update the result by finding the difference between the index of the first and last nodes in the current level
+            res = max(res, bfs.back().second - bfs.front().second + 1);
+            
+            // Process all the nodes in the current level
+            while(sz--){
+                
+                // Get the current node and its index from the queue
+                auto [node, curr] = bfs.front();
+                
+                // If the current node has a left child, push it to the queue with the appropriate index
+                if(node -> left) 
+                    bfs.push({node -> left, 2ll * (curr - prev) + 1});
+                
+                // If the current node has a right child, push it to the queue with the appropriate index
+                if(node -> right) 
+                    bfs.push({node -> right, 2ll * (curr - prev) + 2});
+                
+                // Remove the current node from the queue
+                bfs.pop();
+            }
+        }
+        
+        // Return the result
+        return res;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Profitable Schemes](https://leetcode.com/problems/profitable-schemes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Constants
+    static constexpr int MOD = 1e9 + 7;
+    static constexpr int N = 105;
+
+    // Declare variables
+    int dp[N][N][N];
+    int n, minProfit;
+    vector < int > group, profit;
+
+    // Function to count the number of ways to form profitable schemes
+    int cnt_ways(int idx, int members, int prof){
+        // If we have iterated through all the groups, check if the profit is greater than or equal to minProfit
+        if(idx == group.size()) return prof >= minProfit;
+        
+        // Memoization
+        int& ret = dp[idx][members][prof];
+        if(~ret) return ret;
+        
+        // Recursion
+        ret = cnt_ways(idx + 1, members, prof) % MOD;
+        if(members + group[idx] <= n)
+            ret = (ret + cnt_ways(idx + 1, members + group[idx], min(minProfit, prof + profit[idx]))) % MOD;
+        return ret;
+    }
+
+    int profitableSchemes(int n, int minProfit, vector<int>& group, vector<int>& profit) {
+        // Initialize variables
+        memset(dp, -1, sizeof(dp));
+        this -> group = group, this -> profit = profit;
+        this -> n = n, this -> minProfit = minProfit;
+        
+        // Call recursive function and return result
+        return cnt_ways(0, 0, 0);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Minimum Insertion Steps to Make a String Palindrome](https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the minimum number of insertions needed to make a given string a palindrome.
+    int minInsertions(const string& s) {
+
+        // The size of the string.
+        int n = s.size();
+
+        // Creating a 2D vector of size 2 x (n+1) to store the dynamic programming table.
+        vector < vector < int > > dp(2, vector < int > (n + 1));
+
+        // Looping through the string from end to start.
+        for(int l = n; l >= 1; l--) {
+
+            // Looping through the string from start to end.
+            for(int r = l; r <= n; r++) {
+
+                // If the characters at the left and right ends are same, then the answer is the same as that for the substring without these two characters.
+                if(s[l - 1] == s[r - 1]) 
+                    dp[l & 1][r] = dp[(l + 1) & 1][r - 1];
+
+                // Else, we need to add one character either at the beginning or end, so we take the minimum of two cases:
+                // 1) Add character to the left end and recur for substring s[l+1..r]
+                // 2) Add character to the right end and recur for substring s[l..r-1]
+                else
+                    dp[l & 1][r] = 1 + min(dp[(l + 1) & 1][r], dp[l & 1][r - 1]);
+            }
+        }
+
+        // Returning the answer, which is stored in dp[1][n].
+        return dp[1][n];
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 23)  [Restore The Array](https://leetcode.com/problems/restore-the-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`String` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Set a constant value for modulo operation
+    static constexpr int MOD = 1e9 + 7;
+
+    // Declare a vector named dp to store the calculated values
+    vector < long long > dp;
+
+    // Define a function named add, which adds two integers and apply modulo operation on the result
+    void add(long long& a, int b){
+        a += b;
+        if(a >= MOD)
+            a -= MOD;
+    }
+
+    // Define a recursive function named cnt_ways which takes three arguments, 
+    // idx denotes the current index of string s, k is an integer value,
+    // and s is the string given as an input to the function.
+    int cnt_ways(int idx, int k, const string& s){
+        // If the end of the string is reached, then return 1
+        if(idx == s.size()) return 1;
+        
+        // Use reference variable ret to store the value of dp[idx]
+        // num is used to store the integer value of the substring s[idx...i]
+        long long &ret = dp[idx], num = 0;
+        
+        // If the value of dp[idx] has been calculated before, return the stored value
+        if(~ret) return ret;
+        
+        // Set ret to 0
+        ret = 0;
+        
+        // Iterate from idx to the end of the string, and calculate the integer value of the substring s[idx...i] using variable num
+        // If the integer value of the substring is less than or equal to k, then add the number of ways of splitting the string from index i+1 to the end of the string, to the value of ret
+        for(int i = idx; i < s.size(); i++){
+            num = num * 10 + (s[i] - '0');
+            if(num >= 1 && num <= k)
+                add(ret, cnt_ways(i + 1, k, s));
+            else
+                break;
+        }
+        return ret;
+    }
+
+    // Define a function named numberOfArrays which takes two arguments, 
+    // s is a string and k is an integer value.
+    int numberOfArrays(const string& s, int k) {
+        // Initialize dp vector with -1 and size s.size() + 5
+        dp = vector < long long > (s.size() + 5, -1);
+        
+        // Return the number of ways to split the string
+        return cnt_ways(0, k, s);
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Last Stone Weight](https://leetcode.com/problems/last-stone-weight/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int lastStoneWeight(vector<int>& stones) {
+        //Creates a priority queue with integers
+        priority_queue<int> pq;
+
+        //Inserts each stone in the priority queue
+        for(auto& stone : stones)
+            pq.push(stone);
+
+        //Lambda function to get the top 2 elements from the priority queue and remove them
+        auto get_top = [&](){
+            int x = pq.top();
+            pq.pop();
+            int y = pq.top();
+            pq.pop();
+            return make_pair(x, y);
+        };
+
+        //Loops while there are more than 1 stone in the priority queue
+        while(pq.size() > 1){
+            //Gets the top 2 stones and removes them from the priority queue
+            auto [x, y] = get_top();
+            
+            //If the 2 stones are different, it inserts the difference into the priority queue
+            if(x != y)
+                pq.push(x - y);
+        }
+
+        //Returns the weight of the last stone or 0 if the priority queue is empty
+        return (pq.empty() ? 0 : pq.top());
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [Smallest Number in Infinite Set](https://leetcode.com/problems/smallest-number-in-infinite-set/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Design` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class SmallestInfiniteSet {
+public:
+    // Define a set variable named Mex
+    set < int > Mex;
+
+    // Define a constant integer N with a value of 1000
+    static constexpr int N = 1000;
+
+    // Constructor function for the SmallestInfiniteSet class
+    SmallestInfiniteSet() {
+        // Loop through integers from 1 to N and insert them into the set variable Mex
+        for(int i = 1; i <= N; i++)
+            Mex.insert(i);
+    }
+    
+    // Function to remove and return the smallest integer from the set variable Mex
+    int popSmallest() {
+        // Store the smallest integer in the set variable Mex
+        int mex = *Mex.begin();
+
+        // Remove the smallest integer from the set variable Mex
+        Mex.erase(Mex.begin());
+        
+        // Return the smallest integer
+        return mex;
+    }
+    
+    // Function to add an integer back to the set variable Mex
+    void addBack(int num) {
+        // Insert the integer into the set variable Mex
+        Mex.insert(num);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Add Digits](https://leetcode.com/problems/add-digits/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Simulation` `Number Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // A function to find the sum of digits of a given number
+    int sumDigits(int num){
+        // Initialize the sum variable to zero
+        int sum = 0;
+        
+        // Convert the number to a string and iterate over each character
+        for(auto& c : to_string(num))
+            // Subtract the ASCII value of '0' from the character and add it to the sum
+            sum += c - '0';
+
+        // Return the sum of digits
+        return sum;
+    }
+
+    int addDigits(int num) {
+        // Repeat the process until the number is a single digit
+        while(num > 9)
+            // Sum the digits of the number
+            num = sumDigits(num);
+            
+        // Return the resulting single digit
+        return num;
     }
 };
 ```

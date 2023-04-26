@@ -1343,7 +1343,7 @@ public:
 
 <br><br>
 
-## 28)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
+## 27)  [Construct Quad Tree](https://leetcode.com/problems/construct-quad-tree/)
 
 ### Difficulty
 
@@ -1416,7 +1416,7 @@ public:
 <br><br>
 
 
-## 19)  [Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
+## 28)  [Find Duplicate Subtrees](https://leetcode.com/problems/find-duplicate-subtrees/)
 
 ### Difficulty
 
