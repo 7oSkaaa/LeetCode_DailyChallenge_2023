@@ -465,6 +465,10 @@
         {
             "day": "25",
             "title": "Smallest Number in Infinite Set"
+        },
+        {
+            "day": "26",
+            "title": "Add Digits"
         }
     ]
 }
