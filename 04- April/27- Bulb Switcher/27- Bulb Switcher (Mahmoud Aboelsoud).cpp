@@ -1,4 +1,4 @@
-// Auhtor: Mahmoud Aboelsoud
+// Author: Mahmoud Aboelsoud
 
 class Solution {
 public:
