@@ -469,6 +469,10 @@
         {
             "day": "26",
             "title": "Add Digits"
+        },
+        {
+            "day": "27",
+            "title": "Bulb Switcher"
         }
     ]
 }
