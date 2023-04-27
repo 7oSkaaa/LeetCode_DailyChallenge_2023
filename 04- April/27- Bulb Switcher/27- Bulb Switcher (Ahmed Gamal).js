@@ -1,4 +1,4 @@
-// Autor: Ahmed Gamal
+// Author: Ahmed Gamal
 
 // the idea for this solution is so simple, let's look at the following observations:
 // 1- each bulb will be on after the number of its factors is odd
