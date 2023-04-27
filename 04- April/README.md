@@ -49,6 +49,7 @@
 1. **[Last Stone Weight](#24--last-stone-weight)**
 1. **[Smallest Number in Infinite Set](#25--smallest-number-in-infinite-set)**
 1. **[Add Digits](#26--add-digits)**
+1. **[Bulb Switcher](#27--bulb-switcher)**
 
 <hr>
 <br><br>
@@ -1496,6 +1497,38 @@ public:
             
         // Return the resulting single digit
         return num;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Bulb Switcher](https://leetcode.com/problems/bulb-switcher/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Brainteaser`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int bulbSwitch(int n) {
+        // for this problem we need to know how many light bulbs are on after n rounds
+        // to know that you need to know for each light bulb to stay on at the end it needs to have odd number of divisors
+        // the only numbers that have odd number of divisors are perfect squares
+        // so the answer is the number of perfect squares less than or equal to n
+        // which is sqrt(n)
+
+
+        return sqrt(n);
     }
 };
 ```
