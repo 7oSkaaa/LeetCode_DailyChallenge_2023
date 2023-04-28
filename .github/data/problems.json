@@ -473,6 +473,10 @@
         {
             "day": "27",
             "title": "Bulb Switcher"
+        },
+        {
+            "day": "28",
+            "title": "Similar String Groups"
         }
     ]
 }
