@@ -477,6 +477,10 @@
         {
             "day": "28",
             "title": "Similar String Groups"
+        },
+        {
+            "day": "29",
+            "title": "Checking Existence of Edge Length Limited Paths"
         }
     ]
 }
