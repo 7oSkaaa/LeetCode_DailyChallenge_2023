@@ -21,6 +21,7 @@
 <br><br>
 
 ## Problems:
+1. **[Average Salary Excluding the Minimum and Maximum Salary](#01--average-salary-excluding-the-minimum-and-maximum-salary)**
 
 <hr>
 <br><br>
