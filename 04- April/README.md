@@ -50,6 +50,9 @@
 1. **[Smallest Number in Infinite Set](#25--smallest-number-in-infinite-set)**
 1. **[Add Digits](#26--add-digits)**
 1. **[Bulb Switcher](#27--bulb-switcher)**
+1. **[Similar String Groups](#28--similar-string-groups)**
+1. **[Checking Existence of Edge Length Limited Paths](#29--checking-existence-of-edge-length-limited-paths)**
+1. **[Remove Max Number of Edges to Keep Graph Fully Traversable](#30--remove-max-number-of-edges-to-keep-graph-fully-traversable)**
 
 <hr>
 <br><br>
@@ -1529,6 +1532,410 @@ public:
 
 
         return sqrt(n);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Similar String Groups](https://leetcode.com/problems/similar-string-groups/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `String` `Depth-First Search` `Breadth-First Search` `Union Find`
+
+### Code
+
+
+```cpp
+// Template for disjoint set union (DSU) data structure with custom node type and base index
+template <typename T = int, int Base = 0> 
+struct DSU {
+    // Store parent and group size for each node
+    vector<T> parent, Gsize;
+
+    // Constructor initializes parent and group size for all nodes
+    DSU(int MaxNodes) {
+        parent = Gsize = vector<T>(MaxNodes + 5);
+        for (int i = Base; i <= MaxNodes; i++) {
+            parent[i] = i;
+            Gsize[i] = 1;
+        }
+    }
+
+    // Find the leader of the group for the given node and perform path compression
+    T find_leader(int node) {
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Check if two nodes are in the same group
+    bool is_same_sets(int u, int v) {
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merge the groups containing the given nodes
+    void union_sets(int u, int v) {
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        if (leader_u == leader_v) return;
+        if (Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v];
+        parent[leader_v] = leader_u;
+    }
+
+    // Get the size of the group containing the given node
+    int get_size(int u) {
+        return Gsize[find_leader(u)];
+    }
+};
+
+// Solution class for finding number of similar groups
+class Solution {
+public:
+    // Function to check if two strings differ by at most 2 characters
+    bool is_similar(const string& a, const string& b) {
+        int diff = 0, n = a.size();
+
+        // Iterate through each character of the two strings and count the number of differences
+        for (int i = 0; i < n; i++)
+            diff += (a[i] != b[i]);
+
+        // Return true if the number of differences is less than or equal to 2
+        return diff <= 2;
+    }
+
+    // Function to find the number of similar groups in a vector of strings
+    int numSimilarGroups(vector<string>& strs) {
+        int n = strs.size();
+
+        // Create a disjoint-set data structure with n elements
+        DSU<int> dsu(n);
+
+        // Iterate through each pair of strings in the vector and union their sets if they are similar
+        for (int i = 1; i < n; i++)
+            for (int j = i - 1; j >= 0; j--)
+                if (is_similar(strs[i], strs[j]))
+                    dsu.union_sets(i, j);
+
+        int groups = 0;
+
+        // Count the number of groups by counting the number of leaders in the disjoint-set data structure
+        for (int i = 0; i < n; i++)
+            groups += dsu.find_leader(i) == i;
+
+        // Return the number of groups
+        return groups;
+    }
+
+};
+```
+
+<hr>
+<br><br>
+
+## 29)  [Checking Existence of Edge Length Limited Paths](https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Union Find` `Graph` `Array` `Sorting`
+
+### Code
+
+
+```cpp
+template <typename T = int, int Base = 1>
+struct DSU {
+    vector<T> parent, Gsize;
+
+    // Constructor to initialize the parent and Gsize vectors.
+    DSU(int MaxNodes) {
+        parent = Gsize = vector<T>(MaxNodes + 5);
+        for (int i = Base; i <= MaxNodes; i++)
+            parent[i] = i, Gsize[i] = 1;
+    }
+
+    // Find the leader of the set where 'node' belongs and compress the path while traversing.
+    T find_leader(int node) {
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Check if 'u' and 'v' belong to the same set or not.
+    bool is_same_sets(int u, int v) {
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merge the sets containing 'u' and 'v'.
+    void union_sets(int u, int v) {
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        if (leader_u == leader_v)
+            return;
+        if (Gsize[leader_u] < Gsize[leader_v])
+            swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Get the size of the set where 'u' belongs.
+    int get_size(int u) {
+        return Gsize[find_leader(u)];
+    }
+};
+
+// Define a template struct called LCA
+// that takes an optional typename T (default to int)
+template <typename T = int>
+struct LCA {
+    
+    // Define an inner struct called Edge
+    // that has a vertex v and a weight w
+    struct Edge {
+        T v, w;
+
+        Edge(T V = 0, T W = 0) : v(V), w(W) {}
+
+        bool operator < (const Edge &rhs) const {
+            return w < rhs.w;
+        }
+    };
+
+    // Initialize variables
+    int N, LOG;
+    vector < vector <T> > anc, cost;
+    vector < vector <Edge> > adj;
+    vector <int> dep, vis;
+
+    // Constructor for LCA
+    LCA(int n){
+        // Set N to n + 10 and find the LOG of N
+        N = n + 10, LOG = 0;
+        while((1 << LOG) <= N) LOG++;
+        // Initialize dep, vis, adj, anc, and cost vectors
+        dep = vis = vector <int> (N);
+        adj = vector < vector <Edge> > (N);
+        anc = cost = vector < vector <T> > (N, vector <T> (LOG));
+    }
+
+    // Add edge to the graph
+    void add_edge(int u, int v, T w){
+        adj[u].push_back(Edge(v, w));
+        adj[v].push_back(Edge(u, w));
+    }
+
+    // Build adjacency list from input
+    void build_adj(int edges){
+        for(int i = 0, u, v, w; i < edges && cin >> u >> v >> w; i++)
+            add_edge(u, v, w);
+    }
+
+    // Operation to be performed on cost
+    T operation(T a, T b){
+        return max(a, b);
+    }
+
+    // Perform depth-first search on the graph
+    void dfs(int u){
+        vis[u] = true;
+        for(auto& [v, w] : adj[u]){
+            if(vis[v]) continue;
+            dep[v] = dep[u] + 1, anc[v][0] = u, cost[v][0] = w;
+            for(int bit = 1; bit < LOG; bit++){
+                anc[v][bit] = anc[anc[v][bit - 1]][bit - 1];
+                cost[v][bit] = operation(cost[v][bit - 1], cost[anc[v][bit - 1]][bit - 1]);
+            }
+            dfs(v);
+        }
+    }
+
+    // Find the kth ancestor of a node
+    int kth_ancestor(int u, int k){
+        if(dep[u] < k) 
+            return -1;
+        for(int bit = LOG - 1; bit >= 0; bit--)
+            if(k & (1 << bit))
+                u = anc[u][bit];
+        return u;
+    }
+
+    // Find the lowest common ancestor of two nodes
+    int get_lca(int u, int v){
+        if(dep[u] < dep[v])
+            swap(u, v);
+        u = kth_ancestor(u, dep[u] - dep[v]);
+        if(u == v)
+            return u;
+        for(int bit = LOG - 1; bit >= 0; bit--)
+            if(anc[u][bit] != anc[v][bit])
+                u = anc[u][bit], v = anc[v][bit];
+        return anc[u][0];
+    }
+
+    // Get the cost from a node to its ancestor at a certain distance    
+    T get_cost(int u, int dist){
+        if(dep[u] < dist) return -1;
+        T ans = 0;
+        for(int bit = 0; bit < LOG; bit++)
+            if(dist & (1 << bit))
+                ans = operation(ans, cost[u][bit]), u = anc[u][bit];
+        return ans;
+    }
+        
+    // Function to answer LCA queries between two nodes u and v
+    T query(int u, int v){
+        int lca = get_lca(u, v);
+        return operation(get_cost(u, dep[u] - dep[lca]), get_cost(v, dep[v] - dep[lca]));
+    }
+
+    // Function to build the LCA tree
+    void build(int n){
+        for(int i = 1; i <= n; i++)
+            if(!vis[i])
+                dfs(i);
+    }
+
+};
+
+class Solution {
+public:
+    // Define a function that takes in an integer n, a vector of vectors of integers edgeList, and a vector of vectors of integers queries and returns a vector of bools.
+    vector < bool > distanceLimitedPathsExist(int n, vector < vector < int > >& edgeList, vector < vector < int > >& queries) {
+        // Sort the edges by their weights.
+        sort(edgeList.begin(), edgeList.end(), [&](vector < int >& a, vector < int >& b){
+            return a[2] < b[2];
+        });
+        
+        // Create an instance of a disjoint set union data structure (DSU) and a lowest common ancestor (LCA) data structure.
+        DSU < int > dsu(n);
+        LCA < int > lca(n);
+        
+        // Iterate through the sorted edges and add each edge to the LCA data structure if the nodes it connects are not in the same set in the DSU.
+        // make mst for the graph
+        for(auto& edge : edgeList){
+            int u = ++edge[0], v = ++edge[1], w = edge[2];
+            if(dsu.is_same_sets(u, v)) continue;
+            dsu.union_sets(u, v);
+            lca.add_edge(u, v, w);
+        }
+        
+        // Build the LCA data structure.
+        lca.build(n);
+        
+        // Create a vector to store the answers to the queries.
+        vector < bool > ans;
+        
+        // Iterate through the queries and check if the nodes it connects are in the same set in the DSU.
+        // If they are, check if the minimum edge weight on the path between them is less than the query limit.
+        // If they are not in the same set, it is impossible to have a path between them.
+        // Add the answer to the answer vector.
+        for(auto& q : queries){
+            int u = ++q[0], v = ++q[1], limit = q[2];
+            if(dsu.is_same_sets(u, v))
+                ans.push_back(lca.query(u, v) < limit);
+            else
+                ans.push_back(false);
+        }
+        
+        // Return the answer vector.
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 30)  [Remove Max Number of Edges to Keep Graph Fully Traversable](https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Union Find` `Graph`
+
+### Code
+
+
+```cpp
+// Define a generic disjoint-set union data structure with an optional base node
+// parameter for 1-based indexing, and a template parameter for data type T.
+template <typename T = int, int Base = 1>
+struct DSU {
+    // The parent vector stores the parent of each node, and the Gsize vector
+    // stores the size of each disjoint set.
+    vector<T> parent, Gsize;
+
+    // Constructor initializes the parent and Gsize vectors for all nodes.
+    DSU(int MaxNodes) {
+        parent = Gsize = vector<T>(MaxNodes + 5);
+        for (int i = Base; i <= MaxNodes; i++)
+            parent[i] = i, Gsize[i] = 1;
+    }
+
+    // Recursive function to find the leader of the disjoint set that the node
+    // belongs to, and updates the parent of all visited nodes to the leader.
+    T find_leader(int node) {
+        return parent[node] = (parent[node] == node ? node : find_leader(parent[node]));
+    }
+
+    // Returns true if the two nodes belong to the same disjoint set.
+    bool is_same_sets(int u, int v) {
+        return find_leader(u) == find_leader(v);
+    }
+
+    // Merges the disjoint sets containing the two nodes u and v.
+    void union_sets(int u, int v) {
+        int leader_u = find_leader(u), leader_v = find_leader(v);
+        if (leader_u == leader_v) return;
+        if (Gsize[leader_u] < Gsize[leader_v]) swap(leader_u, leader_v);
+        Gsize[leader_u] += Gsize[leader_v], parent[leader_v] = leader_u;
+    }
+
+    // Returns the size of the disjoint set that the node belongs to.
+    int get_size(int u) {
+        return Gsize[find_leader(u)];
+    }
+};
+
+class Solution {
+public:
+    int maxNumEdgesToRemove(int n, vector<vector<int>>& edges) {
+        // Variable to store the number of edges removed.
+        int removed_edges = 0;
+        // Create two disjoint-set union objects, one for Alice and one for Bob.
+        DSU<int> alice(n), bob(n);
+        // Sort edges in decreasing order of type so that type 3 edges are
+        // processed last.
+        sort(edges.rbegin(), edges.rend());
+        // Loop through each edge in the sorted list.
+        for (auto& edge : edges) {
+            int t = edge[0], u = edge[1], v = edge[2];
+            // Process the edge based on its type.
+            if (t == 1) {
+                if (alice.is_same_sets(u, v)) removed_edges++;
+                else alice.union_sets(u, v);
+            } else if (t == 2) {
+                if (bob.is_same_sets(u, v)) removed_edges++;
+                else bob.union_sets(u, v);
+            } else {
+                if (alice.is_same_sets(u, v) && bob.is_same_sets(u, v)) removed_edges++;
+                else alice.union_sets(u, v), bob.union_sets(u, v);
+            }
+        }
+        // Check if all nodes belong to the same disjoint set for both Alice and
+        // Bob. If not, return -1 as it is impossible to remove enough edges to
+        // create a spanning tree for both players.
+        if (alice.get_size(1) != n || bob.get_size(1) != n)
+            return -1;
+        // Return the number of edges removed.
+        return removed_edges;
     }
 };
 ```
