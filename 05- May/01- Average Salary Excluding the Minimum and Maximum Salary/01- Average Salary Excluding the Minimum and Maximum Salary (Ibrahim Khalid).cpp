@@ -1,4 +1,4 @@
-// author :- Ibrahim Khalid
+// Author: Ibrahim Khalid
 class Solution {
 public:
     double average(vector<int>& salary) {
