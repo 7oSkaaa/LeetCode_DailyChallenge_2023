@@ -486,5 +486,11 @@
             "day": "30",
             "title": "Remove Max Number of Edges to Keep Graph Fully Traversable"
         }
+    ],
+    "05- May": [
+        {
+            "day": "01",
+            "title": "Average Salary Excluding the Minimum and Maximum Salary"
+        }
     ]
 }
