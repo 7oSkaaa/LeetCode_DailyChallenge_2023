@@ -23,7 +23,6 @@
 ## Problems:
 
 1. **[Binary Search](#01--binary-search)**
-
 1. **[Successful Pairs of Spells and Potions](#02--successful-pairs-of-spells-and-potions)**
 1. **[Boats to Save People](#03--boats-to-save-people)**
 1. **[Optimal Partition of String](#04--optimal-partition-of-string)**
