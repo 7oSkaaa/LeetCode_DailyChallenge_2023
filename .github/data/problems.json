@@ -491,6 +491,10 @@
         {
             "day": "01",
             "title": "Average Salary Excluding the Minimum and Maximum Salary"
+        },
+        {
+            "day": "02",
+            "title": "Sign of the Product of an Array"
         }
     ]
 }
