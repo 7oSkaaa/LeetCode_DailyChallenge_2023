@@ -22,6 +22,7 @@
 
 ## Problems:
 1. **[Average Salary Excluding the Minimum and Maximum Salary](#01--average-salary-excluding-the-minimum-and-maximum-salary)**
+1. **[Sign of the Product of an Array](#02--sign-of-the-product-of-an-array)**
 
 <hr>
 <br><br>
@@ -54,6 +55,45 @@ public:
 
         // Return the average by dividing the sum by the number of elements in the vector minus 2.
         return sum / n;
+    }
+
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 02)  [Sign of the Product of an Array](https://leetcode.com/problems/sign-of-the-product-of-an-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int arraySign(vector<int>& nums) {
+        // Initialize variables to count the number of zeros and negatives in the input vector.
+        int neg = 0, zero = 0;
+        
+        // Loop through the input vector and increment zero and/or neg depending on the value of each element.
+        for(auto& i : nums) {
+            if(i == 0)
+                zero++;
+            else if(i < 0)
+                neg++;
+        }
+        
+        // If there are any zeros in the input vector, return 0. Otherwise, determine the sign of the product of all elements.
+        return (zero > 0 ? 0 : (neg & 1 ? -1 : 1));
     }
 
 };
