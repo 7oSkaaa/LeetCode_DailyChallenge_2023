@@ -23,6 +23,7 @@
 ## Problems:
 1. **[Average Salary Excluding the Minimum and Maximum Salary](#01--average-salary-excluding-the-minimum-and-maximum-salary)**
 1. **[Sign of the Product of an Array](#02--sign-of-the-product-of-an-array)**
+1. **[Dota2 Senate](#04--dota2-senate)**
 
 <hr>
 <br><br>
@@ -94,6 +95,56 @@ public:
         
         // If there are any zeros in the input vector, return 0. Otherwise, determine the sign of the product of all elements.
         return (zero > 0 ? 0 : (neg & 1 ? -1 : 1));
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 04)  [Dota2 Senate](https://leetcode.com/problems/dota2-senate/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Greedy` `Queue`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string predictPartyVictory(string& senate) {
+        int score = 0;
+
+        // Loop through the senate string
+        for (int i = 0; i < senate.size(); ++i) {            
+            // If the current character is 'R'
+            if (senate[i] == 'R') {
+                // If the score is negative
+                // add a 'D' to the end of the senate string
+                if (score < 0) 
+                    senate.push_back('D');
+                ++score;
+            } 
+            
+            // If the current character is 'D'
+            else {
+                // If the score is positive
+                // add a 'R' to the end of the senate string
+                if (score > 0) 
+                    senate.push_back('R');
+                --score;
+            }
+        }
+
+        // Return the predicted winning party
+        return score > 0 ? "Radiant" : "Dire";
     }
 
 };
