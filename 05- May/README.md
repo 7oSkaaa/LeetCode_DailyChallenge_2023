@@ -25,6 +25,8 @@
 1. **[Sign of the Product of an Array](#02--sign-of-the-product-of-an-array)**
 1. **[Find the Difference of Two Arrays](#03--find-the-difference-of-two-arrays)**
 1. **[Dota2 Senate](#04--dota2-senate)**
+1. **[Maximum Number of Vowels in a Substring of Given Length](#05--maximum-number-of-vowels-in-a-substring-of-given-length)**
+1. **[Number of Subsequences That Satisfy the Given Sum Condition](#06--number-of-subsequences-that-satisfy-the-given-sum-condition)**
 
 <hr>
 <br><br>
@@ -208,6 +210,144 @@ public:
         return score > 0 ? "Radiant" : "Dire";
     }
 
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 05)  [Maximum Number of Vowels in a Substring of Given Length](https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // define a string that contains vowels
+    string vowels = "aeoiu";
+
+    // function to check if a character is a vowel
+    bool is_vowel(const char& c){
+        return count(vowels.begin(), vowels.end(), c);
+    }
+
+    // function to find the maximum number of vowels in a substring of length k in a given string
+    int maxVowels(const string& s, int k){
+        // initialize variables to keep track of the current number of vowels and the maximum number of vowels seen so far
+        int cnt_vowels = 0, max_vowels = 0;
+        
+        // define lambda functions to add and remove characters from the current substring and update the vowel count
+        auto add = [&](const char& c){
+            cnt_vowels += is_vowel(c);
+        };
+        auto remove = [&](const char& c){
+            cnt_vowels -= is_vowel(c);
+        };
+        
+        // iterate over the string
+        for(int i = 0; i < s.size(); i++){
+            // add the current character to the substring and update the vowel count
+            add(s[i]);
+            
+            // if the length of the substring is greater than k, remove the oldest character from the substring and update the vowel count
+            if(i >= k)
+                remove(s[i - k]);
+            
+            // update the maximum number of vowels seen so far
+            max_vowels = max(max_vowels, cnt_vowels);
+        }
+        
+        // return the maximum number of vowels seen in any substring of length k
+        return max_vowels;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Number of Subsequences That Satisfy the Given Sum Condition](https://leetcode.com/problems/number-of-subsequences-that-satisfy-the-given-sum-condition/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Two Pointers` `Binary Search` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Define a type long long as ll
+    typedef long long ll;
+
+    // Define a constant integer MOD as 1000000007
+    static constexpr int MOD = 1e9 + 7;
+
+    // A function to calculate b to the power of e in the binary form
+    // and returns the result mod MOD.
+    ll binPow(ll b, ll e){
+        // if e is negative, return 0
+        if(e < 0) return 0;
+
+        // Initialize power to 1
+        ll power = 1;
+
+        // While e is positive
+        while(e > 0){
+            // If the least significant bit of e is 1, multiply power by b and take the result mod MOD
+            if(e & 1) power = (power * b) % MOD;
+            
+            // Square b and take the result mod MOD
+            b = (b * b) % MOD;
+            
+            // Shift e one bit to the right -> e /= 2;
+            e >>= 1;
+        }
+
+        // Return the result
+        return power;
+    }
+
+    // A function to count the number of non-empty subsequences of nums that sum to target
+    int numSubseq(vector<int>& nums, int target) {
+        // Get the size of nums
+        int n = nums.size();
+        
+        // Sort nums in non-descending order
+        sort(nums.begin(), nums.end());
+        
+        // Initialize ans to 0
+        ll num_of_seq = 0;
+        
+        // For each element nums[i] in nums
+        for(int i = 0; i < n; i++){
+            // Find the index of the first element greater than target - nums[i]
+            int idx = upper_bound(nums.begin(), nums.end(), target - nums[i]) - nums.begin();
+            
+            // Add 2^(idx-i-1) to ans and take the result mod MOD -> number of valid subsequences
+            num_of_seq = (num_of_seq + binPow(2, idx - i - 1)) % MOD;
+        }
+        
+        // Return num_of_seq
+        return num_of_seq;
+    }
 };
 ```
     
