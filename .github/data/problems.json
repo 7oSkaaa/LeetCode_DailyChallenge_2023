@@ -507,6 +507,10 @@
         {
             "day": "05",
             "title": "Maximum Number of Vowels in a Substring of Given Length"
+        },
+        {
+            "day": "06",
+            "title": "Number of Subsequences That Satisfy the Given Sum Condition"
         }
     ]
 }
