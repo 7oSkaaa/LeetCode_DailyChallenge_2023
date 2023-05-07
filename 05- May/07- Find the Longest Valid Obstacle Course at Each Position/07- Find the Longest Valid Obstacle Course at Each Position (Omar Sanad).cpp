@@ -12,7 +12,7 @@ public:
         int n = ob.size();
 
         // declare two vectors 
-        // One vector to store the longest some information about longest increasing subsequence at each idx
+        // One vector to store some information about length of the longest increasing subsequence at each idx
         // elements in temp are sorted in non-decreasing order
         // the other vector to store the answer
         vector < int > temp = {ob.front()}, Answers(n, 1);
