@@ -27,6 +27,8 @@
 1. **[Dota2 Senate](#04--dota2-senate)**
 1. **[Maximum Number of Vowels in a Substring of Given Length](#05--maximum-number-of-vowels-in-a-substring-of-given-length)**
 1. **[Number of Subsequences That Satisfy the Given Sum Condition](#06--number-of-subsequences-that-satisfy-the-given-sum-condition)**
+1. **[Find the Longest Valid Obstacle Course at Each Position](#07--find-the-longest-valid-obstacle-course-at-each-position)**
+1. **[Matrix Diagonal Sum](#08--matrix-diagonal-sum)**
 
 <hr>
 <br><br>
@@ -347,6 +349,90 @@ public:
         
         // Return num_of_seq
         return num_of_seq;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 07)  [Find the Longest Valid Obstacle Course at Each Position](https://leetcode.com/problems/find-the-longest-valid-obstacle-course-at-each-position/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Binary Indexed Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector < int > longestObstacleCourseAtEachPosition(const vector < int >& obstacles) {
+
+        // Get the size of the vector of obstacles
+        int n = obstacles.size();
+
+        // Create two vectors: LIS (initialized to 1e9) and LOC (initialized to 0)
+        vector < int > LIS(n, 1e9), LOC(n);
+
+        // Loop through the obstacles vector
+        for(int i = 0; i < n; i++){
+
+            // Get the upper bound of the current obstacle in the LIS vector
+            auto up = upper_bound(LIS.begin(), LIS.end(), obstacles[i]);
+
+            // Set the value of LOC at the current position to (the index of the upper bound + 1)
+            LOC[i] = (up - LIS.begin() + 1);
+
+            // Update the LIS vector with the current obstacle value
+            *up = obstacles[i];
+        }
+
+        // Return the LOC vector
+        return LOC;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Matrix Diagonal Sum](https://leetcode.com/problems/matrix-diagonal-sum/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Function to calculate the sum of diagonals of a given matrix
+    int diagonalSum(const vector<vector<int>>& mat) {
+        // Get the size of the matrix and initialize the sum variable to zero
+        int n = mat.size(), sum = 0;
+        
+        // Loop through each row of the matrix
+        for(int i = 0; i < n; i++) {
+            // Add the element at the ith row and ith column to the sum
+            sum += mat[i][i];
+            // Add the element at the ith row and (n-i-1)th column to the sum
+            sum += mat[i][n - i - 1];
+        }
+        
+        // If the size of the matrix is odd, subtract the middle element from the sum
+        return sum - (n & 1 ? mat[n / 2][n / 2] : 0);
     }
 };
 ```
