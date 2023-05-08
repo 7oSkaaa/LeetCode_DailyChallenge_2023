@@ -515,6 +515,10 @@
         {
             "day": "07",
             "title": "Find the Longest Valid Obstacle Course at Each Position"
+        },
+        {
+            "day": "08",
+            "title": "Matrix Diagonal Sum"
         }
     ]
 }
