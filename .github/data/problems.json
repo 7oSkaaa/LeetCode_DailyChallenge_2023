@@ -519,6 +519,10 @@
         {
             "day": "08",
             "title": "Matrix Diagonal Sum"
+        },
+        {
+            "day": "09",
+            "title": "Spiral Matrix"
         }
     ]
 }
