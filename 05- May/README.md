@@ -29,6 +29,8 @@
 1. **[Number of Subsequences That Satisfy the Given Sum Condition](#06--number-of-subsequences-that-satisfy-the-given-sum-condition)**
 1. **[Find the Longest Valid Obstacle Course at Each Position](#07--find-the-longest-valid-obstacle-course-at-each-position)**
 1. **[Matrix Diagonal Sum](#08--matrix-diagonal-sum)**
+1. **[Spiral Matrix](#09--spiral-matrix)**
+1. **[Spiral Matrix II](#10--spiral-matrix-ii)**
 
 <hr>
 <br><br>
@@ -434,6 +436,140 @@ public:
         // If the size of the matrix is odd, subtract the middle element from the sum
         return sum - (n & 1 ? mat[n / 2][n / 2] : 0);
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Matrix` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+        
+    // Declare a vector to store the elements of the matrix in spiral order.
+    vector<int> spiral;
+
+    // Recursive function to traverse the matrix in spiral order and store the elements in the spiral vector.
+    void getSprial(vector<vector<int>>& grid, int i, int j, int m, int n) {
+
+        // Base case: if i >= m or j >= n, return from the function.
+        if (i >= m or j >= n)
+            return;
+
+        // Traverse the first row from j to n-1 and push the elements into the spiral vector.
+        for (int p = j; p < n; p++)
+            spiral.push_back(grid[i][p]);
+
+        // Traverse the last column from i+1 to m-1 and push the elements into the spiral vector.
+        for (int p = i + 1; p < m; p++)
+            spiral.push_back(grid[p][n - 1]);
+
+        // Traverse the last row from n-2 to j and push the elements into the spiral vector.
+        if ((m - 1) != i)
+            for (int p = n - 2; p >= j; p--)
+                spiral.push_back(grid[m - 1][p]);
+
+        // Traverse the first column from m-2 to i+1 and push the elements into the spiral vector.
+        if ((n - 1) != j)
+            for (int p = m - 2; p > i; p--)
+                spiral.push_back(grid[p][j]);
+
+        // Recursive call to traverse the next inner matrix.
+        getSprial(grid, i + 1, j + 1, m - 1, n - 1);
+    }
+
+    // Function to return the elements of the matrix in spiral order.
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+
+        // Call the recursive function getSprial with the initial parameters.
+        getSprial(matrix, 0, 0, matrix.size(), matrix[0].size());
+
+        // Return the spiral vector containing the elements of the matrix in spiral order.
+        return spiral;
+    }
+
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Matrix` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Check if (x, y) is inside the grid with size n
+    bool onGrid(int x, int y, int n) {
+        return (x >= 0 && x < n && y >= 0 && y < n);
+    }
+
+    // Generate a matrix with size n x n in a spiral pattern
+    vector<vector<int>> generateMatrix(int n) {
+        // Define the directions to move in the spiral pattern
+        const int dx[4] = {0, 1, 0, -1};
+        const int dy[4] = {1, 0, -1, 0};
+        
+        // Initialize the matrix with all zeros
+        vector<vector<int>> ret(n, vector<int>(n));
+        
+        // Set the starting position to (0, 0) and initialize the counter to 1
+        int dir = 0, cnt = 0, x = 0, y = 0;
+        ret[x][y] = ++cnt;
+        
+        // Keep moving in the spiral pattern until all elements are filled
+        while (cnt < n * n) {
+            // Compute the next position to move to
+            int xx = x + dx[dir];
+            int yy = y + dy[dir];
+            
+            // If the next position is not inside the grid, change direction and continue
+            if (false == onGrid(xx, yy, n)) {
+                dir = (dir + 1) % 4;
+                continue;
+            }
+            
+            // If the next position is already filled, change direction and continue
+            if (ret[xx][yy] != 0) {
+                dir = (dir + 1) % 4;
+                continue;
+            }
+            
+            // Move to the next position and fill it with the next counter value
+            x = xx, y = yy;
+            ret[x][y] = ++cnt;
+        }
+        
+        // Return the generated matrix
+        return ret;
+    }
+
 };
 ```
     
