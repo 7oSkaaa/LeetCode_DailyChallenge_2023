@@ -32,6 +32,8 @@
 1. **[Spiral Matrix](#09--spiral-matrix)**
 1. **[Spiral Matrix II](#10--spiral-matrix-ii)**
 1. **[Uncrossed Lines](#11--uncrossed-lines)**
+1. **[Solving Questions With Brainpower](#12--solving-questions-with-brainpower)**
+1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
 
 <hr>
 <br><br>
@@ -621,6 +623,107 @@ public:
 
         // Return the maximum number of uncrossed lines
         return dp[0][0];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Solving Questions With Brainpower](https://leetcode.com/problems/solving-questions-with-brainpower/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+// for this problem we will use dp to solve it
+// we can see that we can take the question or leave it, so we will try to take it and leave it and take the maximum
+// we will use dp[i] to be the maximum points we can take from the questions from i to n
+// so dp[i] = max(dp[i+1], dp[i+b+1] + p) where p is the points of the question and b is the number of questions we will skip
+
+// dp[i+1] is the maximum points we can take if we skip the current question (move to the next question)
+// dp[i+b+1] + p is the maximum points we can take if we take the current question and skip the next b questions (move to the next b+1 question)
+// the answer will be dp[0] which is the maximum points we can take from the first question to the last question
+
+class Solution {
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        const int n = int(questions.size());
+        vector<long long> dp(n + 5);
+
+        for(int i = n - 1; ~i; --i) {
+            int p = questions[i][0], b = questions[i][1];
+            dp[i] = max(dp[i + 1], dp[min(i + b + 1, n)] + p);
+        }
+
+        return dp[0];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Count Ways To Build Good Strings](https://leetcode.com/problems/count-ways-to-build-good-strings/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Set the value of the constant MOD to 1e9+7
+    static constexpr int MOD = 1e9 + 7;
+
+    // Function that adds a value to another and checks if the result is greater than or equal to MOD
+    void add(int& ret, int to_add){
+        ret += to_add;
+        if(ret >= MOD)
+            ret -= MOD;
+    }
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+        // Initialize a vector called dp with size equal to high + 1
+        vector < int > dp(high + 1);
+        
+        // Set the first element of dp to 1
+        dp[0] = 1;
+        
+        // Initialize a variable called sum to 0
+        int sum = 0;
+        
+        for(int i = 1; i <= high; i++){
+            // If i is greater than or equal to zero, add the value of dp[i-zero] to dp[i]
+            if(i >= zero)
+                add(dp[i], dp[i - zero]);
+            
+            // If i is greater than or equal to one, add the value of dp[i-one] to dp[i]
+            if(i >= one)
+                add(dp[i], dp[i - one]);
+            
+            // If i is greater than or equal to low, add the value of dp[i] to sum
+            if(i >= low)
+                add(sum, dp[i]);
+        }
+
+        // Return the value of sum
+        return sum;
     }
 };
 ```
