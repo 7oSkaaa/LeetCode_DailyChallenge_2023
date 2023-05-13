@@ -535,6 +535,10 @@
         {
             "day": "12",
             "title": "Solving Questions With Brainpower"
+        },
+        {
+            "day": "13",
+            "title": "Count Ways To Build Good Strings"
         }
     ]
 }
