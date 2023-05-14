@@ -539,6 +539,10 @@
         {
             "day": "13",
             "title": "Count Ways To Build Good Strings"
+        },
+        {
+            "day": "14",
+            "title": "Maximize Score After N Operations"
         }
     ]
 }
