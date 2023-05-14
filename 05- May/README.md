@@ -34,6 +34,7 @@
 1. **[Uncrossed Lines](#11--uncrossed-lines)**
 1. **[Solving Questions With Brainpower](#12--solving-questions-with-brainpower)**
 1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
+1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
 
 <hr>
 <br><br>
@@ -724,6 +725,72 @@ public:
 
         // Return the value of sum
         return sum;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Maximize Score After N Operations](https://leetcode.com/problems/maximize-score-after-n-operations/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Backtracking` `Bit Manipulation` `Number Theory` `Bitmask`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // declare variables
+    int n, full_mask;
+    // vectors to store numbers and dynamic programming results
+    vector<int> nums, dp;
+
+    // function to check if a bit is empty in a binary mask
+    bool is_empty_bit(int bit, int mask){
+        return !(mask & (1 << bit));
+    }
+
+    // recursive function to calculate the maximum score
+    int max_score(int mask){
+        // if all bits are filled, return 0
+        if(mask == full_mask) return 0;
+        // use memoization to avoid redundant computations
+        int& ret = dp[mask];
+        // calculate the current index based on the number of filled bits
+        int idx = __builtin_popcount(mask) / 2 + 1;
+        // if the result has already been calculated, return it
+        if(~ret) return ret;
+        ret = 0;
+        // iterate over all pairs of numbers
+        for(int i = 0; i < n; i++)
+            for(int j = i + 1; j < n; j++)
+                // if both numbers are empty, calculate the score
+                if(is_empty_bit(i, mask) && is_empty_bit(j, mask))
+                    ret = max(ret, (idx * __gcd(nums[i], nums[j])) + max_score(mask | (1 << i) | (1 << j)));
+        // return the maximum score
+        return ret;
+    }
+
+    int maxScore(vector<int>& nums) {
+        // set the number of elements
+        n = nums.size();
+        // set the vector of numbers
+        this -> nums = nums;
+        // set the full binary mask
+        full_mask = (1 << n) - 1;
+        // initialize the dynamic programming vector with -1
+        dp = vector<int>(1 << n, -1);
+        // return the maximum score starting with an empty mask
+        return max_score(0);
     }
 };
 ```
