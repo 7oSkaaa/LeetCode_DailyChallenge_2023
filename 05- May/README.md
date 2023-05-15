@@ -32,6 +32,9 @@
 1. **[Spiral Matrix](#09--spiral-matrix)**
 1. **[Spiral Matrix II](#10--spiral-matrix-ii)**
 1. **[Uncrossed Lines](#11--uncrossed-lines)**
+1. **[Solving Questions With Brainpower](#12--solving-questions-with-brainpower)**
+1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
+1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
 
 <hr>
 <br><br>
@@ -621,6 +624,173 @@ public:
 
         // Return the maximum number of uncrossed lines
         return dp[0][0];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Solving Questions With Brainpower](https://leetcode.com/problems/solving-questions-with-brainpower/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+// for this problem we will use dp to solve it
+// we can see that we can take the question or leave it, so we will try to take it and leave it and take the maximum
+// we will use dp[i] to be the maximum points we can take from the questions from i to n
+// so dp[i] = max(dp[i+1], dp[i+b+1] + p) where p is the points of the question and b is the number of questions we will skip
+
+// dp[i+1] is the maximum points we can take if we skip the current question (move to the next question)
+// dp[i+b+1] + p is the maximum points we can take if we take the current question and skip the next b questions (move to the next b+1 question)
+// the answer will be dp[0] which is the maximum points we can take from the first question to the last question
+
+class Solution {
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        const int n = int(questions.size());
+        vector<long long> dp(n + 5);
+
+        for(int i = n - 1; ~i; --i) {
+            int p = questions[i][0], b = questions[i][1];
+            dp[i] = max(dp[i + 1], dp[min(i + b + 1, n)] + p);
+        }
+
+        return dp[0];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Count Ways To Build Good Strings](https://leetcode.com/problems/count-ways-to-build-good-strings/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Set the value of the constant MOD to 1e9+7
+    static constexpr int MOD = 1e9 + 7;
+
+    // Function that adds a value to another and checks if the result is greater than or equal to MOD
+    void add(int& ret, int to_add){
+        ret += to_add;
+        if(ret >= MOD)
+            ret -= MOD;
+    }
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+        // Initialize a vector called dp with size equal to high + 1
+        vector < int > dp(high + 1);
+        
+        // Set the first element of dp to 1
+        dp[0] = 1;
+        
+        // Initialize a variable called sum to 0
+        int sum = 0;
+        
+        for(int i = 1; i <= high; i++){
+            // If i is greater than or equal to zero, add the value of dp[i-zero] to dp[i]
+            if(i >= zero)
+                add(dp[i], dp[i - zero]);
+            
+            // If i is greater than or equal to one, add the value of dp[i-one] to dp[i]
+            if(i >= one)
+                add(dp[i], dp[i - one]);
+            
+            // If i is greater than or equal to low, add the value of dp[i] to sum
+            if(i >= low)
+                add(sum, dp[i]);
+        }
+
+        // Return the value of sum
+        return sum;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Maximize Score After N Operations](https://leetcode.com/problems/maximize-score-after-n-operations/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Backtracking` `Bit Manipulation` `Number Theory` `Bitmask`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // declare variables
+    int n, full_mask;
+    // vectors to store numbers and dynamic programming results
+    vector<int> nums, dp;
+
+    // function to check if a bit is empty in a binary mask
+    bool is_empty_bit(int bit, int mask){
+        return !(mask & (1 << bit));
+    }
+
+    // recursive function to calculate the maximum score
+    int max_score(int mask){
+        // if all bits are filled, return 0
+        if(mask == full_mask) return 0;
+        // use memoization to avoid redundant computations
+        int& ret = dp[mask];
+        // calculate the current index based on the number of filled bits
+        int idx = __builtin_popcount(mask) / 2 + 1;
+        // if the result has already been calculated, return it
+        if(~ret) return ret;
+        ret = 0;
+        // iterate over all pairs of numbers
+        for(int i = 0; i < n; i++)
+            for(int j = i + 1; j < n; j++)
+                // if both numbers are empty, calculate the score
+                if(is_empty_bit(i, mask) && is_empty_bit(j, mask))
+                    ret = max(ret, (idx * __gcd(nums[i], nums[j])) + max_score(mask | (1 << i) | (1 << j)));
+        // return the maximum score
+        return ret;
+    }
+
+    int maxScore(vector<int>& nums) {
+        // set the number of elements
+        n = nums.size();
+        // set the vector of numbers
+        this -> nums = nums;
+        // set the full binary mask
+        full_mask = (1 << n) - 1;
+        // initialize the dynamic programming vector with -1
+        dp = vector<int>(1 << n, -1);
+        // return the maximum score starting with an empty mask
+        return max_score(0);
     }
 };
 ```
