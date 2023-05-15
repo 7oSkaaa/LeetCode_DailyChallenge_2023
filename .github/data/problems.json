@@ -543,6 +543,10 @@
         {
             "day": "14",
             "title": "Maximize Score After N Operations"
+        },
+        {
+            "day": "15",
+            "title": "Swapping Nodes in a Linked List"
         }
     ]
 }
