@@ -35,6 +35,7 @@
 1. **[Solving Questions With Brainpower](#12--solving-questions-with-brainpower)**
 1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
 1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
+1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 
 <hr>
 <br><br>
@@ -792,6 +793,54 @@ public:
         // return the maximum score starting with an empty mask
         return max_score(0);
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Swapping Nodes in a Linked List](https://leetcode.com/problems/swapping-nodes-in-a-linked-list/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        // Initialize pointers to the head of the list
+        ListNode* one = head;
+        ListNode* two = head;
+        ListNode* curr = head;
+
+        // Calculate the size of the list
+        int sz = 0;
+        while (curr)
+            sz++, curr = curr -> next;
+
+        // Move 'one' pointer to the kth node from the beginning
+        for (int i = 1; i < k; i++)
+            one = one -> next;
+
+        // Move 'two' pointer to the kth node from the end
+        for (int i = 1; i < sz - k + 1; i++)
+            two = two -> next;
+
+        // Swap the values of the two nodes
+        swap(one -> val, two -> val);
+
+        // Return the updated head of the list
+        return head;
+    }
+
 };
 ```
     
