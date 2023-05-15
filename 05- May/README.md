@@ -29,6 +29,13 @@
 1. **[Number of Subsequences That Satisfy the Given Sum Condition](#06--number-of-subsequences-that-satisfy-the-given-sum-condition)**
 1. **[Find the Longest Valid Obstacle Course at Each Position](#07--find-the-longest-valid-obstacle-course-at-each-position)**
 1. **[Matrix Diagonal Sum](#08--matrix-diagonal-sum)**
+1. **[Spiral Matrix](#09--spiral-matrix)**
+1. **[Spiral Matrix II](#10--spiral-matrix-ii)**
+1. **[Uncrossed Lines](#11--uncrossed-lines)**
+1. **[Solving Questions With Brainpower](#12--solving-questions-with-brainpower)**
+1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
+1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
+1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 
 <hr>
 <br><br>
@@ -434,6 +441,406 @@ public:
         // If the size of the matrix is odd, subtract the middle element from the sum
         return sum - (n & 1 ? mat[n / 2][n / 2] : 0);
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Spiral Matrix](https://leetcode.com/problems/spiral-matrix/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Matrix` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+        
+    // Declare a vector to store the elements of the matrix in spiral order.
+    vector<int> spiral;
+
+    // Recursive function to traverse the matrix in spiral order and store the elements in the spiral vector.
+    void getSprial(vector<vector<int>>& grid, int i, int j, int m, int n) {
+
+        // Base case: if i >= m or j >= n, return from the function.
+        if (i >= m or j >= n)
+            return;
+
+        // Traverse the first row from j to n-1 and push the elements into the spiral vector.
+        for (int p = j; p < n; p++)
+            spiral.push_back(grid[i][p]);
+
+        // Traverse the last column from i+1 to m-1 and push the elements into the spiral vector.
+        for (int p = i + 1; p < m; p++)
+            spiral.push_back(grid[p][n - 1]);
+
+        // Traverse the last row from n-2 to j and push the elements into the spiral vector.
+        if ((m - 1) != i)
+            for (int p = n - 2; p >= j; p--)
+                spiral.push_back(grid[m - 1][p]);
+
+        // Traverse the first column from m-2 to i+1 and push the elements into the spiral vector.
+        if ((n - 1) != j)
+            for (int p = m - 2; p > i; p--)
+                spiral.push_back(grid[p][j]);
+
+        // Recursive call to traverse the next inner matrix.
+        getSprial(grid, i + 1, j + 1, m - 1, n - 1);
+    }
+
+    // Function to return the elements of the matrix in spiral order.
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+
+        // Call the recursive function getSprial with the initial parameters.
+        getSprial(matrix, 0, 0, matrix.size(), matrix[0].size());
+
+        // Return the spiral vector containing the elements of the matrix in spiral order.
+        return spiral;
+    }
+
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Spiral Matrix II](https://leetcode.com/problems/spiral-matrix-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Matrix` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Check if (x, y) is inside the grid with size n
+    bool onGrid(int x, int y, int n) {
+        return (x >= 0 && x < n && y >= 0 && y < n);
+    }
+
+    // Generate a matrix with size n x n in a spiral pattern
+    vector<vector<int>> generateMatrix(int n) {
+        // Define the directions to move in the spiral pattern
+        const int dx[4] = {0, 1, 0, -1};
+        const int dy[4] = {1, 0, -1, 0};
+        
+        // Initialize the matrix with all zeros
+        vector<vector<int>> ret(n, vector<int>(n));
+        
+        // Set the starting position to (0, 0) and initialize the counter to 1
+        int dir = 0, cnt = 0, x = 0, y = 0;
+        ret[x][y] = ++cnt;
+        
+        // Keep moving in the spiral pattern until all elements are filled
+        while (cnt < n * n) {
+            // Compute the next position to move to
+            int xx = x + dx[dir];
+            int yy = y + dy[dir];
+            
+            // If the next position is not inside the grid, change direction and continue
+            if (false == onGrid(xx, yy, n)) {
+                dir = (dir + 1) % 4;
+                continue;
+            }
+            
+            // If the next position is already filled, change direction and continue
+            if (ret[xx][yy] != 0) {
+                dir = (dir + 1) % 4;
+                continue;
+            }
+            
+            // Move to the next position and fill it with the next counter value
+            x = xx, y = yy;
+            ret[x][y] = ++cnt;
+        }
+        
+        // Return the generated matrix
+        return ret;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 11)  [Uncrossed Lines](https://leetcode.com/problems/uncrossed-lines/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // A function to find the maximum number of uncrossed lines between two vectors
+    int maxUncrossedLines(vector<int>& a, vector<int>& b) {
+
+        // Get the size of the two vectors
+        int n = a.size(), m = b.size();
+
+        // Create a 2D vector with 2 rows and m+1 columns
+        // to store the maximum number of uncrossed lines
+        vector < vector < int > > dp(2, vector < int > (m + 1));
+
+        // Loop through the elements in the vectors, starting from the end
+        for(int i = n - 1; i >= 0; i--) {
+            for(int j = m - 1; j >= 0; j--) {
+
+                // Get the reference to the current element in the 2D vector
+                int& ret = (dp[i & 1][j] = 0);
+
+                // Calculate the maximum number of uncrossed lines
+                ret = max(dp[(i + 1) & 1][j], dp[i & 1][j + 1]);
+
+                // If the current elements in the vectors are the same, add 1 to the maximum number of uncrossed lines
+                if(a[i] == b[j])
+                    ret = max(ret, dp[(i + 1) & 1][j + 1] + 1);
+            }
+        }
+
+        // Return the maximum number of uncrossed lines
+        return dp[0][0];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 12)  [Solving Questions With Brainpower](https://leetcode.com/problems/solving-questions-with-brainpower/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+// for this problem we will use dp to solve it
+// we can see that we can take the question or leave it, so we will try to take it and leave it and take the maximum
+// we will use dp[i] to be the maximum points we can take from the questions from i to n
+// so dp[i] = max(dp[i+1], dp[i+b+1] + p) where p is the points of the question and b is the number of questions we will skip
+
+// dp[i+1] is the maximum points we can take if we skip the current question (move to the next question)
+// dp[i+b+1] + p is the maximum points we can take if we take the current question and skip the next b questions (move to the next b+1 question)
+// the answer will be dp[0] which is the maximum points we can take from the first question to the last question
+
+class Solution {
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        const int n = int(questions.size());
+        vector<long long> dp(n + 5);
+
+        for(int i = n - 1; ~i; --i) {
+            int p = questions[i][0], b = questions[i][1];
+            dp[i] = max(dp[i + 1], dp[min(i + b + 1, n)] + p);
+        }
+
+        return dp[0];
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 13)  [Count Ways To Build Good Strings](https://leetcode.com/problems/count-ways-to-build-good-strings/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Set the value of the constant MOD to 1e9+7
+    static constexpr int MOD = 1e9 + 7;
+
+    // Function that adds a value to another and checks if the result is greater than or equal to MOD
+    void add(int& ret, int to_add){
+        ret += to_add;
+        if(ret >= MOD)
+            ret -= MOD;
+    }
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+        // Initialize a vector called dp with size equal to high + 1
+        vector < int > dp(high + 1);
+        
+        // Set the first element of dp to 1
+        dp[0] = 1;
+        
+        // Initialize a variable called sum to 0
+        int sum = 0;
+        
+        for(int i = 1; i <= high; i++){
+            // If i is greater than or equal to zero, add the value of dp[i-zero] to dp[i]
+            if(i >= zero)
+                add(dp[i], dp[i - zero]);
+            
+            // If i is greater than or equal to one, add the value of dp[i-one] to dp[i]
+            if(i >= one)
+                add(dp[i], dp[i - one]);
+            
+            // If i is greater than or equal to low, add the value of dp[i] to sum
+            if(i >= low)
+                add(sum, dp[i]);
+        }
+
+        // Return the value of sum
+        return sum;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Maximize Score After N Operations](https://leetcode.com/problems/maximize-score-after-n-operations/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Backtracking` `Bit Manipulation` `Number Theory` `Bitmask`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // declare variables
+    int n, full_mask;
+    // vectors to store numbers and dynamic programming results
+    vector<int> nums, dp;
+
+    // function to check if a bit is empty in a binary mask
+    bool is_empty_bit(int bit, int mask){
+        return !(mask & (1 << bit));
+    }
+
+    // recursive function to calculate the maximum score
+    int max_score(int mask){
+        // if all bits are filled, return 0
+        if(mask == full_mask) return 0;
+        // use memoization to avoid redundant computations
+        int& ret = dp[mask];
+        // calculate the current index based on the number of filled bits
+        int idx = __builtin_popcount(mask) / 2 + 1;
+        // if the result has already been calculated, return it
+        if(~ret) return ret;
+        ret = 0;
+        // iterate over all pairs of numbers
+        for(int i = 0; i < n; i++)
+            for(int j = i + 1; j < n; j++)
+                // if both numbers are empty, calculate the score
+                if(is_empty_bit(i, mask) && is_empty_bit(j, mask))
+                    ret = max(ret, (idx * __gcd(nums[i], nums[j])) + max_score(mask | (1 << i) | (1 << j)));
+        // return the maximum score
+        return ret;
+    }
+
+    int maxScore(vector<int>& nums) {
+        // set the number of elements
+        n = nums.size();
+        // set the vector of numbers
+        this -> nums = nums;
+        // set the full binary mask
+        full_mask = (1 << n) - 1;
+        // initialize the dynamic programming vector with -1
+        dp = vector<int>(1 << n, -1);
+        // return the maximum score starting with an empty mask
+        return max_score(0);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Swapping Nodes in a Linked List](https://leetcode.com/problems/swapping-nodes-in-a-linked-list/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Two Pointers`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+        // Initialize pointers to the head of the list
+        ListNode* one = head;
+        ListNode* two = head;
+        ListNode* curr = head;
+
+        // Calculate the size of the list
+        int sz = 0;
+        while (curr)
+            sz++, curr = curr -> next;
+
+        // Move 'one' pointer to the kth node from the beginning
+        for (int i = 1; i < k; i++)
+            one = one -> next;
+
+        // Move 'two' pointer to the kth node from the end
+        for (int i = 1; i < sz - k + 1; i++)
+            two = two -> next;
+
+        // Swap the values of the two nodes
+        swap(one -> val, two -> val);
+
+        // Return the updated head of the list
+        return head;
+    }
+
 };
 ```
     
