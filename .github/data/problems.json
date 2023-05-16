@@ -547,6 +547,10 @@
         {
             "day": "15",
             "title": "Swapping Nodes in a Linked List"
+        },
+        {
+            "day": "16",
+            "title": "Swap Nodes in Pairs"
         }
     ]
 }
