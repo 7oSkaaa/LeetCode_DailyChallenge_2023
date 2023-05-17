@@ -37,6 +37,7 @@
 1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
 1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 1. **[Swap Nodes in Pairs](#16--swap-nodes-in-pairs)**
+1. **[Maximum Twin Sum of a Linked List](#17--maximum-twin-sum-of-a-linked-list)**
 
 <hr>
 <br><br>
@@ -879,6 +880,51 @@ public:
         // Return the new head of the swapped linked list
         return next;
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Maximum Twin Sum of a Linked List](https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Two Pointers` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int pairSum(ListNode* head) {
+        // Create a vector to store the values of the linked list nodes
+        vector < int > nums;
+        ListNode* curr = head;
+
+        // Traverse the linked list and store the values in the vector
+        while (curr != nullptr) {
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // Initialize left and right pointers, and the maximum sum
+        int l = 0, r = nums.size() - 1, mx_sum = INT_MIN;
+
+        // Find the maximum sum of pairs
+        while (l < r)
+            mx_sum = max(mx_sum, nums[l++] + nums[r--]);
+
+        // Return the maximum sum
+        return mx_sum;
+    }
+
 };
 ```
     
