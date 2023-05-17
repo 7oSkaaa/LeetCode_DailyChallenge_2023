@@ -36,6 +36,7 @@
 1. **[Count Ways To Build Good Strings](#13--count-ways-to-build-good-strings)**
 1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
 1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
+1. **[Swap Nodes in Pairs](#16--swap-nodes-in-pairs)**
 
 <hr>
 <br><br>
@@ -841,6 +842,43 @@ public:
         return head;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Swap Nodes in Pairs](https://leetcode.com/problems/swap-nodes-in-pairs/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Recursion`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        // If the linked list is empty or has only one node
+        if(head == NULL) return NULL;
+        if(head -> next == NULL) return head;
+
+        // Store the next node in a variable
+        ListNode* next = head -> next;
+
+        // Recursively swap the pairs of nodes
+        head -> next = swapPairs(next -> next);
+        next -> next = head;
+
+        // Return the new head of the swapped linked list
+        return next;
+    }
 };
 ```
     
