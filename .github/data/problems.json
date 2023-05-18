@@ -555,6 +555,10 @@
         {
             "day": "17",
             "title": "Maximum Twin Sum of a Linked List"
+        },
+        {
+            "day": "18",
+            "title": "Minimum Number of Vertices to Reach All Nodes"
         }
     ]
 }
