@@ -38,6 +38,7 @@
 1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 1. **[Swap Nodes in Pairs](#16--swap-nodes-in-pairs)**
 1. **[Maximum Twin Sum of a Linked List](#17--maximum-twin-sum-of-a-linked-list)**
+1. **[Minimum Number of Vertices to Reach All Nodes](#18--minimum-number-of-vertices-to-reach-all-nodes)**
 
 <hr>
 <br><br>
@@ -923,6 +924,52 @@ public:
 
         // Return the maximum sum
         return mx_sum;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Minimum Number of Vertices to Reach All Nodes](https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        // Create two arrays to store the count of outgoing and incoming edges for each vertex
+        vector<int> from(n), to(n);
+
+        // Count the number of outgoing and incoming edges for each vertex
+        for (auto& vec : edges) {
+            from[vec[0]]++;  // Increment the outgoing edge count for the source vertex
+            to[vec[1]]++;    // Increment the incoming edge count for the destination vertex
+        }
+
+        // Create a vector to store the result
+        vector < int > res;
+
+        // Iterate over all vertices
+        for (int i = 0; i < n; i++) {
+            // Check if the vertex has outgoing edges but no incoming edges
+            if (from[i] && !to[i])
+                res.push_back(i);  // Add the vertex to the result
+        }
+
+        // Return the result vector
+        return res;
     }
 
 };
