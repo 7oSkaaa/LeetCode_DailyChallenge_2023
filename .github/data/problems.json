@@ -559,6 +559,10 @@
         {
             "day": "18",
             "title": "Minimum Number of Vertices to Reach All Nodes"
+        },
+        {
+            "day": "19",
+            "title": "Is Graph Bipartite?"
         }
     ]
 }
