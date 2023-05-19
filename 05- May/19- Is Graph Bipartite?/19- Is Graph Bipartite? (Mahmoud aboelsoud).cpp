@@ -23,13 +23,14 @@ public:
         // iterate over the neighbours of the node
         for(auto&i: graph[node]){
             // if the neighbour is not colored then color it with the opposite color of the node
-            if(cols[i] == -1)
+            if(cols[i] == -1){
                 // if the coloring failed after coloring the neighbour then the graph is not bipartite
                 if(!dfs(i, !col)) return false;
             // if the neighbour is colored then check if it has the same color of the node
-            else
+            }else{
                 // if the neighbour has the same color of the node then the graph is not bipartite
                 if(cols[i] == col) return false;
+            }
         }
         // if we reached here then the graph is bipartite
         return true;
