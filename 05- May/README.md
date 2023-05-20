@@ -38,6 +38,8 @@
 1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 1. **[Swap Nodes in Pairs](#16--swap-nodes-in-pairs)**
 1. **[Maximum Twin Sum of a Linked List](#17--maximum-twin-sum-of-a-linked-list)**
+1. **[Minimum Number of Vertices to Reach All Nodes](#18--minimum-number-of-vertices-to-reach-all-nodes)**
+1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
 
 <hr>
 <br><br>
@@ -923,6 +925,115 @@ public:
 
         // Return the maximum sum
         return mx_sum;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Minimum Number of Vertices to Reach All Nodes](https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        // Create two arrays to store the count of outgoing and incoming edges for each vertex
+        vector<int> from(n), to(n);
+
+        // Count the number of outgoing and incoming edges for each vertex
+        for (auto& vec : edges) {
+            from[vec[0]]++;  // Increment the outgoing edge count for the source vertex
+            to[vec[1]]++;    // Increment the incoming edge count for the destination vertex
+        }
+
+        // Create a vector to store the result
+        vector < int > res;
+
+        // Iterate over all vertices
+        for (int i = 0; i < n; i++) {
+            // Check if the vertex has outgoing edges but no incoming edges
+            if (from[i] && !to[i])
+                res.push_back(i);  // Add the vertex to the result
+        }
+
+        // Return the result vector
+        return res;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < int > colour;
+
+    // Function to check if a graph is bipartite
+    bool is_Bipartite(int u, vector < vector < int > >& adj) {
+        // Iterate over the adjacent vertices of u
+        for (auto v : adj[u]) {
+            // If v has the same color as u, the graph is not bipartite
+            if (colour[v] == colour[u])
+                return false;
+            // If v is uncolored, assign a different color to it
+            else if (colour[v] == 0) {
+                colour[v] = -colour[u];
+                // Recursively check if the subgraph starting from v is bipartite
+                if (!is_Bipartite(v, adj))
+                    return false;
+            }
+        }
+        // All adjacent vertices have been processed and no conflict was found
+        return true;
+    }
+
+    bool isBipartite(vector < vector < int > >& graph) {
+        int n = graph.size();
+        colour = vector < int > (n);
+        
+        bool isBip = true;
+        // Process each vertex in the graph
+        for (int u = 0; u < n; u++) {
+            // If the vertex is uncolored, assign color 1 to it
+            if (!colour[u]) {
+                colour[u] = 1;
+                // Check if the subgraph starting from u is bipartite
+                isBip &= is_Bipartite(u, graph);
+            }
+        }
+
+        // Return whether the graph is bipartite or not
+        return isBip;
     }
 
 };
