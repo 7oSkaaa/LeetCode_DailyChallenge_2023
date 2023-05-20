@@ -37,6 +37,10 @@
 1. **[Maximize Score After N Operations](#14--maximize-score-after-n-operations)**
 1. **[Swapping Nodes in a Linked List](#15--swapping-nodes-in-a-linked-list)**
 1. **[Swap Nodes in Pairs](#16--swap-nodes-in-pairs)**
+1. **[Maximum Twin Sum of a Linked List](#17--maximum-twin-sum-of-a-linked-list)**
+1. **[Minimum Number of Vertices to Reach All Nodes](#18--minimum-number-of-vertices-to-reach-all-nodes)**
+1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
+1. **[Evaluate Division](#20--evaluate-division)**
 
 <hr>
 <br><br>
@@ -878,6 +882,242 @@ public:
 
         // Return the new head of the swapped linked list
         return next;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Maximum Twin Sum of a Linked List](https://leetcode.com/problems/maximum-twin-sum-of-a-linked-list/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Two Pointers` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int pairSum(ListNode* head) {
+        // Create a vector to store the values of the linked list nodes
+        vector < int > nums;
+        ListNode* curr = head;
+
+        // Traverse the linked list and store the values in the vector
+        while (curr != nullptr) {
+            nums.push_back(curr -> val);
+            curr = curr -> next;
+        }
+
+        // Initialize left and right pointers, and the maximum sum
+        int l = 0, r = nums.size() - 1, mx_sum = INT_MIN;
+
+        // Find the maximum sum of pairs
+        while (l < r)
+            mx_sum = max(mx_sum, nums[l++] + nums[r--]);
+
+        // Return the maximum sum
+        return mx_sum;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [Minimum Number of Vertices to Reach All Nodes](https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<int> findSmallestSetOfVertices(int n, vector<vector<int>>& edges) {
+        // Create two arrays to store the count of outgoing and incoming edges for each vertex
+        vector<int> from(n), to(n);
+
+        // Count the number of outgoing and incoming edges for each vertex
+        for (auto& vec : edges) {
+            from[vec[0]]++;  // Increment the outgoing edge count for the source vertex
+            to[vec[1]]++;    // Increment the incoming edge count for the destination vertex
+        }
+
+        // Create a vector to store the result
+        vector < int > res;
+
+        // Iterate over all vertices
+        for (int i = 0; i < n; i++) {
+            // Check if the vertex has outgoing edges but no incoming edges
+            if (from[i] && !to[i])
+                res.push_back(i);  // Add the vertex to the result
+        }
+
+        // Return the result vector
+        return res;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Depth-First Search` `Breadth-First Search` `Union Find` `Graph`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    vector < int > colour;
+
+    // Function to check if a graph is bipartite
+    bool is_Bipartite(int u, vector < vector < int > >& adj) {
+        // Iterate over the adjacent vertices of u
+        for (auto v : adj[u]) {
+            // If v has the same color as u, the graph is not bipartite
+            if (colour[v] == colour[u])
+                return false;
+            // If v is uncolored, assign a different color to it
+            else if (colour[v] == 0) {
+                colour[v] = -colour[u];
+                // Recursively check if the subgraph starting from v is bipartite
+                if (!is_Bipartite(v, adj))
+                    return false;
+            }
+        }
+        // All adjacent vertices have been processed and no conflict was found
+        return true;
+    }
+
+    bool isBipartite(vector < vector < int > >& graph) {
+        int n = graph.size();
+        colour = vector < int > (n);
+        
+        bool isBip = true;
+        // Process each vertex in the graph
+        for (int u = 0; u < n; u++) {
+            // If the vertex is uncolored, assign color 1 to it
+            if (!colour[u]) {
+                colour[u] = 1;
+                // Check if the subgraph starting from u is bipartite
+                isBip &= is_Bipartite(u, graph);
+            }
+        }
+
+        // Return whether the graph is bipartite or not
+        return isBip;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 20)  [Evaluate Division](https://leetcode.com/problems/evaluate-division/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Union Find` `Graph` `Shortest Path`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    unordered_map < string, unordered_map < string, double > > graph;
+
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries){
+        for (int i = 0; i < equations.size(); i++) {
+            auto equation = equations[i];
+            string a = equation[0];
+            string b = equation[1];
+            double value = values[i];
+
+            graph[a][b] = value;
+            graph[b][a] = 1 / value;
+        }
+
+        vector < double > res;
+        for (auto it : queries) {
+            string start = it[0];
+            string end = it[1];
+            // Calculate the result using breadth-first search
+            double ans = bfs(start, end);
+            res.push_back(ans);
+        }
+        return res;
+    }
+
+    double bfs(string& start, string& target) {
+        // check if current and target nodes exist in the graph
+        if (graph.find(start) == graph.end() || graph.find(target) == graph.end())
+            return -1;
+
+        queue < pair < string, double > > q;
+        q.push({start, 1});
+
+        unordered_set < string > vis;
+        vis.insert(start);
+
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+
+            string node = curr.first;
+            double value = curr.second;
+
+            // if current node is the target
+            if (node == target)
+                return value;
+
+            // Traverse the neighbors of the current node
+            for (auto neighbor : graph[node]) {
+                string next = neighbor.first;
+                // check if the neighbor has not been visited before
+                if (vis.find(next) == vis.end()) {
+                    vis.insert(next);
+                    // multiply the current value by the value of the edge to the neighbor
+                    q.push({next, value * neighbor.second});
+                }
+            }
+        }
+        return -1;
     }
 };
 ```
