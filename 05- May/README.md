@@ -40,6 +40,8 @@
 1. **[Maximum Twin Sum of a Linked List](#17--maximum-twin-sum-of-a-linked-list)**
 1. **[Minimum Number of Vertices to Reach All Nodes](#18--minimum-number-of-vertices-to-reach-all-nodes)**
 1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
+1. **[Evaluate Division](#20--evaluate-division)**
+1. **[Shortest Bridge](#21--shortest-bridge)**
 
 <hr>
 <br><br>
@@ -1036,6 +1038,156 @@ public:
         return isBip;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 20)  [Evaluate Division](https://leetcode.com/problems/evaluate-division/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Union Find` `Graph` `Shortest Path`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    unordered_map < string, unordered_map < string, double > > graph;
+
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries){
+        for (int i = 0; i < equations.size(); i++) {
+            auto equation = equations[i];
+            string a = equation[0];
+            string b = equation[1];
+            double value = values[i];
+
+            graph[a][b] = value;
+            graph[b][a] = 1 / value;
+        }
+
+        vector < double > res;
+        for (auto it : queries) {
+            string start = it[0];
+            string end = it[1];
+            // Calculate the result using breadth-first search
+            double ans = bfs(start, end);
+            res.push_back(ans);
+        }
+        return res;
+    }
+
+    double bfs(string& start, string& target) {
+        // check if current and target nodes exist in the graph
+        if (graph.find(start) == graph.end() || graph.find(target) == graph.end())
+            return -1;
+
+        queue < pair < string, double > > q;
+        q.push({start, 1});
+
+        unordered_set < string > vis;
+        vis.insert(start);
+
+        while (!q.empty()) {
+            auto curr = q.front();
+            q.pop();
+
+            string node = curr.first;
+            double value = curr.second;
+
+            // if current node is the target
+            if (node == target)
+                return value;
+
+            // Traverse the neighbors of the current node
+            for (auto neighbor : graph[node]) {
+                string next = neighbor.first;
+                // check if the neighbor has not been visited before
+                if (vis.find(next) == vis.end()) {
+                    vis.insert(next);
+                    // multiply the current value by the value of the edge to the neighbor
+                    q.push({next, value * neighbor.second});
+                }
+            }
+        }
+        return -1;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Shortest Bridge](https://leetcode.com/problems/shortest-bridge/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+
+    int n;
+    vector < vector < int > > grid;
+
+    // Check if the current position (r, c) is a valid position for island expansion
+    bool is_valid(int r, int c, set < pair < int, int > >& isL) {
+        return min(r, c) >= 0 && max(r, c) < n && !isL.count({r, c}) && grid[r][c];
+    }
+
+    // Depth-first search to expand the island
+    void dfs(int r, int c, set < pair < int, int > >& isL) {
+        if (!is_valid(r, c, isL)) return;
+        isL.insert({r, c});  // Mark the current position as visited
+        grid[r][c] = 0;     // Set the current position as water
+        dfs(r + 1, c, isL);  // Check the bottom position
+        dfs(r - 1, c, isL);  // Check the top position
+        dfs(r, c + 1, isL);  // Check the right position
+        dfs(r, c - 1, isL);  // Check the left position
+    }
+
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+        this -> n = grid.size();
+        this -> grid = grid;
+
+        set < pair < int, int > > isl1, isl2;  // Sets to store the positions of the two islands
+        bool isL = true;  // Flag to differentiate between the two islands
+
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < n; y++) {
+                if (grid[x][y]) {
+                    if (isL)
+                        dfs(x, y, isl1), isL = false;  // Expand the first island
+                    else
+                        dfs(x, y, isl2);  // Expand the second island
+                }
+            }
+        }
+
+        int ans = INT_MAX;
+        for (auto [x1, y1] : isl1)
+            for (auto [x2, y2] : isl2)
+                ans = min(ans, abs(x1 - x2) + abs(y1 - y2) - 1);  // Calculate the minimum distance between the two islands
+            
+
+        return ans;
+    }
 };
 ```
     
