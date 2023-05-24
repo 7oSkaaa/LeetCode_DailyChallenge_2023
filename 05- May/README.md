@@ -42,6 +42,8 @@
 1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
 1. **[Evaluate Division](#20--evaluate-division)**
 1. **[Shortest Bridge](#21--shortest-bridge)**
+1. **[Kth Largest Element in a Stream](#23--kth-largest-element-in-a-stream)**
+1. **[Maximum Subsequence Score](#24--maximum-subsequence-score)**
 
 <hr>
 <br><br>
@@ -1187,6 +1189,122 @@ public:
             
 
         return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 23)  [Kth Largest Element in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Design` `Binary Search Tree` `Heap (Priority Queue)` `Binary Tree` `Data Stream`
+
+### Code
+
+
+```cpp
+class KthLargest {
+public:
+    
+    // Priority queue to store the kth largest elements
+    priority_queue < int, vector < int >, greater < int > > pq;
+    int k;
+
+    // Constructor to initialize the object with k and a vector of numbers
+    KthLargest(int k, vector < int >& nums) {
+        this -> k = k;
+        
+        // Add all the numbers to the priority queue
+        for(auto& x : nums)
+            add(x);
+    }
+    
+    // Function to add a new value to the priority queue and return the kth largest element
+    int add(int val) {
+        // Add the new value to the priority queue
+        pq.push(val);  
+        
+        // Remove the smallest element if the size exceeds k
+        if(pq.size() > k)
+            pq.pop();
+        
+        // Return the current kth largest element
+        return pq.top();  
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Maximum Subsequence Score](https://leetcode.com/problems/maximum-subsequence-score/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy` `Sorting` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        // Get the size of nums1
+        int n = nums1.size();
+        
+        // Create a vector of indices from 0 to n - 1
+        vector < int > idx(n);
+        iota(idx.begin(), idx.end(), 0);
+        
+        // Sort the indices based on the corresponding values in nums2
+        sort(idx.begin(), idx.end(), [&](int i, int j){
+            return nums2[i] < nums2[j];
+        });
+        
+        // Create a min-heap priority queue
+        priority_queue < int, vector < int >, greater < int > > pq;
+        
+        // Variables to keep track of the current sum and maximum sequence
+        long long curr_sum = 0, max_seq = 0;
+        
+        // Lambda function to add an element to the current sum and the priority queue
+        auto add = [&](int x){
+            curr_sum += x;
+            pq.push(x);
+        };
+        
+        // Lambda function to remove the smallest element from the current sum and the priority queue
+        auto remove = [&](){
+            curr_sum -= pq.top();
+            pq.pop();
+        };
+        
+        // Iterate over the indices in reverse order
+        for(int i = n - 1; i >= 0; i--){
+            // Add the corresponding element from nums1 to the current sum and the priority queue
+            add(nums1[idx[i]]);
+            
+            // If the size of the priority queue reaches k, update the maximum sequence and remove the smallest element
+            if(pq.size() == k){
+                max_seq = max(max_seq, curr_sum * nums2[idx[i]]);
+                remove();
+            }
+        }
+        
+        // Return the maximum sequence
+        return max_seq;
     }
 };
 ```
