@@ -42,6 +42,7 @@
 1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
 1. **[Evaluate Division](#20--evaluate-division)**
 1. **[Shortest Bridge](#21--shortest-bridge)**
+1. **[Kth Largest Element in a Stream](#23--kth-largest-element-in-a-stream)**
 
 <hr>
 <br><br>
@@ -1187,6 +1188,54 @@ public:
             
 
         return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 23)  [Kth Largest Element in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Design` `Binary Search Tree` `Heap (Priority Queue)` `Binary Tree` `Data Stream`
+
+### Code
+
+
+```cpp
+class KthLargest {
+public:
+    
+    // Priority queue to store the kth largest elements
+    priority_queue < int, vector < int >, greater < int > > pq;
+    int k;
+
+    // Constructor to initialize the object with k and a vector of numbers
+    KthLargest(int k, vector < int >& nums) {
+        this -> k = k;
+        
+        // Add all the numbers to the priority queue
+        for(auto& x : nums)
+            add(x);
+    }
+    
+    // Function to add a new value to the priority queue and return the kth largest element
+    int add(int val) {
+        // Add the new value to the priority queue
+        pq.push(val);  
+        
+        // Remove the smallest element if the size exceeds k
+        if(pq.size() > k)
+            pq.pop();
+        
+        // Return the current kth largest element
+        return pq.top();  
     }
 };
 ```
