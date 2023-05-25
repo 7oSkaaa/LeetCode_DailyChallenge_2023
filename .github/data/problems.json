@@ -583,6 +583,10 @@
         {
             "day": "24",
             "title": "Maximum Subsequence Score"
+        },
+        {
+            "day": "25",
+            "title": "New 21 Game"
         }
     ]
 }
