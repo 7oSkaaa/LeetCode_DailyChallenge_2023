@@ -1,5 +1,7 @@
 // author : Omar Sanad
 
+/*IMPORTANT: Below you will find another solution using dp iterative with rolling back */
+
 /* We can solve this problem using dynamic programming
 we will try for each player to take 1, 2, or 3 stones,
 To mark who will win, we can take the sum of Alice's stones as positive, and sum of Bob's stones as negative,
@@ -70,5 +72,26 @@ public:
         // if "negative" -> "Bob"
         // if "ZERO" -> "Tie"
         return rec(0, true) > 0 ? "Alice" : rec(0, true) < 0 ? "Bob" : "Tie";
+    }
+};
+
+
+//================================================================================================================================================================================================================
+//================================================================================================================================================================================================================
+//================================================================================================================================================================================================================
+// the dp iterative solution
+class Solution {
+public:
+    string stoneGameIII(vector<int>& sv) {
+        int dp[4][2]{}, n = sv.size();
+        for (int i = 0; i < 3; i++) 
+            sv.push_back(0);
+
+        for (int idx = n - 1; idx >= 0; idx--) {
+            dp[idx % 4][0] = min({-sv[idx] + dp[(idx + 1) % 4][1], -sv[idx] - sv[idx + 1] + dp[(idx + 2) % 4][1], -sv[idx] - sv[idx + 1] - sv[idx + 2] + dp[(idx + 3) % 4][1]});
+            dp[idx % 4][1] = max({sv[idx] + dp[(idx + 1) % 4][0], sv[idx] + sv[idx + 1] + dp[(idx + 2) % 4][0], sv[idx] + sv[idx + 1] + sv[idx + 2] + dp[(idx + 3) % 4][0]});
+        }
+
+        return dp[0][true] > 0 ? "Alice" : dp[0][true] < 0 ? "Bob" : "Tie";
     }
 };
