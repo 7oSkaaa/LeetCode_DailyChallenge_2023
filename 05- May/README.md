@@ -44,6 +44,10 @@
 1. **[Shortest Bridge](#21--shortest-bridge)**
 1. **[Kth Largest Element in a Stream](#23--kth-largest-element-in-a-stream)**
 1. **[Maximum Subsequence Score](#24--maximum-subsequence-score)**
+1. **[New 21 Game](#25--new-21-game)**
+1. **[Stone Game II](#26--stone-game-ii)**
+1. **[Stone Game III](#27--stone-game-iii)**
+1. **[Minimum Cost to Cut a Stick](#28--minimum-cost-to-cut-a-stick)**
 
 <hr>
 <br><br>
@@ -1305,6 +1309,235 @@ public:
         
         // Return the maximum sequence
         return max_seq;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [New 21 Game](https://leetcode.com/problems/new-21-game/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Dynamic Programming` `Sliding Window` `Probability and Statistics`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        // Get the size of nums1
+        int n = nums1.size();
+        
+        // Create a vector of indices from 0 to n - 1
+        vector < int > idx(n);
+        iota(idx.begin(), idx.end(), 0);
+        
+        // Sort the indices based on the corresponding values in nums2
+        sort(idx.begin(), idx.end(), [&](int i, int j){
+            return nums2[i] < nums2[j];
+        });
+        
+        // Create a min-heap priority queue
+        priority_queue < int, vector < int >, greater < int > > pq;
+        
+        // Variables to keep track of the current sum and maximum sequence
+        long long curr_sum = 0, max_seq = 0;
+        
+        // Lambda function to add an element to the current sum and the priority queue
+        auto add = [&](int x){
+            curr_sum += x;
+            pq.push(x);
+        };
+        
+        // Lambda function to remove the smallest element from the current sum and the priority queue
+        auto remove = [&](){
+            curr_sum -= pq.top();
+            pq.pop();
+        };
+        
+        // Iterate over the indices in reverse order
+        for(int i = n - 1; i >= 0; i--){
+            // Add the corresponding element from nums1 to the current sum and the priority queue
+            add(nums1[idx[i]]);
+            
+            // If the size of the priority queue reaches k, update the maximum sequence and remove the smallest element
+            if(pq.size() == k){
+                max_seq = max(max_seq, curr_sum * nums2[idx[i]]);
+                remove();
+            }
+        }
+        
+        // Return the maximum sequence
+        return max_seq;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Stone Game II](https://leetcode.com/problems/stone-game-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Game Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        
+        // dp[i][m] represents the maximum number of stones the player can obtain
+        // when starting at pile i with a maximum pick of m.
+        vector < vector < int > > dp(n, vector < int > (2 * n + 5));
+        
+        // sum[i] stores the sum of stones from pile i to the end.
+        vector < int > sum(n + 5);
+        
+        // Calculate the sum of stones from each pile to the end.
+        for (int i = n - 1; i >= 0; i--)
+            sum[i] = piles[i] + sum[i + 1];
+        
+        // Iterate over the piles from right to left.
+        for (int i = n - 1; i >= 0; i--) {
+            // Iterate over the maximum pick from 1 to n.
+            for (int m = 1; m <= n; m++) {
+                if (i + 2 * m >= n)
+                    // If there are not enough piles remaining, take all the stones.
+                    dp[i][m] = sum[i];
+                else {
+                    // Consider all possible picks from 1 to 2 * m.
+                    for (int x = 1; x <= 2 * m; x++)
+                        // Calculate the maximum stones the player can obtain
+                        // by either taking x stones and recursively solving for the remaining piles,
+                        // or not taking any stones and letting the other player play.
+                        dp[i][m] = max(dp[i][m], sum[i] - dp[i + x][max(m, x)]);
+                }
+            }
+        }
+        
+        // The maximum number of stones the first player can obtain starting from the first pile
+        // with a maximum pick of 1 is stored in dp[0][1].
+        return dp[0][1];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Stone Game III](https://leetcode.com/problems/stone-game-iii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Game Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string stoneGameIII(const vector < int >& stones) {
+        int n = stones.size();
+
+        // Create a dynamic programming table with initial values set to -1e9
+        vector < int > dp(n + 1, -1e9);
+
+        // Set the value of the last cell in the dp table to 0
+        dp[n] = 0;
+
+        // Iterate backwards through the stones
+        for (int i = n - 1; i >= 0; --i) {
+            // Iterate from 0 to 2 (inclusive) to simulate taking 1, 2, or 3 stones
+            for (int k = 0, take = 0; k < 3 && i + k < n; ++k) {
+                // Calculate the total number of stones taken
+                take += stones[i + k];
+
+                // Update the value of dp[i] by taking the maximum of its current value
+                // and the difference between the total number of stones taken and the value
+                // of dp at the next position
+                dp[i] = max(dp[i], take - dp[min(i + k + 1, n)]);
+            }
+        }
+
+        // Create a vector with the possible outcomes: "Alice", "Tie", "Bob"
+        vector < string > ans = {"Alice", "Tie", "Bob"};
+
+        // Return the corresponding outcome based on the value of dp[0]
+        return ans[(dp[0] == 0) + (dp[0] < 0) * 2];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Minimum Cost to Cut a Stick](https://leetcode.com/problems/minimum-cost-to-cut-a-stick/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int minCost(int n, vector < int >& cuts) {
+        // Get the size of the cuts vector
+        int m = cuts.size();
+
+        // Insert 0 at the beginning and n at the end of the cuts vector
+        cuts.insert(cuts.begin(), 0);
+        cuts.insert(cuts.end(), n);
+        
+        // Sort the cuts vector in ascending order
+        sort(cuts.begin(), cuts.end());
+        
+        // Create a 2D vector dp to store the minimum cost values
+        vector < vector < int > > dp(m + 5, vector < int > (m + 5, INT_MAX));
+        
+        // Initialize the base case where l > r with 0 cost
+        for(int l = 0; l <= m + 1; l++)
+            for(int r = l - 1; r >= 0; r--)
+                dp[l][r] = 0;
+        
+        // Calculate the minimum cost for each subproblem
+        for(int l = m; l >= 1; l--)
+            for(int r = 1; r <= m; r++)
+                for(int idx = l; idx <= r; idx++)
+                    // Update the minimum cost based on the cuts and subproblems
+                    dp[l][r] = min(dp[l][r], cuts[r + 1] - cuts[l - 1] + dp[l][idx - 1] + dp[idx + 1][r]);
+        
+        // Return the minimum cost of the original problem
+        return dp[1][m];
     }
 };
 ```

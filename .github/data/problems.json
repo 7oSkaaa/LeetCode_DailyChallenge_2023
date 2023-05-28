@@ -583,6 +583,22 @@
         {
             "day": "24",
             "title": "Maximum Subsequence Score"
+        },
+        {
+            "day": "25",
+            "title": "New 21 Game"
+        },
+        {
+            "day": "26",
+            "title": "Stone Game II"
+        },
+        {
+            "day": "27",
+            "title": "Stone Game III"
+        },
+        {
+            "day": "28",
+            "title": "Minimum Cost to Cut a Stick"
         }
     ]
 }
