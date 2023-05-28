@@ -595,6 +595,10 @@
         {
             "day": "27",
             "title": "Stone Game III"
+        },
+        {
+            "day": "28",
+            "title": "Minimum Cost to Cut a Stick"
         }
     ]
 }
