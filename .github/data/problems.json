@@ -599,6 +599,10 @@
         {
             "day": "28",
             "title": "Minimum Cost to Cut a Stick"
+        },
+        {
+            "day": "29",
+            "title": "Design Parking System"
         }
     ]
 }
