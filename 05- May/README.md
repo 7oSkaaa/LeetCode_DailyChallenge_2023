@@ -48,6 +48,7 @@
 1. **[Stone Game II](#26--stone-game-ii)**
 1. **[Stone Game III](#27--stone-game-iii)**
 1. **[Minimum Cost to Cut a Stick](#28--minimum-cost-to-cut-a-stick)**
+1. **[Design Parking System](#29--design-parking-system)**
 
 <hr>
 <br><br>
@@ -1538,6 +1539,41 @@ public:
         
         // Return the minimum cost of the original problem
         return dp[1][m];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 29)  [Design Parking System](https://leetcode.com/problems/design-parking-system/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Design` `Simulation` `Counting`
+
+### Code
+
+
+```cpp
+class ParkingSystem {
+public:
+
+    // Define a vector to store the number of available parking spaces for each car type
+    vector < int > carTypes;
+
+    ParkingSystem(int big, int medium, int small) {
+        // Initialize the vector with the given number of parking spaces for each car type
+        carTypes = { big, medium, small };
+    }
+    
+    bool addCar(int carType) {
+        // Decrease the number of available parking spaces for the given car type and check if it's still greater than 0
+        return carTypes[--carType]-- > 0;
     }
 };
 ```
