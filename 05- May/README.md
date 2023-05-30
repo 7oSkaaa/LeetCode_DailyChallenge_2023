@@ -41,6 +41,15 @@
 1. **[Minimum Number of Vertices to Reach All Nodes](#18--minimum-number-of-vertices-to-reach-all-nodes)**
 1. **[Is Graph Bipartite?](#19--is-graph-bipartite)**
 1. **[Evaluate Division](#20--evaluate-division)**
+1. **[Shortest Bridge](#21--shortest-bridge)**
+1. **[Kth Largest Element in a Stream](#23--kth-largest-element-in-a-stream)**
+1. **[Maximum Subsequence Score](#24--maximum-subsequence-score)**
+1. **[New 21 Game](#25--new-21-game)**
+1. **[Stone Game II](#26--stone-game-ii)**
+1. **[Stone Game III](#27--stone-game-iii)**
+1. **[Minimum Cost to Cut a Stick](#28--minimum-cost-to-cut-a-stick)**
+1. **[Design Parking System](#29--design-parking-system)**
+1. **[Design HashSet](#30--design-hashset)**
 
 <hr>
 <br><br>
@@ -1118,6 +1127,499 @@ public:
             }
         }
         return -1;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Shortest Bridge](https://leetcode.com/problems/shortest-bridge/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Depth-First Search` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+
+    int n;
+    vector < vector < int > > grid;
+
+    // Check if the current position (r, c) is a valid position for island expansion
+    bool is_valid(int r, int c, set < pair < int, int > >& isL) {
+        return min(r, c) >= 0 && max(r, c) < n && !isL.count({r, c}) && grid[r][c];
+    }
+
+    // Depth-first search to expand the island
+    void dfs(int r, int c, set < pair < int, int > >& isL) {
+        if (!is_valid(r, c, isL)) return;
+        isL.insert({r, c});  // Mark the current position as visited
+        grid[r][c] = 0;     // Set the current position as water
+        dfs(r + 1, c, isL);  // Check the bottom position
+        dfs(r - 1, c, isL);  // Check the top position
+        dfs(r, c + 1, isL);  // Check the right position
+        dfs(r, c - 1, isL);  // Check the left position
+    }
+
+public:
+    int shortestBridge(vector<vector<int>>& grid) {
+        this -> n = grid.size();
+        this -> grid = grid;
+
+        set < pair < int, int > > isl1, isl2;  // Sets to store the positions of the two islands
+        bool isL = true;  // Flag to differentiate between the two islands
+
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < n; y++) {
+                if (grid[x][y]) {
+                    if (isL)
+                        dfs(x, y, isl1), isL = false;  // Expand the first island
+                    else
+                        dfs(x, y, isl2);  // Expand the second island
+                }
+            }
+        }
+
+        int ans = INT_MAX;
+        for (auto [x1, y1] : isl1)
+            for (auto [x2, y2] : isl2)
+                ans = min(ans, abs(x1 - x2) + abs(y1 - y2) - 1);  // Calculate the minimum distance between the two islands
+            
+
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 23)  [Kth Largest Element in a Stream](https://leetcode.com/problems/kth-largest-element-in-a-stream/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Design` `Binary Search Tree` `Heap (Priority Queue)` `Binary Tree` `Data Stream`
+
+### Code
+
+
+```cpp
+class KthLargest {
+public:
+    
+    // Priority queue to store the kth largest elements
+    priority_queue < int, vector < int >, greater < int > > pq;
+    int k;
+
+    // Constructor to initialize the object with k and a vector of numbers
+    KthLargest(int k, vector < int >& nums) {
+        this -> k = k;
+        
+        // Add all the numbers to the priority queue
+        for(auto& x : nums)
+            add(x);
+    }
+    
+    // Function to add a new value to the priority queue and return the kth largest element
+    int add(int val) {
+        // Add the new value to the priority queue
+        pq.push(val);  
+        
+        // Remove the smallest element if the size exceeds k
+        if(pq.size() > k)
+            pq.pop();
+        
+        // Return the current kth largest element
+        return pq.top();  
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Maximum Subsequence Score](https://leetcode.com/problems/maximum-subsequence-score/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Greedy` `Sorting` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        // Get the size of nums1
+        int n = nums1.size();
+        
+        // Create a vector of indices from 0 to n - 1
+        vector < int > idx(n);
+        iota(idx.begin(), idx.end(), 0);
+        
+        // Sort the indices based on the corresponding values in nums2
+        sort(idx.begin(), idx.end(), [&](int i, int j){
+            return nums2[i] < nums2[j];
+        });
+        
+        // Create a min-heap priority queue
+        priority_queue < int, vector < int >, greater < int > > pq;
+        
+        // Variables to keep track of the current sum and maximum sequence
+        long long curr_sum = 0, max_seq = 0;
+        
+        // Lambda function to add an element to the current sum and the priority queue
+        auto add = [&](int x){
+            curr_sum += x;
+            pq.push(x);
+        };
+        
+        // Lambda function to remove the smallest element from the current sum and the priority queue
+        auto remove = [&](){
+            curr_sum -= pq.top();
+            pq.pop();
+        };
+        
+        // Iterate over the indices in reverse order
+        for(int i = n - 1; i >= 0; i--){
+            // Add the corresponding element from nums1 to the current sum and the priority queue
+            add(nums1[idx[i]]);
+            
+            // If the size of the priority queue reaches k, update the maximum sequence and remove the smallest element
+            if(pq.size() == k){
+                max_seq = max(max_seq, curr_sum * nums2[idx[i]]);
+                remove();
+            }
+        }
+        
+        // Return the maximum sequence
+        return max_seq;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [New 21 Game](https://leetcode.com/problems/new-21-game/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Dynamic Programming` `Sliding Window` `Probability and Statistics`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        // Get the size of nums1
+        int n = nums1.size();
+        
+        // Create a vector of indices from 0 to n - 1
+        vector < int > idx(n);
+        iota(idx.begin(), idx.end(), 0);
+        
+        // Sort the indices based on the corresponding values in nums2
+        sort(idx.begin(), idx.end(), [&](int i, int j){
+            return nums2[i] < nums2[j];
+        });
+        
+        // Create a min-heap priority queue
+        priority_queue < int, vector < int >, greater < int > > pq;
+        
+        // Variables to keep track of the current sum and maximum sequence
+        long long curr_sum = 0, max_seq = 0;
+        
+        // Lambda function to add an element to the current sum and the priority queue
+        auto add = [&](int x){
+            curr_sum += x;
+            pq.push(x);
+        };
+        
+        // Lambda function to remove the smallest element from the current sum and the priority queue
+        auto remove = [&](){
+            curr_sum -= pq.top();
+            pq.pop();
+        };
+        
+        // Iterate over the indices in reverse order
+        for(int i = n - 1; i >= 0; i--){
+            // Add the corresponding element from nums1 to the current sum and the priority queue
+            add(nums1[idx[i]]);
+            
+            // If the size of the priority queue reaches k, update the maximum sequence and remove the smallest element
+            if(pq.size() == k){
+                max_seq = max(max_seq, curr_sum * nums2[idx[i]]);
+                remove();
+            }
+        }
+        
+        // Return the maximum sequence
+        return max_seq;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Stone Game II](https://leetcode.com/problems/stone-game-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Game Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int stoneGameII(vector<int>& piles) {
+        int n = piles.size();
+        
+        // dp[i][m] represents the maximum number of stones the player can obtain
+        // when starting at pile i with a maximum pick of m.
+        vector < vector < int > > dp(n, vector < int > (2 * n + 5));
+        
+        // sum[i] stores the sum of stones from pile i to the end.
+        vector < int > sum(n + 5);
+        
+        // Calculate the sum of stones from each pile to the end.
+        for (int i = n - 1; i >= 0; i--)
+            sum[i] = piles[i] + sum[i + 1];
+        
+        // Iterate over the piles from right to left.
+        for (int i = n - 1; i >= 0; i--) {
+            // Iterate over the maximum pick from 1 to n.
+            for (int m = 1; m <= n; m++) {
+                if (i + 2 * m >= n)
+                    // If there are not enough piles remaining, take all the stones.
+                    dp[i][m] = sum[i];
+                else {
+                    // Consider all possible picks from 1 to 2 * m.
+                    for (int x = 1; x <= 2 * m; x++)
+                        // Calculate the maximum stones the player can obtain
+                        // by either taking x stones and recursively solving for the remaining piles,
+                        // or not taking any stones and letting the other player play.
+                        dp[i][m] = max(dp[i][m], sum[i] - dp[i + x][max(m, x)]);
+                }
+            }
+        }
+        
+        // The maximum number of stones the first player can obtain starting from the first pile
+        // with a maximum pick of 1 is stored in dp[0][1].
+        return dp[0][1];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Stone Game III](https://leetcode.com/problems/stone-game-iii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Game Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string stoneGameIII(const vector < int >& stones) {
+        int n = stones.size();
+
+        // Create a dynamic programming table with initial values set to -1e9
+        vector < int > dp(n + 1, -1e9);
+
+        // Set the value of the last cell in the dp table to 0
+        dp[n] = 0;
+
+        // Iterate backwards through the stones
+        for (int i = n - 1; i >= 0; --i) {
+            // Iterate from 0 to 2 (inclusive) to simulate taking 1, 2, or 3 stones
+            for (int k = 0, take = 0; k < 3 && i + k < n; ++k) {
+                // Calculate the total number of stones taken
+                take += stones[i + k];
+
+                // Update the value of dp[i] by taking the maximum of its current value
+                // and the difference between the total number of stones taken and the value
+                // of dp at the next position
+                dp[i] = max(dp[i], take - dp[min(i + k + 1, n)]);
+            }
+        }
+
+        // Create a vector with the possible outcomes: "Alice", "Tie", "Bob"
+        vector < string > ans = {"Alice", "Tie", "Bob"};
+
+        // Return the corresponding outcome based on the value of dp[0]
+        return ans[(dp[0] == 0) + (dp[0] < 0) * 2];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Minimum Cost to Cut a Stick](https://leetcode.com/problems/minimum-cost-to-cut-a-stick/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int minCost(int n, vector < int >& cuts) {
+        // Get the size of the cuts vector
+        int m = cuts.size();
+
+        // Insert 0 at the beginning and n at the end of the cuts vector
+        cuts.insert(cuts.begin(), 0);
+        cuts.insert(cuts.end(), n);
+        
+        // Sort the cuts vector in ascending order
+        sort(cuts.begin(), cuts.end());
+        
+        // Create a 2D vector dp to store the minimum cost values
+        vector < vector < int > > dp(m + 5, vector < int > (m + 5, INT_MAX));
+        
+        // Initialize the base case where l > r with 0 cost
+        for(int l = 0; l <= m + 1; l++)
+            for(int r = l - 1; r >= 0; r--)
+                dp[l][r] = 0;
+        
+        // Calculate the minimum cost for each subproblem
+        for(int l = m; l >= 1; l--)
+            for(int r = 1; r <= m; r++)
+                for(int idx = l; idx <= r; idx++)
+                    // Update the minimum cost based on the cuts and subproblems
+                    dp[l][r] = min(dp[l][r], cuts[r + 1] - cuts[l - 1] + dp[l][idx - 1] + dp[idx + 1][r]);
+        
+        // Return the minimum cost of the original problem
+        return dp[1][m];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 29)  [Design Parking System](https://leetcode.com/problems/design-parking-system/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Design` `Simulation` `Counting`
+
+### Code
+
+
+```cpp
+class ParkingSystem {
+public:
+
+    // Define a vector to store the number of available parking spaces for each car type
+    vector < int > carTypes;
+
+    ParkingSystem(int big, int medium, int small) {
+        // Initialize the vector with the given number of parking spaces for each car type
+        carTypes = { big, medium, small };
+    }
+    
+    bool addCar(int carType) {
+        // Decrease the number of available parking spaces for the given car type and check if it's still greater than 0
+        return carTypes[--carType]-- > 0;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 30)  [Design HashSet](https://leetcode.com/problems/design-hashset/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Linked List` `Design` `Hash Function`
+
+### Code
+
+
+```cpp
+class MyHashSet {
+public:
+
+    // Declare an unordered_set named hash_set to store integers
+    unordered_set<int> hash_set;
+
+    MyHashSet() {
+        // Initialize the unordered_set using the default constructor
+        hash_set = unordered_set < int > ();
+    }
+    
+    void add(int key) {
+        // Insert the given key into the hash_set
+        hash_set.insert(key);
+    }
+    
+    void remove(int key) {
+        // Remove the given key from the hash_set
+        hash_set.erase(key);
+    }
+    
+    bool contains(int key) {
+        // Check if the given key exists in the hash_set and return true if it does, false otherwise
+        return hash_set.count(key);
     }
 };
 ```
