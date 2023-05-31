@@ -50,6 +50,7 @@
 1. **[Minimum Cost to Cut a Stick](#28--minimum-cost-to-cut-a-stick)**
 1. **[Design Parking System](#29--design-parking-system)**
 1. **[Design HashSet](#30--design-hashset)**
+1. **[Design Underground System](#31--design-underground-system)**
 
 <hr>
 <br><br>
@@ -1620,6 +1621,63 @@ public:
     bool contains(int key) {
         // Check if the given key exists in the hash_set and return true if it does, false otherwise
         return hash_set.count(key);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 31)  [Design Underground System](https://leetcode.com/problems/design-underground-system/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Design`
+
+### Code
+
+
+```cpp
+class UndergroundSystem {
+public:
+
+    // Map to store the travel details for each station pair
+    map<pair<string, string>, pair<int, int>> mp;
+    // Hash map to store the check-in details for each person
+    unordered_map<int, pair<string, int>> person;
+
+    // Constructor to initialize the data structures
+    UndergroundSystem() {
+        mp.clear();
+        person.clear();
+    }
+
+    // Function to record the check-in of a person
+    void checkIn(int id, string stationName, int t) {
+        person[id] = {stationName, t};
+    }
+
+    // Function to record the check-out of a person and calculate the travel duration
+    void checkOut(int id, string stationName, int t) {
+        // Check if the station pair exists in the map
+        if (mp.find({person[id].first, stationName}) == mp.end()) {
+            // If not, create a new entry with the travel duration and count set to the current duration and 1 respectively
+            mp[{person[id].first, stationName}] = {t - person[id].second, 1};
+        } else {
+            // If the station pair already exists, update the travel duration and count
+            mp[{person[id].first, stationName}].first += t - person[id].second;
+            mp[{person[id].first, stationName}].second++;
+        }
+    }
+
+    // Function to calculate the average travel time between two stations
+    double getAverageTime(string startStation, string endStation) {
+        // Calculate and return the average travel time by dividing the total duration by the count
+        return 1.0 * mp[{startStation, endStation}].first / mp[{startStation, endStation}].second;
     }
 };
 ```
