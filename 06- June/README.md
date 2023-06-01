@@ -21,6 +21,7 @@
 <br><br>
 
 ## Problems:
+1. **[Shortest Path in Binary Matrix](#01--shortest-path-in-binary-matrix)**
 
 
 <hr>
