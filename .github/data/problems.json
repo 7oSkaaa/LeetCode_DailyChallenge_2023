@@ -621,6 +621,10 @@
         {
             "day": "02",
             "title": "Detonate the Maximum Bombs"
+        },
+        {
+            "day": "03",
+            "title": "Time Needed to Inform All Employees"
         }
     ]
 }
