@@ -625,6 +625,10 @@
         {
             "day": "03",
             "title": "Time Needed to Inform All Employees"
+        },
+        {
+            "day": "04",
+            "title": "Number of Provinces"
         }
     ]
 }
