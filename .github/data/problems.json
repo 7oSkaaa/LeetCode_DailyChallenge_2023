@@ -633,6 +633,10 @@
         {
             "day": "05",
             "title": "Check If It Is a Straight Line"
+        },
+        {
+            "day": "06",
+            "title": "Can Make Arithmetic Progression From Sequence"
         }
     ]
 }
