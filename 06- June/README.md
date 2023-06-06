@@ -27,6 +27,7 @@
 1. **[Time Needed to Inform All Employees](#03--time-needed-to-inform-all-employees)**
 1. **[Number of Provinces](#04--number-of-provinces)**
 1. **[Check If It Is a Straight Line](#05--check-if-it-is-a-straight-line)**
+1. **[Can Make Arithmetic Progression From Sequence](#06--can-make-arithmetic-progression-from-sequence)**
 
 <hr>
 <br><br>
@@ -350,6 +351,45 @@ public:
         // If all points are on the same line, return true
         return true;
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        
+        // Sorting the vector in ascending order
+        sort(arr.begin(), arr.end());
+        
+        // Checking the difference between consecutive elements
+        // If the difference is not the same for all elements, return false
+        for(int i = 1; i < arr.size() - 1; i++) {
+            if(arr[i] - arr[i - 1] != arr[i + 1] - arr[i])
+                return false;
+        }
+        
+        // If the difference is the same for all elements, return true
+        return true;
+    }
+
 };
 ```
     
