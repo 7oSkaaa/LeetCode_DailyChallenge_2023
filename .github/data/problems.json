@@ -637,6 +637,10 @@
         {
             "day": "06",
             "title": "Can Make Arithmetic Progression From Sequence"
+        },
+        {
+            "day": "07",
+            "title": "Minimum Flips to Make a OR b Equal to c"
         }
     ]
 }
