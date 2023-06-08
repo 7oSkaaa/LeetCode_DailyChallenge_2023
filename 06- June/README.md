@@ -29,6 +29,7 @@
 1. **[Check If It Is a Straight Line](#05--check-if-it-is-a-straight-line)**
 1. **[Can Make Arithmetic Progression From Sequence](#06--can-make-arithmetic-progression-from-sequence)**
 1. **[Minimum Flips to Make a OR b Equal to c](#07--minimum-flips-to-make-a-or-b-equal-to-c)**
+1. **[Count Negative Numbers in a Sorted Matrix](#08--count-negative-numbers-in-a-sorted-matrix)**
 
 <hr>
 <br><br>
@@ -436,6 +437,52 @@ public:
         
         return flips;
     }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Count Negative Numbers in a Sorted Matrix](https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int countNegatives(vector<vector<int>>& grid) {
+        // Get the number of rows in the grid
+        int n = grid.size();
+        
+        // Initialize a counter variable to store the count of negative numbers
+        int cnt = 0;
+        
+        // Iterate over each row in the grid
+        for(int i = 0; i < n; i++) {
+            // Find the position of the first element greater than -1 (negative number)
+            auto it = upper_bound(grid[i].rbegin(), grid[i].rend(), -1);
+            
+            // Calculate the count of negative numbers in the current row
+            int rowCnt = it - grid[i].rbegin();
+            
+            // Add the count of negative numbers in the current row to the total count
+            cnt += rowCnt;
+        }
+        
+        // Return the total count of negative numbers in the grid
+        return cnt;
+    }
+
 };
 ```
     
