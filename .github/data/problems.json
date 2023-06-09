@@ -645,6 +645,10 @@
         {
             "day": "08",
             "title": "Count Negative Numbers in a Sorted Matrix"
+        },
+        {
+            "day": "09",
+            "title": "Find Smallest Letter Greater Than Target"
         }
     ]
 }
