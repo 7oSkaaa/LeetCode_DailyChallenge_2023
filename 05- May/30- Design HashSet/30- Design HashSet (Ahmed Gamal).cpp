@@ -1,4 +1,4 @@
-// Auther: Ahmed Gamal
+// Author: Ahmed Gamal
 
 // for this problem, we will implement exactly what the problem asks for by using a vector of bools
 // we will keep track of the numbers that we add to the set by setting the corresponding index in the vector to true
