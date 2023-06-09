@@ -30,6 +30,7 @@
 1. **[Can Make Arithmetic Progression From Sequence](#06--can-make-arithmetic-progression-from-sequence)**
 1. **[Minimum Flips to Make a OR b Equal to c](#07--minimum-flips-to-make-a-or-b-equal-to-c)**
 1. **[Count Negative Numbers in a Sorted Matrix](#08--count-negative-numbers-in-a-sorted-matrix)**
+1. **[Find Smallest Letter Greater Than Target](#09--find-smallest-letter-greater-than-target)**
 
 <hr>
 <br><br>
@@ -483,6 +484,39 @@ public:
         return cnt;
     }
 
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        // Get the size of the vector
+        int n = letters.size();
+        
+        // Find the upper bound of the target letter in the vector and calculate its index
+        // If the index exceeds the size of the vector, wrap around to the beginning
+        int idx = (upper_bound(letters.begin(), letters.end(), target) - letters.begin()) % n;
+        
+        // Return the next greatest letter
+        return letters[idx];
+    }
 };
 ```
     
