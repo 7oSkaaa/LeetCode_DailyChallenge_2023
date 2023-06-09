@@ -1,4 +1,4 @@
-// Auther: Ahmed Gamal
+// Author: Ahmed Gamal
 
 // for this problem, we will implement exactly what the problem asks for
 // we will keep track of the number of available slots for each type of cars
