@@ -33,6 +33,7 @@
 1. **[Find Smallest Letter Greater Than Target](#09--find-smallest-letter-greater-than-target)**
 1. **[Maximum Value at a Given Index in a Bounded Array](#10--maximum-value-at-a-given-index-in-a-bounded-array)**
 1. **[Snapshot Array](#11--snapshot-array)**
+1. **[Summary Ranges](#12--summary-ranges)**
 
 <hr>
 <br><br>
@@ -637,3 +638,58 @@ public:
 
 };
 ```
+
+<hr>
+<br><br>
+
+## 12)  [Summary Ranges](https://leetcode.com/problems/summary-ranges/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Function to create a range string representation
+    string make_range(int l, int r) {
+        if (l == r)
+            return to_string(l);
+        return to_string(l) + "->" + to_string(r);
+    }
+
+    // Function to summarize ranges in a vector of integers
+    vector < string > summaryRanges(const vector < int >& nums) {
+        // if the nums array is empty
+        if(nums.empty()) return {};
+        
+        vector < string > Ranges; // Vector to store the summarized ranges
+        int begin = nums[0]; // Initialize the beginning of the range
+
+        // Iterate through the numbers
+        for (int i = 1; i < nums.size(); i++) {
+            // If the current number is not consecutive to the previous number
+            if (nums[i] != nums[i - 1] + 1) {
+                // Add the summarized range to the vector
+                Ranges.emplace_back(make_range(begin, nums[i - 1]));
+                begin = nums[i]; // Update the beginning of the next range
+            }
+        }
+
+        // Add the last range to the vector
+        Ranges.emplace_back(make_range(begin, nums.back()));
+
+        return Ranges; // Return the summarized ranges
+    }
+
+};
+```
+    
