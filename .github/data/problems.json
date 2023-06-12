@@ -657,6 +657,10 @@
         {
             "day": "11",
             "title": "Snapshot Array"
+        },
+        {
+            "day": "12",
+            "title": "Summary Ranges"
         }
     ]
 }
