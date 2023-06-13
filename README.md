@@ -49,4 +49,5 @@ https://user-images.githubusercontent.com/94416115/210334779-16a94ab4-5c24-4a90-
 - [**March**](https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/tree/main/03-%20March)
 - [**April**](https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/tree/main/04-%20April)
 - [**May**](https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/tree/main/05-%20May)
+- [**June**](https://github.com/7oSkaaa/LeetCode_DailyChallenge_2023/tree/main/06-%20June)
 <hr>

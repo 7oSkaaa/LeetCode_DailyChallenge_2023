@@ -32,6 +32,8 @@
 1. **[Count Negative Numbers in a Sorted Matrix](#08--count-negative-numbers-in-a-sorted-matrix)**
 1. **[Find Smallest Letter Greater Than Target](#09--find-smallest-letter-greater-than-target)**
 1. **[Maximum Value at a Given Index in a Bounded Array](#10--maximum-value-at-a-given-index-in-a-bounded-array)**
+1. **[Snapshot Array](#11--snapshot-array)**
+1. **[Summary Ranges](#12--summary-ranges)**
 
 <hr>
 <br><br>
@@ -578,6 +580,116 @@ public:
         // Return the maximum value
         return ans;
     }
+};
+```
+<hr>
+<br><br>
+
+## 11)  [Snapshot Array](https://leetcode.com/problems/snapshot-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Binary Search` `Design`
+
+### Code
+
+
+```cpp
+class SnapshotArray {
+public:
+
+    // Declaration of variables
+    int snap_id;
+    map < int, vector < pair < int, int > > > snapshot;
+
+    // Constructor
+    SnapshotArray(int length) {
+        snap_id = 0;
+        for (int i = 0; i < length; i++)
+            snapshot[length].emplace_back(snap_id, 0);
+    }
+
+    // Set the value at the given index
+    void set(int index, int val) {
+        snapshot[index].emplace_back(snap_id, val);
+    }
+
+    // Create a snapshot and return the snapshot ID
+    int snap() {
+        return snap_id++;
+    }
+
+    // Get the value at the given index for a specific snapshot ID
+    int get(int index, int query_snap_id) {
+        vector < pair < int, int > >& snap = snapshot[index];
+        
+        // get the last value the have a snap id less than or equal the given one
+        int l = 0, r = snap.size() - 1, ans = 0;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            (snap[m].first <= query_snap_id ? l = m + 1, ans = snap[m].second : r = m - 1);
+        }
+        return ans;
+    }
+
+};
+```
+
+<hr>
+<br><br>
+
+## 12)  [Summary Ranges](https://leetcode.com/problems/summary-ranges/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Function to create a range string representation
+    string make_range(int l, int r) {
+        if (l == r)
+            return to_string(l);
+        return to_string(l) + "->" + to_string(r);
+    }
+
+    // Function to summarize ranges in a vector of integers
+    vector < string > summaryRanges(const vector < int >& nums) {
+        // if the nums array is empty
+        if(nums.empty()) return {};
+        
+        vector < string > Ranges; // Vector to store the summarized ranges
+        int begin = nums[0]; // Initialize the beginning of the range
+
+        // Iterate through the numbers
+        for (int i = 1; i < nums.size(); i++) {
+            // If the current number is not consecutive to the previous number
+            if (nums[i] != nums[i - 1] + 1) {
+                // Add the summarized range to the vector
+                Ranges.emplace_back(make_range(begin, nums[i - 1]));
+                begin = nums[i]; // Update the beginning of the next range
+            }
+        }
+
+        // Add the last range to the vector
+        Ranges.emplace_back(make_range(begin, nums.back()));
+
+        return Ranges; // Return the summarized ranges
+    }
+
 };
 ```
     
