@@ -661,6 +661,10 @@
         {
             "day": "12",
             "title": "Summary Ranges"
+        },
+        {
+            "day": "13",
+            "title": "Equal Row and Column Pairs"
         }
     ]
 }
