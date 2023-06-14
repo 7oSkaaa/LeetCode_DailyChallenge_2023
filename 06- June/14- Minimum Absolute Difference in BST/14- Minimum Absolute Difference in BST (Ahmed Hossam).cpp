@@ -2,33 +2,34 @@
 
 class Solution {
 public:
+    // Declaration of class variables.
+    int minDiff, lastRootVal;
 
-    // This code defines a vector to store integer values
-    vector < int > values;
-
-    // This function recursively traverses a binary tree and adds its node values to the 'values' vector sorted increasing
-    void get_values(TreeNode* root){
-        // Base case: if the root is null, return
-        if(!root) return;
-        
-        // Recursive calls: traverse the left subtree, add the root value, then traverse the right subtree (Sorted)
-        get_values(root -> left);
-        values.emplace_back(root -> val);
-        get_values(root -> right);
+    // Constructor of the class.
+    Solution(){
+        // Initializing the minimum difference to maximum possible value and lastRootVal to -1.
+        minDiff = INT_MAX;
+        lastRootVal = -1;
     }
 
     int getMinimumDifference(TreeNode* root) {
-        // Populate the 'values' vector by calling the 'get_values' function
-        get_values(root);
+        // If there is a left child node, recursively call the function for the left subtree.
+        if(root -> left)
+            getMinimumDifference(root -> left);
         
-        // Initialize the minimum difference variable with the maximum possible value
-        int minDiff = INT_MAX;
+        // If lastRootVal is not -1, calculate the absolute difference between lastRootVal and the current node's value
+        // and update the minimum difference if necessary.
+        if(~lastRootVal)
+            minDiff = min(minDiff, abs(lastRootVal - (root -> val)));
         
-        // Iterate through the 'values' vector to find the minimum difference between adjacent values
-        for(int i = 1; i < values.size(); i++)
-            minDiff = min(minDiff, values[i] - values[i - 1]);
+        // Update lastRootVal to the current node's value.
+        lastRootVal = root -> val;
         
-        // Return the minimum difference
+        // If there is a right child node, recursively call the function for the right subtree.
+        if(root -> right)
+            getMinimumDifference(root -> right);
+        
+        // Return the minimum difference.
         return minDiff;
     }
 };
