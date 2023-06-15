@@ -669,6 +669,10 @@
         {
             "day": "14",
             "title": "Minimum Absolute Difference in BST"
+        },
+        {
+            "day": "15",
+            "title": "Maximum Level Sum of a Binary Tree"
         }
     ]
 }
