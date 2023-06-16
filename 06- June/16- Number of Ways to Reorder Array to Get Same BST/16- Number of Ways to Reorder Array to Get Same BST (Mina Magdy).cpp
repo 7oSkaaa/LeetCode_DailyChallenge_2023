@@ -74,7 +74,7 @@ public:
         // the calculation below for first:
         // we have "l.first" solutions for the left tree and "r.first" solutions for the right tree
         // to merge the elemenst we have to put "r.second" elements within "l.second" elemenst with the same order in both of them
-        // and this ca be calculated by nCr(x + y, x), where x and y are the number of elements for each sub tree
+        // and this can be calculated by nCr(x + y, x), where x and y are the number of elements for each array
         return {1ll * nCr(l.second + r.second, r.second) * l.first % MOD * r.first % MOD, 1 + l.second + r.second};
     }
     
