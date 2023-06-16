@@ -1,3 +1,5 @@
+// Author: Ahmed Hossam
+
 // Constants
 constexpr int N = 1000, MOD = 1e9 + 7;
 // 2D vector to store combinations
