@@ -33,7 +33,7 @@ public:
             }
         }
 
-        // take into account the last substring
+        // take into account the last substringgit
         return ++cnt;
     }
 };
