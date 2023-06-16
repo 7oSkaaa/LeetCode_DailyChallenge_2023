@@ -26,6 +26,17 @@
 1. **[Detonate the Maximum Bombs](#02--detonate-the-maximum-bombs)**
 1. **[Time Needed to Inform All Employees](#03--time-needed-to-inform-all-employees)**
 1. **[Number of Provinces](#04--number-of-provinces)**
+1. **[Check If It Is a Straight Line](#05--check-if-it-is-a-straight-line)**
+1. **[Can Make Arithmetic Progression From Sequence](#06--can-make-arithmetic-progression-from-sequence)**
+1. **[Minimum Flips to Make a OR b Equal to c](#07--minimum-flips-to-make-a-or-b-equal-to-c)**
+1. **[Count Negative Numbers in a Sorted Matrix](#08--count-negative-numbers-in-a-sorted-matrix)**
+1. **[Find Smallest Letter Greater Than Target](#09--find-smallest-letter-greater-than-target)**
+1. **[Maximum Value at a Given Index in a Bounded Array](#10--maximum-value-at-a-given-index-in-a-bounded-array)**
+1. **[Snapshot Array](#11--snapshot-array)**
+1. **[Summary Ranges](#12--summary-ranges)**
+1. **[Equal Row and Column Pairs](#13--equal-row-and-column-pairs)**
+1. **[Minimum Absolute Difference in BST](#14--minimum-absolute-difference-in-bst)**
+1. **[Maximum Level Sum of a Binary Tree](#15--maximum-level-sum-of-a-binary-tree)**
 
 <hr>
 <br><br>
@@ -301,6 +312,549 @@ public:
         
         // Return the number of connected components
         return connected;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 05)  [Check If It Is a Straight Line](https://leetcode.com/problems/check-if-it-is-a-straight-line/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Geometry`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Define a struct for the coordinates of a point
+    struct Point {
+        int x, y;
+
+        // Constructor to initialize a point from a vector of integers
+        Point(const vector < int >& p) : x(p[0]), y(p[1]) { }
+    };
+
+    // Function to check if three points are on the same line
+    bool is_same_line(const Point& p1, const Point& p2, const Point& p3){
+        // Use slope formula to determine if the points are on the same line
+        return (p2.y - p1.y) * (p3.x - p1.x) == (p3.y - p1.y) * (p2.x - p1.x);
+    }
+    
+    bool checkStraightLine(const vector < vector < int > >& coordinates) {
+        for(int i = 1; i < coordinates.size() - 1; i++) {
+            // Check if the current point, its previous point, and the next point are on the same line
+            if(!is_same_line(Point(coordinates[i]), Point(coordinates[i - 1]), Point(coordinates[i + 1])))
+                return false;
+        }
+
+        // If all points are on the same line, return true
+        return true;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Can Make Arithmetic Progression From Sequence](https://leetcode.com/problems/can-make-arithmetic-progression-from-sequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        
+        // Sorting the vector in ascending order
+        sort(arr.begin(), arr.end());
+        
+        // Checking the difference between consecutive elements
+        // If the difference is not the same for all elements, return false
+        for(int i = 1; i < arr.size() - 1; i++) {
+            if(arr[i] - arr[i - 1] != arr[i + 1] - arr[i])
+                return false;
+        }
+        
+        // If the difference is the same for all elements, return true
+        return true;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 07)  [Minimum Flips to Make a OR b Equal to c](https://leetcode.com/problems/minimum-flips-to-make-a-or-b-equal-to-c/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Bit Manipulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minFlips(int a, int b, int c) {
+        // Lambda function to get the value of a particular bit
+        auto get_bit = [&](int bit, int x){
+            return (x >> bit) & 1;
+        };
+        
+        int flips = 0;
+        
+        // Iterate through each bit from right to left (0 to 31)
+        for(int bit = 0; bit < 32; bit++){
+            // Check if the current bit in 'c' is set to 1
+            if(get_bit(bit, c)) 
+                // If 'c' has a 1 and 'a' and 'b' have 0, increment flips
+                flips += !(get_bit(bit, a) | get_bit(bit, b));
+            
+            // Check if the current bit in 'c' is set to 0
+            if(!get_bit(bit, c))
+                // If 'c' has a 0 and either 'a' or 'b' has a 1, increment flips
+                flips += (get_bit(bit, a) + get_bit(bit, b));
+        }
+        
+        return flips;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Count Negative Numbers in a Sorted Matrix](https://leetcode.com/problems/count-negative-numbers-in-a-sorted-matrix/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int countNegatives(vector<vector<int>>& grid) {
+        // Get the number of rows in the grid
+        int n = grid.size();
+        
+        // Initialize a counter variable to store the count of negative numbers
+        int cnt = 0;
+        
+        // Iterate over each row in the grid
+        for(int i = 0; i < n; i++) {
+            // Find the position of the first element greater than -1 (negative number)
+            auto it = upper_bound(grid[i].rbegin(), grid[i].rend(), -1);
+            
+            // Calculate the count of negative numbers in the current row
+            int rowCnt = it - grid[i].rbegin();
+            
+            // Add the count of negative numbers in the current row to the total count
+            cnt += rowCnt;
+        }
+        
+        // Return the total count of negative numbers in the grid
+        return cnt;
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 09)  [Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        // Get the size of the vector
+        int n = letters.size();
+        
+        // Find the upper bound of the target letter in the vector and calculate its index
+        // If the index exceeds the size of the vector, wrap around to the beginning
+        int idx = (upper_bound(letters.begin(), letters.end(), target) - letters.begin()) % n;
+        
+        // Return the next greatest letter
+        return letters[idx];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Maximum Value at a Given Index in a Bounded Array](https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Binary Search` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    
+    int maxValue(int n, int index, int maxSum) {
+        // function to calculate the sum of integers from 1 to x
+        auto sum = [&](long long x){
+            return x * (x + 1) / 2;
+        };
+
+        // function to check if the given value is good or not
+        auto is_good = [&](long long m){
+            long long arrSum = 0;
+
+            // Calculate sum for the left segment
+            arrSum = sum(m - 1);
+            arrSum += (index > m - 1 ? index - m + 1 : -sum(m - 1 - index));
+
+            // Calculate sum for the right segment
+            arrSum += sum(m - 1);
+            arrSum += (n - index > m ? n - index - m : -sum(m - n + index));
+
+            // Check if the overall sum is less than or equal to maxSum
+            return arrSum <= maxSum - m;
+        };
+
+        // Binary search to find the maximum value
+        int l = 1, r = 1, ans = -1;
+
+        // Get the boundary limit of r
+        while(is_good(r))
+            r *= 2;
+        
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            (is_good(m) ? l = m + 1, ans = m : r = m - 1);
+        }
+
+        // Return the maximum value
+        return ans;
+    }
+};
+```
+<hr>
+<br><br>
+
+## 11)  [Snapshot Array](https://leetcode.com/problems/snapshot-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Binary Search` `Design`
+
+### Code
+
+
+```cpp
+class SnapshotArray {
+public:
+
+    // Declaration of variables
+    int snap_id;
+    map < int, vector < pair < int, int > > > snapshot;
+
+    // Constructor
+    SnapshotArray(int length) {
+        snap_id = 0;
+        for (int i = 0; i < length; i++)
+            snapshot[length].emplace_back(snap_id, 0);
+    }
+
+    // Set the value at the given index
+    void set(int index, int val) {
+        snapshot[index].emplace_back(snap_id, val);
+    }
+
+    // Create a snapshot and return the snapshot ID
+    int snap() {
+        return snap_id++;
+    }
+
+    // Get the value at the given index for a specific snapshot ID
+    int get(int index, int query_snap_id) {
+        vector < pair < int, int > >& snap = snapshot[index];
+        
+        // get the last value the have a snap id less than or equal the given one
+        int l = 0, r = snap.size() - 1, ans = 0;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            (snap[m].first <= query_snap_id ? l = m + 1, ans = snap[m].second : r = m - 1);
+        }
+        return ans;
+    }
+
+};
+```
+
+<hr>
+<br><br>
+
+## 12)  [Summary Ranges](https://leetcode.com/problems/summary-ranges/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Function to create a range string representation
+    string make_range(int l, int r) {
+        if (l == r)
+            return to_string(l);
+        return to_string(l) + "->" + to_string(r);
+    }
+
+    // Function to summarize ranges in a vector of integers
+    vector < string > summaryRanges(const vector < int >& nums) {
+        // if the nums array is empty
+        if(nums.empty()) return {};
+        
+        vector < string > Ranges; // Vector to store the summarized ranges
+        int begin = nums[0]; // Initialize the beginning of the range
+
+        // Iterate through the numbers
+        for (int i = 1; i < nums.size(); i++) {
+            // If the current number is not consecutive to the previous number
+            if (nums[i] != nums[i - 1] + 1) {
+                // Add the summarized range to the vector
+                Ranges.emplace_back(make_range(begin, nums[i - 1]));
+                begin = nums[i]; // Update the beginning of the next range
+            }
+        }
+
+        // Add the last range to the vector
+        Ranges.emplace_back(make_range(begin, nums.back()));
+
+        return Ranges; // Return the summarized ranges
+    }
+
+};
+```
+    
+<hr>
+<br><br>
+
+## 13)  [Equal Row and Column Pairs](https://leetcode.com/problems/equal-row-and-column-pairs/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Matrix` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function calculates the number of equal pairs in a 2D grid
+    int equalPairs(vector<vector<int>>& grid) {
+        int n = grid.size(); // Get the size of the grid (assuming it's a square grid)
+        int equal_pairs = 0; // Initialize the count of equal pairs
+
+        map < vector < int >, int > freq; // Create a map to store the frequency of each row vector
+
+        // Count the frequency of each row vector in the grid
+        for(int row = 0; row < n; row++)
+            freq[grid[row]]++;
+
+        // Iterate through each column in the grid
+        for(int col = 0; col < n; col++) {
+            vector<int> curr_col(n); // Create a temporary vector to store the current column
+
+            // Extract the elements of the current column from each row
+            for(int row = 0; row < n; row++)
+                curr_col[row] =  grid[row][col];
+
+            // Add the frequency of the current column vector to the count of equal pairs
+            equal_pairs += freq[curr_col];
+        }
+
+        return equal_pairs; // Return the total count of equal pairs
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Minimum Absolute Difference in BST](https://leetcode.com/problems/minimum-absolute-difference-in-bst/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // This code defines a vector to store integer values
+    vector < int > values;
+
+    // This function recursively traverses a binary tree and adds its node values to the 'values' vector sorted increasing
+    void get_values(TreeNode* root){
+        // Base case: if the root is null, return
+        if(!root) return;
+        
+        // Recursive calls: traverse the left subtree, add the root value, then traverse the right subtree (Sorted)
+        get_values(root -> left);
+        values.emplace_back(root -> val);
+        get_values(root -> right);
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        // Populate the 'values' vector by calling the 'get_values' function
+        get_values(root);
+        
+        // Initialize the minimum difference variable with the maximum possible value
+        int minDiff = INT_MAX;
+        
+        // Iterate through the 'values' vector to find the minimum difference between adjacent values
+        for(int i = 1; i < values.size(); i++)
+            minDiff = min(minDiff, values[i] - values[i - 1]);
+        
+        // Return the minimum difference
+        return minDiff;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 15)  [Maximum Level Sum of a Binary Tree](https://leetcode.com/problems/maximum-level-sum-of-a-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxLevelSum(TreeNode* root) {
+        // Variables to store the level with the maximum sum, the minimum level sum, and the current level
+        int minLevel = -1, minLevelSum = INT_MIN, currLevel = 1;
+
+        // Queue for breadth-first search traversal
+        queue < TreeNode* > bfs;
+
+        // Add the root node to the queue
+        bfs.emplace(root);
+
+        // Perform breadth-first search
+        while (!bfs.empty()) {
+            // Get the number of nodes in the current level and initialize the sum of values in the current level
+            int levelSz = bfs.size(), currSum = 0;
+
+            // Process each node in the current level
+            while (levelSz--) {
+                // Get the front node from the queue and remove it
+                TreeNode* currRoot = bfs.front();
+                bfs.pop();
+
+                // Add the value of the current node to the sum
+                currSum += currRoot->val;
+
+                // Enqueue the left and right children of the current node if they exist
+                if (currRoot->left)
+                    bfs.emplace(currRoot->left);
+                if (currRoot->right)
+                    bfs.emplace(currRoot->right);
+            }
+
+            // Check if the sum of the current level is greater than the minimum level sum
+            // If so, update the minimum level sum and the level with the maximum sum
+            if (minLevelSum < currSum)
+                minLevelSum = currSum, minLevel = currLevel;
+
+            // Move to the next level
+            currLevel++;
+        }
+
+        // Return the level with the maximum sum
+        return minLevel;
     }
 };
 ```
