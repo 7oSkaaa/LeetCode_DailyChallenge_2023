@@ -681,6 +681,10 @@
         {
             "day": "17",
             "title": "Make Array Strictly Increasing"
+        },
+        {
+            "day": "18",
+            "title": "Number of Increasing Paths in a Grid"
         }
     ]
 }
