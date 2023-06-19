@@ -685,6 +685,10 @@
         {
             "day": "18",
             "title": "Number of Increasing Paths in a Grid"
+        },
+        {
+            "day": "19",
+            "title": "Find the Highest Altitude"
         }
     ]
 }
