@@ -1,4 +1,4 @@
-# Authou: Noura Algohary
+# Author: Noura Algohary
 class Solution:
     def largestAltitude(self, gain: List[int]) -> int:
         highest = altitude = 0
