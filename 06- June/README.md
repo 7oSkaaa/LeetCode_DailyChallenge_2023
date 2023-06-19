@@ -40,6 +40,7 @@
 1. **[Number of Ways to Reorder Array to Get Same BST](#16--number-of-ways-to-reorder-array-to-get-same-bst)**
 1. **[Make Array Strictly Increasing](#17--make-array-strictly-increasing)**
 1. **[Number of Increasing Paths in a Grid](#18--number-of-increasing-paths-in-a-grid)**
+1. **[Find the Highest Altitude](#19--find-the-highest-altitude)**
 
 <hr>
 <br><br>
@@ -1095,6 +1096,46 @@ public:
             for(int j = 0; j < m; j++) // Iterate over each column of the grid
                 add(paths, get_paths(i, j)); // Add the number of paths from each position to 'paths'
         return paths; // Return the total number of paths
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Find the Highest Altitude](https://leetcode.com/problems/find-the-highest-altitude/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of altitude gains as input and returns
+    // the largest altitude reached.
+    int largestAltitude(vector<int>& gain) {
+        // Initialize variables for maximum altitude and current altitude.
+        int maxAltitude = 0, currAltitude = 0;
+        
+        // Iterate over each altitude gain in the vector.
+        for(auto& x : gain){
+            // Update the current altitude by adding the current gain.
+            currAltitude += x;
+            
+            // Update the maximum altitude if the current altitude is higher.
+            maxAltitude = max(maxAltitude, currAltitude);
+        }
+        
+        // Return the maximum altitude reached.
+        return maxAltitude;
     }
 };
 ```
