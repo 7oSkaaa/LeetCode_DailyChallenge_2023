@@ -689,6 +689,10 @@
         {
             "day": "19",
             "title": "Find the Highest Altitude"
+        },
+        {
+            "day": "20",
+            "title": "K Radius Subarray Averages"
         }
     ]
 }
