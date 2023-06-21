@@ -37,6 +37,12 @@
 1. **[Equal Row and Column Pairs](#13--equal-row-and-column-pairs)**
 1. **[Minimum Absolute Difference in BST](#14--minimum-absolute-difference-in-bst)**
 1. **[Maximum Level Sum of a Binary Tree](#15--maximum-level-sum-of-a-binary-tree)**
+1. **[Number of Ways to Reorder Array to Get Same BST](#16--number-of-ways-to-reorder-array-to-get-same-bst)**
+1. **[Make Array Strictly Increasing](#17--make-array-strictly-increasing)**
+1. **[Number of Increasing Paths in a Grid](#18--number-of-increasing-paths-in-a-grid)**
+1. **[Find the Highest Altitude](#19--find-the-highest-altitude)**
+1. **[K Radius Subarray Averages](#20--k-radius-subarray-averages)**
+1. **[Minimum Cost to Make Array Equal](#21--minimum-cost-to-make-array-equal)**
 
 <hr>
 <br><br>
@@ -855,6 +861,397 @@ public:
 
         // Return the level with the maximum sum
         return minLevel;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 16)  [Number of Ways to Reorder Array to Get Same BST](https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Divide and Conquer` `Dynamic Programming` `Tree` `Union Find` `Binary Search Tree` `Memoization` `Combinatorics` `Binary Tree`
+
+### Code
+
+
+```cpp
+// Constants
+constexpr int N = 1000, MOD = 1e9 + 7;
+// 2D vector to store combinations
+vector<vector<int>> nCr;
+// if the nCr not build
+bool is_nCr_built = false;
+
+// Function to perform modular multiplication
+template <typename T = int>T mul_mod(std::initializer_list<T> vals, T mod) {
+    T res = 1;
+    // Iterate through the values and multiply them, taking modulo at each step
+    for (auto x : vals) res = (1LL * res * (x % mod)) % mod;
+    return res;
+}
+
+// Function to build the nCr table
+void build() {
+    // Resize the nCr vector
+    nCr = vector < vector < int > >(N + 5, vector < int > (N + 5));
+    // Initialize the base cases
+    for (int n = 0; n <= N; n++)
+        nCr[n][0] = 1;
+    // Calculate the combinations using dynamic programming
+    for (int n = 1; n <= N; n++)
+        for (int r = 1; r <= n; r++)
+            nCr[n][r] = (nCr[n - 1][r - 1] + nCr[n - 1][r]) % MOD;
+}
+
+class Solution {
+public:
+
+    // Constructor to build the nCr table
+    Solution() {
+        if(!is_nCr_built)
+            build();
+        is_nCr_built = true;
+    }
+
+    // Recursive function to compute the number of ways to split the array
+    int dfs(const vector<int>& nums) {
+        // Base case: If the array size is less than or equal to 1, return 1
+        if (nums.size() <= 1)
+            return 1;
+        // Separate the array into two parts: Left and Right
+        vector<int> Left, Right;
+        for (int i = 1; i < nums.size(); i++)
+            (nums[i] >= nums[0] ? Right : Left).emplace_back(nums[i]);
+        int L = Left.size(), R = Right.size();
+        // Compute the number of ways recursively using modular multiplication
+        return mul_mod({dfs(Left), dfs(Right), nCr[L + R][L]}, MOD);
+    }
+
+    // Function to compute the number of ways to split the array
+    int numOfWays(const vector<int>& nums) {
+        // Compute the number of ways recursively and subtract 1, then take modulo
+        return (dfs(nums) - 1 + MOD) % MOD;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Make Array Strictly Increasing](https://leetcode.com/problems/make-array-strictly-increasing/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Dynamic Programming` `Sorting`
+
+### Code
+
+
+```cpp
+// Define constants
+constexpr int N = 2005, INF = 2e9;
+
+// Define variables and arrays
+int dp[N][N][2];  // Dynamic programming array
+int vis[N][N][2];  // Visited array
+int n, m, id;  // Variables for size and identification
+vector<int> a, b;  // Vectors for input arrays
+bool is_memed = false;  // Flag for memory initialization
+
+class Solution {
+public:
+    // Function to calculate the minimum moves
+    int min_moves(int a_idx, int b_idx, bool is_a_last) {
+        // Base case: if all elements in arr1 have been processed, return 0
+        if (a_idx == n)
+            return 0;
+        
+        // Reference to the current state in dp array
+        int& ret = dp[a_idx][b_idx][is_a_last];
+        
+        // Check if the state has already been visited
+        if (vis[a_idx][b_idx][is_a_last] == id)
+            return ret;
+        
+        // Mark the state as visited
+        vis[a_idx][b_idx][is_a_last] = id;
+        
+        // Initialize the minimum moves to a large value
+        ret = INF;
+        
+        // Determine the last number in the sequence
+        int last_num = is_a_last ? a[a_idx - 1] : b[b_idx - 1];
+        
+        // Case 1: Include the next element from arr1 if it is greater than the last number
+        if (a[a_idx] > last_num)
+            ret = min(ret, min_moves(a_idx + 1, b_idx, true));
+        
+        // Case 2: Include the next element from arr2 if it can make the sequence increasing
+        int idx = upper_bound(b.begin(), b.end(), last_num) - b.begin();
+        if (idx != m)
+            ret = min(ret, 1 + min_moves(a_idx + 1, idx + 1, false));
+        
+        // Return the minimum moves
+        return ret;
+    }
+
+    // Constructor
+    Solution() {
+        // Increment the identification
+        id++;
+
+        // Initialize the dp and visited arrays only once
+        if (!is_memed) {
+            memset(dp, -1, sizeof(dp));
+            memset(vis, -1, sizeof(vis));
+            is_memed = true;
+        }
+    }
+
+    // Function to find the minimum moves to make the array increasing
+    int makeArrayIncreasing(vector<int>& arr1, vector<int>& arr2) {
+        // Sort the second array in ascending order
+        sort(arr2.begin(), arr2.end());
+        
+        // Assign the input arrays and their sizes
+        a = arr1, b = arr2;
+        n = a.size(), m = b.size();
+        
+        // Calculate the minimum moves starting with arr1[0] as the first element
+        int best_moves = min(min_moves(1, 0, true), 1 + min_moves(1, 1, false));
+        
+        // If the minimum moves are greater than or equal to INF, set it to -1
+        if (best_moves >= INF)
+            best_moves = -1;
+        
+        // Return the best_moves
+        return best_moves;
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 18)  [Number of Increasing Paths in a Grid](https://leetcode.com/problems/number-of-increasing-paths-in-a-grid/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Depth-First Search` `Breadth-First Search` `Graph` `Topological Sort` `Memoization` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int n, m; // Variables to store the dimensions of the grid
+    vector < vector < int > > dp, grid; // 2D vectors to store dynamic programming values and the grid itself
+    vector < pair < int, int > > dir; // Vector of pairs to store the possible directions to move
+    static constexpr int MOD = 1e9 + 7; // Constant variable to represent the modulo value
+
+    void add(int& a, int b){
+        a += b; // Add 'b' to 'a'
+        if(a >= MOD) a -= MOD; // If 'a' exceeds the modulo value, subtract the modulo value from 'a'
+    }
+
+    bool is_valid(int r, int c){
+        return r >= 0 && r < n && c >= 0 && c < m; // Check if the indices 'r' and 'c' are within the grid boundaries
+    }
+
+    int get_paths(int x, int y){
+        int& ret = dp[x][y]; // Reference to store the dynamic programming value for coordinates (x, y)
+        if(~ret) return ret; // If the value is already computed, return it
+        ret = 1; // Set the initial value of 'ret' to 1
+        for(auto& [dx, dy] : dir){ // Iterate over the possible directions to move
+            int nx = dx + x, ny = dy + y; // Calculate the new coordinates based on the direction
+            if(is_valid(nx, ny) && grid[nx][ny] > grid[x][y]) // Check if the new coordinates are valid and the value at the new position is greater than the current position
+                add(ret, get_paths(nx, ny)); // Recursively calculate the number of paths from the new position and add it to 'ret'
+        }
+        return ret; // Return the number of paths from position (x, y)
+    }
+
+    int countPaths(vector<vector<int>>& grid) {
+        this -> grid = grid; // Store the input grid in the class member variable
+        n = grid.size(), m = grid[0].size(); // Get the dimensions of the grid
+        dp = vector < vector < int > > (n, vector < int > (m, -1)); // Initialize the dynamic programming values with -1
+        dir = { {0, 1}, {0, -1}, {1, 0}, {-1, 0} }; // Set the possible directions to move (right, left, down, up)
+        int paths = 0; // Variable to store the total number of paths
+        for(int i = 0; i < n; i++) // Iterate over each row of the grid
+            for(int j = 0; j < m; j++) // Iterate over each column of the grid
+                add(paths, get_paths(i, j)); // Add the number of paths from each position to 'paths'
+        return paths; // Return the total number of paths
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Find the Highest Altitude](https://leetcode.com/problems/find-the-highest-altitude/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of altitude gains as input and returns
+    // the largest altitude reached.
+    int largestAltitude(vector<int>& gain) {
+        // Initialize variables for maximum altitude and current altitude.
+        int maxAltitude = 0, currAltitude = 0;
+        
+        // Iterate over each altitude gain in the vector.
+        for(auto& x : gain){
+            // Update the current altitude by adding the current gain.
+            currAltitude += x;
+            
+            // Update the maximum altitude if the current altitude is higher.
+            maxAltitude = max(maxAltitude, currAltitude);
+        }
+        
+        // Return the maximum altitude reached.
+        return maxAltitude;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 20)  [K Radius Subarray Averages](https://leetcode.com/problems/k-radius-subarray-averages/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // This function takes a vector of integers and an integer 'k' as input and returns a vector of averages.
+    vector<int> getAverages(vector<int>& nums, int k) {
+        int n = nums.size(); // 'n' stores the size of the input vector
+        int len = 2 * k + 1; // 'len' calculates the length of the subarray
+        vector < int > avg(n); // 'avg' is a vector to store the averages of subarrays
+        vector < long long > prefix(n); // 'prefix' is a vector to store the prefix sum of the input vector
+        
+        for(int i = 0; i < n; i++)
+            prefix[i] = (i ? prefix[i - 1] : 0) + nums[i]; // Calculate the prefix sum
+        
+        // Create a lambda function 'sum' to calculate the sum of elements in a given range
+        auto sum = [&](int l, int r) {
+            return prefix[r] - (l ? prefix[l - 1] : 0);
+        };
+        
+        for(int i = 0; i < n; i++) {
+            int L = i - k; // Calculate the left index of the subarray
+            int R = i + k; // Calculate the right index of the subarray
+            bool isIn = (L >= 0 && R < n); // Check if the subarray is within the bounds of the input vector
+            avg[i] = (isIn ? sum(L, R) / len : -1); // Calculate the average of the subarray or assign -1 if it is out of bounds
+        }
+        return avg; // Return the vector of averages
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 21)  [Minimum Cost to Make Array Equal](https://leetcode.com/problems/minimum-cost-to-make-array-equal/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Greedy` `Sorting` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    long long minCost(const vector<int>& nums, const vector<int>& cost) {
+        int n = nums.size(); // Get the size of the nums vector
+        long long sum = 0, Cost1 = 0, Cost2 = 0;
+        
+        // Create a vector of pairs to store the corresponding values from nums and cost
+        vector < pair < int, int > > vec(n);
+        
+        // Iterate over the nums and cost vectors and populate the vec vector with pairs
+        for(int i = 0; i < n; i++){
+            vec[i] = make_pair(nums[i], cost[i]);
+            sum += cost[i]; // Calculate the sum of all costs
+        }
+        
+        // Sort the vec vector in ascending order based on the nums values
+        sort(vec.begin(), vec.end()); 
+        
+         // Calculate target1, target2, num1, and num2 to get the median of the costs
+        long long target1 = sum / 2, target2 = target1 + 1, num1 = -1, num2 = -1;
+        sum = 0; // Reset the sum variable
+        
+        // Iterate over the vec vector
+        for(int i = 0; i < n; i++){
+            auto [x, w] = vec[i]; // Destructure the pair into variables x and w
+            sum += w; // Calculate the cumulative sum of weights
+            
+            // Check if the sum is greater than or equal to target1 and num1 has not been assigned a value yet
+            if(sum >= target1 && !~num1) num1 = x;
+            
+            // Check if the sum is greater than or equal to target2 and num2 has not been assigned a value yet
+            if(sum >= target2 && !~num2) num2 = x;
+        }
+        
+        // Calculate the costs based on num1 and num2
+        for(int i = 0; i < n; i++){
+            auto [x, w] = vec[i]; // Destructure the pair into variables x and w
+            
+            // Calculate the cost1 by multiplying the absolute difference between x and num1 with w
+            Cost1 += (1LL * abs(x - num1) * w);
+
+            // Calculate the cost2 by multiplying the absolute difference between x and num2 with w 
+            Cost2 += (1LL * abs(x - num2) * w);
+        }
+        
+        // we calculate two median cause if n even the median can be n / 2, n / 2 + 1
+        // Return the minimum cost between cost1 and cost2
+        return min(Cost1, Cost2);
     }
 };
 ```
