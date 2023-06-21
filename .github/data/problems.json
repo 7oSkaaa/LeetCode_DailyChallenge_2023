@@ -693,6 +693,10 @@
         {
             "day": "20",
             "title": "K Radius Subarray Averages"
+        },
+        {
+            "day": "21",
+            "title": "Minimum Cost to Make Array Equal"
         }
     ]
 }
