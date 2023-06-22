@@ -43,6 +43,7 @@
 1. **[Find the Highest Altitude](#19--find-the-highest-altitude)**
 1. **[K Radius Subarray Averages](#20--k-radius-subarray-averages)**
 1. **[Minimum Cost to Make Array Equal](#21--minimum-cost-to-make-array-equal)**
+1. **[Best Time to Buy and Sell Stock with Transaction Fee](#22--best-time-to-buy-and-sell-stock-with-transaction-fee)**
 
 <hr>
 <br><br>
@@ -1252,6 +1253,48 @@ public:
         // we calculate two median cause if n even the median can be n / 2, n / 2 + 1
         // Return the minimum cost between cost1 and cost2
         return min(Cost1, Cost2);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 22)  [Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        // Get the number of prices in the vector.
+        int n = prices.size();
+        
+        // Initialize variables for cash (available funds) and hold (stock held).
+        // Set the initial value of hold to the negative of the first stock price.
+        int cash = 0, hold = -prices[0];
+        
+        // Iterate through the prices starting from the second price.
+        for(int i = 1; i < n; i++){ 
+            // Calculate the maximum of either keeping the cash as it is or selling the stock and deducting the fee.
+            cash = max(cash, hold + prices[i] - fee);
+            
+            // Calculate the maximum of either keeping the hold as it is or buying the stock and deducting the cash.
+            hold = max(hold, cash - prices[i]);
+        }
+        
+        // Return the maximum profit (cash) after all transactions.
+        return cash;
     }
 };
 ```
