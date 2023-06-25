@@ -14,8 +14,7 @@ public:
         // memo[i][rem] is the number of ways to reach the finish point from the current point i with remaining fuel rem
         const int MOD = 1e9 + 7;
         int memo[101][202];
-
-        // initialize memo with -1
+        
         memset(memo, -1, sizeof memo);
 
         // dp function
