@@ -709,6 +709,10 @@
         {
             "day": "24",
             "title": "Tallest Billboard"
+        },
+        {
+            "day": "25",
+            "title": "Count All Possible Routes"
         }
     ]
 }
