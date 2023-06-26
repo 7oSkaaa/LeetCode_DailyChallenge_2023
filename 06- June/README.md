@@ -47,6 +47,7 @@
 1. **[Longest Arithmetic Subsequence](#23--longest-arithmetic-subsequence)**
 1. **[Tallest Billboard](#24--tallest-billboard)**
 1. **[Count All Possible Routes](#25--count-all-possible-routes)**
+1. **[Total Cost to Hire K Workers](#26--total-cost-to-hire-k-workers)**
 
 <hr>
 <br><br>
@@ -1522,6 +1523,73 @@ public:
     int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
         init(locations, finish);  // Initialize the member variables
         return cnt_ways(start, fuel);  // Count the number of ways to reach the destination
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Total Cost to Hire K Workers](https://leetcode.com/problems/total-cost-to-hire-k-workers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Two Pointers` `Heap (Priority Queue)` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Using a template alias to define a priority queue with minimum element at the top
+    template < typename T = int > using PQ = priority_queue < T, vector < T >, greater < T > >;
+
+    // Function to calculate the total cost
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        // Priority queues to store the lowest k elements from the start and end
+        PQ < int > first, last;
+        
+        // Lambda function to get the top element from a priority queue, returns INT_MAX if empty
+        auto get_top = [&](PQ < int >& pq) {
+            return pq.empty() ? INT_MAX : pq.top();
+        };
+        
+        // Variables to store the total cost and the number of elements taken
+        long long ans = 0, taken = 0;
+        
+        // Pointers to track the start and end of the costs vector
+        int l = 0, r = costs.size() - 1;
+        
+        // Loop until the required number of elements are taken
+        while (taken < k) {
+            // Fill the first priority queue with the lowest elements from the start
+            while (l <= r && first.size() < candidates)
+                first.push(costs[l++]);
+            
+            // Fill the last priority queue with the lowest elements from the end
+            while (l <= r && last.size() < candidates)
+                last.push(costs[r--]);
+            
+            // Get the top elements from both priority queues
+            int topF = get_top(first), topL = get_top(last);
+            
+            // Choose the smaller top element and add it to the total cost
+            if (topF <= topL)
+                ans += topF, first.pop();
+            else
+                ans += topL, last.pop();
+            
+            // Increase the count of taken elements
+            taken++;
+        }
+        
+        // Return the total cost
+        return ans;
     }
 };
 ```
