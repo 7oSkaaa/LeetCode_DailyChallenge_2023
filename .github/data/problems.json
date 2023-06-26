@@ -713,6 +713,10 @@
         {
             "day": "25",
             "title": "Count All Possible Routes"
+        },
+        {
+            "day": "26",
+            "title": "Total Cost to Hire K Workers"
         }
     ]
 }
