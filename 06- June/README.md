@@ -44,6 +44,11 @@
 1. **[K Radius Subarray Averages](#20--k-radius-subarray-averages)**
 1. **[Minimum Cost to Make Array Equal](#21--minimum-cost-to-make-array-equal)**
 1. **[Best Time to Buy and Sell Stock with Transaction Fee](#22--best-time-to-buy-and-sell-stock-with-transaction-fee)**
+1. **[Longest Arithmetic Subsequence](#23--longest-arithmetic-subsequence)**
+1. **[Tallest Billboard](#24--tallest-billboard)**
+1. **[Count All Possible Routes](#25--count-all-possible-routes)**
+1. **[Total Cost to Hire K Workers](#26--total-cost-to-hire-k-workers)**
+1. **[Find K Pairs with Smallest Sums](#27--find-k-pairs-with-smallest-sums)**
 
 <hr>
 <br><br>
@@ -1295,6 +1300,357 @@ public:
         
         // Return the maximum profit (cash) after all transactions.
         return cash;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 23)  [Longest Arithmetic Subsequence](https://leetcode.com/problems/longest-arithmetic-subsequence/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Binary Search` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Declaration of variables
+    int n;
+    static constexpr int D = 500;
+    vector < int > nums;
+    vector < vector < int > > dp, adj;
+
+    int LAS(int idx, int diff) {
+        // Base case: if we reach the end of the array, return 0
+        if (idx == n) return 0;
+        
+        // Memoization: check if the result for the current index and difference is already calculated
+        int& ret = dp[idx][diff + D];
+        if (~ret) return ret;
+        
+        // Initialize the result to 0
+        ret = 0;
+        
+        // Find the index of the next element that forms an arithmetic subsequence
+        int nxtIDX = adj[idx][diff + D];
+        
+        // If a valid next index exists, recursively calculate the length of the next arithmetic subsequence
+        if (~nxtIDX)
+            ret = 1 + LAS(nxtIDX, diff);
+        
+        return ret;
+    }
+
+    void build() {
+        // Initialize the adjacency matrix with -1
+        this -> adj = vector < vector < int > >(n, vector < int > (2 * D + 5, -1));
+        
+        // Iterate through the array and populate the adjacency matrix
+        for (int i = 0; i < n; i++)
+            for (int j = i + 1; j < n; j++)
+                if (!~adj[i][nums[j] - nums[i] + D])
+                    adj[i][nums[j] - nums[i] + D] = j;
+    }
+
+    int longestArithSeqLength(vector<int>& nums) {
+        // Initialize the class variables
+        this -> n = nums.size();
+        this -> nums = nums;
+        this -> dp = vector < vector < int > > (n, vector < int > (2 * D + 5, -1));
+        
+        // Build the adjacency matrix
+        build();
+        
+        // Initialize the maximum length of the arithmetic subsequence to 1
+        int maxLAS = 1;
+        
+        // Iterate through all possible differences and indices
+        for (int diff = -D; diff <= D; diff++)
+            for (int idx = 0; idx < n; idx++)
+                // Update the maximum length if a longer arithmetic subsequence is found
+                maxLAS = max(maxLAS, 1 + LAS(idx, diff));
+        
+        // Return the maximum length of the arithmetic subsequence
+        return maxLAS;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Tallest Billboard](https://leetcode.com/problems/tallest-billboard/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int n; // Number of rods
+    static constexpr int MAXN = 5000, INF = 1e9; // Constants for array size and infinite value
+    vector < int > rods; // Vector to store the lengths of the rods
+    vector < vector < int > > dp; // Dynamic programming array
+
+    // Function to calculate the maximum score
+    int max_score(int idx, int diff) {
+        // Base case: If all rods have been processed, return 0 if the difference is 0, or -INF otherwise
+        if (idx == n) return (!diff ? 0 : -INF);
+        
+        // Reference to the maximum score at current index and difference
+        int& ret = dp[idx][diff + MAXN];
+        
+        // If the maximum score has already been calculated, return it 
+        if (~ret) return ret; 
+
+        // Scenario 1: Exclude the current rod
+        ret = max_score(idx + 1, diff); 
+        
+        // Scenario 2: Include the current rod as positive difference
+        ret = max(ret, rods[idx] + max_score(idx + 1, diff + rods[idx]));
+        
+        // Scenario 3: Include the current rod as negative difference
+        ret = max(ret, max_score(idx + 1, diff - rods[idx]));
+
+        // Return the maximum score
+        return ret;
+    }
+
+    int tallestBillboard(vector<int>& rods) {
+        this -> rods = rods; // Assign the input rods to the member variable
+        this -> n = rods.size(); // Set the number of rods
+
+        // Initialize the dynamic programming array with -1
+        this -> dp = vector < vector < int > > (n, vector < int > (2 * MAXN + 5, -1));
+        
+        // Return the maximum score starting from index 0 and with 0 difference
+        return max_score(0, 0);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [Count All Possible Routes](https://leetcode.com/problems/count-all-possible-routes/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Memoization`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Constant variables
+    static constexpr int MOD = 1e9 + 7;   // Modulo value
+    static constexpr int N = 100;         // Maximum number of locations
+    static constexpr int F = 200;         // Maximum fuel capacity
+
+    // Member variables
+    int n;                               // Number of locations
+    int finish;                          // Destination location
+    int dp[N][F];                        // Dynamic programming table
+    vector < int > locations;               // Vector to store the locations
+
+    // Function to add a value to another value and handle modulo
+    void add(int& ret, int to_add) {
+        ret += to_add;
+        if (ret >= MOD)
+            ret -= MOD;
+    }
+
+    // Function to count the number of ways to reach the destination with given fuel
+    int cnt_ways(int curr, int fuel) {
+        // Base case: If fuel is negative, no more moves can be made
+        if (fuel < 0)
+            return 0;
+
+        // Check if the result is already computed
+        int& ret = dp[curr][fuel];
+        if (~ret)
+            return ret;
+
+        ret = 0;  // Initialize the result
+
+        // If the current location is the destination, increment the result
+        if (curr == finish)
+            ret++;
+
+        // Iterate through all possible next locations
+        for (int nxt = 0; nxt < n; nxt++) {
+            // Skip the current location
+            if (curr != nxt)
+                // Recursively count the ways by subtracting the fuel consumed
+                add(ret, cnt_ways(nxt, fuel - abs(locations[nxt] - locations[curr])));
+        }
+
+        return ret;  // Return the result
+    }
+
+    // Function to initialize the member variables
+    void init(vector<int>& locations, int finish) {
+        this -> n = locations.size();
+        this -> finish = finish;
+        this -> locations = locations;
+        memset(dp, -1, sizeof(dp));  // Initialize the dp table with -1
+    }
+
+    // Function to count the number of routes
+    int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
+        init(locations, finish);  // Initialize the member variables
+        return cnt_ways(start, fuel);  // Count the number of ways to reach the destination
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 26)  [Total Cost to Hire K Workers](https://leetcode.com/problems/total-cost-to-hire-k-workers/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Two Pointers` `Heap (Priority Queue)` `Simulation`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Using a template alias to define a priority queue with minimum element at the top
+    template < typename T = int > using PQ = priority_queue < T, vector < T >, greater < T > >;
+
+    // Function to calculate the total cost
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        // Priority queues to store the lowest k elements from the start and end
+        PQ < int > first, last;
+        
+        // Lambda function to get the top element from a priority queue, returns INT_MAX if empty
+        auto get_top = [&](PQ < int >& pq) {
+            return pq.empty() ? INT_MAX : pq.top();
+        };
+        
+        // Variables to store the total cost and the number of elements taken
+        long long ans = 0, taken = 0;
+        
+        // Pointers to track the start and end of the costs vector
+        int l = 0, r = costs.size() - 1;
+        
+        // Loop until the required number of elements are taken
+        while (taken < k) {
+            // Fill the first priority queue with the lowest elements from the start
+            while (l <= r && first.size() < candidates)
+                first.push(costs[l++]);
+            
+            // Fill the last priority queue with the lowest elements from the end
+            while (l <= r && last.size() < candidates)
+                last.push(costs[r--]);
+            
+            // Get the top elements from both priority queues
+            int topF = get_top(first), topL = get_top(last);
+            
+            // Choose the smaller top element and add it to the total cost
+            if (topF <= topL)
+                ans += topF, first.pop();
+            else
+                ans += topL, last.pop();
+            
+            // Increase the count of taken elements
+            taken++;
+        }
+        
+        // Return the total cost
+        return ans;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Heap (Priority Queue)`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        // Result vector to store the k smallest pairs
+        vector < vector < int > > res;
+        
+        // If any of the input vectors is empty or k is zero, return an empty result
+        if (nums1.empty() || nums2.empty() || k == 0)
+            return res;
+        
+        // Custom comparator function to determine the order in priority queue based on sum of pair values
+        auto cmp = [&](const pair<int, int>& a, const pair<int, int>& b) {
+            return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];
+        };
+        
+        // Priority queue to store pairs, with the smallest sum at the top
+        priority_queue < pair < int, int >, vector < pair < int, int > >, decltype(cmp) > pq(cmp);
+        
+        for (int i = 0; i < min(k, static_cast<int>(nums1.size())); ++i) {
+            pq.push({i, 0}); // Push the indices of the pairs with the smallest values of nums1 into the priority queue
+        }
+        
+        while (k-- > 0 && !pq.empty()) {
+            // Get the pair with the smallest sum from the priority queue
+            auto idx = pq.top();
+
+            // Remove the pair from the priority queue
+            pq.pop();
+
+            // Add the pair to the result vector
+            res.push_back({nums1[idx.first], nums2[idx.second]});
+            
+            // Push the next pair with the same index from nums1 but the next index from nums2
+            if (idx.second + 1 < nums2.size()) 
+                pq.push({idx.first, idx.second + 1});
+        }
+        
+        // Return the k smallest pairs
+        return res;
     }
 };
 ```
