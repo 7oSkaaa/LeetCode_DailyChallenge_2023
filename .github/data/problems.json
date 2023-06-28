@@ -721,6 +721,10 @@
         {
             "day": "27",
             "title": "Find K Pairs with Smallest Sums"
+        },
+        {
+            "day": "28",
+            "title": "Path with Maximum Probability"
         }
     ]
 }
