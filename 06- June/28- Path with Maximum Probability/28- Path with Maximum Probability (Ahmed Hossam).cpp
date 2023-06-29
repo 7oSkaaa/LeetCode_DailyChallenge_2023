@@ -1,4 +1,4 @@
-// Auhtor: Ahmed Hossam
+// Author: Ahmed Hossam
 
 class Solution {
 public:
