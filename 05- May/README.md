@@ -46,6 +46,11 @@
 1. **[Maximum Subsequence Score](#24--maximum-subsequence-score)**
 1. **[New 21 Game](#25--new-21-game)**
 1. **[Stone Game II](#26--stone-game-ii)**
+1. **[Stone Game III](#27--stone-game-iii)**
+1. **[Minimum Cost to Cut a Stick](#28--minimum-cost-to-cut-a-stick)**
+1. **[Design Parking System](#29--design-parking-system)**
+1. **[Design HashSet](#30--design-hashset)**
+1. **[Design Underground System](#31--design-underground-system)**
 
 <hr>
 <br><br>
@@ -1433,6 +1438,246 @@ public:
         // The maximum number of stones the first player can obtain starting from the first pile
         // with a maximum pick of 1 is stored in dp[0][1].
         return dp[0][1];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 27)  [Stone Game III](https://leetcode.com/problems/stone-game-iii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Math` `Dynamic Programming` `Game Theory`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    string stoneGameIII(const vector < int >& stones) {
+        int n = stones.size();
+
+        // Create a dynamic programming table with initial values set to -1e9
+        vector < int > dp(n + 1, -1e9);
+
+        // Set the value of the last cell in the dp table to 0
+        dp[n] = 0;
+
+        // Iterate backwards through the stones
+        for (int i = n - 1; i >= 0; --i) {
+            // Iterate from 0 to 2 (inclusive) to simulate taking 1, 2, or 3 stones
+            for (int k = 0, take = 0; k < 3 && i + k < n; ++k) {
+                // Calculate the total number of stones taken
+                take += stones[i + k];
+
+                // Update the value of dp[i] by taking the maximum of its current value
+                // and the difference between the total number of stones taken and the value
+                // of dp at the next position
+                dp[i] = max(dp[i], take - dp[min(i + k + 1, n)]);
+            }
+        }
+
+        // Create a vector with the possible outcomes: "Alice", "Tie", "Bob"
+        vector < string > ans = {"Alice", "Tie", "Bob"};
+
+        // Return the corresponding outcome based on the value of dp[0]
+        return ans[(dp[0] == 0) + (dp[0] < 0) * 2];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 28)  [Minimum Cost to Cut a Stick](https://leetcode.com/problems/minimum-cost-to-cut-a-stick/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    int minCost(int n, vector < int >& cuts) {
+        // Get the size of the cuts vector
+        int m = cuts.size();
+
+        // Insert 0 at the beginning and n at the end of the cuts vector
+        cuts.insert(cuts.begin(), 0);
+        cuts.insert(cuts.end(), n);
+        
+        // Sort the cuts vector in ascending order
+        sort(cuts.begin(), cuts.end());
+        
+        // Create a 2D vector dp to store the minimum cost values
+        vector < vector < int > > dp(m + 5, vector < int > (m + 5, INT_MAX));
+        
+        // Initialize the base case where l > r with 0 cost
+        for(int l = 0; l <= m + 1; l++)
+            for(int r = l - 1; r >= 0; r--)
+                dp[l][r] = 0;
+        
+        // Calculate the minimum cost for each subproblem
+        for(int l = m; l >= 1; l--)
+            for(int r = 1; r <= m; r++)
+                for(int idx = l; idx <= r; idx++)
+                    // Update the minimum cost based on the cuts and subproblems
+                    dp[l][r] = min(dp[l][r], cuts[r + 1] - cuts[l - 1] + dp[l][idx - 1] + dp[idx + 1][r]);
+        
+        // Return the minimum cost of the original problem
+        return dp[1][m];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 29)  [Design Parking System](https://leetcode.com/problems/design-parking-system/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Design` `Simulation` `Counting`
+
+### Code
+
+
+```cpp
+class ParkingSystem {
+public:
+
+    // Define a vector to store the number of available parking spaces for each car type
+    vector < int > carTypes;
+
+    ParkingSystem(int big, int medium, int small) {
+        // Initialize the vector with the given number of parking spaces for each car type
+        carTypes = { big, medium, small };
+    }
+    
+    bool addCar(int carType) {
+        // Decrease the number of available parking spaces for the given car type and check if it's still greater than 0
+        return carTypes[--carType]-- > 0;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 30)  [Design HashSet](https://leetcode.com/problems/design-hashset/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Linked List` `Design` `Hash Function`
+
+### Code
+
+
+```cpp
+class MyHashSet {
+public:
+
+    // Declare an unordered_set named hash_set to store integers
+    unordered_set<int> hash_set;
+
+    MyHashSet() {
+        // Initialize the unordered_set using the default constructor
+        hash_set = unordered_set < int > ();
+    }
+    
+    void add(int key) {
+        // Insert the given key into the hash_set
+        hash_set.insert(key);
+    }
+    
+    void remove(int key) {
+        // Remove the given key from the hash_set
+        hash_set.erase(key);
+    }
+    
+    bool contains(int key) {
+        // Check if the given key exists in the hash_set and return true if it does, false otherwise
+        return hash_set.count(key);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 31)  [Design Underground System](https://leetcode.com/problems/design-underground-system/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `String` `Design`
+
+### Code
+
+
+```cpp
+class UndergroundSystem {
+public:
+
+    // Map to store the travel details for each station pair
+    map<pair<string, string>, pair<int, int>> mp;
+    // Hash map to store the check-in details for each person
+    unordered_map<int, pair<string, int>> person;
+
+    // Constructor to initialize the data structures
+    UndergroundSystem() {
+        mp.clear();
+        person.clear();
+    }
+
+    // Function to record the check-in of a person
+    void checkIn(int id, string stationName, int t) {
+        person[id] = {stationName, t};
+    }
+
+    // Function to record the check-out of a person and calculate the travel duration
+    void checkOut(int id, string stationName, int t) {
+        // Check if the station pair exists in the map
+        if (mp.find({person[id].first, stationName}) == mp.end()) {
+            // If not, create a new entry with the travel duration and count set to the current duration and 1 respectively
+            mp[{person[id].first, stationName}] = {t - person[id].second, 1};
+        } else {
+            // If the station pair already exists, update the travel duration and count
+            mp[{person[id].first, stationName}].first += t - person[id].second;
+            mp[{person[id].first, stationName}].second++;
+        }
+    }
+
+    // Function to calculate the average travel time between two stations
+    double getAverageTime(string startStation, string endStation) {
+        // Calculate and return the average travel time by dividing the total duration by the count
+        return 1.0 * mp[{startStation, endStation}].first / mp[{startStation, endStation}].second;
     }
 };
 ```
