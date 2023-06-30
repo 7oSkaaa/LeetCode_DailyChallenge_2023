@@ -729,6 +729,10 @@
         {
             "day": "29",
             "title": "Shortest Path to Get All Keys"
+        },
+        {
+            "day": "30",
+            "title": "Last Day Where You Can Still Cross"
         }
     ]
 }
