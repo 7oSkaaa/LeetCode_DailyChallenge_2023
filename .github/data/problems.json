@@ -734,5 +734,11 @@
             "day": "30",
             "title": "Last Day Where You Can Still Cross"
         }
+    ],
+    "07- July": [
+        {
+            "day": "01",
+            "title": "Fair Distribution of Cookies"
+        }
     ]
 }
