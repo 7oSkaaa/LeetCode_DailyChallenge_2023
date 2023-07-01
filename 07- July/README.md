@@ -26,12 +26,6 @@
 <hr>
 <br><br>
 
-
-    
-
-<hr>
-<br><br>
-
 ## 01)  [Fair Distribution of Cookies](https://leetcode.com/problems/fair-distribution-of-cookies/)
 
 ### Difficulty
