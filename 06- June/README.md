@@ -49,6 +49,9 @@
 1. **[Count All Possible Routes](#25--count-all-possible-routes)**
 1. **[Total Cost to Hire K Workers](#26--total-cost-to-hire-k-workers)**
 1. **[Find K Pairs with Smallest Sums](#27--find-k-pairs-with-smallest-sums)**
+1. **[Path with Maximum Probability](#28--path-with-maximum-probability)**
+1. **[Shortest Path to Get All Keys](#29--shortest-path-to-get-all-keys)**
+1. **[Last Day Where You Can Still Cross](#30--last-day-where-you-can-still-cross)**
 
 <hr>
 <br><br>
@@ -1651,6 +1654,286 @@ public:
         
         // Return the k smallest pairs
         return res;
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 28)  [Path with Maximum Probability](https://leetcode.com/problems/path-with-maximum-probability/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Heap (Priority Queue)` `Graph` `Shortest Path`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+
+    // Struct representing a vertex in the graph
+    struct Vertex {
+        int u; // Vertex index
+        double w; // Weight of the edge
+        Vertex(int u = 0, double w = 1) : u(u), w(w) {};
+        
+        // Overloading the less than operator for sorting
+        bool operator < (const Vertex& rhs) const {
+            return w < rhs.w;
+        } 
+    };
+
+    vector < vector < pair < int, double > > > adj; // Adjacency list representing the graph
+
+    // Function to build the adjacency list
+    void build_adj(int n, vector < vector < int > >& edges, vector < double >& succProb) {
+        adj = vector < vector < pair < int, double > > > (n); // Initialize the adjacency list with n elements
+        
+        // Loop through the edges and probabilities
+        for(int i = 0; i < edges.size(); i++){
+            int u = edges[i][0], v = edges[i][1];
+            double w = succProb[i];
+            adj[u].emplace_back(v, w); // Add an edge from u to v with weight w
+            adj[v].emplace_back(u, w); // Add an edge from v to u with weight w
+        }
+    }
+
+    // Function to find the maximum probability using Dijkstra's algorithm
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        priority_queue < Vertex > dij; // Priority queue for Dijkstra's algorithm
+        vector < double > dist(n, 0); // Initialize the distance vector with 0s
+        build_adj(n, edges, succProb); // Build the adjacency list
+        dij.emplace(start, 1); // Start vertex with probability 1
+        dist[start] = 1; // Update the distance of the start vertex
+        
+        // Dijkstra's algorithm
+        while(!dij.empty()){
+            auto [u, cost] = dij.top();
+            dij.pop();
+            if(cost > dist[u]) continue; // Skip if a shorter path to u has already been found
+            for(auto& [v, w] : adj[u]){
+                if(dist[v] < cost * w){ // Update the distance if a shorter path is found
+                    dist[v] = cost * w;
+                    dij.emplace(v, dist[v]);
+                }
+            }
+        }
+        
+        return dist[end]; // Return the maximum probability to reach the end vertex
+    }
+};
+```
+
+<hr>
+<br><br>
+
+## 29)  [Shortest Path to Get All Keys](https://leetcode.com/problems/shortest-path-to-get-all-keys/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Bit Manipulation` `Breadth-First Search` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Define the possible directions: right, left, up, down
+    vector<pair<int, int>> dir = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+
+    int shortestPathAllKeys(vector<string>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        // Create a queue to store the positions and keys
+        queue<pair<pair<int, int>, int>> que;
+
+        // Create a map to track the collected keys for each position
+        vector<vector<unsigned long>> mapKey(m, vector<unsigned long>(n, 0));
+
+        int target = 0; // Variable to store the bitmask of all keys
+
+        // Iterate through the grid to find the starting position and collect the target keys
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if ('a' <= grid[i][j] && grid[i][j] <= 'f') {
+                    target |= 1 << (grid[i][j] - 'a');
+                    continue;
+                }
+                if (grid[i][j] == '@') {
+                    // Initialize the queue with the starting position
+                    que.emplace(make_pair(i, j), 0);
+                    mapKey[i][j] = 1; // Mark the starting position as visited
+                }
+            }
+        }
+
+        int steps = 0; // Variable to count the number of steps
+
+        // BFS traversal
+        while (!que.empty()) {
+            int size = que.size();
+            for (int s = 0; s < size; s++) {
+                auto [point, key] = que.front();
+                auto [i, j] = point;
+                que.pop();
+
+                if ('a' <= grid[i][j] && grid[i][j] <= 'f') {
+                    // Collect the key and update the bitmask
+                    key |= 1 << (grid[i][j] - 'a');
+                    if (key == target)
+                        return steps; // Return the number of steps if all keys are collected
+                    mapKey[i][j] |= 1l << key; // Mark the position with the collected key
+                }
+
+                for (auto [di, dj] : dir) {
+                    int newi = i + di;
+                    int newj = j + dj;
+
+                    // Check if the new position is within the grid
+                    if (!(0 <= newi && newi < m && 0 <= newj && newj < n))
+                        continue;
+
+                    int val = grid[newi][newj];
+                    
+                    // Skip if the new position is a wall
+                    if (val == '#')
+                        continue;
+
+                    // Skip if the new position is a locked door and the required key is not collected
+                    if ('A' <= val && val <= 'F' && (key & (1 << (val - 'A'))) == 0)
+                        continue;
+
+                    // Skip if the new position with the current key has been visited before
+                    if (mapKey[newi][newj] & (1l << key))
+                        continue;
+
+                    // Mark the new position with the current key and add it to the queue
+                    mapKey[newi][newj] |= 1l << key;
+                    que.emplace(pair<int, int>(newi, newj), key);
+                }
+            }
+            steps++; // Increment the number of steps
+        }
+        return -1; // Return -1 if it's not possible to collect all keys
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 30)  [Last Day Where You Can Still Cross](https://leetcode.com/problems/last-day-where-you-can-still-cross/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Hard-red?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Depth-First Search` `Breadth-First Search` `Union Find` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    // Constant representing infinity
+    static constexpr int INF = 1e9;
+    // Variables to store the number of rows, columns, and cells
+    int rows, cols, cellsCnt;
+    // 2D vector to store the cells
+    vector < vector < int > > cells;
+
+    // Function to calculate the distances
+    vector<int> get_dist(int day) {
+        // Create a grid and initialize it with zeros
+        vector < vector < int > > grid(rows, vector < int > (cols, 0));
+        // Create a 2D vector to store the distances and initialize them with infinity
+        vector < vector < int > > dist(rows, vector < int > (cols, INF));
+
+        // Place the cells on the grid for the first 'day' number of days
+        for (int i = 0; i < min(day, cellsCnt); i++) {
+            int x = cells[i][0], y = cells[i][1];
+            grid[--x][--y] = 1;
+        }
+
+        // Lambda function to check if a position is valid
+        auto is_valid = [&](int r, int c) {
+            return r >= 0 && r < rows && c >= 0 && c < cols && !grid[r][c];
+        };
+
+        // Vector representing the possible directions to move
+        vector < pair < int, int > > dir = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
+        // Queue for breadth-first search
+        queue < pair < int, int > > bfs;
+
+        // Start the BFS from the cells in the first row
+        for (int col = 0; col < cols; col++) {
+            if (grid[0][col]) continue;
+            bfs.emplace(0, col);
+            dist[0][col] = 0;
+        }
+
+        // Perform breadth-first search
+        while (!bfs.empty()) {
+            auto [x, y] = bfs.front();
+            bfs.pop();
+            for (auto& [dx, dy] : dir) {
+                int nx = x + dx, ny = y + dy;
+                // if the new cell isn't out of bound and the current distance greater than new one add it
+                if (is_valid(nx, ny) && dist[nx][ny] > dist[x][y] + 1) {
+                    dist[nx][ny] = dist[x][y] + 1;
+                    bfs.emplace(nx, ny);
+                }
+            }
+        }
+
+        // Return the distances of the last row
+        return dist[rows - 1];
+    }
+
+    // Function to initialize the class variables
+    void init(int row, int col, const vector < vector < int > >& cells) {
+        this -> rows = row;
+        this -> cols = col;
+        this -> cellsCnt = cells.size();
+        this -> cells = cells;
+    }
+
+    int latestDayToCross(int row, int col, const vector < vector < int > >& cells) {
+        // Initialize the class variables
+        init(row, col, cells);
+        
+        // Lambda function to check if a day is good
+        auto is_good = [&](int m) {
+            vector < int > dist = get_dist(m);
+            return *min_element(dist.begin(), dist.end()) < INF;
+        };
+        
+        // Binary search to find the latest day
+        int l = 0, r = cellsCnt, ans = 0;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            is_good(m) ? l = m + 1, ans = m : r = m - 1;
+        }
+
+        // Return the latest day
+        return ans;
     }
 };
 ```
