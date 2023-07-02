@@ -739,6 +739,10 @@
         {
             "day": "01",
             "title": "Fair Distribution of Cookies"
+        },
+        {
+            "day": "02",
+            "title": "Maximum Number of Achievable Transfer Requests"
         }
     ]
 }
