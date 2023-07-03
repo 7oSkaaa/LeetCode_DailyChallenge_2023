@@ -743,6 +743,10 @@
         {
             "day": "02",
             "title": "Maximum Number of Achievable Transfer Requests"
+        },
+        {
+            "day": "03",
+            "title": "Buddy Strings"
         }
     ]
 }
