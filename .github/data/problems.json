@@ -751,6 +751,10 @@
         {
             "day": "04",
             "title": "Single Number II"
+        },
+        {
+            "day": "05",
+            "title": "Longest Subarray of 1's After Deleting One Element"
         }
     ]
 }
