@@ -755,6 +755,10 @@
         {
             "day": "05",
             "title": "Longest Subarray of 1's After Deleting One Element"
+        },
+        {
+            "day": "06",
+            "title": "Minimum Size Subarray Sum"
         }
     ]
 }
