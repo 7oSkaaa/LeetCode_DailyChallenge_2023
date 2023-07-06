@@ -25,6 +25,8 @@
 1. **[Maximum Number of Achievable Transfer Requests](#02--maximum-number-of-achievable-transfer-requests)**
 1. **[Buddy Strings](#03--buddy-strings)**
 1. **[Single Number II](#04--single-number-ii)**
+1. **[Longest Subarray of 1's After Deleting One Element](#05--longest-subarray-of-1s-after-deleting-one-element)**
+1. **[Minimum Size Subarray Sum](#06--minimum-size-subarray-sum)**
 
 <hr>
 <br><br>
@@ -253,6 +255,100 @@ public:
 
         // Return the single number
         return single;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 05)  [Longest Subarray of 1's After Deleting One Element](https://leetcode.com/problems/longest-subarray-of-1s-after-deleting-one-element/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Sliding Window`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        // n is the size of the input vector
+        int n = nums.size();
+        // l and r are variables used for tracking the left and right indices of the subarray
+        int l = 0, r = 0;
+        // maxLen is used to store the length of the longest subarray
+        int maxLen = 0;
+        // sum is used to keep track of the sum of the elements in the subarray
+        int sum = 0;
+
+        // Loop through the elements of the vector
+        while(r < n) {
+            // Add the current element to the sum
+            sum += nums[r];
+
+            // Shrink the subarray from the left until the sum is greater than or equal to the length of the subarray
+            while(l < r && sum < r - l)
+                sum -= nums[l++];
+
+            // Update the maxLen if the current subarray length is greater than the previous maxLen
+            maxLen = max(maxLen, r - l);
+
+            // Move to the next element
+            r++;
+        }
+
+        // Return the length of the longest subarray
+        return maxLen;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Sliding Window` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int l = 0, r = 0; // Pointers for the left and right ends of the subarray
+        int Max_length = INT_MAX; // Maximum length of subarray
+        int sum = 0; // Current sum of elements in the subarray
+
+        while (l < nums.size()) {
+            // Add the next element to the sum and move the right pointer
+            while (r < nums.size() && sum < target)
+                sum += nums[r++];
+
+            // Update the maximum length if the current length is smaller
+            if (sum >= target)
+                Max_length = min(Max_length, r - l);
+
+            // Remove the leftmost element from the sum and move the left pointer
+            sum -= nums[l++];
+        }
+
+        // Return the minimum subarray length or 0 if no such subarray exists
+        return (Max_length == INT_MAX ? 0 : Max_length);
     }
 };
 ```
