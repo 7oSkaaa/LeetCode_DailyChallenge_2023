@@ -26,6 +26,7 @@
 1. **[Buddy Strings](#03--buddy-strings)**
 1. **[Single Number II](#04--single-number-ii)**
 1. **[Longest Subarray of 1's After Deleting One Element](#05--longest-subarray-of-1s-after-deleting-one-element)**
+1. **[Minimum Size Subarray Sum](#06--minimum-size-subarray-sum)**
 
 <hr>
 <br><br>
@@ -305,6 +306,49 @@ public:
 
         // Return the length of the longest subarray
         return maxLen;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 06)  [Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Sliding Window` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int l = 0, r = 0; // Pointers for the left and right ends of the subarray
+        int Max_length = INT_MAX; // Maximum length of subarray
+        int sum = 0; // Current sum of elements in the subarray
+
+        while (l < nums.size()) {
+            // Add the next element to the sum and move the right pointer
+            while (r < nums.size() && sum < target)
+                sum += nums[r++];
+
+            // Update the maximum length if the current length is smaller
+            if (sum >= target)
+                Max_length = min(Max_length, r - l);
+
+            // Remove the leftmost element from the sum and move the left pointer
+            sum -= nums[l++];
+        }
+
+        // Return the minimum subarray length or 0 if no such subarray exists
+        return (Max_length == INT_MAX ? 0 : Max_length);
     }
 };
 ```
