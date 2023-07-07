@@ -27,6 +27,7 @@
 1. **[Single Number II](#04--single-number-ii)**
 1. **[Longest Subarray of 1's After Deleting One Element](#05--longest-subarray-of-1s-after-deleting-one-element)**
 1. **[Minimum Size Subarray Sum](#06--minimum-size-subarray-sum)**
+1. **[Maximize the Confusion of an Exam](#07--maximize-the-confusion-of-an-exam)**
 
 <hr>
 <br><br>
@@ -349,6 +350,54 @@ public:
 
         // Return the minimum subarray length or 0 if no such subarray exists
         return (Max_length == INT_MAX ? 0 : Max_length);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 07)  [Maximize the Confusion of an Exam](https://leetcode.com/problems/maximize-the-confusion-of-an-exam/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`String` `Binary Search` `Sliding Window` `Prefix Sum`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int getMaxConf(const string& answers, int k, char choice) {
+        int n = answers.size();
+        int maxConf = 0, currChoice = 0;
+        int l = 0, r = 0;
+
+        // Iterate through the answer key using two pointers 'l' and 'r'.
+        while (r < n) {
+            // Increment 'currChoice' if the answer at index 'r' matches the specified 'choice'.
+            currChoice += (answers[r] == choice);
+
+            // Adjust the window size by moving the left pointer 'l' if the current number of choices 'currChoice' exceeds the allowed 'k'.
+            while (currChoice > k)
+                currChoice -= (answers[l++] == choice);
+
+            // Update the maximum consecutive count by comparing the current window size 'r - l + 1' with the previous maximum.
+            maxConf = max(maxConf, r - l + 1);
+            r++;
+        }
+
+        return maxConf;
+    }
+
+    int maxConsecutiveAnswers(const string& answerKey, int k) {
+        // Return the maximum count between the consecutive 'T' answers and consecutive 'F' answers.
+        return max(getMaxConf(answerKey, k, 'T'), getMaxConf(answerKey, k, 'F'));
     }
 };
 ```
