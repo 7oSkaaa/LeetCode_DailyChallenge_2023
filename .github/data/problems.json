@@ -759,6 +759,10 @@
         {
             "day": "06",
             "title": "Minimum Size Subarray Sum"
+        },
+        {
+            "day": "07",
+            "title": "Maximize the Confusion of an Exam"
         }
     ]
 }
