@@ -771,6 +771,10 @@
         {
             "day": "09",
             "title": "Substring With Largest Variance"
+        },
+        {
+            "day": "10",
+            "title": "Minimum Depth of Binary Tree"
         }
     ]
 }
