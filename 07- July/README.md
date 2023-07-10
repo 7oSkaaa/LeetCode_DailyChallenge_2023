@@ -29,6 +29,7 @@
 1. **[Minimum Size Subarray Sum](#06--minimum-size-subarray-sum)**
 1. **[Maximize the Confusion of an Exam](#07--maximize-the-confusion-of-an-exam)**
 1. **[Substring With Largest Variance](#09--substring-with-largest-variance)**
+1. **[Minimum Depth of Binary Tree](#10--minimum-depth-of-binary-tree)**
 
 <hr>
 <br><br>
@@ -477,6 +478,38 @@ public:
 
         // Return the largest variance found in the string 's'.
         return bestDiff;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 10)  [Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Easy-green?style=for-the-badge)
+
+### Related Topic
+
+`Tree` `Depth-First Search` `Breadth-First Search` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minDepth(TreeNode* root, int depth = 0) {
+        // return 0 if there are no nodes in the tree otherwise it's not a leaf node
+        if(!root) return (!depth ? 0 : 1e9);
+        
+        // return 1 if it's a leaf node
+        if(!root -> left && !root -> right) return 1;
+
+        // get the minimum depth of leaf node from the left and right subtree
+        return 1 + min(minDepth(root -> left, depth + 1), minDepth(root -> right, depth + 1));
     }
 };
 ```
