@@ -783,6 +783,10 @@
         {
             "day": "12",
             "title": "Find Eventual Safe States"
+        },
+        {
+            "day": "13",
+            "title": "Course Schedule"
         }
     ]
 }
