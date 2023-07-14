@@ -31,6 +31,7 @@
 1. **[Substring With Largest Variance](#09--substring-with-largest-variance)**
 1. **[Minimum Depth of Binary Tree](#10--minimum-depth-of-binary-tree)**
 1. **[Course Schedule](#13--course-schedule)**
+1. **[Longest Arithmetic Subsequence of Given Difference](#14--longest-arithmetic-subsequence-of-given-difference)**
 
 <hr>
 <br><br>
@@ -588,6 +589,46 @@ public:
 
         // Perform topological sort and return result
         return topology(numCourses);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Longest Arithmetic Subsequence of Given Difference](https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Hash Table` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int longestSubsequence(vector<int>& arr, int difference) {
+        // N is a constant representing a large number.
+        constexpr int N = 2e4;
+
+        // dp is a vector of integers with size 2 * N + 5.
+        // It is used to store the dynamic programming values.
+        vector < int > dp(2 * N + 5);
+
+        // Iterate through each element x in the input vector arr.
+        for (auto& x : arr)
+            // Calculate the index for the current element x in the dp vector by adding N.
+            // Update the value at the calculated index in the dp vector by taking the maximum
+            // between the current value and the value at index x - difference + N + 1.
+            dp[x + N] = max(dp[x + N], dp[x - difference + N] + 1);
+
+        // Return the maximum element in the dp vector.
+        return *max_element(dp.begin(), dp.end());
     }
 };
 ```
