@@ -787,6 +787,10 @@
         {
             "day": "13",
             "title": "Course Schedule"
+        },
+        {
+            "day": "14",
+            "title": "Longest Arithmetic Subsequence of Given Difference"
         }
     ]
 }
