@@ -795,6 +795,10 @@
         {
             "day": "15",
             "title": "Maximum Number of Events That Can Be Attended II"
+        },
+        {
+            "day": "16",
+            "title": "Smallest Sufficient Team"
         }
     ]
 }
