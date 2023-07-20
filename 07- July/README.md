@@ -34,6 +34,9 @@
 1. **[Longest Arithmetic Subsequence of Given Difference](#14--longest-arithmetic-subsequence-of-given-difference)**
 1. **[Maximum Number of Events That Can Be Attended II](#15--maximum-number-of-events-that-can-be-attended-ii)**
 1. **[Smallest Sufficient Team](#16--smallest-sufficient-team)**
+1. **[Add Two Numbers II](#17--add-two-numbers-ii)**
+1. **[LRU Cache](#18--lru-cache)**
+1. **[Non-overlapping Intervals](#19--non-overlapping-intervals)**
 
 <hr>
 <br><br>
@@ -786,6 +789,218 @@ public:
         get_min_people(0, 0); // Calculate the minimum number of people needed
         build_ans(0, 0); // Build the answer vector
         return people_ans; // Return the answer vector
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 17)  [Add Two Numbers II](https://leetcode.com/problems/add-two-numbers-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Linked List` `Math` `Stack`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        // Create two stacks to store the digits of l1 and l2
+        stack < int > s1, s2;
+        
+        // Push digits of l1 into stack s1
+        while (l1 != NULL)
+            s1.push(l1 -> val), l1 = l1 -> next;
+        
+        // Push digits of l2 into stack s2
+        while (l2 != NULL)
+            s2.push(l2 -> val), l2 = l2 -> next;
+        
+        // Create a dummy node as the head of the resulting linked list
+        ListNode* dummy = new ListNode(0);
+        int carry = 0;
+        
+        // Perform addition digit by digit until both stacks and carry are empty
+        while (!s1.empty() || !s2.empty() || carry) {
+            int first = 0, second = 0;
+            
+            // Get the top digit from stack s1 if it is not empty
+            if (!s1.empty())
+                first = s1.top(), s1.pop();
+            
+            // Get the top digit from stack s2 if it is not empty
+            if (!s2.empty())
+                second = s2.top(), s2.pop();
+            
+            // Calculate the sum of the digits including the carry
+            int sum = carry + first + second;
+            carry = sum / 10;
+            
+            // Create a new node with the digit and attach it to the resulting linked list
+            ListNode* attach = new ListNode(sum % 10);
+            attach -> next = dummy -> next;
+            dummy -> next = attach;
+        }
+        
+        // Return the head of the resulting linked list
+        return dummy->next;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 18)  [LRU Cache](https://leetcode.com/problems/lru-cache/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Hash Table` `Linked List` `Design` `Doubly-Linked List`
+
+### Code
+
+
+```cpp
+class Node {
+public:
+    int key, val;
+    Node *next, *prev;
+    Node(int key = -1, int val = -1) {
+        this -> key = key;
+        this -> val = val;
+        this -> next = nullptr;
+        this -> prev = nullptr;
+    }
+};
+
+class LRUCache {
+public:
+    static constexpr int N = 1e4 + 5;
+    int maxCap, currSz; // Maximum capacity of the cache
+    vector < Node* > nodes; // Map to store key-node pairs
+    Node *head = new Node(); // Dummy head node for doubly-linked list
+    Node *tail = new Node(); // Dummy tail node for doubly-linked list
+
+    // Constructor to initialize the LRUCache with a given capacity
+    LRUCache(int capacity) {
+        maxCap = capacity, currSz = 0;
+        head -> next = tail;
+        tail -> prev = head;
+        nodes = vector < Node* > (N, nullptr);
+    }
+
+    // Function to add a new node after the head node in the doubly-linked list
+    void addNode(Node *newNode) {
+        Node *temp = head -> next;
+        head -> next = newNode;
+        newNode -> next = temp;
+        newNode -> prev = head;
+        temp -> prev = newNode;
+    }
+
+    // Function to delete a node from the doubly-linked list
+    void deleteNode(Node *delNode) {
+        Node *prev = delNode -> prev;
+        Node* next = delNode -> next;
+        prev -> next = next;
+        next -> prev = prev;
+    }
+
+    // Function to retrieve the value associated with the given key
+    int get(int key) {
+        if (!nodes[key]) return -1; // Key not found in cache
+        Node *node = nodes[key];
+        deleteNode(node); // Move the accessed node to the front
+        addNode(node);
+        nodes[key] = head -> next; // Update the position in the cache
+        return nodes[key] -> val; // Return the value associated with the key
+    }
+
+    // Function to insert or update a key-value pair in the cache
+    void put(int key, int value) {
+        if (nodes[key]) {
+            Node *node = nodes[key];
+            deleteNode(node); // Remove the existing node
+            node -> val = value; // Update the value of the existing node
+            addNode(node); // Move the node to the front
+            nodes[key] = head -> next; // Update the position in the cache
+        } else {
+            if (currSz == maxCap) {
+                Node *prev = tail -> prev; // Remove the least recently used node
+                deleteNode(prev);
+                Node *newNode = new Node(key, value); // Create a new node with the given key and value
+                addNode(newNode); // Add the new node to the front
+                nodes[prev -> key] = nullptr; // Remove the old key from the cache
+                nodes[key] = head -> next; // Update the position in the cache
+            } else {
+                Node *newNode = new Node(key, value); // Create a new node with the given key and value
+                addNode(newNode); // Add the new node to the front
+                nodes[key] = head -> next; // Update the position in the cache
+                currSz++;
+            }
+        }
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 19)  [Non-overlapping Intervals](https://leetcode.com/problems/non-overlapping-intervals/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Greedy` `Sorting`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        // Sort the intervals based on their start times in ascending order
+        sort(intervals.begin(), intervals.end());
+        
+        // Initialize a variable to store the count of erased intervals
+        int erased_intervals = 0;
+        
+        // Initialize a variable to keep track of the end time of the previous interval
+        int previous_end = intervals[0][1];
+        
+        // Loop through the intervals starting from the second interval (index 1)
+        for (int i = 1; i < intervals.size(); ++i) {
+            // If the current interval overlaps with the previous one
+            if (intervals[i][0] < previous_end) {
+                // Increment the erased_intervals count, as we need to erase the current interval
+                erased_intervals++;
+                
+                // Update the previous_end to the minimum of the current interval's end time and the previous_end
+                previous_end = min(previous_end, intervals[i][1]);
+            } else {
+                // If the current interval does not overlap with the previous one, update the previous_end
+                previous_end = intervals[i][1];
+            }
+        }
+        
+        // Return the count of erased intervals
+        return erased_intervals;
     }
 };
 ```
