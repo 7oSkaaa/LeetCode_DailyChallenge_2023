@@ -819,6 +819,10 @@
         {
             "day": "21",
             "title": "Number of Longest Increasing Subsequence"
+        },
+        {
+            "day": "22",
+            "title": "Knight Probability in Chessboard"
         }
     ]
 }
