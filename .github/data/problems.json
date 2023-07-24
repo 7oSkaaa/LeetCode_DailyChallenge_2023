@@ -827,6 +827,10 @@
         {
             "day": "23",
             "title": "All Possible Full Binary Trees"
+        },
+        {
+            "day": "24",
+            "title": "Pow(x, n)"
         }
     ]
 }
