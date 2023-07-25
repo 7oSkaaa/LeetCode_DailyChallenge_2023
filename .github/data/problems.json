@@ -831,6 +831,10 @@
         {
             "day": "24",
             "title": "Pow(x, n)"
+        },
+        {
+            "day": "25",
+            "title": "Peak Index in a Mountain Array"
         }
     ]
 }
