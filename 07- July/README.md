@@ -41,6 +41,7 @@
 1. **[Knight Probability in Chessboard](#22--knight-probability-in-chessboard)**
 1. **[All Possible Full Binary Trees](#23--all-possible-full-binary-trees)**
 1. **[Pow(x, n)](#24--powx-n)**
+1. **[Peak Index in a Mountain Array](#25--peak-index-in-a-mountain-array)**
 
 <hr>
 <br><br>
@@ -1247,6 +1248,42 @@ public:
 
         // Return the final result, either "power" or its reciprocal based on the value of "neg"
         return (neg ? 1 / power : power);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& arr) {
+        // Initialize two pointers l and r to the start and end of the array, and a variable ans to store the peak index
+        int l = 0, r = arr.size() - 1, ans = 0;
+        // Use a binary search algorithm to find the peak index
+        while(l <= r){
+            // Calculate the middle index using the l and r pointers
+            int m = l + (r - l) / 2;
+            // If the element at index m is greater than the element at index m+1, move r pointer to m-1 and update ans to m
+            // This means that the peak is on the left side of m
+            (arr[m] > arr[m + 1] ? r = m - 1, ans = m : l = m + 1);
+        }
+        // Return the peak index
+        return ans;
     }
 };
 ```
