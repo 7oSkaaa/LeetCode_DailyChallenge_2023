@@ -835,6 +835,10 @@
         {
             "day": "25",
             "title": "Peak Index in a Mountain Array"
+        },
+        {
+            "day": "26",
+            "title": "Minimum Speed to Arrive on Time"
         }
     ]
 }
