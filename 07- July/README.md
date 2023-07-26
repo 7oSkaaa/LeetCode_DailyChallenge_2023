@@ -39,6 +39,9 @@
 1. **[Non-overlapping Intervals](#19--non-overlapping-intervals)**
 1. **[Asteroid Collision](#20--asteroid-collision)**
 1. **[Knight Probability in Chessboard](#22--knight-probability-in-chessboard)**
+1. **[All Possible Full Binary Trees](#23--all-possible-full-binary-trees)**
+1. **[Pow(x, n)](#24--powx-n)**
+1. **[Peak Index in a Mountain Array](#25--peak-index-in-a-mountain-array)**
 
 <hr>
 <br><br>
@@ -1126,6 +1129,161 @@ public:
 
         // Return the calculated probability for current state
         return ret;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 23)  [All Possible Full Binary Trees](https://leetcode.com/problems/all-possible-full-binary-trees/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Tree` `Recursion` `Memoization` `Binary Tree`
+
+### Code
+
+
+```cpp
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+class Solution {
+public:
+    // Declare a map 'dp' to store the results of subproblems (memoization)
+    map<int, vector<TreeNode*>> dp;
+    
+    // Function to generate all possible full binary trees with 'n' nodes
+    vector<TreeNode*> allPossibleFBT(int n) {
+        // If 'n' is even, it is not possible to create a full binary tree with 'n' nodes, return an empty vector
+        if (n % 2 == 0)
+            return {};
+        
+        // If 'n' is 1, there is only one possible full binary tree with a single node, return a vector containing that node
+        if (n == 1)
+            return {new TreeNode()};
+        
+        // If the result for 'n' is already computed, return it from the map 'dp'
+        if (dp.count(n))
+            return dp[n];
+        
+        // Initialize an empty vector for 'n' in 'dp'
+        dp[n] = {};
+        
+        // Loop through all possible left subtree sizes (odd numbers from 1 to n-1)
+        for (int l = 1; l < n; l += 2) {
+            // Calculate the size of the right subtree
+            int r = n - l - 1;
+            
+            // Recursively generate all possible full binary trees for left and right subtrees
+            vector<TreeNode*> left = allPossibleFBT(l);
+            vector<TreeNode*> right = allPossibleFBT(r);
+            
+            // Combine the left and right subtrees to form the full binary trees with 'n' nodes
+            for (TreeNode* L : left) {
+                for (TreeNode* R : right) {
+                    // Create a new full binary tree with root having value 0 and left and right subtrees as 'L' and 'R'
+                    dp[n].push_back(new TreeNode(0, L, R));
+                }
+            }
+        }
+        
+        // Return the vector of all possible full binary trees with 'n' nodes
+        return dp[n];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 24)  [Pow(x, n)](https://leetcode.com/problems/powx-n/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Math` `Recursion`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    double myPow(double x, int n) {
+        // Initialize a variable "power" to store the result of the power calculation, and set it to 1 initially
+        double power = 1;
+        // Check if the value of "n" is negative and store the result in a boolean variable "neg"
+        bool neg = (n < 0);
+
+        // Start a loop that continues as long as "n" is non-zero
+        while (n) {
+            // Check if "n" is odd (n % 2 is non-zero), and if so, multiply "power" with "x"
+            if (n % 2)
+                power *= x;
+            
+            // Square the value of "x" in each iteration
+            x *= x;
+
+            // Divide "n" by 2 in each iteration to perform binary exponentiation
+            n /= 2;
+        }
+
+        // Return the final result, either "power" or its reciprocal based on the value of "neg"
+        return (neg ? 1 / power : power);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 25)  [Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& arr) {
+        // Initialize two pointers l and r to the start and end of the array, and a variable ans to store the peak index
+        int l = 0, r = arr.size() - 1, ans = 0;
+        // Use a binary search algorithm to find the peak index
+        while(l <= r){
+            // Calculate the middle index using the l and r pointers
+            int m = l + (r - l) / 2;
+            // If the element at index m is greater than the element at index m+1, move r pointer to m-1 and update ans to m
+            // This means that the peak is on the left side of m
+            (arr[m] > arr[m + 1] ? r = m - 1, ans = m : l = m + 1);
+        }
+        // Return the peak index
+        return ans;
     }
 };
 ```
