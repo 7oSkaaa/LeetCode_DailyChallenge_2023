@@ -10,12 +10,13 @@ public:
         auto is_good = [&](double speed){
             double time = 0;
             // Iterate through all distances except the last one
-            for(int i = 0; i < n - 1; i++)
+            for(int i = 0; i < n; i++){
+                // waiting for the time to become an integer
+                time = ceil(time);
+                
                 // Calculate the time taken for each distance and add it to the total time
-                time += ceil(dist[i] / speed);
-            
-            // Add the time taken to cover the last distance
-            time += dist.back() / speed;
+                time += dist[i] / speed;
+            }
             
             // Check if the total time is less than or equal to the specified hour
             return time <= hour;
