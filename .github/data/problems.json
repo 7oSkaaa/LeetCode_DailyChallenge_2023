@@ -839,6 +839,10 @@
         {
             "day": "26",
             "title": "Minimum Speed to Arrive on Time"
+        },
+        {
+            "day": "27",
+            "title": "Maximum Running Time of N Computers"
         }
     ]
 }
