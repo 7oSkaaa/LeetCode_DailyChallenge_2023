@@ -843,6 +843,10 @@
         {
             "day": "27",
             "title": "Maximum Running Time of N Computers"
+        },
+        {
+            "day": "28",
+            "title": "Predict the Winner"
         }
     ]
 }
