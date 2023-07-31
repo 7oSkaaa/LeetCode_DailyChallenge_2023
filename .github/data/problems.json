@@ -855,6 +855,10 @@
         {
             "day": "30",
             "title": "Strange Printer"
+        },
+        {
+            "day": "31",
+            "title": "Minimum ASCII Delete Sum for Two Strings"
         }
     ]
 }
