@@ -25,6 +25,7 @@
 1. **[Permutations](#02--permutations)**
 1. **[Letter Combinations of a Phone Number](#03--letter-combinations-of-a-phone-number)**
 1. **[Word Break](#04--word-break)**
+1. **[Unique Binary Search Trees II](#05--unique-binary-search-trees-ii)**
 
 <hr>
 <br><br>
@@ -222,6 +223,53 @@ public:
         
         // If no match is found, update the result for the current 's' to false.
         return mp[s] = false;
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 05)  [Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Dynamic Programming` `Backtracking` `Tree` `Binary Search Tree` `Binary Tree`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    vector < TreeNode* > generateTrees(int E, int S = 1) {
+        // If the end of the range is smaller than the start, return a vector with a single nullptr
+        if (E < S) return {nullptr};
+
+        // Create a vector to store the generated tree nodes
+        vector < TreeNode* > nodes;
+
+        // Iterate through each value from S to E
+        for (int i = S; i <= E; ++i) {
+            // Generate all possible left subtrees from the range [S, i-1]
+            vector < TreeNode* > left = generateTrees(i - 1, S);
+
+            // Generate all possible right subtrees from the range [i+1, E]
+            vector < TreeNode* > right = generateTrees(E, i + 1);
+
+            // Combine each left subtree with each right subtree and create a new tree node with value 'i'
+            // Then, add the newly created tree node to the 'nodes' vector
+            for (auto tl : left)
+                for (auto tr : right)
+                    nodes.push_back(new TreeNode(i, tl, tr));
+        }
+
+        // Return the vector containing all possible binary search trees
+        return nodes;
     }
 };
 ```
