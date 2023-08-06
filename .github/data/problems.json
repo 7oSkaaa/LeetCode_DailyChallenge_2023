@@ -881,6 +881,10 @@
         {
             "day": "05",
             "title": "Unique Binary Search Trees II"
+        },
+        {
+            "day": "06",
+            "title": "Number of Music Playlists"
         }
     ]
 }
