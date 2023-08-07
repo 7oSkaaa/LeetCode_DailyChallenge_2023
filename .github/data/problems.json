@@ -885,6 +885,10 @@
         {
             "day": "06",
             "title": "Number of Music Playlists"
+        },
+        {
+            "day": "07",
+            "title": "Search a 2D Matrix"
         }
     ]
 }
