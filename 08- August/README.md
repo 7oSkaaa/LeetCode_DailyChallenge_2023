@@ -28,6 +28,7 @@
 1. **[Unique Binary Search Trees II](#05--unique-binary-search-trees-ii)**
 1. **[Number of Music Playlists](#06--number-of-music-playlists)**
 1. **[Search a 2D Matrix](#07--search-a-2d-matrix)**
+1. **[Search in Rotated Sorted Array](#08--search-in-rotated-sorted-array)**
 
 <hr>
 <br><br>
@@ -387,6 +388,47 @@ public:
         if(row_idx == -1) return false;
         // Search for the target in the identified row using binary search in 1D vector
         return BS_1D(matrix[row_idx], target);
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 08)  [Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        // Initialize two pointers 'l' and 'r' to the start and end of the vector.
+        int l = 0, r = nums.size() - 1;
+
+        // Perform a binary search by narrowing down the search range until 'l' is less than or equal to 'r'.
+        while(l <= r){
+            // Check if the element at index 'l' is equal to the target. If so, return 'l'.
+            if(nums[l] == target) return l;
+
+            // Check if the element at index 'r' is equal to the target. If so, return 'r'.
+            if(nums[r] == target) return r;
+
+            // If neither 'l' nor 'r' elements match the target, move 'l' one step right and 'r' one step left.
+            r--, l++;
+        }
+
+        // If the target element is not found in the vector, return -1.
+        return -1;
     }
 };
 ```
