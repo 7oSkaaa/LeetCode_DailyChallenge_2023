@@ -893,6 +893,10 @@
         {
             "day": "08",
             "title": "Search in Rotated Sorted Array"
+        },
+        {
+            "day": "09",
+            "title": "Minimize the Maximum Difference of Pairs"
         }
     ]
 }
