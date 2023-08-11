@@ -29,6 +29,7 @@
 1. **[Number of Music Playlists](#06--number-of-music-playlists)**
 1. **[Search a 2D Matrix](#07--search-a-2d-matrix)**
 1. **[Search in Rotated Sorted Array](#08--search-in-rotated-sorted-array)**
+1. **[Minimize the Maximum Difference of Pairs](#09--minimize-the-maximum-difference-of-pairs)**
 1. **[Search in Rotated Sorted Array II](#10--search-in-rotated-sorted-array-ii)**
 1. **[Coin Change II](#11--coin-change-ii)**
 
@@ -470,7 +471,66 @@ public:
     }
 };
 ```
-    
+
+<hr>
+<br><br>
+
+## 10)  [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimizeMax(vector<int>& nums, int p) {
+        // Get the size of the input vector
+        int n = nums.size();
+        
+        // Sort the input vector in ascending order
+        sort(nums.begin(), nums.end());
+        
+        // Define a lambda function (is_good) that takes an integer (m) and returns a boolean
+        auto is_good = [&](int m){
+            int cnt_pairs = 0; // Initialize a counter for pairs
+            
+            // Iterate through the input vector
+            for(int i = 0; i < n - 1; i++){
+                // Check if the difference between the current element and the next element is less than or equal to m
+                if(nums[i + 1] - nums[i] <= m)
+                    cnt_pairs++, i++; // Increment the counter and the index to skip the next element
+            }
+            
+            // Return true if the count of pairs is greater than or equal to p, otherwise return false
+            return cnt_pairs >= p;
+        };
+        
+        // Initialize variables l, r, and ans
+        int l = 0, r = 1, ans = -1;
+        
+        while(!is_good(r)) r *= 2;
+
+        // Perform a binary search to find the minimum value of m that satisfies the is_good condition
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            // Update l and r based on the is_good condition
+            (is_good(m) ? r = m - 1, ans = m : l = m + 1);
+        }
+        
+        // Return the final answer
+        return ans;
+    }
+};
+```
+ 
 <hr>
 <br><br>
 
