@@ -439,7 +439,7 @@ public:
 <hr>
 <br><br>
 
-## 9)  [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/)
+## 09)  [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/)
 
 ### Difficulty
 
