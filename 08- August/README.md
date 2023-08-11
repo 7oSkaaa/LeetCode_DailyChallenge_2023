@@ -30,6 +30,7 @@
 1. **[Search a 2D Matrix](#07--search-a-2d-matrix)**
 1. **[Search in Rotated Sorted Array](#08--search-in-rotated-sorted-array)**
 1. **[Search in Rotated Sorted Array II](#10--search-in-rotated-sorted-array-ii)**
+1. **[Coin Change II](#11--coin-change-ii)**
 
 <hr>
 <br><br>
@@ -466,6 +467,47 @@ public:
                 (nums[m] <= target && target <= nums[r] ? l = m + 1 : r = m - 1); // Adjust pointers based on target location in sorted portion
         }
         return false; // Target not found in the array
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 11)  [Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        // Create a vector 'dp' to store the count of combinations for each amount from 0 to 'amount'
+        vector < int > dp(amount + 1);
+        
+        // There is only one way to make 0 amount, which is by not using any coins
+        dp[0] = 1;
+        
+        // Iterate through each coin in the 'coins' vector
+        for(auto& coin : coins)
+            // Iterate through each possible amount starting from 1 up to 'amount'
+            for(int money = 1; money <= amount; money++)
+                // Check if the current coin value is less than or equal to the current amount
+                if(money >= coin)
+                    // Increment the count of combinations for the current amount by the count of combinations for (current amount - coin value)
+                    dp[money] += dp[money - coin];
+        
+        // Return the count of combinations to make the given 'amount'
+        return dp[amount];
     }
 };
 ```
