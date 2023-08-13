@@ -29,7 +29,10 @@
 1. **[Number of Music Playlists](#06--number-of-music-playlists)**
 1. **[Search a 2D Matrix](#07--search-a-2d-matrix)**
 1. **[Search in Rotated Sorted Array](#08--search-in-rotated-sorted-array)**
+1. **[Minimize the Maximum Difference of Pairs](#09--minimize-the-maximum-difference-of-pairs)**
 1. **[Search in Rotated Sorted Array II](#10--search-in-rotated-sorted-array-ii)**
+1. **[Coin Change II](#11--coin-change-ii)**
+1. **[Unique Paths II](#12--unique-paths-ii)**
 
 <hr>
 <br><br>
@@ -437,6 +440,65 @@ public:
 <hr>
 <br><br>
 
+## 09)  [Minimize the Maximum Difference of Pairs](https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Binary Search` `Greedy`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int minimizeMax(vector<int>& nums, int p) {
+        // Get the size of the input vector
+        int n = nums.size();
+        
+        // Sort the input vector in ascending order
+        sort(nums.begin(), nums.end());
+        
+        // Define a lambda function (is_good) that takes an integer (m) and returns a boolean
+        auto is_good = [&](int m){
+            int cnt_pairs = 0; // Initialize a counter for pairs
+            
+            // Iterate through the input vector
+            for(int i = 0; i < n - 1; i++){
+                // Check if the difference between the current element and the next element is less than or equal to m
+                if(nums[i + 1] - nums[i] <= m)
+                    cnt_pairs++, i++; // Increment the counter and the index to skip the next element
+            }
+            
+            // Return true if the count of pairs is greater than or equal to p, otherwise return false
+            return cnt_pairs >= p;
+        };
+        
+        // Initialize variables l, r, and ans
+        int l = 0, r = 1, ans = -1;
+        
+        while(!is_good(r)) r *= 2;
+
+        // Perform a binary search to find the minimum value of m that satisfies the is_good condition
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            // Update l and r based on the is_good condition
+            (is_good(m) ? r = m - 1, ans = m : l = m + 1);
+        }
+        
+        // Return the final answer
+        return ans;
+    }
+};
+```
+
+<hr>
+<br><br>
+
 ## 10)  [Search in Rotated Sorted Array II](https://leetcode.com/problems/search-in-rotated-sorted-array-ii/)
 
 ### Difficulty
@@ -466,6 +528,94 @@ public:
                 (nums[m] <= target && target <= nums[r] ? l = m + 1 : r = m - 1); // Adjust pointers based on target location in sorted portion
         }
         return false; // Target not found in the array
+    }
+};
+```
+ 
+<hr>
+<br><br>
+
+## 11)  [Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        // Create a vector 'dp' to store the count of combinations for each amount from 0 to 'amount'
+        vector < int > dp(amount + 1);
+        
+        // There is only one way to make 0 amount, which is by not using any coins
+        dp[0] = 1;
+        
+        // Iterate through each coin in the 'coins' vector
+        for(auto& coin : coins)
+            // Iterate through each possible amount starting from 1 up to 'amount'
+            for(int money = 1; money <= amount; money++)
+                // Check if the current coin value is less than or equal to the current amount
+                if(money >= coin)
+                    // Increment the count of combinations for the current amount by the count of combinations for (current amount - coin value)
+                    dp[money] += dp[money - coin];
+        
+        // Return the count of combinations to make the given 'amount'
+        return dp[amount];
+    }
+};
+```
+    
+
+<hr>
+<br><br>
+
+## 12)  [Unique Paths II](https://leetcode.com/problems/unique-paths-ii/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Dynamic Programming` `Matrix`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        // Get the number of rows and columns in the obstacleGrid
+        int n = obstacleGrid.size(), m = obstacleGrid[0].size();
+        
+        // Initialize a 2D vector dp with dimensions (n+5) x (m+5)
+        vector<vector<int>> dp(n + 5, vector<int>(m + 5));
+        
+        // Set the starting point in dp based on the condition in obstacleGrid
+        dp[1][1] = (obstacleGrid[0][0] != 1);
+        
+        // Iterate through each cell in the obstacleGrid
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= m; j++) {
+                // Check if the current cell is not an obstacle
+                if(obstacleGrid[i - 1][j - 1] != 1) {
+                    // Calculate the number of unique paths to the current cell
+                    dp[i][j] += dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+        }
+        
+        // Return the number of unique paths to the bottom-right cell of the obstacleGrid
+        return dp[n][m];
     }
 };
 ```
