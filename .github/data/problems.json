@@ -913,6 +913,10 @@
         {
             "day": "13",
             "title": "Check if There is a Valid Partition For The Array"
+        },
+        {
+            "day": "14",
+            "title": "Kth Largest Element in an Array"
         }
     ]
 }
