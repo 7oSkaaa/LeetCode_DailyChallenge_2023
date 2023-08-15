@@ -917,6 +917,10 @@
         {
             "day": "14",
             "title": "Kth Largest Element in an Array"
+        },
+        {
+            "day": "15",
+            "title": "Partition List"
         }
     ]
 }
