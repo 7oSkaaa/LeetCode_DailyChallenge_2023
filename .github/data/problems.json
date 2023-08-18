@@ -929,6 +929,10 @@
         {
             "day": "17",
             "title": "01 Matrix"
+        },
+        {
+            "day": "18",
+            "title": "Maximal Network Rank"
         }
     ]
 }
