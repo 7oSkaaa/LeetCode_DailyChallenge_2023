@@ -933,6 +933,10 @@
         {
             "day": "18",
             "title": "Maximal Network Rank"
+        },
+        {
+            "day": "19",
+            "title": "Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree"
         }
     ]
 }
