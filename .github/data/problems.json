@@ -941,6 +941,10 @@
         {
             "day": "20",
             "title": "Sort Items by Groups Respecting Dependencies"
+        },
+        {
+            "day": "21",
+            "title": "Repeated Substring Pattern"
         }
     ]
 }
