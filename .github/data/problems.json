@@ -945,6 +945,10 @@
         {
             "day": "21",
             "title": "Repeated Substring Pattern"
+        },
+        {
+            "day": "22",
+            "title": "Excel Sheet Column Title"
         }
     ]
 }
