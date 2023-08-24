@@ -953,6 +953,10 @@
         {
             "day": "23",
             "title": "Reorganize String"
+        },
+        {
+            "day": "24",
+            "title": "Text Justification"
         }
     ]
 }
