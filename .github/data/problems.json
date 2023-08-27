@@ -965,6 +965,10 @@
         {
             "day": "26",
             "title": "Maximum Length of Pair Chain"
+        },
+        {
+            "day": "27",
+            "title": "Frog Jump"
         }
     ]
 }
