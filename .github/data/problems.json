@@ -973,6 +973,10 @@
         {
             "day": "28",
             "title": "Implement Stack using Queues"
+        },
+        {
+            "day": "29",
+            "title": "Minimum Penalty for a Shop"
         }
     ]
 }
