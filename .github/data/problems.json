@@ -981,6 +981,10 @@
         {
             "day": "30",
             "title": "Minimum Replacements to Sort the Array"
+        },
+        {
+            "day": "31",
+            "title": "Minimum Number of Taps to Open to Water a Garden"
         }
     ]
 }
