@@ -986,5 +986,11 @@
             "day": "31",
             "title": "Minimum Number of Taps to Open to Water a Garden"
         }
+    ],
+    "09- September": [
+        {
+            "day": "01",
+            "title": "Counting Bits"
+        }
     ]
 }
