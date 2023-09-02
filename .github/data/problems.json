@@ -991,6 +991,10 @@
         {
             "day": "01",
             "title": "Counting Bits"
+        },
+        {
+            "day": "02",
+            "title": "Extra Characters in a String"
         }
     ]
 }
