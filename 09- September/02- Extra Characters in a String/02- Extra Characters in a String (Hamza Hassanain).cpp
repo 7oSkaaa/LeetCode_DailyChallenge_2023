@@ -4,6 +4,9 @@
         Transition: dp[i] = min(delete s[i] , try all valid words that match a substring of s and the the one with minimum answer)
         Base Case: dp[s.size()] = 0 (empty string has 0 extra characters)
 */
+
+// Author: Hamzawy00
+
 class Solution
 {
 public:
