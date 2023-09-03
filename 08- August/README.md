@@ -34,6 +34,7 @@
 1. **[Coin Change II](#11--coin-change-ii)**
 1. **[Unique Paths II](#12--unique-paths-ii)**
 1. **[Check if There is a Valid Partition For The Array](#13--check-if-there-is-a-valid-partition-for-the-array)**
+1. **[Kth Largest Element in an Array](#14--kth-largest-element-in-an-array)**
 
 <hr>
 <br><br>
@@ -670,6 +671,34 @@ public:
         
         // Return whether the entire array can be partitioned into valid subsequences
         return dp[n % 4];
+    }
+};
+```
+    
+<hr>
+<br><br>
+
+## 14)  [Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/)
+
+### Difficulty
+
+![](https://img.shields.io/badge/Medium-orange?style=for-the-badge)
+
+### Related Topic
+
+`Array` `Divide and Conquer` `Sorting` `Heap (Priority Queue)` `Quickselect`
+
+### Code
+
+
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        // Sort the vector in non-ascending order using the reverse iterators
+        sort(nums.rbegin(), nums.rend());
+        // Return the kth largest element by accessing the (k-1)th index
+        return nums[--k];
     }
 };
 ```
