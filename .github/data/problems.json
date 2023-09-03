@@ -995,6 +995,10 @@
         {
             "day": "02",
             "title": "Extra Characters in a String"
+        },
+        {
+            "day": "03",
+            "title": "Unique Paths"
         }
     ]
 }
