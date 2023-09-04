@@ -999,6 +999,10 @@
         {
             "day": "03",
             "title": "Unique Paths"
+        },
+        {
+            "day": "04",
+            "title": "Linked List Cycle"
         }
     ]
 }
