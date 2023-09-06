@@ -986,5 +986,31 @@
             "day": "31",
             "title": "Minimum Number of Taps to Open to Water a Garden"
         }
+    ],
+    "09- September": [
+        {
+            "day": "01",
+            "title": "Counting Bits"
+        },
+        {
+            "day": "02",
+            "title": "Extra Characters in a String"
+        },
+        {
+            "day": "03",
+            "title": "Unique Paths"
+        },
+        {
+            "day": "04",
+            "title": "Linked List Cycle"
+        },
+        {
+            "day": "05",
+            "title": "Copy List with Random Pointer"
+        },
+        {
+            "day": "06",
+            "title": "Split Linked List in Parts"
+        }
     ]
 }
