@@ -1007,6 +1007,10 @@
         {
             "day": "05",
             "title": "Copy List with Random Pointer"
+        },
+        {
+            "day": "06",
+            "title": "Split Linked List in Parts"
         }
     ]
 }
