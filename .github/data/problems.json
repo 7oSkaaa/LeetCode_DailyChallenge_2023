@@ -1015,6 +1015,10 @@
         {
             "day": "07",
             "title": "Reverse Linked List II"
+        },
+        {
+            "day": "08",
+            "title": "Pascal's Triangle"
         }
     ]
 }
