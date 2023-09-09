@@ -1019,6 +1019,10 @@
         {
             "day": "08",
             "title": "Pascal's Triangle"
+        },
+        {
+            "day": "09",
+            "title": "Combination Sum IV"
         }
     ]
 }
