@@ -1039,6 +1039,10 @@
         {
             "day": "13",
             "title": "Candy"
+        },
+        {
+            "day": "14",
+            "title": "Reconstruct Itinerary"
         }
     ]
 }
