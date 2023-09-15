@@ -1043,6 +1043,10 @@
         {
             "day": "14",
             "title": "Reconstruct Itinerary"
+        },
+        {
+            "day": "15",
+            "title": "Min Cost to Connect All Points"
         }
     ]
 }
