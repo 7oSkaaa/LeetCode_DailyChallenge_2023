@@ -1047,6 +1047,10 @@
         {
             "day": "15",
             "title": "Min Cost to Connect All Points"
+        },
+        {
+            "day": "16",
+            "title": "Path With Minimum Effort"
         }
     ]
 }
