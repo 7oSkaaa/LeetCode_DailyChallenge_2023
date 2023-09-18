@@ -1055,6 +1055,10 @@
         {
             "day": "17",
             "title": "Shortest Path Visiting All Nodes"
+        },
+        {
+            "day": "18",
+            "title": "The K Weakest Rows in a Matrix"
         }
     ]
 }
