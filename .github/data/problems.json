@@ -1059,6 +1059,10 @@
         {
             "day": "18",
             "title": "The K Weakest Rows in a Matrix"
+        },
+        {
+            "day": "19",
+            "title": "Find the Duplicate Number"
         }
     ]
 }
