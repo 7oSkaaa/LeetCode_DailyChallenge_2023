@@ -1063,6 +1063,10 @@
         {
             "day": "19",
             "title": "Find the Duplicate Number"
+        },
+        {
+            "day": "20",
+            "title": "Minimum Operations to Reduce X to Zero"
         }
     ]
 }
