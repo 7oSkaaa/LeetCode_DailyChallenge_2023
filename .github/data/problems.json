@@ -1067,6 +1067,10 @@
         {
             "day": "20",
             "title": "Minimum Operations to Reduce X to Zero"
+        },
+        {
+            "day": "21",
+            "title": "Median of Two Sorted Arrays"
         }
     ]
 }
