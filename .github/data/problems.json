@@ -1079,6 +1079,10 @@
         {
             "day": "23",
             "title": "Longest String Chain"
+        },
+        {
+            "day": "24",
+            "title": "Champagne Tower"
         }
     ]
 }
