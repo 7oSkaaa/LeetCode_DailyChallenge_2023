@@ -1087,6 +1087,10 @@
         {
             "day": "25",
             "title": "Find the Difference"
+        },
+        {
+            "day": "26",
+            "title": "Remove Duplicate Letters"
         }
     ]
 }
