@@ -1091,6 +1091,10 @@
         {
             "day": "26",
             "title": "Remove Duplicate Letters"
+        },
+        {
+            "day": "27",
+            "title": "Decoded String at Index"
         }
     ]
 }
