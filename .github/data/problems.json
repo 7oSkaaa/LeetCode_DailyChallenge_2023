@@ -1095,6 +1095,10 @@
         {
             "day": "27",
             "title": "Decoded String at Index"
+        },
+        {
+            "day": "28",
+            "title": "Sort Array By Parity"
         }
     ]
 }
