@@ -1099,6 +1099,10 @@
         {
             "day": "28",
             "title": "Sort Array By Parity"
+        },
+        {
+            "day": "29",
+            "title": "Monotonic Array"
         }
     ]
 }
