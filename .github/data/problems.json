@@ -1103,6 +1103,10 @@
         {
             "day": "29",
             "title": "Monotonic Array"
+        },
+        {
+            "day": "30",
+            "title": "132 Pattern"
         }
     ]
 }
