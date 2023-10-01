@@ -1108,5 +1108,11 @@
             "day": "30",
             "title": "132 Pattern"
         }
+    ],
+    "10- October": [
+        {
+            "day": "01",
+            "title": "Reverse Words in a String III"
+        }
     ]
 }
