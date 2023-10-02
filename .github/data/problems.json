@@ -1113,6 +1113,10 @@
         {
             "day": "01",
             "title": "Reverse Words in a String III"
+        },
+        {
+            "day": "02",
+            "title": "Remove Colored Pieces if Both Neighbors are the Same Color"
         }
     ]
 }
