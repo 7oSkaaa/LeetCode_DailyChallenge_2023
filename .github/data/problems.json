@@ -1117,6 +1117,10 @@
         {
             "day": "02",
             "title": "Remove Colored Pieces if Both Neighbors are the Same Color"
+        },
+        {
+            "day": "03",
+            "title": "Number of Good Pairs"
         }
     ]
 }
