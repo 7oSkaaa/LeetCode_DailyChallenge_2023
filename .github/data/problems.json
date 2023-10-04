@@ -1121,6 +1121,10 @@
         {
             "day": "03",
             "title": "Number of Good Pairs"
+        },
+        {
+            "day": "04",
+            "title": "Design HashMap"
         }
     ]
 }
