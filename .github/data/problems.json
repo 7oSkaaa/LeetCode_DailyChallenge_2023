@@ -1129,6 +1129,10 @@
         {
             "day": "05",
             "title": "Majority Element II"
+        },
+        {
+            "day": "06",
+            "title": "Integer Break"
         }
     ]
 }
