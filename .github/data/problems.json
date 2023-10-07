@@ -1133,6 +1133,10 @@
         {
             "day": "06",
             "title": "Integer Break"
+        },
+        {
+            "day": "07",
+            "title": "Build Array Where You Can Find The Maximum Exactly K Comparisons"
         }
     ]
 }
