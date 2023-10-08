@@ -1137,6 +1137,10 @@
         {
             "day": "07",
             "title": "Build Array Where You Can Find The Maximum Exactly K Comparisons"
+        },
+        {
+            "day": "08",
+            "title": "Max Dot Product of Two Subsequences"
         }
     ]
 }
