@@ -1141,6 +1141,10 @@
         {
             "day": "08",
             "title": "Max Dot Product of Two Subsequences"
+        },
+        {
+            "day": "09",
+            "title": "Find First and Last Position of Element in Sorted Array"
         }
     ]
 }
