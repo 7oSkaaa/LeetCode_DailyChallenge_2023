@@ -1145,6 +1145,10 @@
         {
             "day": "09",
             "title": "Find First and Last Position of Element in Sorted Array"
+        },
+        {
+            "day": "10",
+            "title": "Minimum Number of Operations to Make Array Continuous"
         }
     ]
 }
