@@ -1149,6 +1149,10 @@
         {
             "day": "10",
             "title": "Minimum Number of Operations to Make Array Continuous"
+        },
+        {
+            "day": "11",
+            "title": "Number of Flowers in Full Bloom"
         }
     ]
 }
