@@ -1153,6 +1153,10 @@
         {
             "day": "11",
             "title": "Number of Flowers in Full Bloom"
+        },
+        {
+            "day": "12",
+            "title": "Find in Mountain Array"
         }
     ]
 }
