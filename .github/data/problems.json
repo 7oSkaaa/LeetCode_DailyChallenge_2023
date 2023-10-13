@@ -1157,6 +1157,10 @@
         {
             "day": "12",
             "title": "Find in Mountain Array"
+        },
+        {
+            "day": "13",
+            "title": "Min Cost Climbing Stairs"
         }
     ]
 }
