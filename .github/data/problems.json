@@ -1161,6 +1161,10 @@
         {
             "day": "13",
             "title": "Min Cost Climbing Stairs"
+        },
+        {
+            "day": "14",
+            "title": "Painting the Walls"
         }
     ]
 }
