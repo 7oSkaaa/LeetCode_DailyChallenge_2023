@@ -1165,6 +1165,10 @@
         {
             "day": "14",
             "title": "Painting the Walls"
+        },
+        {
+            "day": "15",
+            "title": "Number of Ways to Stay in the Same Place After Some Steps"
         }
     ]
 }
