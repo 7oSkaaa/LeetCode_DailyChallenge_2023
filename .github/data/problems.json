@@ -1173,6 +1173,10 @@
         {
             "day": "16",
             "title": "Pascal's Triangle II"
+        },
+        {
+            "day": "17",
+            "title": "Validate Binary Tree Nodes"
         }
     ]
 }
