@@ -1185,6 +1185,10 @@
         {
             "day": "19",
             "title": "Backspace String Compare"
+        },
+        {
+            "day": "20",
+            "title": "Flatten Nested List Iterator"
         }
     ]
 }
