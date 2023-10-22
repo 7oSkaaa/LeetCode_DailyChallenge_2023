@@ -1193,6 +1193,10 @@
         {
             "day": "21",
             "title": "Constrained Subsequence Sum"
+        },
+        {
+            "day": "22",
+            "title": "Maximum Score of a Good Subarray"
         }
     ]
 }
