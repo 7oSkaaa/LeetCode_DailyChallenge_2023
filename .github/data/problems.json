@@ -1197,6 +1197,10 @@
         {
             "day": "22",
             "title": "Maximum Score of a Good Subarray"
+        },
+        {
+            "day": "23",
+            "title": "Power of Four"
         }
     ]
 }
