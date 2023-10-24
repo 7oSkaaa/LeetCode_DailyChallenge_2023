@@ -1201,6 +1201,10 @@
         {
             "day": "23",
             "title": "Power of Four"
+        },
+        {
+            "day": "24",
+            "title": "Find Largest Value in Each Tree Row"
         }
     ]
 }
