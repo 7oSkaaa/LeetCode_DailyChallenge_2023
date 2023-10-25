@@ -1205,6 +1205,10 @@
         {
             "day": "24",
             "title": "Find Largest Value in Each Tree Row"
+        },
+        {
+            "day": "25",
+            "title": "K-th Symbol in Grammar"
         }
     ]
 }
