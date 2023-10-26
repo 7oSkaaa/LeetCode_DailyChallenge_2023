@@ -1209,6 +1209,10 @@
         {
             "day": "25",
             "title": "K-th Symbol in Grammar"
+        },
+        {
+            "day": "26",
+            "title": "Binary Trees With Factors"
         }
     ]
 }
