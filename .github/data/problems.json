@@ -1213,6 +1213,10 @@
         {
             "day": "26",
             "title": "Binary Trees With Factors"
+        },
+        {
+            "day": "27",
+            "title": "Longest Palindromic Substring"
         }
     ]
 }
