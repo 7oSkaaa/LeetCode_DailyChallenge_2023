@@ -1217,6 +1217,10 @@
         {
             "day": "27",
             "title": "Longest Palindromic Substring"
+        },
+        {
+            "day": "28",
+            "title": "Count Vowels Permutation"
         }
     ]
 }
