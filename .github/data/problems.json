@@ -1221,6 +1221,10 @@
         {
             "day": "28",
             "title": "Count Vowels Permutation"
+        },
+        {
+            "day": "29",
+            "title": "Poor Pigs"
         }
     ]
 }
