@@ -1229,6 +1229,10 @@
         {
             "day": "30",
             "title": "Sort Integers by The Number of 1 Bits"
+        },
+        {
+            "day": "31",
+            "title": "Find The Original Array of Prefix Xor"
         }
     ]
 }
