@@ -1234,5 +1234,11 @@
             "day": "31",
             "title": "Find The Original Array of Prefix Xor"
         }
+    ],
+    "11- November": [
+        {
+            "day": "01",
+            "title": "Find Mode in Binary Search Tree"
+        }
     ]
 }
