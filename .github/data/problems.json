@@ -1239,6 +1239,10 @@
         {
             "day": "01",
             "title": "Find Mode in Binary Search Tree"
+        },
+        {
+            "day": "02",
+            "title": "Count Nodes Equal to Average of Subtree"
         }
     ]
 }
