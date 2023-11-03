@@ -1243,6 +1243,10 @@
         {
             "day": "02",
             "title": "Count Nodes Equal to Average of Subtree"
+        },
+        {
+            "day": "03",
+            "title": "Build an Array With Stack Operations"
         }
     ]
 }
