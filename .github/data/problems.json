@@ -1247,6 +1247,10 @@
         {
             "day": "03",
             "title": "Build an Array With Stack Operations"
+        },
+        {
+            "day": "04",
+            "title": "Last Moment Before All Ants Fall Out of a Plank"
         }
     ]
 }
