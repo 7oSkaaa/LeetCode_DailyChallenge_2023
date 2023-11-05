@@ -1251,6 +1251,10 @@
         {
             "day": "04",
             "title": "Last Moment Before All Ants Fall Out of a Plank"
+        },
+        {
+            "day": "05",
+            "title": "Find the Winner of an Array Game"
         }
     ]
 }
