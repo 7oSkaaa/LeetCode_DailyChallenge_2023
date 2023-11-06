@@ -1255,6 +1255,10 @@
         {
             "day": "05",
             "title": "Find the Winner of an Array Game"
+        },
+        {
+            "day": "06",
+            "title": "Seat Reservation Manager"
         }
     ]
 }
