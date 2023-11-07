@@ -1259,6 +1259,10 @@
         {
             "day": "06",
             "title": "Seat Reservation Manager"
+        },
+        {
+            "day": "07",
+            "title": "Eliminate Maximum Number of Monsters"
         }
     ]
 }
