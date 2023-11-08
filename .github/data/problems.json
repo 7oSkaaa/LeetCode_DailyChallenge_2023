@@ -1263,6 +1263,10 @@
         {
             "day": "07",
             "title": "Eliminate Maximum Number of Monsters"
+        },
+        {
+            "day": "08",
+            "title": "Determine if a Cell Is Reachable at a Given Time"
         }
     ]
 }
