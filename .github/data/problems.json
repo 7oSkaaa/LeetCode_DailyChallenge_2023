@@ -1267,6 +1267,10 @@
         {
             "day": "08",
             "title": "Determine if a Cell Is Reachable at a Given Time"
+        },
+        {
+            "day": "09",
+            "title": "Count Number of Homogenous Substrings"
         }
     ]
 }
