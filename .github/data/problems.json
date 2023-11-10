@@ -1271,6 +1271,10 @@
         {
             "day": "09",
             "title": "Count Number of Homogenous Substrings"
+        },
+        {
+            "day": "10",
+            "title": "Restore the Array From Adjacent Pairs"
         }
     ]
 }
