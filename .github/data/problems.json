@@ -1287,6 +1287,10 @@
         {
             "day": "13",
             "title": "Sort Vowels in a String"
+        },
+        {
+            "day": "14",
+            "title": "Unique Length-3 Palindromic Subsequences"
         }
     ]
 }
