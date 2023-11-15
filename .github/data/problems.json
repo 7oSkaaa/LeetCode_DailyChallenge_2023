@@ -1291,6 +1291,10 @@
         {
             "day": "14",
             "title": "Unique Length-3 Palindromic Subsequences"
+        },
+        {
+            "day": "15",
+            "title": "Maximum Element After Decreasing and Rearranging"
         }
     ]
 }
