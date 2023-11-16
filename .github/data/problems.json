@@ -1295,6 +1295,10 @@
         {
             "day": "15",
             "title": "Maximum Element After Decreasing and Rearranging"
+        },
+        {
+            "day": "16",
+            "title": "Find Unique Binary String"
         }
     ]
 }
