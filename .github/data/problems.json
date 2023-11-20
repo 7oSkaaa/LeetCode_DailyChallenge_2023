@@ -1311,6 +1311,10 @@
         {
             "day": "19",
             "title": "Reduction Operations to Make the Array Elements Equal"
+        },
+        {
+            "day": "20",
+            "title": "Minimum Amount of Time to Collect Garbage"
         }
     ]
 }
