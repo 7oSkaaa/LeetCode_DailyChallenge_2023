@@ -1315,6 +1315,10 @@
         {
             "day": "20",
             "title": "Minimum Amount of Time to Collect Garbage"
+        },
+        {
+            "day": "21",
+            "title": "Count Nice Pairs in an Array"
         }
     ]
 }
