@@ -1319,6 +1319,10 @@
         {
             "day": "21",
             "title": "Count Nice Pairs in an Array"
+        },
+        {
+            "day": "22",
+            "title": "Diagonal Traverse II"
         }
     ]
 }
