@@ -1327,6 +1327,10 @@
         {
             "day": "23",
             "title": "Arithmetic Subarrays"
+        },
+        {
+            "day": "24",
+            "title": "Maximum Number of Coins You Can Get"
         }
     ]
 }
