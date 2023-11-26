@@ -1335,6 +1335,10 @@
         {
             "day": "25",
             "title": "Sum of Absolute Differences in a Sorted Array"
+        },
+        {
+            "day": "26",
+            "title": "Largest Submatrix With Rearrangements"
         }
     ]
 }
