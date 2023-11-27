@@ -1339,6 +1339,10 @@
         {
             "day": "26",
             "title": "Largest Submatrix With Rearrangements"
+        },
+        {
+            "day": "27",
+            "title": "Knight Dialer"
         }
     ]
 }
