@@ -1347,6 +1347,10 @@
         {
             "day": "28",
             "title": "Number of Ways to Divide a Long Corridor"
+        },
+        {
+            "day": "29",
+            "title": "Number of 1 Bits"
         }
     ]
 }
