@@ -1356,5 +1356,11 @@
             "day": "30",
             "title": "Minimum One Bit Operations to Make Integers Zero"
         }
+    ],
+    "12- December": [
+        {
+            "day": "01",
+            "title": "Check If Two String Arrays are Equivalent"
+        }
     ]
 }
