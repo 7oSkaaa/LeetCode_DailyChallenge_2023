@@ -1361,6 +1361,10 @@
         {
             "day": "01",
             "title": "Check If Two String Arrays are Equivalent"
+        },
+        {
+            "day": "02",
+            "title": "Find Words That Can Be Formed by Characters"
         }
     ]
 }
