@@ -1365,6 +1365,10 @@
         {
             "day": "02",
             "title": "Find Words That Can Be Formed by Characters"
+        },
+        {
+            "day": "03",
+            "title": "Minimum Time Visiting All Points"
         }
     ]
 }
