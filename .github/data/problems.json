@@ -1373,6 +1373,10 @@
         {
             "day": "04",
             "title": "Largest 3-Same-Digit Number in String"
+        },
+        {
+            "day": "05",
+            "title": "Count of Matches in Tournament"
         }
     ]
 }
