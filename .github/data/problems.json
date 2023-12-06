@@ -1377,6 +1377,10 @@
         {
             "day": "05",
             "title": "Count of Matches in Tournament"
+        },
+        {
+            "day": "06",
+            "title": "Calculate Money in Leetcode Bank"
         }
     ]
 }
