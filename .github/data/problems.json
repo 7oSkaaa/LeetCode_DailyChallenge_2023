@@ -1381,6 +1381,10 @@
         {
             "day": "06",
             "title": "Calculate Money in Leetcode Bank"
+        },
+        {
+            "day": "07",
+            "title": "Largest Odd Number in String"
         }
     ]
 }
