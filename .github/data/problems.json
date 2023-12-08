@@ -1385,6 +1385,10 @@
         {
             "day": "07",
             "title": "Largest Odd Number in String"
+        },
+        {
+            "day": "08",
+            "title": "Construct String from Binary Tree"
         }
     ]
 }
