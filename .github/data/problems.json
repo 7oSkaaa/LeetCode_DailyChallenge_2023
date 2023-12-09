@@ -1389,6 +1389,10 @@
         {
             "day": "08",
             "title": "Construct String from Binary Tree"
+        },
+        {
+            "day": "09",
+            "title": "Binary Tree Inorder Traversal"
         }
     ]
 }
