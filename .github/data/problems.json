@@ -1405,6 +1405,10 @@
         {
             "day": "12",
             "title": "Maximum Product of Two Elements in an Array"
+        },
+        {
+            "day": "13",
+            "title": "Special Positions in a Binary Matrix"
         }
     ]
 }
