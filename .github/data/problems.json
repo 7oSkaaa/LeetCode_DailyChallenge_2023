@@ -1409,6 +1409,10 @@
         {
             "day": "13",
             "title": "Special Positions in a Binary Matrix"
+        },
+        {
+            "day": "14",
+            "title": "Difference Between Ones and Zeros in Row and Column"
         }
     ]
 }
