@@ -1425,6 +1425,10 @@
         {
             "day": "17",
             "title": "Design a Food Rating System"
+        },
+        {
+            "day": "18",
+            "title": "Maximum Product Difference Between Two Pairs"
         }
     ]
 }
