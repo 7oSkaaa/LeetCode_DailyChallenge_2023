@@ -1437,6 +1437,10 @@
         {
             "day": "20",
             "title": "Buy Two Chocolates"
+        },
+        {
+            "day": "21",
+            "title": "Widest Vertical Area Between Two Points Containing No Points"
         }
     ]
 }
