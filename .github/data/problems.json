@@ -1449,6 +1449,10 @@
         {
             "day": "23",
             "title": "Path Crossing"
+        },
+        {
+            "day": "24",
+            "title": "Minimum Changes To Make Alternating Binary String"
         }
     ]
 }
