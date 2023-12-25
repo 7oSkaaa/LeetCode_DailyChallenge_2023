@@ -1453,6 +1453,10 @@
         {
             "day": "24",
             "title": "Minimum Changes To Make Alternating Binary String"
+        },
+        {
+            "day": "25",
+            "title": "Decode Ways"
         }
     ]
 }
