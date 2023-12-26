@@ -1457,6 +1457,10 @@
         {
             "day": "25",
             "title": "Decode Ways"
+        },
+        {
+            "day": "26",
+            "title": "Number of Dice Rolls With Target Sum"
         }
     ]
 }
