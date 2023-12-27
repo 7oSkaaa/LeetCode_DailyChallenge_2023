@@ -1461,6 +1461,10 @@
         {
             "day": "26",
             "title": "Number of Dice Rolls With Target Sum"
+        },
+        {
+            "day": "27",
+            "title": "Minimum Time to Make Rope Colorful"
         }
     ]
 }
