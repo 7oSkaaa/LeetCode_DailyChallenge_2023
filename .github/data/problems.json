@@ -1469,6 +1469,10 @@
         {
             "day": "28",
             "title": "String Compression II"
+        },
+        {
+            "day": "29",
+            "title": "Minimum Difficulty of a Job Schedule"
         }
     ]
 }
