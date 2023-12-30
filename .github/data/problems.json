@@ -1473,6 +1473,10 @@
         {
             "day": "29",
             "title": "Minimum Difficulty of a Job Schedule"
+        },
+        {
+            "day": "30",
+            "title": "Redistribute Characters to Make All Strings Equal"
         }
     ]
 }
