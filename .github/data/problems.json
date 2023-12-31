@@ -1477,6 +1477,10 @@
         {
             "day": "30",
             "title": "Redistribute Characters to Make All Strings Equal"
+        },
+        {
+            "day": "31",
+            "title": "Largest Substring Between Two Equal Characters"
         }
     ]
 }
