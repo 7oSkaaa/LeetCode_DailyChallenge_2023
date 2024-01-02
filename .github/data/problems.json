@@ -127,6 +127,10 @@
         {
             "day": "01",
             "title": "Assign Cookies"
+        },
+        {
+            "day": "02",
+            "title": "Convert an Array Into a 2D Array With Conditions"
         }
     ],
     "02- February": [
