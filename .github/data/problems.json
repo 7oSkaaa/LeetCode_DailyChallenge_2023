@@ -131,6 +131,10 @@
         {
             "day": "02",
             "title": "Convert an Array Into a 2D Array With Conditions"
+        },
+        {
+            "day": "03",
+            "title": "Number of Laser Beams in a Bank"
         }
     ],
     "02- February": [
