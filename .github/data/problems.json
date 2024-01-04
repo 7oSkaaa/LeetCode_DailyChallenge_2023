@@ -135,6 +135,10 @@
         {
             "day": "03",
             "title": "Number of Laser Beams in a Bank"
+        },
+        {
+            "day": "04",
+            "title": "Minimum Number of Operations to Make Array Empty"
         }
     ],
     "02- February": [
