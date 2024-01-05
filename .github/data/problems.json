@@ -139,6 +139,10 @@
         {
             "day": "04",
             "title": "Minimum Number of Operations to Make Array Empty"
+        },
+        {
+            "day": "05",
+            "title": "Longest Increasing Subsequence"
         }
     ],
     "02- February": [
