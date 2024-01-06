@@ -143,6 +143,10 @@
         {
             "day": "05",
             "title": "Longest Increasing Subsequence"
+        },
+        {
+            "day": "06",
+            "title": "Maximum Profit in Job Scheduling"
         }
     ],
     "02- February": [
