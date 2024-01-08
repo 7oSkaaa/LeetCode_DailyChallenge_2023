@@ -151,6 +151,10 @@
         {
             "day": "07",
             "title": "Arithmetic Slices II - Subsequence"
+        },
+        {
+            "day": "08",
+            "title": "Range Sum of BST"
         }
     ],
     "02- February": [
