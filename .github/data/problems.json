@@ -163,6 +163,10 @@
         {
             "day": "10",
             "title": "Amount of Time for Binary Tree to Be Infected"
+        },
+        {
+            "day": "11",
+            "title": "Maximum Difference Between Node and Ancestor"
         }
     ],
     "02- February": [
