@@ -195,6 +195,10 @@
         {
             "day": "18",
             "title": "Climbing Stairs"
+        },
+        {
+            "day": "19",
+            "title": "Minimum Falling Path Sum"
         }
     ],
     "02- February": [
