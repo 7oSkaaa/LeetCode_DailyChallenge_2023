@@ -199,6 +199,10 @@
         {
             "day": "19",
             "title": "Minimum Falling Path Sum"
+        },
+        {
+            "day": "20",
+            "title": "Sum of Subarray Minimums"
         }
     ],
     "02- February": [
