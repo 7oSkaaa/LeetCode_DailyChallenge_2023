@@ -215,6 +215,10 @@
         {
             "day": "23",
             "title": "Maximum Length of a Concatenated String with Unique Characters"
+        },
+        {
+            "day": "24",
+            "title": "Pseudo-Palindromic Paths in a Binary Tree"
         }
     ],
     "02- February": [
