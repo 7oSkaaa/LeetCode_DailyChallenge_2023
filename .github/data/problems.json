@@ -219,6 +219,10 @@
         {
             "day": "24",
             "title": "Pseudo-Palindromic Paths in a Binary Tree"
+        },
+        {
+            "day": "25",
+            "title": "Longest Common Subsequence"
         }
     ],
     "02- February": [
