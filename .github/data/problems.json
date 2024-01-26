@@ -223,6 +223,10 @@
         {
             "day": "25",
             "title": "Longest Common Subsequence"
+        },
+        {
+            "day": "26",
+            "title": "Out of Boundary Paths"
         }
     ],
     "02- February": [
