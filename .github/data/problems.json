@@ -231,6 +231,10 @@
         {
             "day": "27",
             "title": "K Inverse Pairs Array"
+        },
+        {
+            "day": "28",
+            "title": "Number of Submatrices That Sum to Target"
         }
     ],
     "02- February": [
