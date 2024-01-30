@@ -239,6 +239,10 @@
         {
             "day": "29",
             "title": "Implement Queue using Stacks"
+        },
+        {
+            "day": "30",
+            "title": "Evaluate Reverse Polish Notation"
         }
     ],
     "02- February": [
