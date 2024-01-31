@@ -243,6 +243,10 @@
         {
             "day": "30",
             "title": "Evaluate Reverse Polish Notation"
+        },
+        {
+            "day": "31",
+            "title": "Daily Temperatures"
         }
     ],
     "02- February": [
