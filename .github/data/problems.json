@@ -365,6 +365,10 @@
         {
             "day": "01",
             "title": "Divide Array Into Arrays With Max Difference"
+        },
+        {
+            "day": "02",
+            "title": "Sequential Digits"
         }
     ],
     "03- March": [
