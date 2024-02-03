@@ -369,6 +369,10 @@
         {
             "day": "02",
             "title": "Sequential Digits"
+        },
+        {
+            "day": "03",
+            "title": "Partition Array for Maximum Sum"
         }
     ],
     "03- March": [
