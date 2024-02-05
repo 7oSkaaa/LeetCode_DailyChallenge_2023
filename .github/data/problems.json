@@ -377,6 +377,10 @@
         {
             "day": "04",
             "title": "Minimum Window Substring"
+        },
+        {
+            "day": "05",
+            "title": "First Unique Character in a String"
         }
     ],
     "03- March": [
