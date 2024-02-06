@@ -381,6 +381,10 @@
         {
             "day": "05",
             "title": "First Unique Character in a String"
+        },
+        {
+            "day": "06",
+            "title": "Group Anagrams"
         }
     ],
     "03- March": [
