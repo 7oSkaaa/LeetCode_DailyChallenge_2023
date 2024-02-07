@@ -385,6 +385,10 @@
         {
             "day": "06",
             "title": "Group Anagrams"
+        },
+        {
+            "day": "07",
+            "title": "Sort Characters By Frequency"
         }
     ],
     "03- March": [
