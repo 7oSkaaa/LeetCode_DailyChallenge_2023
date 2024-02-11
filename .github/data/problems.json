@@ -401,6 +401,10 @@
         {
             "day": "10",
             "title": "Palindromic Substrings"
+        },
+        {
+            "day": "11",
+            "title": "Cherry Pickup II"
         }
     ],
     "03- March": [
