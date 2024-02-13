@@ -409,6 +409,10 @@
         {
             "day": "12",
             "title": "Majority Element"
+        },
+        {
+            "day": "13",
+            "title": "Find First Palindromic String in the Array"
         }
     ],
     "03- March": [
