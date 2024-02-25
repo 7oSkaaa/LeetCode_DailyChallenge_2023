@@ -457,6 +457,10 @@
         {
             "day": "24",
             "title": "Find All People With Secret"
+        },
+        {
+            "day": "25",
+            "title": "Greatest Common Divisor Traversal"
         }
     ],
     "03- March": [
