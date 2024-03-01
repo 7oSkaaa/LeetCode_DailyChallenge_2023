@@ -603,6 +603,10 @@
         {
             "day": "31",
             "title": "Number of Ways of Cutting a Pizza"
+        },
+        {
+            "day": "01",
+            "title": "Maximum Odd Binary Number"
         }
     ],
     "04- April": [
