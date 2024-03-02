@@ -607,6 +607,10 @@
         {
             "day": "01",
             "title": "Maximum Odd Binary Number"
+        },
+        {
+            "day": "02",
+            "title": "Squares of a Sorted Array"
         }
     ],
     "04- April": [
