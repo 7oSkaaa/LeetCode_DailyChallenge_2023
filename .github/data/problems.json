@@ -611,6 +611,10 @@
         {
             "day": "02",
             "title": "Squares of a Sorted Array"
+        },
+        {
+            "day": "03",
+            "title": "Remove Nth Node From End of List"
         }
     ],
     "04- April": [
