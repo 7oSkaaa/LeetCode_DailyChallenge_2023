@@ -623,6 +623,10 @@
         {
             "day": "05",
             "title": "Minimum Length of String After Deleting Similar Ends"
+        },
+        {
+            "day": "06",
+            "title": "Linked List Cycle"
         }
     ],
     "04- April": [
