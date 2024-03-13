@@ -635,6 +635,10 @@
         {
             "day": "12",
             "title": "Remove Zero Sum Consecutive Nodes from Linked List"
+        },
+        {
+            "day": "13",
+            "title": "Find the Pivot Integer"
         }
     ],
     "04- April": [
