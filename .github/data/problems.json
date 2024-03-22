@@ -671,6 +671,10 @@
         {
             "day": "21",
             "title": "Reverse Linked List"
+        },
+        {
+            "day": "22",
+            "title": "Palindrome Linked List"
         }
     ],
     "04- April": [
