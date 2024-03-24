@@ -679,6 +679,10 @@
         {
             "day": "23",
             "title": "Reorder List"
+        },
+        {
+            "day": "24",
+            "title": "Find the Duplicate Number"
         }
     ],
     "04- April": [
