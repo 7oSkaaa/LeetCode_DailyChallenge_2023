@@ -707,6 +707,10 @@
         {
             "day": "30",
             "title": "Subarrays with K Different Integers"
+        },
+        {
+            "day": "31",
+            "title": "Count Subarrays With Fixed Bounds"
         }
     ],
     "04- April": [
