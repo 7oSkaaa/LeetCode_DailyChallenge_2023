@@ -833,6 +833,10 @@
         {
             "day": "30",
             "title": "Remove Max Number of Edges to Keep Graph Fully Traversable"
+        },
+        {
+            "day": "01",
+            "title": "Length of Last Word"
         }
     ],
     "05- May": [
