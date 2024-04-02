@@ -837,6 +837,10 @@
         {
             "day": "01",
             "title": "Length of Last Word"
+        },
+        {
+            "day": "02",
+            "title": "Isomorphic Strings"
         }
     ],
     "05- May": [
