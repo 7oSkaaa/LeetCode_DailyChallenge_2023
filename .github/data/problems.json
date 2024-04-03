@@ -841,6 +841,10 @@
         {
             "day": "02",
             "title": "Isomorphic Strings"
+        },
+        {
+            "day": "03",
+            "title": "Word Search"
         }
     ],
     "05- May": [
