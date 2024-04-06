@@ -853,6 +853,10 @@
         {
             "day": "05",
             "title": "Make The String Great"
+        },
+        {
+            "day": "06",
+            "title": "Minimum Remove to Make Valid Parentheses"
         }
     ],
     "05- May": [
