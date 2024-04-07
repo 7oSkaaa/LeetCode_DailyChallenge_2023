@@ -857,6 +857,10 @@
         {
             "day": "06",
             "title": "Minimum Remove to Make Valid Parentheses"
+        },
+        {
+            "day": "07",
+            "title": "Valid Parenthesis String"
         }
     ],
     "05- May": [
