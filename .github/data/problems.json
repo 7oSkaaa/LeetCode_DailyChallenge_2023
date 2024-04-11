@@ -873,6 +873,10 @@
         {
             "day": "10",
             "title": "Reveal Cards In Increasing Order"
+        },
+        {
+            "day": "11",
+            "title": "Remove K Digits"
         }
     ],
     "05- May": [
