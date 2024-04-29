@@ -945,6 +945,10 @@
         {
             "day": "28",
             "title": "Sum of Distances in Tree"
+        },
+        {
+            "day": "29",
+            "title": "Minimum Number of Operations to Make Array XOR Equal to K"
         }
     ],
     "05- May": [
