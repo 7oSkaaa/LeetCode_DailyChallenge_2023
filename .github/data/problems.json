@@ -949,6 +949,10 @@
         {
             "day": "29",
             "title": "Minimum Number of Operations to Make Array XOR Equal to K"
+        },
+        {
+            "day": "30",
+            "title": "Number of Wonderful Substrings"
         }
     ],
     "05- May": [
