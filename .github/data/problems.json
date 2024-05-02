@@ -1083,6 +1083,10 @@
         {
             "day": "01",
             "title": "Reverse Prefix of Word"
+        },
+        {
+            "day": "02",
+            "title": "Largest Positive Integer That Exists With Its Negative"
         }
     ],
     "06- June": [
