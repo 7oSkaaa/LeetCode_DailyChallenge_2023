@@ -1135,6 +1135,10 @@
         {
             "day": "14",
             "title": "Path with Maximum Gold"
+        },
+        {
+            "day": "15",
+            "title": "Find the Safest Path in a Grid"
         }
     ],
     "06- June": [
