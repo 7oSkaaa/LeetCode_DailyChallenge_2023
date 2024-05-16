@@ -1139,6 +1139,10 @@
         {
             "day": "15",
             "title": "Find the Safest Path in a Grid"
+        },
+        {
+            "day": "16",
+            "title": "Evaluate Boolean Binary Tree"
         }
     ],
     "06- June": [
