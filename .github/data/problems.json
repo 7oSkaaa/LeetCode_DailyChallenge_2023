@@ -1151,6 +1151,10 @@
         {
             "day": "18",
             "title": "Distribute Coins in Binary Tree"
+        },
+        {
+            "day": "19",
+            "title": "Find the Maximum Sum of Node Values"
         }
     ],
     "06- June": [
