@@ -1155,6 +1155,10 @@
         {
             "day": "19",
             "title": "Find the Maximum Sum of Node Values"
+        },
+        {
+            "day": "20",
+            "title": "Sum of All Subset XOR Totals"
         }
     ],
     "06- June": [
