@@ -1159,6 +1159,10 @@
         {
             "day": "20",
             "title": "Sum of All Subset XOR Totals"
+        },
+        {
+            "day": "21",
+            "title": "Subsets"
         }
     ],
     "06- June": [
