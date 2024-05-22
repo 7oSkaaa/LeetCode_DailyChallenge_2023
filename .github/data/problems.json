@@ -1163,6 +1163,10 @@
         {
             "day": "21",
             "title": "Subsets"
+        },
+        {
+            "day": "22",
+            "title": "Palindrome Partitioning"
         }
     ],
     "06- June": [
