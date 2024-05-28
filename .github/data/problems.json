@@ -1187,6 +1187,10 @@
         {
             "day": "27",
             "title": "Special Array With X Elements Greater Than or Equal X"
+        },
+        {
+            "day": "28",
+            "title": "Get Equal Substrings Within Budget"
         }
     ],
     "06- June": [
