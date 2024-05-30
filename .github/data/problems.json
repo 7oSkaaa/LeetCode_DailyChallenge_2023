@@ -1195,6 +1195,10 @@
         {
             "day": "29",
             "title": "Number of Steps to Reduce a Number in Binary Representation to One"
+        },
+        {
+            "day": "30",
+            "title": "Count Triplets That Can Form Two Arrays of Equal XOR"
         }
     ],
     "06- June": [
