@@ -1325,6 +1325,10 @@
         {
             "day": "30",
             "title": "Last Day Where You Can Still Cross"
+        },
+        {
+            "day": "01",
+            "title": "Score of a String"
         }
     ],
     "07- July": [
