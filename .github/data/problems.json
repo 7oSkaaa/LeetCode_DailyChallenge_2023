@@ -1329,6 +1329,10 @@
         {
             "day": "01",
             "title": "Score of a String"
+        },
+        {
+            "day": "02",
+            "title": "Reverse String"
         }
     ],
     "07- July": [
