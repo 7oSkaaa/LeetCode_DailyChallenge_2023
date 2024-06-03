@@ -1333,6 +1333,10 @@
         {
             "day": "02",
             "title": "Reverse String"
+        },
+        {
+            "day": "03",
+            "title": "Append Characters to String to Make Subsequence"
         }
     ],
     "07- July": [
