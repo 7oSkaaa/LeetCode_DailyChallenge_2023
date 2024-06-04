@@ -1337,6 +1337,10 @@
         {
             "day": "03",
             "title": "Append Characters to String to Make Subsequence"
+        },
+        {
+            "day": "04",
+            "title": "Longest Palindrome"
         }
     ],
     "07- July": [
