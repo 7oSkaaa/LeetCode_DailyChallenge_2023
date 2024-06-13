@@ -1373,6 +1373,10 @@
         {
             "day": "12",
             "title": "Sort Colors"
+        },
+        {
+            "day": "13",
+            "title": "Minimum Number of Moves to Seat Everyone"
         }
     ],
     "07- July": [
