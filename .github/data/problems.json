@@ -1413,6 +1413,10 @@
         {
             "day": "22",
             "title": "Count Number of Nice Subarrays"
+        },
+        {
+            "day": "23",
+            "title": "Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit"
         }
     ],
     "07- July": [
