@@ -1425,6 +1425,10 @@
         {
             "day": "25",
             "title": "Binary Search Tree to Greater Sum Tree"
+        },
+        {
+            "day": "26",
+            "title": "Balance a Binary Search Tree"
         }
     ],
     "07- July": [
