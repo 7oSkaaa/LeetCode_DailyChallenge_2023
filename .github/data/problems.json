@@ -1429,6 +1429,10 @@
         {
             "day": "26",
             "title": "Balance a Binary Search Tree"
+        },
+        {
+            "day": "27",
+            "title": "Find Center of Star Graph"
         }
     ],
     "07- July": [
