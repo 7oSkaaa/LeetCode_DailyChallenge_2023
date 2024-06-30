@@ -1441,6 +1441,10 @@
         {
             "day": "29",
             "title": "All Ancestors of a Node in a Directed Acyclic Graph"
+        },
+        {
+            "day": "30",
+            "title": "Remove Max Number of Edges to Keep Graph Fully Traversable"
         }
     ],
     "07- July": [
