@@ -1575,6 +1575,10 @@
         {
             "day": "01",
             "title": "Three Consecutive Odds"
+        },
+        {
+            "day": "02",
+            "title": "Intersection of Two Arrays II"
         }
     ],
     "08- August": [
