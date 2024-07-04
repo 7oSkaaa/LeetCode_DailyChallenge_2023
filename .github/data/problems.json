@@ -1583,6 +1583,10 @@
         {
             "day": "03",
             "title": "Minimum Difference Between Largest and Smallest Value in Three Moves"
+        },
+        {
+            "day": "04",
+            "title": "Merge Nodes in Between Zeros"
         }
     ],
     "08- August": [
