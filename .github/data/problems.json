@@ -1587,6 +1587,10 @@
         {
             "day": "04",
             "title": "Merge Nodes in Between Zeros"
+        },
+        {
+            "day": "05",
+            "title": "Find the Minimum and Maximum Number of Nodes Between Critical Points"
         }
     ],
     "08- August": [
