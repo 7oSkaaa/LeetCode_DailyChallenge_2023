@@ -1619,6 +1619,10 @@
         {
             "day": "12",
             "title": "Maximum Score From Removing Substrings"
+        },
+        {
+            "day": "13",
+            "title": "Robot Collisions"
         }
     ],
     "08- August": [
