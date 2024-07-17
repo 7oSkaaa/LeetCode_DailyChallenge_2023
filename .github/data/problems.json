@@ -1635,6 +1635,10 @@
         {
             "day": "16",
             "title": "Step-By-Step Directions From a Binary Tree Node to Another"
+        },
+        {
+            "day": "17",
+            "title": "Delete Nodes And Return Forest"
         }
     ],
     "08- August": [
