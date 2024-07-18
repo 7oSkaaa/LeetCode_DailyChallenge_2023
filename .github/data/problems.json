@@ -1639,6 +1639,10 @@
         {
             "day": "17",
             "title": "Delete Nodes And Return Forest"
+        },
+        {
+            "day": "18",
+            "title": "Number of Good Leaf Nodes Pairs"
         }
     ],
     "08- August": [
