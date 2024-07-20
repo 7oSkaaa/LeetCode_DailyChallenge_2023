@@ -1647,6 +1647,10 @@
         {
             "day": "19",
             "title": "Lucky Numbers in a Matrix"
+        },
+        {
+            "day": "20",
+            "title": "Find Valid Matrix Given Row and Column Sums"
         }
     ],
     "08- August": [
