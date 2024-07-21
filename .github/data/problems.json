@@ -1651,6 +1651,10 @@
         {
             "day": "20",
             "title": "Find Valid Matrix Given Row and Column Sums"
+        },
+        {
+            "day": "21",
+            "title": "Build a Matrix With Conditions"
         }
     ],
     "08- August": [
