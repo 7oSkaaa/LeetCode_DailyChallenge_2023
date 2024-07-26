@@ -1671,6 +1671,10 @@
         {
             "day": "25",
             "title": "Sort an Array"
+        },
+        {
+            "day": "26",
+            "title": "Find the City With the Smallest Number of Neighbors at a Threshold Distance"
         }
     ],
     "08- August": [
