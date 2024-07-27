@@ -1675,6 +1675,10 @@
         {
             "day": "26",
             "title": "Find the City With the Smallest Number of Neighbors at a Threshold Distance"
+        },
+        {
+            "day": "27",
+            "title": "Minimum Cost to Convert String I"
         }
     ],
     "08- August": [
