@@ -1687,6 +1687,10 @@
         {
             "day": "29",
             "title": "Count Number of Teams"
+        },
+        {
+            "day": "30",
+            "title": "Minimum Deletions to Make String Balanced"
         }
     ],
     "08- August": [
