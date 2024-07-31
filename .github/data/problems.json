@@ -1691,6 +1691,10 @@
         {
             "day": "30",
             "title": "Minimum Deletions to Make String Balanced"
+        },
+        {
+            "day": "31",
+            "title": "Filling Bookcase Shelves"
         }
     ],
     "08- August": [
