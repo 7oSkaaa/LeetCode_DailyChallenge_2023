@@ -1829,6 +1829,10 @@
         {
             "day": "02",
             "title": "Minimum Swaps to Group All 1's Together II"
+        },
+        {
+            "day": "03",
+            "title": "Make Two Arrays Equal by Reversing Subarrays"
         }
     ],
     "09- September": [
