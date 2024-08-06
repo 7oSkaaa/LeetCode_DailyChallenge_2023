@@ -1841,6 +1841,10 @@
         {
             "day": "05",
             "title": "Kth Distinct String in an Array"
+        },
+        {
+            "day": "06",
+            "title": "Minimum Number of Pushes to Type Word II"
         }
     ],
     "09- September": [
